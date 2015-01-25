@@ -1,0 +1,29 @@
+citHeader("To cite package 'reproducer' in publications use:")
+
+year = sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
+vers = paste('R package version', meta$Version)
+
+citEntry(
+  entry = 'manual',
+  title = paste('reproducer:', meta$Title),
+  author = Filter(function(p) 'aut' %in% p$role, as.person(meta$Author)),
+  year = year,
+  note = vers,
+  url = meta$URL,
+  textVersion = paste('Lech Madeyski (', year, '). reproducer: ', meta$Title, '. ', vers, '. ', meta$URL, sep = '')
+)
+
+citEntry(
+  entry        = "Article",
+  title        = "Which process metrics can significantly improve defect prediction models? An empirical study",
+  author       = personList(as.person("Lech Madeyski"),
+                   as.person("Marian Jureczko")),
+  journal      = "Software Quality Journal",
+  year         = "2015",
+  doi          = "10.1007/s11219-014-9241-7",
+  url          = "http://dx.doi.org/10.1007/s11219-014-9241-7",
+  textVersion  = paste("Lech Madeyski, Marian Jureczko (2015).",
+        "Which process metrics can significantly improve defect prediction models? An empirical study.",
+        "Software Quality Journal, (accepted)",
+        "DOI: 10.1007/s11219-014-9241-7")
+)
