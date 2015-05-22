@@ -20,10 +20,53 @@ citEntry(
                    as.person("Marian Jureczko")),
   journal      = "Software Quality Journal",
   year         = "2015",
+  volume       = "23",
+  number       = "3",
+  pages        = "393--422",
   doi          = "10.1007/s11219-014-9241-7",
   url          = "http://dx.doi.org/10.1007/s11219-014-9241-7",
   textVersion  = paste("Lech Madeyski, Marian Jureczko (2015).",
         "Which process metrics can significantly improve defect prediction models? An empirical study.",
-        "Software Quality Journal, (accepted)",
+        "Software Quality Journal, vol. 23, no. 3, pp. 393-422",
         "DOI: 10.1007/s11219-014-9241-7")
+)
+
+citEntry(
+  entry        = "Article",
+  title        = "Cross-project defect prediction with respect to code ownership model: An empirical study",
+  author       = personList(as.person("Marian Jureczko"),
+                   as.person("Lech Madeyski")),
+  journal      = "e-Informatica Software Engineering Journal",
+  year         = "2015",
+  volume       = "9",
+  number       = "1",
+  pages        = "(accepted)",
+  url          = "http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf",
+  textVersion  = paste("Marian Jureczko, Lech Madeyski (2015).",
+        "Cross-project defect prediction with respect to code ownership model: An empirical study",
+        "e-Informatica Software Engineering Journal, vol. 9, no. 1 (accepted)", "http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf")
+)
+
+citEntry(
+  entry        = "Article",
+  title        = "Reproducible Research -- What, Why and How",
+  author       = personList(as.person("Lech Madeyski"),
+                   as.person("Barbara Kitchenham")),
+  journal      = "(under review)",
+  year         = "2015",
+  textVersion  = paste("Lech Madeyski, Barbara Kitchenham (2015).",
+        "Reproducible Research -- What, Why and How",
+        "(under review)")
+)
+
+citEntry(
+  entry        = "Article",
+  title        = "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis",
+  author       = personList(as.person("Lech Madeyski"),
+                   as.person("Barbara Kitchenham")),
+  journal      = "(under review)",
+  year         = "2015",
+  textVersion  = paste("Lech Madeyski, Barbara Kitchenham (2015).",
+        "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis",
+        "(under review)")
 )

@@ -7,7 +7,7 @@
 #' @param colNames If TRUE, first row of data will be used as column names.
 #' @examples
 #' myPath=system.file("extdata", "DataSet.xlsx", package = "reproducer")
-#' Madeyski15SQJ.NDC<-readExcelSheet(path=myPath, sheet="Madeyski15SQJ.NDC", colNames=FALSE)
+#' Madeyski15SQJ.NDC<-readExcelSheet(path=myPath, sheet="Madeyski15SQJ.NDC", colNames=TRUE)
 readExcelSheet <- function(path, sheet, colNames){
   dataset = openxlsx::read.xlsx(xlsxFile=path, sheet=sheet, colNames=colNames)
   return(dataset)
@@ -67,9 +67,9 @@ boxplotHV <- function(df, colName, limLow, limHigh, isHorizontal) {
 #' @param limHigh the limit on the higher side of the displayed range
 #' @return A figure being a density curve overlaid on histogram
 #' @examples
+#' library(ggplot2)
 #' library(grid)
 #' library(gridExtra)
-#' library(ggplot2)
 #' boxplotAndDensityCurveOnHistogram(Madeyski15EISEJ.PropProjects, "STUD", 0, 100)
 #' boxplotAndDensityCurveOnHistogram(Madeyski15SQJ.NDC, "simple", 0, 100)
 boxplotAndDensityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
@@ -107,3 +107,106 @@ boxplotAndDensityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
   gridExtra::grid.arrange(plot_y_labels, p1, plot_empty, p2, ncol=2, nrow=2, widths=c(1, 19), heights=c(5, 1))
 }
 
+
+#' @title printXTable
+#' @description print data table using xtable R package
+#' @author Lech Madeyski
+#' @export printXTable
+#' @param data Data structure including columns to be printed.
+#' @param selectedColumns Columns selected to be printed.
+#' @param tableType Type of table to produce. Possible values are "latex" or "html". Default value is "latex".
+#' @param alignCells Defines how to align data cells.
+#' @param digits Defines the number of decimal points in each column.
+#' @param caption Caption of the table.
+#' @param label Label of the table.
+#' @param fontSize Size of the font used to produce a table.
+#' @param captionPlacement The caption will be have placed at the bottom of the table if captionPlacement is "bottom" and at the top of the table if it equals "top". Default value is "bottom".
+#' @param alignHeader Defines how to align column headers of a table.
+#' @return A table generated on the fly on a basis of passed data (data, selectedColumns etc.).
+#' @examples
+#' d <- reproducer::MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
+#' reproducer::printXTable(d, '"Study"', "latex", '"cc"', 0, "C", "L", "tiny", "top", "l")
+printXTable <- function(data, selectedColumns, tableType="latex", alignCells, digits, caption, label, fontSize, captionPlacement="bottom", alignHeader)
+{
+  df <- as.data.frame(unclass(data), optional=TRUE)
+  sourcedata.xtable <- xtable::xtable(df[eval(parse(text = selectedColumns))], digits = digits, caption=caption, label=label)
+  if (exists("alignHeader")){
+    names(sourcedata.xtable)=alignHeader
+  }
+  xtable::align(sourcedata.xtable) <- eval(parse(text = alignCells))
+  print(sourcedata.xtable, booktabs = TRUE, NA.string="", include.rownames=FALSE, size=fontSize, caption.placement=captionPlacement, type = tableType, sanitize.text.function = function(x){x})
+} #sanitize.text.function = identity
+
+
+
+#' @title cloudOfWords
+#' @description cloud of words
+#' @author Lech Madeyski
+#' @export cloudOfWords
+#' @param textFile A text file used to produce a word cloud
+#' @return A figure being a word cloud
+#' @examples
+#' myPath=system.file("NAMESPACE", package = "reproducer")
+#' cloudOfWords(textFile=myPath)
+cloudOfWords <- function(textFile) {
+  # Text mining, see http://davetang.org/muse/2013/04/06/using-the-r_twitter-package/
+
+  # Read the text file
+  myText <- readLines(textFile) #myText <- Corpus(DirSource("./tmp"))
+
+#  if(require("tm") && require("wordcloud")){
+    # Load the data as a corpus
+    docs = tm::VCorpus(tm::VectorSource(myText))
+
+    # Clean up
+    docs <- tm::tm_map(docs,
+                       tm::content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')),
+                       mc.cores=1)
+
+      # Text transformation
+    toSpace <- tm::content_transformer(function (x , pattern ) gsub(pattern, " ", x))
+    docs <- tm::tm_map(docs, toSpace, "/", mc.cores=1)
+    docs <- tm::tm_map(docs, toSpace, "@", mc.cores=1)
+    docs <- tm::tm_map(docs, toSpace, "\\|", mc.cores=1)
+    docs <- tm::tm_map(docs, toSpace, "<", mc.cores=1)
+    docs <- tm::tm_map(docs, toSpace, ">", mc.cores=1)
+    # Cleaning the text
+    # Convert the text to lower case
+    docs <- tm::tm_map(docs, tm::content_transformer(tolower), mc.cores=1)
+
+    # Remove numbers
+    docs <- tm::tm_map(docs, tm::removeNumbers, mc.cores=1)
+
+    # Remove english common stopwords
+    #docs <- tm::tm_map(docs, removeWords, stopwords("english"), lazy=TRUE, mc.cores=1)
+
+    # Remove your own stop word
+    # specify your stopwords as a character vector
+    #docs <- tm::tm_map(docs, removeWords, c("blabla1", "blabla2"), lazy=TRUE, mc.cores=1)
+
+    # Remove punctuations
+    docs <- tm::tm_map(docs, tm::removePunctuation, mc.cores=1)
+
+    # Eliminate extra white spaces
+    docs <- tm::tm_map(docs, tm::stripWhitespace, mc.cores=1)
+
+    # Text stemming
+    # docs <- tm_map(docs, stemDocument, mc.cores=1)
+
+
+    # Build a term-document matrix
+    dtm <- tm::TermDocumentMatrix(docs)
+    m <- as.matrix(dtm)
+    v <- sort(rowSums(m),decreasing=TRUE)
+    d <- data.frame(word = names(v),freq=v)
+    # head(d, 10)
+
+
+    # Generate the Word cloud
+    set.seed(1234)
+    wordcloud::wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+              max.words=200, random.order=FALSE, rot.per=0.35,
+              colors=RColorBrewer::brewer.pal(8, "Dark2"))
+
+  #}
+}
