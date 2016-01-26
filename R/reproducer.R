@@ -13,6 +13,8 @@ readExcelSheet <- function(path, sheet, colNames){
   return(dataset)
 }
 
+
+
 #' @title densityCurveOnHistogram
 #' @description Density curve overlaid on histogram
 #' @author Lech Madeyski
@@ -27,7 +29,9 @@ readExcelSheet <- function(path, sheet, colNames){
 #' densityCurveOnHistogram(data.frame(x<-rnorm(50, mean=50, sd=5)), "x", 0, 100)
 densityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
   p1 <- ggplot2::ggplot(df, ggplot2::aes_string(x=colName), environment = environment()) +
-    ggplot2::geom_histogram(ggplot2::aes_string(y="..density.."), environment = environment(), fill="cornsilk", colour="grey60", size=.2) +
+    ggplot2::xlab("") +
+    ggplot2::ggtitle(colName) +
+    ggplot2::geom_histogram(ggplot2::aes_string(y="..density.."), fill="cornsilk", colour="grey60") +
     ggplot2::geom_density(fill = 'green', alpha = 0.4) +
     ggplot2::xlim(limLow, limHigh)
   return(p1)
@@ -45,10 +49,16 @@ densityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
 #' @return A box plot
 #' @examples
 #' boxplotHV(Madeyski15EISEJ.PropProjects, "STUD", 0, 100, TRUE)
+#' boxplotHV(Madeyski15EISEJ.PropProjects, "STUD", 0, 100, FALSE)
+#' boxplotHV(Madeyski15SQJ.NDC, "simple", 0, 100, FALSE)
+#' boxplotHV(Madeyski15SQJ.NDC, "simple", 0, 100, TRUE)
 boxplotHV <- function(df, colName, limLow, limHigh, isHorizontal) {
-  p2 <- ggplot2::ggplot(df, ggplot2::aes_string(x=1, y = colName), environment = environment()) +
+  p2 <- ggplot2::ggplot(df, ggplot2::aes_string(x=1, y = colName)) +
+    ggplot2::ylab("") +
+    ggplot2::ggtitle(colName) +
     ggplot2::geom_boxplot(fill = 'orange') + ggplot2::theme_bw() + ggplot2::ylim(limLow, limHigh)  +
-    ggplot2::stat_summary(fun.y="mean", geom="point", shape=23, size=4, fill="white") +
+    #ggplot2::stat_summary(fun.y="mean", geom="point", shape=23, size=4, fill="white") +
+    ggplot2::stat_summary(fun.y="mean", geom="point", shape=23, fill="white") +
     ggplot2::scale_x_continuous(breaks=NULL)
 
   if(isHorizontal) {
@@ -73,38 +83,27 @@ boxplotHV <- function(df, colName, limLow, limHigh, isHorizontal) {
 #' boxplotAndDensityCurveOnHistogram(Madeyski15EISEJ.PropProjects, "STUD", 0, 100)
 #' boxplotAndDensityCurveOnHistogram(Madeyski15SQJ.NDC, "simple", 0, 100)
 boxplotAndDensityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
+
+  if (!"package:ggplot2" %in% search()) {
+    suppressPackageStartupMessages(attachNamespace("ggplot2"))
+    on.exit(detach("package:ggplot2"))
+  }
+
   p1 <- densityCurveOnHistogram(df, colName, limLow, limHigh)
   p2 <- boxplotHV(df, colName, limLow, limHigh, TRUE)
 
   #arrange the plots together, with appropriate height and width for each row and column
-  p1 <- p1 + ggplot2::ylab("") + ggplot2::labs(
+  p1 <- p1 + ggplot2::labs(
     axis.title.x = ggplot2::element_blank(),
     text = ggplot2::element_text(),
-    x = "")
-  p1 <- p1  + ggplot2::theme(axis.text.y = ggplot2::element_blank())
-  p2 <- p2 + ggplot2::xlab("")
-  p2 <- p2 + ggplot2::theme(axis.text.y = ggplot2::element_blank(), axis.ticks.y = ggplot2::element_blank())
+    x = ggplot2::element_blank())
 
-  plot_empty <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(1,1), colour="white") +
-  ggplot2::theme(
-    plot.background = ggplot2::element_blank(),
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.background = ggplot2::element_blank(),
-    axis.title.x = ggplot2::element_blank(),
-    axis.title.y = ggplot2::element_blank(),
-    axis.text.x = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_blank(),
-    axis.ticks = ggplot2::element_blank()
-  )
-  plot_y_labels <- p1 +
-    ggplot2::theme(
-      axis.text.y = ggplot2::element_text(),
-      axis.text.x = ggplot2::element_text(colour="white")
-      ) +
-    ggplot2::xlab("")
-  gridExtra::grid.arrange(plot_y_labels, p1, plot_empty, p2, ncol=2, nrow=2, widths=c(1, 19), heights=c(5, 1))
+  p1 <- p1 + ggplot2::theme(axis.text.y = ggplot2::element_text(size=12), axis.title=ggplot2::element_text(size=12), axis.text=ggplot2::element_text(size=12)) + ggplot2::scale_y_continuous(labels = fmt())
+
+  p2 <- p2 + ggplot2::xlab("") + ggplot2::ylab("") + ggplot2::theme(axis.title=ggplot2::element_text(size=12), axis.text=ggplot2::element_text(size=12))
+  p2 <- p2 + ggplot2::theme(title=ggplot2::element_blank()) + ggplot2::ylim(0,100) + ggplot2::scale_x_continuous(limits=c(0.5,1.5), breaks=c(1), labels=c("Box plot"))
+
+  gridExtra::grid.arrange(p1, p2, nrow=2, heights=c(4, 1))
 }
 
 
@@ -209,4 +208,13 @@ cloudOfWords <- function(textFile) {
               colors=RColorBrewer::brewer.pal(8, "Dark2"))
 
   #}
+}
+
+
+#' @title fmt
+#' @description Formatting function to set decimal precision in labels
+#' @author Lech Madeyski
+#' @export fmt
+fmt <- function(){
+  function(x) format(x,nsmall = 3,scientific = FALSE)
 }

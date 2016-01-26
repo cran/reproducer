@@ -16,7 +16,7 @@ You can use **devtools** to install the development version from my web site:
 ```r
 install.packages("devtools", dependencies = T, repos = "http://cran.rstudio.com/")
 library(devtools)
-devtools::install_url("http://madeyski.e-informatyka.pl/download/R/reproducer_0.1.2.tar.gz")
+devtools::install_url("http://madeyski.e-informatyka.pl/download/R/reproducer_0.1.4.tar.gz")
 library(reproducer)
 ```
 

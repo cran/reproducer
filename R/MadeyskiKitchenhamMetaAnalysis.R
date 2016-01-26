@@ -56,8 +56,8 @@ reproduceMixedEffectsForestPlotWithExperimentalDesignModerator <- function(){
   dataMK <- reproducer::MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
   resWithExpDesignMod<-metafor::rma(yi=dataMK$Diff, vi=dataMK$V_D, data=dataMK, method="REML", mods=~factor(ExpDesign)-1)
   metafor::forest(resWithExpDesignMod,xlab="Overall Effect Size", slab=reproducer::MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR$Study)
-  text(-1,19," Study")
-  text(0.9,19, "Effect Size   [95% CL]")
+  graphics::text(-1,19," Study")
+  graphics::text(0.9,19, "Effect Size   [95% CL]")
 }
 
 

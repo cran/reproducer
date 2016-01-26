@@ -4,16 +4,6 @@ year = sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
 vers = paste('R package version', meta$Version)
 
 citEntry(
-  entry = 'manual',
-  title = paste('reproducer:', meta$Title),
-  author = Filter(function(p) 'aut' %in% p$role, as.person(meta$Author)),
-  year = year,
-  note = vers,
-  url = meta$URL,
-  textVersion = paste('Lech Madeyski (', year, '). reproducer: ', meta$Title, '. ', vers, '. ', meta$URL, sep = '')
-)
-
-citEntry(
   entry        = "Article",
   title        = "Which process metrics can significantly improve defect prediction models? An empirical study",
   author       = personList(as.person("Lech Madeyski"),
@@ -40,33 +30,21 @@ citEntry(
   year         = "2015",
   volume       = "9",
   number       = "1",
-  pages        = "(accepted)",
+  pages        = "21--35",
+  doi          = "10.5277/e-Inf150102",
   url          = "http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf",
   textVersion  = paste("Marian Jureczko, Lech Madeyski (2015).",
         "Cross-project defect prediction with respect to code ownership model: An empirical study",
-        "e-Informatica Software Engineering Journal, vol. 9, no. 1 (accepted)", "http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf")
+        "e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35", "DOI: 10.5277/e-Inf150102", "Online: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf")
 )
 
 citEntry(
-  entry        = "Article",
-  title        = "Reproducible Research -- What, Why and How",
-  author       = personList(as.person("Lech Madeyski"),
-                   as.person("Barbara Kitchenham")),
-  journal      = "(under review)",
-  year         = "2015",
-  textVersion  = paste("Lech Madeyski, Barbara Kitchenham (2015).",
-        "Reproducible Research -- What, Why and How",
-        "(under review)")
+  entry = 'manual',
+  title = paste('reproducer:', meta$Title),
+  author = Filter(function(p) 'aut' %in% p$role, as.person(meta$Author)),
+  year = year,
+  note = vers,
+  url = meta$URL,
+  textVersion = paste('Lech Madeyski (', year, '). reproducer: ', meta$Title, '. ', vers, '. ', meta$URL, sep = '')
 )
 
-citEntry(
-  entry        = "Article",
-  title        = "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis",
-  author       = personList(as.person("Lech Madeyski"),
-                   as.person("Barbara Kitchenham")),
-  journal      = "(under review)",
-  year         = "2015",
-  textVersion  = paste("Lech Madeyski, Barbara Kitchenham (2015).",
-        "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis",
-        "(under review)")
-)
