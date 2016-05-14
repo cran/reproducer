@@ -37,7 +37,7 @@
 KitchenhamMadeyskiBudgen16.PolishSubjects
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 }
 \details{
 Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.

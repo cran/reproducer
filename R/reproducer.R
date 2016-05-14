@@ -101,7 +101,7 @@ boxplotAndDensityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
   p1 <- p1 + ggplot2::theme(axis.text.y = ggplot2::element_text(size=12), axis.title=ggplot2::element_text(size=12), axis.text=ggplot2::element_text(size=12)) + ggplot2::scale_y_continuous(labels = fmt())
 
   p2 <- p2 + ggplot2::xlab("") + ggplot2::ylab("") + ggplot2::theme(axis.title=ggplot2::element_text(size=12), axis.text=ggplot2::element_text(size=12))
-  p2 <- p2 + ggplot2::theme(title=ggplot2::element_blank()) + ggplot2::ylim(0,100) + ggplot2::scale_x_continuous(limits=c(0.5,1.5), breaks=c(1), labels=c("Box plot"))
+  p2 <- p2 + ggplot2::theme(title=ggplot2::element_blank()) + ggplot2::ylim(limLow,limHigh) + ggplot2::scale_x_continuous(limits=c(0.5,1.5), breaks=c(1), labels=c("Box plot"))
 
   gridExtra::grid.arrange(p1, p2, nrow=2, heights=c(4, 1))
 }

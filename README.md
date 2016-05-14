@@ -4,8 +4,8 @@ The R package **reproducer** is aimed to support reproducible research in softwa
 
 ## Installation
 
-In a close future you will be able to install the stable version on
-[CRAN](http://cran.rstudio.com/package=reproducer):
+One may install the stable version from
+[CRAN](https://cran.r-project.org/package=reproducer):
 
 ```r
 install.packages('reproducer', dependencies = TRUE)
@@ -14,9 +14,9 @@ install.packages('reproducer', dependencies = TRUE)
 You can use **devtools** to install the development version from my web site:
 
 ```r
-install.packages("devtools", dependencies = T, repos = "http://cran.rstudio.com/")
+install.packages("devtools", dependencies = T, repos = "http://cran.r-project.org/")
 library(devtools)
-devtools::install_url("http://madeyski.e-informatyka.pl/download/R/reproducer_0.1.4.tar.gz")
+devtools::install_url("http://madeyski.e-informatyka.pl/download/R/reproducer_0.1.5.tar.gz")
 library(reproducer)
 ```
 

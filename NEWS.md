@@ -1,3 +1,11 @@
+# CHANGES IN reproducer VERSION 0.1.5
+## BUG FIXES
+- corrected typo in a surname of one of the data contributors
+- corrected the name of the university in Hong Kong
+- corrected the boxplotAndDensityCurveOnHistogram function
+- updated references to research papers supported by the package
+
+
 # CHANGES IN reproducer VERSION 0.1.4
 
 ## NEW FEATURES

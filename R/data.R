@@ -1,6 +1,6 @@
 #' Madeyski15SQJ.NDC data
 #'
-#' If you use this data set please cite: Lech Madeyski and Marian Jureczko, "Which Process Metrics Can Significantly Improve Defect Prediction Models? An Empirical Study," Software Quality Journal, 2015. DOI: 10.1007/s11219-014-9241-7
+#' If you use this data set please cite: Lech Madeyski and Marian Jureczko, "Which Process Metrics Can Significantly Improve Defect Prediction Models? An Empirical Study," Software Quality Journal, vol. 23, no. 3, pp.393-422, 2015. DOI: 10.1007/s11219-014-9241-7
 #'
 #' "This paper presents an empirical evaluation in which several process metrics were investigated in order to identify the ones which significantly improve the defect prediction models based on product metrics. Data from a wide range of software projects (both, industrial and open source) were collected. The predictions of the models that use only product metrics (simple models) were compared with the predictions of the models which used product metrics, as well as one of the process metrics under scrutiny (advanced models). To decide whether the improvements were significant or not, statistical tests were performed and effect sizes were calculated. The advanced defect prediction models trained on a data set containing product metrics and additionally Number of Distinct Committers (NDC) were significantly better than the simple models without NDC, while the effect size was medium and the probability of superiority (PS) of the advanced models over simple ones was high (p=.016, r=-.29, PS=.76), which is a substantial finding useful in defect prediction. A similar result with slightly smaller PS was achieved by the advanced models trained on a data set containing product metrics and additionally all of the investigated process metrics (p=.038, r=-.29, PS=.68). The advanced models trained on a data set containing product metrics and additionally Number of Modified Lines (NML) were significantly better than the simple models without NML, but the effect size was small (p=.038, r=.06). Hence, it is reasonable to recommend the NDC process metric in building the defect prediction models." [http://dx.doi.org/10.1007/s11219-014-9241-7]
 #'
@@ -20,7 +20,7 @@
 
 #' Madeyski15EISEJ.OpenProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-Project Defect Prediciton: An Empirical Study," (under review), 2015.
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' This paper presents an analysis of 84 versions of industrial, open-source and academic projects. We have empirically evaluated whether those project types constitute separate classes of projects with regard to defect prediction. The predictions obtained from the models trained on the data from the open source projects were compared with the predictions from the other models (built on proprietary, i.e. industrial, student, open source, and not open source projects).
 #'
@@ -41,7 +41,7 @@
 
 #' Madeyski15EISEJ.PropProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-Project Defect Prediciton: An Empirical Study," (under review), 2015.
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -60,7 +60,7 @@
 
 #' Madeyski15EISEJ.StudProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-Project Defect Prediciton: An Empirical Study," (under review), 2015.
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -138,7 +138,7 @@
 
 #' KitchenhamMadeyskiBudgen16.FINNISH data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchneham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
@@ -162,7 +162,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishSubjects data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #' Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.
 #'
@@ -205,7 +205,7 @@
 
 #' KitchenhamMadeyskiBudgen16.SubjectData
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #'Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
 #'
@@ -249,7 +249,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #' Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.
 #'
@@ -286,7 +286,7 @@
 
 #' KitchenhamMadeyskiBudgen16.DiffInDiffData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #'Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.
 #'
@@ -327,7 +327,7 @@
 
 #' KitchenhamMadeyskiBudgen16.COCOMO data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung et al. "Robust Statistical Methods for Empirical Software Engineering".
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyski16ESE.pdf
 #'
 #'Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
 #'
