@@ -138,79 +138,6 @@ printXTable <- function(data, selectedColumns, tableType="latex", alignCells, di
 
 
 
-#' @title cloudOfWords
-#' @description cloud of words
-#' @author Lech Madeyski
-#' @export cloudOfWords
-#' @param textFile A text file used to produce a word cloud
-#' @return A figure being a word cloud
-#' @examples
-#' myPath=system.file("NAMESPACE", package = "reproducer")
-#' cloudOfWords(textFile=myPath)
-cloudOfWords <- function(textFile) {
-  # Text mining, see http://davetang.org/muse/2013/04/06/using-the-r_twitter-package/
-
-  # Read the text file
-  myText <- readLines(textFile) #myText <- Corpus(DirSource("./tmp"))
-
-#  if(require("tm") && require("wordcloud")){
-    # Load the data as a corpus
-    docs = tm::VCorpus(tm::VectorSource(myText))
-
-    # Clean up
-    docs <- tm::tm_map(docs,
-                       tm::content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')),
-                       mc.cores=1)
-
-      # Text transformation
-    toSpace <- tm::content_transformer(function (x , pattern ) gsub(pattern, " ", x))
-    docs <- tm::tm_map(docs, toSpace, "/", mc.cores=1)
-    docs <- tm::tm_map(docs, toSpace, "@", mc.cores=1)
-    docs <- tm::tm_map(docs, toSpace, "\\|", mc.cores=1)
-    docs <- tm::tm_map(docs, toSpace, "<", mc.cores=1)
-    docs <- tm::tm_map(docs, toSpace, ">", mc.cores=1)
-    # Cleaning the text
-    # Convert the text to lower case
-    docs <- tm::tm_map(docs, tm::content_transformer(tolower), mc.cores=1)
-
-    # Remove numbers
-    docs <- tm::tm_map(docs, tm::removeNumbers, mc.cores=1)
-
-    # Remove english common stopwords
-    #docs <- tm::tm_map(docs, removeWords, stopwords("english"), lazy=TRUE, mc.cores=1)
-
-    # Remove your own stop word
-    # specify your stopwords as a character vector
-    #docs <- tm::tm_map(docs, removeWords, c("blabla1", "blabla2"), lazy=TRUE, mc.cores=1)
-
-    # Remove punctuations
-    docs <- tm::tm_map(docs, tm::removePunctuation, mc.cores=1)
-
-    # Eliminate extra white spaces
-    docs <- tm::tm_map(docs, tm::stripWhitespace, mc.cores=1)
-
-    # Text stemming
-    # docs <- tm_map(docs, stemDocument, mc.cores=1)
-
-
-    # Build a term-document matrix
-    dtm <- tm::TermDocumentMatrix(docs)
-    m <- as.matrix(dtm)
-    v <- sort(rowSums(m),decreasing=TRUE)
-    d <- data.frame(word = names(v),freq=v)
-    # head(d, 10)
-
-
-    # Generate the Word cloud
-    set.seed(1234)
-    wordcloud::wordcloud(words = d$word, freq = d$freq, min.freq = 1,
-              max.words=200, random.order=FALSE, rot.per=0.35,
-              colors=RColorBrewer::brewer.pal(8, "Dark2"))
-
-  #}
-}
-
-
 #' @title fmt
 #' @description Formatting function to set decimal precision in labels
 #' @author Lech Madeyski
@@ -218,3 +145,4 @@ cloudOfWords <- function(textFile) {
 fmt <- function(){
   function(x) format(x,nsmall = 3,scientific = FALSE)
 }
+

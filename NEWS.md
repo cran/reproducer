@@ -1,3 +1,23 @@
+# CHANGES IN reproducer VERSION 0.1.6
+
+## NEW FEATURES
+- added functions to reproduce simulation data, to calculate effect sizes and their variance discussed in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+    - `getSimulationData`
+    - `plotOutcomesForIndividualsInEachSequenceGroup`
+    - `getEffectSizesABBA`
+    - `getEffectSizesABBAIgnoringPeriodEffect`
+    - `reproduceSimulationResultsBasedOn500Reps1000Obs`
+    - `percentageInaccuracyOfLargeSampleVarianceApproximation`
+    - `proportionOfSignificantTValuesUsingCorrectAnalysis`
+    - `proportionOfSignificantTValuesUsingIncorrectAnalysis`
+- new data set:
+    - `KitchenhamMadeyski.SimulatedCrossoverDataSets` backed by functions (`varianceSimulation`, `getSimulatedCrossoverDataSets`) to reproduce the data set.
+
+## REMOVED FEATURES
+- removed function:
+    - `cloudOfWords`
+
+
 # CHANGES IN reproducer VERSION 0.1.5
 ## BUG FIXES
 - corrected typo in a surname of one of the data contributors
