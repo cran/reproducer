@@ -18,7 +18,8 @@ citEntry(
   textVersion  = paste("Lech Madeyski, Marian Jureczko (2015).",
         "Which process metrics can significantly improve defect prediction models? An empirical study.",
         "Software Quality Journal, vol. 23, no. 3, pp. 393-422",
-        "DOI: 10.1007/s11219-014-9241-7")
+        "DOI: 10.1007/s11219-014-9241-7",
+        "Online: http://dx.doi.org/10.1007/s11219-014-9241-7")
 )
 
 citEntry(
@@ -32,10 +33,12 @@ citEntry(
   number       = "1",
   pages        = "21--35",
   doi          = "10.5277/e-Inf150102",
-  url          = "http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf",
+  url          = "http://dx.doi.org/10.5277/e-Inf150102",
   textVersion  = paste("Marian Jureczko, Lech Madeyski (2015).",
         "Cross-project defect prediction with respect to code ownership model: An empirical study",
-        "e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35", "DOI: 10.5277/e-Inf150102", "Online: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf")
+        "e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35",
+        "DOI: 10.5277/e-Inf150102",
+        "Online: http://dx.doi.org/10.5277/e-Inf150102")
 )
 
 citEntry(
@@ -59,8 +62,27 @@ citEntry(
   textVersion  = paste("Barbara A. Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs and Amnart Pohthong (2016).",
         "Robust Statistical Methods for Empirical Software Engineering",
         "Empirical Software Engineering, (in press)",
-        "DOI: 10.1007/s10664-016-9437-5")
+        "DOI: 10.1007/s10664-016-9437-5",
+        "Online: http://dx.doi.org/10.1007/s10664-016-9437-5")
 )
+
+citEntry(
+  entry        = "Article",
+  title        = "Effect Sizes and their Variance for AB/BA Crossover Design Studies",
+  author       = personList(as.person("Lech Madeyski"),
+                   as.person("Barbara Kitchenham")),
+  journal      = "(submitted)",
+  year         = "2017",
+  volume       = "",
+  number       = "",
+  pages        = "",
+  doi          = "",
+  url          = "",
+  textVersion  = paste("Lech Madeyski and Barbara Kitchenham (submitted)",
+        "Effect Sizes and their Variance for AB/BA CrossoverDesign Studies")
+)
+
+
 
 citEntry(
   entry = 'manual',

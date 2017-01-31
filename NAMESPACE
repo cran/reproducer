@@ -3,6 +3,7 @@
 export(boxplotAndDensityCurveOnHistogram)
 export(boxplotHV)
 export(densityCurveOnHistogram)
+export(effectSizeCI)
 export(fmt)
 export(getEffectSizesABBA)
 export(getEffectSizesABBAIgnoringPeriodEffect)

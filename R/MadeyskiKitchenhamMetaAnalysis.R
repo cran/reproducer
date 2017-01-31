@@ -88,8 +88,9 @@ reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator
 
 
 #' -------------------------------------------------------------------------------------------------------
-#' Functions related to a joint paper with Barbara Kitchenham, "Effect sizes and their variance for AB/BA crossover design studies"
+#' Functions related to a paper "Effect sizes and their variance for AB/BA crossover design studies" by Lech Madeyski and Barbara Kitchenham
 #' -------------------------------------------------------------------------------------------------------
+
 #' @title getSimulationData
 #' @description Function to generate the simulated data set used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham
 #' @author Lech Madeyski and Barbara Kitchenham
@@ -120,13 +121,13 @@ getSimulationData <- function(var, covar, meanA1, treatmentDiff, periodEffect, n
 
   sigmaA=matrix(c(var,covar,covar,var),nrow=2,ncol=2)
 
-  #Mean for treatment sequence A
+  #Mean for treatment sequence B
   #common mean mu=50, treatment difference = 10, period effect=5
-  #meanA=c(50,65)
-  meanA=c(meanA1,meanA1+treatmentDiff+periodEffect)
-  #Mean for sequence B
-  #meanB=c(60,55)
-  meanB=c(meanA1+treatmentDiff,meanA1+periodEffect)
+  #meanB=c(50,65)
+  meanB=c(meanA1,meanA1+treatmentDiff+periodEffect)
+  #Mean for sequence A
+  #meanA=c(60,55)
+  meanA=c(meanA1+treatmentDiff,meanA1+periodEffect)
 
 
   #Sample data for sequence A
@@ -429,7 +430,6 @@ getEffectSizesABBAIgnoringPeriodEffect <- function(simulationData)
 #' # dIG.Var - Variance of dIG
 #' # dIG.Var.Ave - Average of var(dIG)
 #' # dIG.Var.ModerateSampleSizeApprox -
-#' # dIG.Var.CurtinAve -
 #' @examples
 #' # return simulation results based on 500 repetitions of 1000 observation samples
 #' simulationResultsTable500x1000<-reproduceSimulationResultsBasedOn500Reps1000Obs()
@@ -469,7 +469,7 @@ reproduceSimulationResultsBasedOn500Reps1000Obs <- function()
   vartrm=c(1:reps)
   vardrm=c(1:reps)
   vardig=c(1:reps)
-  curtinvar=c(1:reps)
+  #curtinvar=c(1:reps) # removed since 0.1.7
   lsvardig=c(1:reps) #Large sample approximation variance
   lsvardigrev=c(1:reps)
   Num=reps
@@ -521,7 +521,7 @@ reproduceSimulationResultsBasedOn500Reps1000Obs <- function()
     lsvardig[i]=(1-r[i])*(N1+N2)/(2*N1*N2)+effectsize2[i]^2/(2*(N1+N2-2))
 
 
-    curtinvar[i]=(df/(df-2))*(((N1+N2)/(4*N1*N2)+effectsize2[i]^2))- effectsize2[i]^2/c^2
+    # curtinvar[i]=(df/(df-2))*(((N1+N2)/(4*N1*N2)+effectsize2[i]^2))- effectsize2[i]^2/c^2  # removed since 0.1.7
   }
   treatmentEffect.Ave <- mean(treat) #Overall average of technique effect
   stats::var(treat)
@@ -543,12 +543,13 @@ reproduceSimulationResultsBasedOn500Reps1000Obs <- function()
   dRM.Var.Ave <- mean(vardrm) #Average of 500 estimates of variance of dRM
   dIG.Var.Ave <- mean(vardig) #Average of 500 estimates of variance of dIG
   mean(withinvar) # Overall average within-subject within group variance estimates
-  dIG.Var.CurtinAve <- mean(curtinvar) #Overall average of Curtin's estimates of variance of dIG
+  #dIG.Var.CurtinAve <- mean(curtinvar) #Overall average of Curtin's estimates of variance of dIG (removed since 0.1.7)
   dRM.Var.ModerateSampleSizeApprox <- mean(lsvardrm) # Average of 500 moderate sample estimates of var of dRM
   dIG.Var.ModerateSampleSizeApprox <- mean(lsvardig) # Average of 500 moderate sample estimates of var of dIG
   stats::var(effectsize1)*(1-mean(r)) #Estimate of varDIG based on relationsgip with varDRM
 
-  simultationResults<-data.frame(treatmentEffect.Ave, dRM.Ave, dRM.Var, dRM.Var.Ave, dRM.Var.ModerateSampleSizeApprox, dIG.Ave, dIG.Var, dIG.Var.Ave, dIG.Var.ModerateSampleSizeApprox, dIG.Var.CurtinAve)
+  simultationResults<-data.frame(treatmentEffect.Ave, dRM.Ave, dRM.Var, dRM.Var.Ave, dRM.Var.ModerateSampleSizeApprox, dIG.Ave, dIG.Var, dIG.Var.Ave, dIG.Var.ModerateSampleSizeApprox) # removed ", dIG.Var.CurtinAve)" since 0.1.7
+
   return(simultationResults)
 }
 

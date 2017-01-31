@@ -1,3 +1,12 @@
+# CHANGES IN reproducer VERSION 0.1.7
+
+## NEW FEATURES
+- added function `effectSizeCI` to calculate 95% Confidence Intervals (CI) on Standardised Effect Sizes (d) for cross-over repeated-measures designs
+
+## REMOVED FEATURES
+- removed field dIG.Var.CurtinAve from the data frame returned by the `reproduceSimulationResultsBasedOn500Reps1000Obs` function (we agreed to write joint paper with Dr Curtin describing corrections to his equations to calculate effect size variances for continuous outcomes of cross-over clinical trials)
+
+
 # CHANGES IN reproducer VERSION 0.1.6
 
 ## NEW FEATURES
@@ -37,7 +46,7 @@
     - `KitchenhamMadeyskiBudgen16.DiffInDiffData`
     - `KitchenhamMadeyskiBudgen16.COCOMO`
 - updated to be compatible with the ggplot2 2.0.0
-- minor visual changes in figures produced by the following methods:
+- minor visual changes in figures produced by the following functions:
     - `densityCurveOnHistogram`
     - `boxplotHV`
     - `boxplotAndDensityCurveOnHistogram`

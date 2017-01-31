@@ -1,7 +1,7 @@
 Package: reproducer
 Title: Reproduce Statistical Analyses and Meta-Analyses
-Version: 0.1.6
-Date: 2016-07-28
+Version: 0.1.7
+Date: 2017-01-30
 Authors@R: c(
     person("Lech", "Madeyski", email = "lech.madeyski@gmail.com", role = c("cre", "aut", "ctb")),
     person("Marian", "Jureczko", email = "marian.jureczko@gmail.com", role = "ctb", comment = "Data contributor"),
@@ -21,11 +21,11 @@ License: CC BY 4.0
 LazyData: true
 URL: http://madeyski.e-informatyka.pl/reproducible-research/
 Imports: openxlsx (>= 2.4.0), ggplot2 (>= 2.0.0), gridExtra(>= 0.9.1),
-        xtable(>= 1.7-4), metafor(>= 1.9-2), lme4(>= 1.1-12), MASS(>=
-        7.3-45), stats(>= 3.3.0)
+        xtable(>= 1.7-4), metafor(>= 1.9-2), lme4(>= 1.1-10), MASS(>=
+        7.3-45), stats(>= 3.2.3)
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-07-28 17:49:54 UTC; lma
+Packaged: 2017-01-30 21:22:46 UTC; lma
 Author: Lech Madeyski [cre, aut, ctb],
   Marian Jureczko [ctb] (Data contributor),
   Barbara Kitchenham [ctb] (Data and code contributor),
@@ -36,4 +36,4 @@ Author: Lech Madeyski [cre, aut, ctb],
   Shirley Gibbs [ctb] (Data contributor),
   Amnart Pohthong [ctb] (Data contributor)
 Repository: CRAN
-Date/Publication: 2016-07-28 23:02:45
+Date/Publication: 2017-01-31 06:51:14

@@ -33,7 +33,7 @@ Function to generate the simulated data set used in a paper "Effect Sizes and th
 }
 \details{
 -------------------------------------------------------------------------------------------------------
-Functions related to a joint paper with Barbara Kitchenham, "Effect sizes and their variance for AB/BA crossover design studies"
+Functions related to a paper "Effect sizes and their variance for AB/BA crossover design studies" by Lech Madeyski and Barbara Kitchenham
 -------------------------------------------------------------------------------------------------------
 }
 \examples{

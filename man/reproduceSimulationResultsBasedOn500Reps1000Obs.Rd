@@ -17,7 +17,6 @@ data frame including the following simulation results:
 # dIG.Var - Variance of dIG
 # dIG.Var.Ave - Average of var(dIG)
 # dIG.Var.ModerateSampleSizeApprox -
-# dIG.Var.CurtinAve -
 }
 \description{
 Function to calculate simulation results based on 500 repetitions of 1000 observation samples. Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
