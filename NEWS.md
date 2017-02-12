@@ -1,3 +1,13 @@
+# CHANGES IN reproducer VERSION 0.1.8
+
+## NEW FEATURES
+- added function `getTheoreticalEffectSizeVariancesABBA`
+
+## UPDATED FEATURES
+- updated functions `getSimulationData`, `plotOutcomesForIndividualsInEachSequenceGroup`, `getEffectSizesABBA`, `effectSizeCI`
+
+
+
 # CHANGES IN reproducer VERSION 0.1.7
 
 ## NEW FEATURES

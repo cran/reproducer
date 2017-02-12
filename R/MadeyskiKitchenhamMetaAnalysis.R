@@ -110,65 +110,66 @@ reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator
 #'  $ result   : num  ...
 #' @examples
 #' data<-getSimulationData(25, 18.75, 50, 10, 5, 500) # generate the simulated data set from the paper
+#' data<-getSimulationData(25, 18.75, 50, 10, 5, 15)
 getSimulationData <- function(var, covar, meanA1, treatmentDiff, periodEffect, numOfSamples)
 {
-
   #Covariance matrix
-
   ##r=.75
   #var=25
   #covar=18.75
-
   sigmaA=matrix(c(var,covar,covar,var),nrow=2,ncol=2)
 
   #Mean for treatment sequence B
   #common mean mu=50, treatment difference = 10, period effect=5
-  #meanB=c(50,65)
+  #meanB=c(50,65) SG2
   meanB=c(meanA1,meanA1+treatmentDiff+periodEffect)
   #Mean for sequence A
-  #meanA=c(60,55)
+  #meanA=c(60,55) SG1
   meanA=c(meanA1+treatmentDiff,meanA1+periodEffect)
 
 
-  #Sample data for sequence A
+  #Sample data for sequence SG2
   set.seed(123)
 
 
   Num<-numOfSamples
 
-  mydata1=MASS::mvrnorm(Num, meanA, sigmaA)
+  SG2data=MASS::mvrnorm(Num, meanB, sigmaA)
 
-  #Sample data for Sequence B
+  #Sample data for Sequence SG1
 
   set.seed(9123)
-  mydata2=MASS::mvrnorm(Num, meanB, sigmaA)
+  SG1data=MASS::mvrnorm(Num, meanA, sigmaA)
 
-  mydata1=as.data.frame(mydata1)
-  mydata2=as.data.frame(mydata2)
-  names(mydata1)=c("AP1","AP2")
-  names(mydata2)=c("BP1","BP2")
+  SG1data=as.data.frame(SG1data)
+  SG2data=as.data.frame(SG2data)
+  names(SG1data)=c("T1P1","T2P2")
+  names(SG2data)=c("T2P1","T1P2")
 
-  diff1=mydata1$AP2-mydata1$AP1
-  diff2=mydata2$BP2-mydata2$BP1
 
-  treat=(mean(diff1)-mean(diff2))/2
-  period=(mean(diff1)+mean(diff2))/2
+  p1=rep("P1",Num)
+  p2=rep("P2",Num)
+  t1=rep("T1",Num)
+  t2=rep("T2",Num)
+  seq1=seq(1,Num)
+  seq2=seq(Num+1,2*Num)
+  s1=rep("S1",Num)
+  s2=rep("S2", Num)
 
-  v1=mydata1$AP1
-  v2=mydata1$AP2
-  v3=mydata2$BP1
-  v4=mydata2$BP2
+  SG2P1T2=data.frame(pid=seq2,period=p1,sequence=s2, result=SG2data$T2P1,technique=t2)
+  SG1P1T1=data.frame(pid=seq1,period=p1,sequence=s1, result=SG1data$T1P1,technique=t1)
 
-  AP1=data.frame(pid=seq(1,Num),technique=rep("T1",Num),period=rep("P1",Num),sequence=rep("S1",Num), result=v1)
-  AP2=data.frame(pid=seq(1,Num),technique=rep("T2",Num), period=rep("P2",Num),sequence=rep("S1",Num), result=v2)
-  allA=rbind(AP1,AP2)
-  BP1=data.frame(pid=seq(Num+1,2*Num),technique=rep("T2",Num),period=rep("P1",Num),sequence=rep("S2",Num), result=v3)
-  BP2=data.frame(pid=seq(Num+1,2*Num),technique=rep("T1",Num),period=rep("P2",Num),sequence=rep("S2",Num),result=v4)
-  allB=rbind(BP1,BP2)
-  SimulationData=rbind(allA, allB)
+  SG2P2T1=data.frame(pid=seq2, period=p2,sequence=s2, result=SG2data$T1P2,technique=t1)
+  SG1P2T2=data.frame(pid=seq1, period=p2,sequence=s1, result=SG1data$T2P2,technique=t2)
+
+  allT1=rbind(SG1P1T1, SG2P2T1)
+  allT2=rbind(SG1P2T2, SG2P1T2)
+
+  SimulationData=rbind(allT1, allT2)
 
   return(SimulationData)
 }
+
 
 
 #' @title plotOutcomesForIndividualsInEachSequenceGroup
@@ -187,88 +188,37 @@ getSimulationData <- function(var, covar, meanA1, treatmentDiff, periodEffect, n
 plotOutcomesForIndividualsInEachSequenceGroup <- function(var, covar, meanA1, treatmentDiff, periodEffect, numOfSamples)
 {
 
-  #Covariance matrix
-
-  ##r=.75
-  #var=25
-  #covar=18.75
-
-  sigmaA=matrix(c(var,covar,covar,var),nrow=2,ncol=2)
-
-  #Mean for treatment sequence A
-  #common mean mu=50, treatment difference = 10, period effect=5
-  #meanA=c(50,65)
-  meanA=c(meanA1,meanA1+treatmentDiff+periodEffect)
-  #Mean for sequence B
-  #meanB=c(60,55)
-  meanB=c(meanA1+treatmentDiff,meanA1+periodEffect)
+  data<-getSimulationData(25, 18.75, 50, 10, 5, 15)
 
 
-  #Sample data for sequence A
-  set.seed(123)
+  newdataT1=data[which(data$technique=="T1"),]
+  newdataT2=data[which(data$technique=="T2"),]
 
-  Num=15
-  mydata1=MASS::mvrnorm(Num, meanA, sigmaA)
+  SG1P1T1=newdataT1[which(newdataT1$period=="P1"),]
+  SG2P2T1=newdataT1[which(newdataT1$period=="P2"),]
+  SG1P2T2=newdataT2[which(newdataT2$period=="P2"),]
+  SG2P1T2=newdataT2[which(newdataT2$period=="P1"),]
 
-  #Sample data for Sequence B
+  DiffSG1=SG1P1T1$result-SG1P2T2$result
+  SumSG1=SG1P1T1$result+SG1P2T2$result
+  newSG1=data.frame(pid=SG1P1T1$pid,Sequence=SG1P1T1$sequence,Difference=DiffSG1,Sum=SumSG1)
 
-  set.seed(9123)
-  mydata2=MASS::mvrnorm(Num, meanB, sigmaA)
+  DiffSG2=SG2P2T1$result-SG2P1T2$result
+  SumSG2=SG2P2T1$result+SG2P1T2$result
+  newSG2=data.frame(pid=SG2P2T1$pid,Sequence=SG2P2T1$sequence,Difference=DiffSG2,Sum=SumSG2)
 
-  mydata1=as.data.frame(mydata1)
-  mydata2=as.data.frame(mydata2)
-  names(mydata1)=c("AP1","AP2")
-  names(mydata2)=c("BP1","BP2")
+  newAll=rbind(newSG1,newSG2)
 
-  diff1=mydata1$AP2-mydata1$AP1
-  diff2=mydata2$BP2-mydata2$BP1
 
-  treat=(mean(diff1)-mean(diff2))/2
-  period=(mean(diff1)+mean(diff2))/2
+  graphics::par(mfrow=c(1,2),cex=.75)
+  graphics::boxplot(Difference ~ Sequence,data=newAll,ylab="Subject Difference for each Sequence", xlab="Sequence ID",main="(b) Crossover Differences for each Sequence",cex=0.8)
 
-  v1=mydata1$AP1
-  v2=mydata1$AP2
-  v3=mydata2$BP1
-  v4=mydata2$BP2
-
-  p1=rep("P1",Num)
-  p2=rep("P2",Num)
-  t1=rep("T1",Num)
-  t2=rep("T2",Num)
-  seq1=seq(1,Num)
-  seq2=seq(Num+1,2*Num)
-  s1=rep("S1",Num)
-  s2=rep("S2", Num)
-
-  AP1=data.frame(pid=seq1,period=p1,sequence=s1, T1result=v1)
-  BP2=data.frame(pid=seq2,period=p2,sequence=s2, T1result=v4)
-  allT1=rbind(AP1,BP2)
-  AP2=data.frame(pid2=seq1, period=p2,sequence=s1, T2result=v2)
-  BP1=data.frame(pid2=seq2, period=p1,sequence=s2, T2result=v3)
-
-  allT2=rbind(AP2,BP1)
-
-  graphics::par(mfrow=c(2,1),cex=.75)
-  graphics::plot(AP1$pid,AP1$T1result,ylim=c(30,80),xlim=c(1,30),ylab="Outcome",xlab="Subject ID",pch=3,
-                 main="(a) Raw Data for Each Individual")
-  graphics::points(BP2$pid,BP2$T1result,pch=3)
-  graphics::points(AP2$pid2,AP2$T2result,pch=0)
-  graphics::points(BP1$pid2,BP1$T2result,pch=0)
+  graphics::plot(newdataT1$pid,newdataT1$result,ylim=c(30,80),xlim=c(1,30),ylab="Outcome",xlab="Subject ID",pch=0,main="(a) Raw Data for Each Individual",typ="b")
+  graphics::points(newdataT2$pid,newdataT2$result,pch=3,typ="b")
   graphics::abline(v=15.5)
-  graphics::text(0,75,"Technique B before A", pos=4)
-  graphics::text(16,75, "Technique A before B", pos=4)
-  graphics::legend("bottomright",title="Technique Type", inset=0.05, c("B","A"),pch=c(3,0))
-
-  allA=cbind(AP1,AP2)
-  DiffA=allA$T2result-allA$T1result
-  allA=cbind(allA,DiffA)
-  newA=data.frame(pid=AP1$pid,sequence=AP1$sequence,difference=allA$DiffA)
-  allB=cbind(BP1,BP2)
-  DiffB=allB$T2result-allB$T1result
-  allB=cbind(allB,DiffB)
-  newB=data.frame(pid=BP1$pid,sequence=BP1$sequence,difference=allB$DiffB)
-  newAll=rbind(newA,newB)
-  graphics::boxplot(difference ~ sequence,data=newAll,ylab="Subject Difference for each Sequence", xlab="Sequence ID",main="(b) Crossover Differences for each Sequence")
+  graphics::text(0,75,"Sequence S1", pos=4)
+  graphics::text(16,75, "Sequence S2", pos=4)
+  graphics::legend("bottomright",title="Technique", inset=0.05, c("1","2"),pch=c(0,3))
 
 }
 
@@ -308,7 +258,7 @@ plotOutcomesForIndividualsInEachSequenceGroup <- function(var, covar, meanA1, tr
 #' es<-getEffectSizesABBA(simulationData) #return effect sizes and variances
 getEffectSizesABBA <- function(simulationData)
 {
-  # Replaced label "subjects" with "pid"
+
   cofit.re=lme4::lmer(result ~ technique+period+(1|pid),data=simulationData)
   re<-lme4::VarCorr(cofit.re)
   re.df<-data.frame(re)
@@ -332,7 +282,8 @@ getEffectSizesABBA <- function(simulationData)
   var.dRM.Fromt = var.t*((N1+N2)/(2*N1*N2)) #var.t/N1
   var.dRM=(df/(df-2))*((N1+N2)/(2*N1*N2)+dRM^2)- dRM^2/c^2 #Equation 42
   dRM.Fromt=t*sqrt((N1+N2)/(2*N1*N2))
-  var.dRM.Fromt2=(df/(df-2))*((N1+N2)/(2*N1*N2)+dRM.Fromt^2)- dRM.Fromt^2/c^2
+  # var.dRM.Fromt2=(df/(df-2))*((N1+N2)/(2*N1*N2)+dRM.Fromt^2)- dRM.Fromt^2/c^2
+  var.t.Approx=1+t^2/(2*(N1+N2-2))
   var.dRM.Approx=((N1+N2)/(2*N1*N2)) + (dRM^2)/(2*(N1+N2-2))#see paper and Equation 49
   var.dIG.Approx=(((N1+N2)*(1-r))/(2*N1*N2)) + (dIG^2)/(2*(N1+N2-2))#see paper and Equation 50
   var.dIG=(df/(df-2))*((1-r)*(N1+N2)/(2*N1*N2)+dIG^2)- dIG^2/c^2
@@ -349,13 +300,49 @@ getEffectSizesABBA <- function(simulationData)
 
   r=var.between/var.sig
 
-  effectSizes<-data.frame(dIG, var.dIG, dRM, var.dRM, dIG.Fromt, var.dIG.Fromt, dRM.Fromt, var.dRM.Fromt, var.dRM.Fromt2, var.dRM.Approx, var.dIG.Approx, unstandardizedES, periodES, var.sig, var.within, var.between, t, var.t, gRM, var.gRM, var.gRM2, gIG, var.gIG, var.gIG2, r)
+  effectSizes<-data.frame(dIG, dIG.Fromt, var.dIG, var.dIG.Fromt, var.dIG.Approx, dRM, dRM.Fromt, var.dRM, var.dRM.Fromt, var.dRM.Approx, unstandardizedES, periodES, var.sig, var.within, var.between, t, var.t, var.t.Approx, gIG, var.gIG, var.gIG2, gRM, var.gRM, var.gRM2, r)
   return(effectSizes)
 }
 
 
+#' @title getTheoreticalEffectSizeVariancesABBA
+#' @description Function provides the theoretical value of the t-statistic, variance of t, and variance of the effect sizes based on the parameters built into crossover model data simulated by the getSimilationData() function.
+#' Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+#' @author Lech Madeyski and Barbara Kitchenham
+#' @export getTheoreticalEffectSizeVariancesABBA
+#' @param theoreticalvarW - The within subject variance used to construct the simulation, i.e., the built-in Variance - the built-in Covariance
+#' @param theoreticalTechniqueEffect - The technique effect built into the crossover model data
+#' @param theoreticalrho - The between subject correlation built into the crossover model simulation data
+#' @param N1 - The number of subjects in sequence group 1 in the crossover model simulation
+#' @param N2 - The number of subjects in sequence group 2 in the crossover model simulation
+#' @return data frame incl. calculated:
+#' theoreticalt - the theoretical value of the t-statistic
+#' theoreticalvart - variance of t
+#' theoreticalvardIG -  variance of the effect size dIG based on the parameters built into crossover model data simulated by the getSimilationData function
+#' theoreticalvardRM -  variance of the effect size dRM based on the parameters built into crossover model data simulated by the getSimilationData function
+#' @examples
+#' # Generates data used in Table 15 of the paper
+#' theoreticalEffectSizeVariances <- getTheoreticalEffectSizeVariancesABBA(6.25,-10,0.75,15,15)
+getTheoreticalEffectSizeVariancesABBA <- function(theoreticalvarW,theoreticalTechniqueEffect,theoreticalrho,N1,N2)
+{
+  df=N1+N2-2
+  c=1-3/(4*df-1)
+
+  theoreticaldRM=theoreticalTechniqueEffect/sqrt(theoreticalvarW)
+  theoreticalt=theoreticaldRM/sqrt((N1+N2)/(2*N2*N1))
+  theoreticalvart=(df/(df-2))*(1+theoreticalt^2)-theoreticalt^2/c^2
+  theoreticalvardRM=theoreticalvart*((N1+N2)/(2*N1*N2))
+  theoreticalvardIG=theoreticalvardRM*(1-theoreticalrho)
+
+  theoreticaleffectSizeVariancess<-data.frame(theoreticalt, theoreticalvart, theoreticalvardIG, theoreticalvardRM)
+
+  return(theoreticaleffectSizeVariancess)
+}
+
+
+
 #' @title getEffectSizesABBAIgnoringPeriodEffect
-#' @description Function to calculate both effect sizes (dIG.ipe, dRM.ipe), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies ignoring period effect (thus wrong). Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+#' @description Function to calculate both effect sizes (dIG.ipe, dRM.ipe), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies ignoring period effect (thus wrong). Function was removed in the revision of the paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
 #' @author Lech Madeyski and Barbara Kitchenham
 #' @export getEffectSizesABBAIgnoringPeriodEffect
 #' @param simulationData - data set in a form required to calculate effect sizes in AB/BA crossover experimental designs
@@ -737,3 +724,80 @@ proportionOfSignificantTValuesUsingIncorrectAnalysis <- function(data)
   graphics::legend("right",inset=.01,title="Effect Size", c("0","2.5","5"),lty=c(1,2,3),pch=c(0,1,2),cex=.7)
 
 }
+
+
+
+#' @title effectSizeCI
+#' @description 95% Confidence Intervals (CI) on Standardised Effect Sizes (d) for cross-over repeated-measures designs
+#' The procedure is based on finding the upper and lower 0.025 bounds for the related t-variable.
+#' The upper and lower bounds on the t-variable are then used to calculate to upper and lower bounds on the
+#' repeated measures effect size (d_RM) by multiplying the upper and lower bound of the t-variable by sqrt((n1+n2)/(2*(n1*n2))).
+#' Upper and lower bounds on the equivalent independent groups effect size (d_IG) are found by multiplying the upper and lower
+#' bounds on d_RM by sqrt(1-r).
+#' @author Lech Madeyski and Barbara Kitchenham
+#' @export effectSizeCI
+#' @param epsilon The precision used to caculate the probability that a value from the non-central t distribution is less than t_LB etc.
+#' @param maxsteps The maximum number of steps of the iterative procedure (the procedure terminates at maxsteps or earlier if enough CI with enough precision have been calculated)
+#' @param stepsize The size of steps (influences the convergence of the calculations, i.e., the number of steps required to obtain the final result of precison defined by the epsilon)
+#' @param t t-statistics
+#' @param n1 The number of observations in sequence group 1
+#' @param n2 The number of observations in sequence group 2
+#' @param r The correlation between outcomes for individual subject (the within subject correlation)
+#' @return A list of Confidence Intervals for: t-statistic (t_LB and t_UB), repeted-measures effect size d_RM (d_RM_LB, d_RM_UB), independent groups effect size (d_IG_LB, d_IG_UB)
+#' @examples
+#' effectSizeCI(t=14.4, n1=15, n2=15, r=0.6401)
+effectSizeCI <- function(epsilon=0.0000000001, maxsteps=100, stepsize=3, t, n1, n2, r)
+{
+  #stepsize=3 influences the number of steps required to obtain the final result (i.e., the result of precison defined by the epsilon), e.g., consider stepsize=2
+  df=n1+n2-2
+  d_RM=t*sqrt((n1+n2)/(2*n1*n2))
+  c=1-3/(4*df-1)
+  vart=(df/(df-2))*(1+t^2)-t^2/c^2
+
+
+  #t_LB <- vector(length = maxsteps)
+  i <- 1
+  t_LB <- t-2*sqrt(vart)
+  pt_LB <- stats::pt(t_LB, df=df, ncp=t)
+  t_UB <- t+2*sqrt(vart)
+  pt_UB <- stats::pt(t_UB, df=df, ncp=t)
+  while( i <= maxsteps & (pt_LB >= (0.025+epsilon) |  pt_LB <= (0.025-epsilon) | pt_UB >= (0.975+epsilon) | pt_UB <= (0.975-epsilon)) )
+  {
+    if(i==1)
+    {
+      t_LB <- (t+t_LB)/2
+      t_UB <- (t+t_UB)/2
+    }
+    else
+    {
+      if(pt_LB <= (0.025-epsilon)) # we need larger value of t_LB
+      {
+        t_LB <- (1+(stepsize*abs(pt_LB-0.025))) * t_LB
+      }
+      if(pt_LB >= (0.025+epsilon))  # we need smaler value of t_LB
+      {
+        t_LB <- (1-(stepsize*abs(pt_LB-0.025))) * t_LB
+      }
+
+      if(pt_UB <= (0.975-epsilon)) # we need larger value of t_UB
+      {
+        t_UB <- (1+(stepsize*abs(pt_UB-0.975))) * t_UB
+      }
+      if(pt_UB >= (0.975+epsilon))  # we need smaler value of t_LB
+      {
+        t_UB <- (1-(stepsize*abs(pt_UB-0.975))) * t_UB
+      }
+
+    }
+    pt_LB <- stats::pt(t_LB, df=df, ncp=t)
+    pt_UB <- stats::pt(t_UB, df=df, ncp=t)
+    i <- i + 1
+  }
+  d_RM_LB <- t_LB*sqrt((n1+n2)/(2*n1*n2))
+  d_RM_UB <- t_UB*sqrt((n1+n2)/(2*n1*n2))
+  d_IG_LB <- d_RM_LB*sqrt(1-r)
+  d_IG_UB <- d_RM_UB*sqrt(1-r)
+  result <- list(t_LB=t_LB, t_UB=t_UB, d_RM_LB=d_RM_LB, d_RM_UB=d_RM_UB, d_IG_LB=d_IG_LB, d_IG_UB=d_IG_UB)
+  return(result) #t=14.4, n1=15, n2=15, r=0.6401, t_LB=10.967807, d_RM_LB=2.831876, t_UB=19.98904, d_RM_UB=5.161148, d_IG_LB=1.698889, d_IG_UB=3.096259
+}
+
