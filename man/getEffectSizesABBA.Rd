@@ -43,8 +43,10 @@ Function to calculate both effect sizes (dIG, dRM), i.e., independent groups and
 \examples{
 simulationData<-getSimulationData(25, 18.75, 50, 10, 5, 500) #generate simulated data set
 es<-getEffectSizesABBA(simulationData) #return effect sizes and variances
+#OR
+simulationData<-getSimulationData(25, 18.75,50,10,5,15)
+es<-getEffectSizesABBA(simulationData) #return effect sizes and variances
 }
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

@@ -1,3 +1,13 @@
+# CHANGES IN reproducer VERSION 0.1.9
+
+## NEW FEATURES
+- added unit tests and assertions (run-time tests)
+
+## UPDATED FEATURES
+- updated data set `MadeyskiKitchenham.EUBASdata` and functions `getEffectSizesABBA`, `effectSizeCI`
+
+
+
 # CHANGES IN reproducer VERSION 0.1.8
 
 ## NEW FEATURES

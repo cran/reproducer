@@ -15,4 +15,3 @@ reproduceTableWithSourceDataByCiolkowski()
 \author{
 Lech Madeyski
 }
-

@@ -15,4 +15,3 @@ reproduceTableWithPossibleModeratingFactors()
 \author{
 Lech Madeyski
 }
-

@@ -37,4 +37,3 @@ es.ipe<-getEffectSizesABBAIgnoringPeriodEffect(simulationData) #return effect si
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

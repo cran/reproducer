@@ -15,4 +15,3 @@ reproduceTableWithEffectSizesBasedOnMeanDifferences()
 \author{
 Lech Madeyski
 }
-

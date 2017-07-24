@@ -12,4 +12,3 @@ Formatting function to set decimal precision in labels
 \author{
 Lech Madeyski
 }
-

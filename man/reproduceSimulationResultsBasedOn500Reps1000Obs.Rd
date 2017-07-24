@@ -28,4 +28,3 @@ simulationResultsTable500x1000<-reproduceSimulationResultsBasedOn500Reps1000Obs(
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

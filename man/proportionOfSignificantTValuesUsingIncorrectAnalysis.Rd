@@ -22,4 +22,3 @@ myPlot <- proportionOfSignificantTValuesUsingIncorrectAnalysis(data)
 \author{
 Barbara Kitchenham and Lech Madeyski
 }
-

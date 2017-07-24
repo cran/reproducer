@@ -23,4 +23,3 @@ Madeyski15SQJ.NDC<-readExcelSheet(path=myPath, sheet="Madeyski15SQJ.NDC", colNam
 \author{
 Lech Madeyski
 }
-

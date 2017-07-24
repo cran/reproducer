@@ -22,4 +22,3 @@ myPlot <- percentageInaccuracyOfLargeSampleVarianceApproximation(data)
 \author{
 Barbara Kitchenham and Lech Madeyski
 }
-

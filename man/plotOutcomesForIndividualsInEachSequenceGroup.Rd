@@ -32,4 +32,3 @@ myPlot<-plotOutcomesForIndividualsInEachSequenceGroup(25, 18.75, 50, 10, 5, 15)
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

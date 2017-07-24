@@ -41,4 +41,3 @@ reproducer::printXTable(d, '"Study"', "latex", '"cc"', 0, "C", "L", "tiny", "top
 \author{
 Lech Madeyski
 }
-

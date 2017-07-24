@@ -4,38 +4,45 @@
 \alias{effectSizeCI}
 \title{effectSizeCI}
 \usage{
-effectSizeCI(epsilon = 1e-10, maxsteps = 100, stepsize = 3, t, n1, n2, r)
+effectSizeCI(expDesign, t, n1, n2, r = 0, epsilon = 1e-10,
+  maxsteps = 1000, stepsize = 3)
 }
 \arguments{
-\item{epsilon}{The precision used to caculate the probability that a value from the non-central t distribution is less than t_LB etc.}
+\item{expDesign}{Experimental design: 1) crossover repeated measures ("CrossOverRM"), 2) before-after repeated measures (expDesign=="BeforeAfterRM"), 3) independent groups ("IG)}
 
-\item{maxsteps}{The maximum number of steps of the iterative procedure (the procedure terminates at maxsteps or earlier if enough CI with enough precision have been calculated)}
+\item{t}{t-statistics (t must be less than or equal to 37.62, the limit from the R function documentation)}
 
-\item{stepsize}{The size of steps (influences the convergence of the calculations, i.e., the number of steps required to obtain the final result of precison defined by the epsilon)}
+\item{n1}{The number of observations in sequence group 1 (expDesign=="CrossOverRM"), the number of observations in group 1 (expDesign=="IG"), or the total number of observations (expDesign=="BeforeAfterRM")}
 
-\item{t}{t-statistics}
-
-\item{n1}{The number of observations in sequence group 1}
-
-\item{n2}{The number of observations in sequence group 2}
+\item{n2}{The number of observations in sequence group 2 (expDesign=="CrossOverRM") or the number of observations in group 2 (expDesign=="IG")}
 
 \item{r}{The correlation between outcomes for individual subject (the within subject correlation)}
+
+\item{epsilon}{The precision of the iterative procedure}
+
+\item{maxsteps}{The maximum number of steps of the iterative procedure (the procedure terminates at maxsteps or earlier if CI with enough precision have been calculated)}
+
+\item{stepsize}{The size of steps (influences the convergence of the calculations, i.e., the number of steps required to obtain the final result of precison defined by the epsilon)}
 }
 \value{
 A list of Confidence Intervals for: t-statistic (t_LB and t_UB), repeted-measures effect size d_RM (d_RM_LB, d_RM_UB), independent groups effect size (d_IG_LB, d_IG_UB)
 }
 \description{
-95% Confidence Intervals (CI) on Standardised Effect Sizes (d) for cross-over repeated-measures designs
+95% Confidence Intervals (CI) on Standardised Effect Sizes (d) for cross-over repeated-measures, before-after repeated-measures, and independent group experimental designs
 The procedure is based on finding the upper and lower 0.025 bounds for the related t-variable.
+The t-variable needds to be adjusted for bias by multiplying by c
 The upper and lower bounds on the t-variable are then used to calculate to upper and lower bounds on the
 repeated measures effect size (d_RM) by multiplying the upper and lower bound of the t-variable by sqrt((n1+n2)/(2*(n1*n2))).
 Upper and lower bounds on the equivalent independent groups effect size (d_IG) are found by multiplying the upper and lower
 bounds on d_RM by sqrt(1-r).
 }
 \examples{
-effectSizeCI(t=14.4, n1=15, n2=15, r=0.6401)
+effectSizeCI(expDesign="CrossOverRM", t=14.4, n1=15, n2=15, r=0.6401)
+effectSizeCI(expDesign = "BeforeAfterRM", t=14.16536, n1=15, n2=0, r=0.6146771)
+effectSizeCI(expDesign = "IG", t=-6.344175, n1=15, n2=15)
+effectSizeCI(expDesign="CrossOverRM", t=0.5581, n1=6, n2=6, r=0.36135)
+effectSizeCI(expDesign = "CrossOverRM", r=0.855,t=4.33, n1=7, n2=6)
 }
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

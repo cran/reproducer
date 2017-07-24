@@ -36,4 +36,3 @@ theoreticalEffectSizeVariances <- getTheoreticalEffectSizeVariancesABBA(6.25,-10
 \author{
 Lech Madeyski and Barbara Kitchenham
 }
-

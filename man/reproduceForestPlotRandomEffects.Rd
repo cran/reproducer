@@ -15,4 +15,3 @@ reproduceForestPlotRandomEffects()
 \author{
 Lech Madeyski
 }
-

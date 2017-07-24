@@ -15,4 +15,3 @@ reproduceMixedEffectsForestPlotWithExperimentalDesignModerator()
 \author{
 Lech Madeyski
 }
-

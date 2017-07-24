@@ -16,4 +16,3 @@ reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator
 \author{
 Lech Madeyski
 }
-

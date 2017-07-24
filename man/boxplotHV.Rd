@@ -32,4 +32,3 @@ boxplotHV(Madeyski15SQJ.NDC, "simple", 0, 100, TRUE)
 \author{
 Lech Madeyski
 }
-

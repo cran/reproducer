@@ -31,4 +31,3 @@ boxplotAndDensityCurveOnHistogram(Madeyski15SQJ.NDC, "simple", 0, 100)
 \author{
 Lech Madeyski
 }
-

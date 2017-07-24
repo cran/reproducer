@@ -15,4 +15,3 @@ reproduceMixedEffectsAnalysisWithExperimentalDesignModerator()
 \author{
 Lech Madeyski
 }
-
