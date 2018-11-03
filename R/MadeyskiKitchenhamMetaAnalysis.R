@@ -767,7 +767,7 @@ proportionOfSignificantTValuesUsingIncorrectAnalysis <- function(data)
 #' @title effectSizeCI
 #' @description 95% Confidence Intervals (CI) on Standardised Effect Sizes (d) for cross-over repeated-measures, before-after repeated-measures, and independent group experimental designs
 #' The procedure is based on finding the upper and lower 0.025 bounds for the related t-variable.
-#' The t-variable needds to be adjusted for bias by multiplying by c
+#' The t-variable needs to be adjusted for bias by multiplying by c
 #' The upper and lower bounds on the t-variable are then used to calculate to upper and lower bounds on the
 #' repeated measures effect size (d_RM) by multiplying the upper and lower bound of the t-variable by sqrt((n1+n2)/(2*(n1*n2))).
 #' Upper and lower bounds on the equivalent independent groups effect size (d_IG) are found by multiplying the upper and lower
@@ -781,8 +781,8 @@ proportionOfSignificantTValuesUsingIncorrectAnalysis <- function(data)
 #' @param r The correlation between outcomes for individual subject (the within subject correlation)
 #' @param epsilon The precision of the iterative procedure
 #' @param maxsteps The maximum number of steps of the iterative procedure (the procedure terminates at maxsteps or earlier if CI with enough precision have been calculated)
-#' @param stepsize The size of steps (influences the convergence of the calculations, i.e., the number of steps required to obtain the final result of precison defined by the epsilon)
-#' @return A list of Confidence Intervals for: t-statistic (t_LB and t_UB), repeted-measures effect size d_RM (d_RM_LB, d_RM_UB), independent groups effect size (d_IG_LB, d_IG_UB)
+#' @param stepsize The size of steps (influences the convergence of the calculations, i.e., the number of steps required to obtain the final result of precision defined by the epsilon)
+#' @return A list of Confidence Intervals for: t-statistic (t_LB and t_UB), repeated-measures effect size d_RM (d_RM_LB, d_RM_UB), independent groups effect size (d_IG_LB, d_IG_UB)
 #' @examples
 #' effectSizeCI(expDesign="CrossOverRM", t=14.4, n1=15, n2=15, r=0.6401)
 #' effectSizeCI(expDesign = "BeforeAfterRM", t=14.16536, n1=15, n2=0, r=0.6146771)

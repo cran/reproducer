@@ -6,7 +6,7 @@
 \title{Madeyski15SQJ.NDC data}
 \format{A data frame with variables:
 \describe{
-\item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string "properietary" (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
+\item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string "proprietary" (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
 \item{simple}{The percentage of classes that must be tested in order to find 80\% of defects in case of simple defect prediction models, i.e., using only software product metrics as predictors.}
 \item{advanced}{The percentage of classes that must be tested in order to find 80\% of defects in case of advanced defect prediction models, using not only software product metrics but also the NDC (Number of distinct committers) process metric.}
 }}

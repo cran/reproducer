@@ -4,8 +4,9 @@
 \alias{printXTable}
 \title{printXTable}
 \usage{
-printXTable(data, selectedColumns, tableType = "latex", alignCells, digits,
-  caption, label, fontSize, captionPlacement = "bottom", alignHeader)
+printXTable(data, selectedColumns, tableType = "latex", alignCells,
+  digits, caption, label, fontSize, captionPlacement = "bottom",
+  alignHeader)
 }
 \arguments{
 \item{data}{Data structure including columns to be printed.}

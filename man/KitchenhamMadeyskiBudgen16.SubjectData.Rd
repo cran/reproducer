@@ -8,13 +8,13 @@
 \describe{
 \item{Judge}{Alphanumeric identifier for each judge}
 \item{Institution}{Numerical value identifying each site from which data was collected}
-\item{JudgeID}{Numerical value odetifying eacjh judge}
+\item{JudgeID}{Numerical value idetifying each judge}
 \item{Age}{Age of the judge in years}
 \item{Eng1st}{Whether the judge's first langauage was Enlish: Yes/No}
 \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
 \item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
 \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}
-\item{AbstractID}{Alphanumeric identifier for an abstract. The first character identies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
+\item{AbstractID}{Alphanumeric identifier for an abstract. The first character identifies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
 \item{Treat}{The initial 3 characters of AbstractID}
 \item{TreatID}{A numeric identifier for the journal and time period, 1=IB1, 2=IB2, 3=JB1, 4=JB2}
 \item{Order}{The order in which the judge should have viewed the specified abstract}
@@ -39,7 +39,7 @@
 KitchenhamMadeyskiBudgen16.SubjectData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6

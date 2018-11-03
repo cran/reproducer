@@ -3,7 +3,7 @@
 \docType{data}
 \name{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
 \alias{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
-\title{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by L. Madeyski and B. Kitchenham ("How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted)).}
+\title{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.}
 \format{A data frame with 17 rows and 26 variables:
 \describe{
 \item{Study}{Name of empirical study}
@@ -15,7 +15,7 @@
 \item{M_C}{The average proportion of defects found by teams using Control treatment: Check-Based Reading (CBR) or Ad-Hoc Reading (AR)}
 \item{Diff}{The difference between M_PBR and M_C, i.e. Diff = M_PBR - M_C}
 \item{Inc}{The percentage increase in defect rate detection, i.e. Inc=100*[(M_PBR-M_C)/M_C]}
-\item{SD_C_ByAuthors}{The standard deviation of the control group values reproted by the original Authors, i.e., obtained from the papers/raw data}
+\item{SD_C_ByAuthors}{The standard deviation of the control group values reported by the original Authors, i.e., obtained from the papers/raw data}
 \item{SD_C}{The standard deviation of the control group values equals SD_C_ByAuthors for studies for which the data was available OR the weighted average of SD_C_ByAuthors (i.e., 0.169) for studies where SD_C_ByAuthors is missing.}
 \item{V_C}{The variance of the Control group observations, i.e., the variance obtained from the teams using the Control method V_C=SD_C^2}
 \item{V_D}{The variance of the unstandardized mean difference D (between the mean value for the treatment group and the mean value for the Control group)}
@@ -39,7 +39,7 @@
 MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
 }
 \description{
-If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted).
+If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
 }
 \examples{
 MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR

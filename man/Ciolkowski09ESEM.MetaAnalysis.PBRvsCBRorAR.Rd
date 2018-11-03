@@ -21,7 +21,7 @@
 Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR
 }
 \description{
-If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted).
+If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
 }
 \examples{
 Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR

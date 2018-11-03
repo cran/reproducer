@@ -8,10 +8,10 @@
 \describe{
 \item{Abstract}{The abstract identifier}
 \item{Site}{Numeric identifier for the site}
-\item{Treatment}{The first three characters of the Abstract field which identies the jounral and time period of the abstract}
+\item{Treatment}{The first three characters of the Abstract field which identies the journal and time period of the abstract}
 \item{Journal}{An acronym for the journal from which the abstarct was obtained: IST or JSS}
 \item{Timeperiod}{The Time period in which the abstarct was found: 1 or 2}
-\item{J1}{The identifer for the judge who made the next 2 assessments}
+\item{J1}{The identifier for the judge who made the next 2 assessments}
 \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 \item{J1Clarity}{The clarity assessment made by judge J1}
 \item{J2}{The identifer for the judge who made the next 2 assessments}
@@ -33,7 +33,7 @@
 KitchenhamMadeyskiBudgen16.PolishData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.

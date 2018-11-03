@@ -7,7 +7,7 @@
 #'
 #' @format A data frame with variables:
 #' \describe{
-#' \item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string "properietary" (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
+#' \item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string "proprietary" (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
 #' \item{simple}{The percentage of classes that must be tested in order to find 80\% of defects in case of simple defect prediction models, i.e., using only software product metrics as predictors.}
 #' \item{advanced}{The percentage of classes that must be tested in order to find 80\% of defects in case of advanced defect prediction models, using not only software product metrics but also the NDC (Number of distinct committers) process metric.}
 #' }
@@ -78,7 +78,7 @@
 
 #' Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were reported and analysed by M. Ciolkowski ("What do we know about perspective-based reading? an approach for quantitative aggregation in software engineering", in Proceedings of the 3rd International Symposium on Empirical Software Engineering and Measurement, ESEM'09, pp. 133-144, IEEE Computer Society, 2009), corrected and re-analysed by Madeyski and Kitchenham ("How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis" (to be submitted)).
 #'
-#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted).
+#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
 #'
 #' @format A data frame with 21 rows and 7 variables:
 #' \describe{
@@ -97,9 +97,9 @@
 "Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR"
 
 
-#' MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by L. Madeyski and B. Kitchenham ("How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted)).
+#' MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
 #'
-#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015 (to be submitted).
+#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
 #'
 #' @format A data frame with 17 rows and 26 variables:
 #' \describe{
@@ -112,7 +112,7 @@
 #' \item{M_C}{The average proportion of defects found by teams using Control treatment: Check-Based Reading (CBR) or Ad-Hoc Reading (AR)}
 #' \item{Diff}{The difference between M_PBR and M_C, i.e. Diff = M_PBR - M_C}
 #' \item{Inc}{The percentage increase in defect rate detection, i.e. Inc=100*[(M_PBR-M_C)/M_C]}
-#' \item{SD_C_ByAuthors}{The standard deviation of the control group values reproted by the original Authors, i.e., obtained from the papers/raw data}
+#' \item{SD_C_ByAuthors}{The standard deviation of the control group values reported by the original Authors, i.e., obtained from the papers/raw data}
 #' \item{SD_C}{The standard deviation of the control group values equals SD_C_ByAuthors for studies for which the data was available OR the weighted average of SD_C_ByAuthors (i.e., 0.169) for studies where SD_C_ByAuthors is missing.}
 #' \item{V_C}{The variance of the Control group observations, i.e., the variance obtained from the teams using the Control method V_C=SD_C^2}
 #' \item{V_D}{The variance of the unstandardized mean difference D (between the mean value for the treatment group and the mean value for the Control group)}
@@ -138,7 +138,7 @@
 
 #' KitchenhamMadeyskiBudgen16.FINNISH data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchneham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
@@ -162,7 +162,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishSubjects data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.
 #'
@@ -205,7 +205,7 @@
 
 #' KitchenhamMadeyskiBudgen16.SubjectData
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
 #'
@@ -215,13 +215,13 @@
 #' \describe{
 #' \item{Judge}{Alphanumeric identifier for each judge}
 #' \item{Institution}{Numerical value identifying each site from which data was collected}
-#' \item{JudgeID}{Numerical value odetifying eacjh judge}
+#' \item{JudgeID}{Numerical value idetifying each judge}
 #' \item{Age}{Age of the judge in years}
 #' \item{Eng1st}{Whether the judge's first langauage was Enlish: Yes/No}
 #' \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
 #' \item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
 #' \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}
-#' \item{AbstractID}{Alphanumeric identifier for an abstract. The first character identies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
+#' \item{AbstractID}{Alphanumeric identifier for an abstract. The first character identifies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
 #' \item{Treat}{The initial 3 characters of AbstractID}
 #' \item{TreatID}{A numeric identifier for the journal and time period, 1=IB1, 2=IB2, 3=JB1, 4=JB2}
 #' \item{Order}{The order in which the judge should have viewed the specified abstract}
@@ -249,7 +249,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.
 #'
@@ -258,10 +258,10 @@
 #' \describe{
 #' \item{Abstract}{The abstract identifier}
 #' \item{Site}{Numeric identifier for the site}
-#' \item{Treatment}{The first three characters of the Abstract field which identies the jounral and time period of the abstract}
+#' \item{Treatment}{The first three characters of the Abstract field which identies the journal and time period of the abstract}
 #' \item{Journal}{An acronym for the journal from which the abstarct was obtained: IST or JSS}
 #' \item{Timeperiod}{The Time period in which the abstarct was found: 1 or 2}
-#' \item{J1}{The identifer for the judge who made the next 2 assessments}
+#' \item{J1}{The identifier for the judge who made the next 2 assessments}
 #' \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 #' \item{J1Clarity}{The clarity assessment made by judge J1}
 #' \item{J2}{The identifer for the judge who made the next 2 assessments}
@@ -286,7 +286,7 @@
 
 #' KitchenhamMadeyskiBudgen16.DiffInDiffData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.
 #'
@@ -327,7 +327,7 @@
 
 #' KitchenhamMadeyskiBudgen16.COCOMO data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
 #'
@@ -355,11 +355,11 @@
 #' \item{Vexp}{Ordinal value defining the virtual machine experience of the team}
 #' \item{Lexp}{Ordinal value defining the programming language experience of the team}
 #' \item{Cont}{??}
-#' \item{Modp}{ / Modern programing practices}
+#' \item{Modp}{ / Modern programming practices}
 #' \item{Tool}{Ordinal value defining the extent of tool use / Use of software tools}
 #' \item{ToolCat}{Recoding of Tool to labelled ordinal scale}
 #' \item{Sced}{Ordinal value defining the stringency of the schedule requirements / Schedule constraint}
-#' \item{Rvol}{Ordinal value defining the requriements volatility of the project}
+#' \item{Rvol}{Ordinal value defining the requirements volatility of the project}
 #' \item{Select}{Categorical value calculated by BAK for an analysis example}
 #' \item{Rvolcat}{Recoding of Rvol to a labelled ordinal scale}
 #' \item{Modecat}{Mode of the projects: O=Organic, E=Embedded, SD-Semi-Detached}
@@ -382,7 +382,7 @@
 
 #' KitchenhamMadeyski.SimulatedCrossoverDataSets data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, "Effect sizes and meta-analysis for AB/BA crossover design studies".
+#' If you use this data set please cite this R package and the following paper: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 #'
 #' This is simulated normally distributed data from 30 subjects, with technique A being 10 units more effective than technique B, and there is a period effect equaling 5 units. Subject 1 to 15 used technique B first while subjects 16 to 30 used technique A first.
 #'
@@ -406,7 +406,7 @@
 
 #' MadeyskiKitchenham.EUBASdata data
 #'
-#' If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies" (submitted).
+#' If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 #'
 #'Data set comes from an experiment conducted in Italy at the University of Basilicata (with 24 first-year students from the Master's Program in Computer Science) to answer the question "Do the software models produced in the requirements analysis process aid in the comprehensibility and modifiability of source code?", see G. Scanniello, C. Gravino, M. Genero, J. A. Cruz-Lemus, and G. Tortora, "On the Impact of UML Analysis Models on Source-code Comprehensibility and Modifiability," ACM Transactions on Software Engineering and Methodology, vol. 23, pp. 13:1-13:26, Apr. 2014. However, the inconsistent subject data for subject 2 was removed, see the aforementioned paper by Madeyski and Kitchenham.
 #'
@@ -415,7 +415,7 @@
 #' \item{ID}{Project ID}
 #' \item{TimePeriod}{Period of time (run): R1, R2}
 #' \item{SequenceGroup}{Sequence group: G1, G2, G3, G4}
-#' \item{System}{Software system identificator indicates the system (i.e., S1 or S2) used as the experimental object: S1. A software system to sell and manage CDs/DVDs in a music shop, S2. A software system to book and buy theater tickets}
+#' \item{System}{Software system identifier indicates the system (i.e., S1 or S2) used as the experimental object: S1. A software system to sell and manage CDs/DVDs in a music shop, S2. A software system to book and buy theater tickets}
 #' \item{Technique}{The independent variable. It is a nominal variable that can assume the following two values: AM (analysis models plus source code) and SC (source code alone)}
 #' \item{Comp_Level}{This denotes the comprehension level of the source code achieved by a software engineer}
 #' \item{Modi_Level}{This denotes the capability of a maintainer to modify source code}
@@ -426,3 +426,142 @@
 #' MadeyskiKitchenham.EUBASdata
 #'
 "MadeyskiKitchenham.EUBASdata"
+
+
+
+#' KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data set reports the meta-analysis results reported by the authors of the 13 primary studies included in the systematic review.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
+#' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
+#' \item{mean}{The overall mean effect size reported by the study authors}
+#' \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}
+#' \item{UB}{The upper bound of the confidence interval of the overall mean as reported by the primary study authors. NA means the authors did not report this statistic.}
+#' \item{LB}{The lower bound of the confidence interval of the overall mean as reported by the primary study authors. NA means the authors did not report this statistic.}
+#' \item{QE}{The heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
+#' \item{Qep}{The p-value of the heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults
+#'
+"KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults"
+
+#' KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data set reports the meta-analysis results reported by the authors of the primary studies included in the systematic review that reported results on a per document basis which for S7 and S11 was equivalent to reporting the results for each time period.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifier of each of the the 3 primary studies which reported results per document.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropropriately specified.}
+#' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
+#' \item{mean}{The overall mean effect size reported by the study authors}
+#' \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}
+#' \item{UB}{The upper bound of the confidence interval of the overall mean as reported by the primary study authors. NA means the authors did not report this statistic.}
+#' \item{LB}{The lower bound of the confidence interval of the overall mean as reported by the primary study authors. NA means the authors did not report this statistic.}
+#' \item{QE}{The heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
+#' \item{Qep}{The p-value of the heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults
+#'
+"KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults"
+
+
+#' KitchenhamMadeyskiBrereton.ReportedEffectSizes data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This file holds the individual effect sizes for each experiment, as reported by 13 primary studies in the systematic review.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropropriately specified as gRM, r refers to the point bi-serial correlation.}
+#' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
+#' \item{Design}{The refers to the design method used by the study author. 4GroupCO is a 4-group crossover design. Mixed means different experiments in a particular family used different methods (only S3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. IndGroups is the independent groups design also called between groups design or a randomised design. PrePost is pretest and posttest design with a post test control.}
+#' \item{Exp1}{This is the reported standardised effect size for the first experiment in the family.}
+#' \item{Exp2}{This is the reported standardised effect size for the second experiment in the family.}
+#' \item{Exp3}{This is the reported standardised effect size for the third experiment in the family.}
+#' \item{Exp4}{This is the reported standardised effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
+#' \item{Exp5}{This is the reported standardised effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.ReportedEffectSizes
+#'
+"KitchenhamMadeyskiBrereton.ReportedEffectSizes"
+
+
+#' KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This file holds the individual effect sizes for the first time period (or equivalently the first document), as reported by the 3 primary studies in the systematic review that reported results for each document/time period separately.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifer of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
+#' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
+#' \item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
+#' \item{Exp1}{This is the reported standardised effect size for the first time period and the first experiment in the family.}
+#' \item{Exp2}{This is the reported standardised effect size for the first time period and second experiment in the family.}
+#' \item{Exp3}{This is the reported standardised effect size for the first time period and the third experiment in the family.}
+#' \item{Exp4}{This is the reported standardised effect size for the first time period and the fourth experiment in the family. NA means there was no fourth experiment in the family.}
+#' \item{Exp5}{This is the reported standardised effect size for the first time period and the fifth experiment in the family. NA means there was no fifth experiment in the family.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes
+#'
+"KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes"
+
+
+#' KitchenhamMadeyskiBrereton.ExpData data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This file holds the descriptive data for each experiment which include the mean, standard deviation and sample size for the control and treatment techniques. Note in the case of studies 3, 7 and 11, which reported descriptive data for each time period (or equivalently each document) separately, the values for of the desciptive data were obtained by analysing the data reported in the DocData file.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review. }
+#' \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
+#' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
+#' \item{Mc}{The mean value of the observations obtained using the control technique.}
+#' \item{SDc}{The standard deviation of the observations obtained using the control technique.}
+#' \item{Nc}{The number of participants using the control technique in the first time period.}
+#' \item{Mt}{The mean value of the observations obtained using the treatment technique.}
+#' \item{SDt}{The standard deviation of the observations obtained using the treatment technique.}
+#' \item{Nt}{The number of participants using the treatment technique in the first time period.}
+#' \item{r}{The correlation between repeated measures. NA if not reported. Note only study 13 reported this correlation.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.ExpData
+#'
+"KitchenhamMadeyskiBrereton.ExpData"
+
+
+#' KitchenhamMadeyskiBrereton.DocData data
+#'
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This file holds the descriptive data for each document and each experiment for studies 3, 7 and 11 which include the mean, standard deviation and sample size for the control and treatment techniques. These studies performed ABBA crossover experiments and reported data for each document separately. Note Study 3 also undertook an independent groups study but data from that experiment is held in the ExpData file.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{Study}{This field includes the study identifier of each of the 3 primary studies which reported their basic statistics on a time period & document basis. }
+#' \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
+#' \item{Doc}{This identifies whether the data arose from the document used in the first or second time period. The value "Doc1" identifies the data as coming from the first document or first time period. The value "Doc2" identifies the data as comning from the second time period or document. Note for Study 3 we used the analysis of a specific document that was used in all 4 ABBA experiments. For studies 7 and 11, the authors identified which we used in r=each time period and Doc1 refers to data from the first time period.}
+#' \item{Mc}{The mean value of the observations obtained using the control technique for the identified document.}
+#' \item{SDc}{The standard deviation of the observations obtained using the control technique for the identified document.}
+#' \item{Nc}{The number of participants using the control technique in the first time period for the identified document.}
+#' \item{Mt}{The mean value of the observations obtained using the treatment technique for the identified document.}
+#' \item{SDt}{The standard deviation of the observations obtained using the treatment technique for the identified document.}
+#' \item{Nt}{The number of participants using the treatment technique in the first time period for the identified document.}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' KitchenhamMadeyskiBrereton.DocData
+#'
+"KitchenhamMadeyskiBrereton.DocData"

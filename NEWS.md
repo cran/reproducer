@@ -1,3 +1,26 @@
+# CHANGES IN reproducer VERSION 0.2.0
+
+## NEW FEATURES
+- functions including computational procedures used to reproduce the main findings, e.g., tables, in a joint paper: Barbara Kitchenham, Lech Madeyski, Pearl Brereton, "Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment": 
+`calculateSmallSampleSizeAdjustment`, 
+`constructEffectSizes`, 
+`transformRtoZr`, 
+`transformZrtoR`, 
+`transformHgtoR`, 
+`calculateHg`, 
+`transformRtoHg`, 
+`transformZrtoHgapprox`, 
+`transformZrtoHg`, 
+`PrepareForMetaAnalysisGtoR`, 
+`ExtractMAStatistics`, 
+`aggregateIndividualDocumentStatistics`, 
+`reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments`.
+- unit tests
+- data sets used in the aforementioned paper:  `KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults`,  `KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults`,  `KitchenhamMadeyskiBrereton.ReportedEffectSizes`,  `KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes` `KitchenhamMadeyskiBrereton.ExpData`, and `KitchenhamMadeyskiBrereton.DocData`
+
+## UPDATED FEATURES
+
+
 # CHANGES IN reproducer VERSION 0.1.9
 
 ## NEW FEATURES

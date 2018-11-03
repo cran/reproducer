@@ -25,11 +25,11 @@
 \item{Vexp}{Ordinal value defining the virtual machine experience of the team}
 \item{Lexp}{Ordinal value defining the programming language experience of the team}
 \item{Cont}{??}
-\item{Modp}{ / Modern programing practices}
+\item{Modp}{ / Modern programming practices}
 \item{Tool}{Ordinal value defining the extent of tool use / Use of software tools}
 \item{ToolCat}{Recoding of Tool to labelled ordinal scale}
 \item{Sced}{Ordinal value defining the stringency of the schedule requirements / Schedule constraint}
-\item{Rvol}{Ordinal value defining the requriements volatility of the project}
+\item{Rvol}{Ordinal value defining the requirements volatility of the project}
 \item{Select}{Categorical value calculated by BAK for an analysis example}
 \item{Rvolcat}{Recoding of Rvol to a labelled ordinal scale}
 \item{Modecat}{Mode of the projects: O=Organic, E=Embedded, SD-Semi-Detached}
@@ -49,7 +49,7 @@
 KitchenhamMadeyskiBudgen16.COCOMO
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering (in press). DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
