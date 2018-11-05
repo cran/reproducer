@@ -1,8 +1,8 @@
-d5b9a73737c44e3a07555b368bee3c39 *DESCRIPTION
+8d5cfdb449ce5b4110a55dfda40b535f *DESCRIPTION
 c465e7b95c8de1c9184685128889f12c *NAMESPACE
-62dd6a8b71a8aaf6bd0818eac47639a8 *NEWS.md
+0626191e6d03db354cc219084dbdf3d3 *NEWS.md
 4533a33eb674b5c2aca6b956da4aeec1 *R/MadeyskiKitchenhamMetaAnalysis.R
-2e6a3bd23dabf12fab8fcdfbe09d3470 *R/MetaAnalysisForFamiliesOfExperimentsSR.R
+306755909fb08f857713240a4d03f0f8 *R/MetaAnalysisForFamiliesOfExperimentsSR.R
 62417de252f9eecf7130d84047de6c8f *R/data.R
 29b66267cf40058f2ebaeeedf3b23ac9 *R/reproducer.R
 2c13cf52bfb5e9f23dd54aeb38e005a1 *README.md
@@ -29,7 +29,7 @@ c405f2247386a3941389cff1762e5c45 *data/MadeyskiKitchenham.MetaAnalysis.PBRvsCBRo
 eb9653bf012b36b4b5ae4a82a01713de *inst/CITATION
 d7df2c5163b15fce5a0912bf914b3d78 *inst/extdata/DataSet.xlsx
 554d6fed2a9978f2189ff100ab2809c6 *man/Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR.Rd
-a17cf80217eec2c52e9b64c3817a638c *man/ExtractMAStatistics.Rd
+5a1cb7373d3d0da4bdecdecd11858f0f *man/ExtractMAStatistics.Rd
 f09c00d801e7ca298d2e4c2ab763eeeb *man/KitchenhamMadeyski.SimulatedCrossoverDataSets.Rd
 db451881247dee8c8448d69223849d25 *man/KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults.Rd
 ec6ae0a192ae0b76f82b05606e5850b7 *man/KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes.Rd

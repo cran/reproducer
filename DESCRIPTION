@@ -1,7 +1,7 @@
 Package: reproducer
 Title: Reproduce Statistical Analyses and Meta-Analyses
-Version: 0.2.0
-Date: 2018-11-02
+Version: 0.2.1
+Date: 2018-11-05
 Encoding: UTF-8
 Authors@R: c(
     person("Lech", "Madeyski", email = "lech.madeyski@gmail.com", role = c("cre", "aut", "ctb")),
@@ -25,7 +25,7 @@ Imports: openxlsx (>= 2.4.0), ggplot2 (>= 2.0.0), gridExtra(>= 0.9.1),
 RoxygenNote: 6.1.0
 Suggests: testthat, assertthat
 NeedsCompilation: no
-Packaged: 2018-11-03 17:40:25 UTC; lma
+Packaged: 2018-11-05 17:52:11 UTC; lma
 Author: Lech Madeyski [cre, aut, ctb],
   Barbara Kitchenham [ctb] (Data and code contributor),
   Marian Jureczko [ctb] (Data contributor),
@@ -36,4 +36,4 @@ Author: Lech Madeyski [cre, aut, ctb],
   Shirley Gibbs [ctb] (Data contributor),
   Amnart Pohthong [ctb] (Data contributor)
 Repository: CRAN
-Date/Publication: 2018-11-03 17:50:03 UTC
+Date/Publication: 2018-11-05 19:20:03 UTC

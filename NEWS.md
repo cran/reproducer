@@ -1,3 +1,10 @@
+# CHANGES IN reproducer VERSION 0.2.1
+
+## UPDATED FEATURES
+- Fixed version of the package in README
+- Added warning to the `ExtractMAStatistics` function: it works with `metafor` version 2.0-0, but changes to metafor's method of providing access to its individual results may introduce errors into the function. 
+
+
 # CHANGES IN reproducer VERSION 0.2.0
 
 ## NEW FEATURES

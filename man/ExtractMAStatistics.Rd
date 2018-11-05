@@ -25,6 +25,7 @@ data frame incl. summary statistics from meta-analysis results: overall mean val
 }
 \description{
 This function extracts summary statistics from meta-analysis results obtained from the rma function of the metafor R package. If required the function transform back to standardized mean difference (effect size type "d" i.e. Hg) or point biserial correlations (effect size type "r").
+Warning: the `ExtractMAStatistics` function works with `metafor` version 2.0-0, but changes to metafor's method of providing access to its individual results may introduce errors into the function.
 }
 \examples{
 ExpData=reproducer::KitchenhamMadeyskiBrereton.ExpData

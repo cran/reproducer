@@ -262,6 +262,7 @@ PrepareForMetaAnalysisGtoR = function(Mc, Mt, SDc, SDt, Nc, Nt) {
 
 #' @title ExtractMAStatistics
 #' @description This function extracts summary statistics from meta-analysis results obtained from the rma function of the metafor R package. If required the function transform back to standardized mean difference (effect size type "d" i.e. Hg) or point biserial correlations (effect size type "r").
+#' Warning: the `ExtractMAStatistics` function works with `metafor` version 2.0-0, but changes to metafor's method of providing access to its individual results may introduce errors into the function.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export ExtractMAStatistics
 #' @param maresults is the output from the rma function.
