@@ -565,3 +565,60 @@
 #' KitchenhamMadeyskiBrereton.DocData
 #'
 "KitchenhamMadeyskiBrereton.DocData"
+
+
+
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324 data
+#'
+#' This data is used in the paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019 (submitted).
+#' This file holds the descriptive data for each document and each experiment for studies 3, 7 and 11 which include the mean, standard deviation and sample size for the control and treatment techniques. These studies performed ABBA crossover experiments and reported data for each document separately. Note Study 3 also undertook an independent groups study but data from that experiment is held in the ExpData file.
+#' @format A text file file with variables:
+#' \describe{
+#' \item{rowID}{unique id assigned to projects before filtering (source: API)}
+#' \item{id}{GitHub repository ID (source: API)}
+#' \item{repository owner}{the organization or user owning the repository (source: API)}
+#' \item{project name}{name of the project (source: API)}
+#' \item{manual}{link to best found project documentation - wiki, webpage, documentation directory or readme. Projects with limited documentation were marked with (limited) and ones that had documentation in Chinese - (Chinese) (source: manual)}
+#' \item{installation}{the recommended installation medium(s) for the project. Some mediums may be missing for projects with multiple recommendations. (source: manual)}
+#' \item{support}{channel(s) that can be used to get support and/or report bugs. Some channels may be missing for projects with multiple ones. Abbreviations used (source: manual):
+#' GH	GitHub Issues
+#' SO	Stack Overflow
+#' GG	Google Groups
+#' ML	Mailing list
+#' FB	Facebook
+#' MM	Mattermost
+#' LI	LinkedIn
+#' ? 	not found}
+#' \item{is not sample/playground/docs/...}{1 if the project is an actual application or library, 0 if it is a set of samples, only documentation or some experimental area (source: manual)}
+#' \item{is industrial}{whether the project can be treated as industrial quality one. Values and their meanings:
+#' 1	the repository can be classified as industrial grade;
+#' 0,5	the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
+#' 0	the repository cannot be classified as industrial-grade;
+#' -1	the repository is no longer actively maintained as of the date of data acquisition;
+#' -2	the repository is no longer in Java as of the date of data acquisition. (source: manual)}
+#' \item{createdAt}{the date at which the repository was created (source: API)}
+#' \item{updatedAt}{the date of last repository update - including changes in projects, watchers, issues etc. (source: API)}
+#' \item{pushedAt}{the date of last push to the repository - NOT the date of last pushed commit (source: API)}
+#' \item{diskUsage}{total number of bytes on disk that are needed to store the repository (source: API)}
+#' \item{forkCount}{number of existing repository forks (independent copies managed by other entities) (source: API)}
+#' \item{isArchived}{true if the repository is archived (no longer maintained), false otherwise (source: API)}
+#' \item{isFork}{true if the repository is a fork (not the main repository), false otherwise (source: API)}
+#' \item{isMirror}{true if the repository is a mirror, false otherwise (source: API)}
+#' \item{sshUrlOfRepository}{URL that can be used to immediately clone the repository (source: API)}
+#' \item{licenseInfo.name}{name of license under which the project is distributed. Names are the same as in https://choosealicense.com/appendix/ (source: API)}
+#' \item{commitSHA}{unique Git identifier of commit that was top of the main branch at the time of data acquisition (source: API)}
+#' \item{defaultBranchRef.target.history.totalCount}{number of commits on the default branch in the repository (usually master) at the time of data acquisition (source: API)}
+#' \item{stargazers.totalCount}{number of stargazers for the repository at the time of data acquisition (source: API)}
+#' \item{watchers.totalCount}{number of watchers for the repository at the time of data acquisition (source: API)}
+#' \item{languages.totalSize}{total size of all source code files (source: API)}
+#' \item{Java.byte.count}{total size of Java files (source: API)}
+#' \item{Language}{main programming language used in the repository, i.e. one that the most code is written in (source: API)}
+#' \item{searchQuery}{query used during search that obtained this project (source: API)}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324
+#'
+"MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324"
+
+

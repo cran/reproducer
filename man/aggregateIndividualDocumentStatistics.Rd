@@ -11,7 +11,7 @@ aggregateIndividualDocumentStatistics(D1.M, D1.SD, D1.N, D2.M, D2.SD, D2.N)
 
 \item{D1.SD}{is a vector of results from the set of experiment in a family reporting the standard deviations of observations from participants using the same document in the first time period with the same technique.}
 
-\item{D1.N}{is a vector of the numbers of participants in each experiment ina family, using the same document for participants using either the same technique.}
+\item{D1.N}{is a vector of the numbers of participants in each experiment in a family, using the same document for participants using either the same technique.}
 
 \item{D2.M}{is a vector of mean values of observations from participants using the alternative document in the second time period, but using the same technique.}
 

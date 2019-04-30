@@ -1,3 +1,16 @@
+# CHANGES IN reproducer VERSION 0.3.0
+
+## NEW FEATURES
+- Functions including computational procedures used to reproduce the main findings, e.g., tables, in a joint paper: Barbara Kitchenham, Lech Madeyski, Pearl Brereton, "Meta-analysis for Families of Experiments in Software Engineering: A Systematic Review and Reproducibility and Validity Assessment": 
+`transformHgtoZr`,
+- Function to search for industry relevant software projects available from GitHub related to a report: Lech Madeyski, “Training data preparation method,” tech. rep., code quest (research project NCBiR POIR.01.01.01-00-0792/16), 2019; as well as a paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019:
+`searchForIndustryRelevantGitHubProjects`
+- Data set: `MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324`
+
+
+## UPDATED FEATURES
+- Updated function `reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments`
+
 # CHANGES IN reproducer VERSION 0.2.1
 
 ## UPDATED FEATURES
