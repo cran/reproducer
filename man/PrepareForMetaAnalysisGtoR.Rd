@@ -15,7 +15,7 @@ PrepareForMetaAnalysisGtoR(Mc, Mt, SDc, SDt, Nc, Nt)
 
 \item{SDt}{is a vector of the standard deviations of the the treatment group for each experiment.}
 
-\item{Nc}{is a vector containing the the number of observations (particpants) in the control group for each experiment.}
+\item{Nc}{is a vector containing the the number of observations (participants) in the control group for each experiment.}
 
 \item{Nt}{is a vector of the number of observations (participants) in the treatment group for each experiment.}
 }

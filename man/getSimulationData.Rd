@@ -4,8 +4,14 @@
 \alias{getSimulationData}
 \title{getSimulationData}
 \usage{
-getSimulationData(var, covar, meanA1, treatmentDiff, periodEffect,
-  numOfSamples)
+getSimulationData(
+  var,
+  covar,
+  meanA1,
+  treatmentDiff,
+  periodEffect,
+  numOfSamples
+)
 }
 \arguments{
 \item{var}{Variance among subjects is a sum of the between subjects variance and the within subjects variance}

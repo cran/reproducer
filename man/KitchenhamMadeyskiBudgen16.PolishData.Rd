@@ -14,13 +14,13 @@
 \item{J1}{The identifier for the judge who made the next 2 assessments}
 \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 \item{J1Clarity}{The clarity assessment made by judge J1}
-\item{J2}{The identifer for the judge who made the next 2 assessments}
+\item{J2}{The identifier for the judge who made the next 2 assessments}
 \item{J2Completeness}{The average completeness made by judge J2 based on the 8 completeness questions}
 \item{J2Clarity}{The clarity assessment made by judge J2}
-\item{J3}{The identifer for the judge who made the next 2 assessments}
+\item{J3}{The identifier for the judge who made the next 2 assessments}
 \item{J3Completeness}{The average completeness made by judge J3 based on the 8 completeness questions}
 \item{J3Clarity}{The clarity assessment made by judge J3}
-\item{J4}{The identifer for the judge who made the next 2 assessments}
+\item{J4}{The identifier for the judge who made the next 2 assessments}
 \item{J4Completeness}{The average completeness made by judge J4 based on the 8 completeness questions}
 \item{J4Clarity}{The clarity assessment made by judge J4}
 \item{MedianCompleteness}{The median of J1Completeness, J2Completeness, J3Completeness, J4Completeness}

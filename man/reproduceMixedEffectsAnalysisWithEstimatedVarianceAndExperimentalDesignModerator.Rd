@@ -4,8 +4,9 @@
 \alias{reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator}
 \title{reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator()}
 \usage{
-
-  reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator()
+reproduceMixedEffectsAnalysisWithEstimatedVarianceAndExperimentalDesignModerator(
+  
+)
 }
 \description{
 Function reproduces Mixed-Effects Analysis using Subject Specific Estimated Variance with Experimental Design as a Moderator.

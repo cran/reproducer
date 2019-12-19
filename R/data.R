@@ -140,16 +140,16 @@
 #'
 #' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchneham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
+#'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchenham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
 #' @format A data frame with variables:
 #' \describe{
 #' \item{Project}{Project ID}
 #' \item{DevEffort}{Development Effort measured in hours}
 #' \item{UserEffort}{Effort provided by the customer/user organisation measured in hours}
-#' \item{Duration}{Project duration measurted in months}
-#' \item{HWType}{A catagorical variable defining the hardware type}
-#' \item{AppType}{A categorical variable definiting the application type}
+#' \item{Duration}{Project duration measured in months}
+#' \item{HWType}{A categorical variable defining the hardware type}
+#' \item{AppType}{A categorical variable defining the application type}
 #' \item{FP}{Function Points measured using the TIEKE organisation method}
 #' \item{Co}{A categorical variable defining the company}
 #' }
@@ -215,9 +215,9 @@
 #' \describe{
 #' \item{Judge}{Alphanumeric identifier for each judge}
 #' \item{Institution}{Numerical value identifying each site from which data was collected}
-#' \item{JudgeID}{Numerical value idetifying each judge}
+#' \item{JudgeID}{Numerical value identifying each judge}
 #' \item{Age}{Age of the judge in years}
-#' \item{Eng1st}{Whether the judge's first langauage was Enlish: Yes/No}
+#' \item{Eng1st}{Whether the judge's first language was Enlish: Yes/No}
 #' \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
 #' \item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
 #' \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}
@@ -264,13 +264,13 @@
 #' \item{J1}{The identifier for the judge who made the next 2 assessments}
 #' \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 #' \item{J1Clarity}{The clarity assessment made by judge J1}
-#' \item{J2}{The identifer for the judge who made the next 2 assessments}
+#' \item{J2}{The identifier for the judge who made the next 2 assessments}
 #' \item{J2Completeness}{The average completeness made by judge J2 based on the 8 completeness questions}
 #' \item{J2Clarity}{The clarity assessment made by judge J2}
-#' \item{J3}{The identifer for the judge who made the next 2 assessments}
+#' \item{J3}{The identifier for the judge who made the next 2 assessments}
 #' \item{J3Completeness}{The average completeness made by judge J3 based on the 8 completeness questions}
 #' \item{J3Clarity}{The clarity assessment made by judge J3}
-#' \item{J4}{The identifer for the judge who made the next 2 assessments}
+#' \item{J4}{The identifier for the judge who made the next 2 assessments}
 #' \item{J4Completeness}{The average completeness made by judge J4 based on the 8 completeness questions}
 #' \item{J4Clarity}{The clarity assessment made by judge J4}
 #' \item{MedianCompleteness}{The median of J1Completeness, J2Completeness, J3Completeness, J4Completeness}
@@ -295,19 +295,19 @@
 #' \describe{
 #' \item{Abstract}{The abstract identifier}
 #' \item{Site}{A numeric identifier of the site}
-#' \item{Treatment}{A three character alphanumeric identifying the jounral and time period of the abstract}
+#' \item{Treatment}{A three character alphanumeric identifying the journal and time period of the abstract}
 #' \item{Journal}{The journal in which the abstract was published: IST or JSS}
 #' \item{Timeperiod}{The time period in which the abstract: 1 or 2}
-#' \item{J1}{The identifer for the judge who made the next 2 assessments}
+#' \item{J1}{The identifier for the judge who made the next 2 assessments}
 #' \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 #' \item{J1Clarity}{The clarity assessment made by judge J1}
-#' \item{J2}{The identifer for the judge who made the next 2 assessments}
+#' \item{J2}{The identifier for the judge who made the next 2 assessments}
 #' \item{J2Completeness}{The average completeness made by judge J2 based on the 8 completeness questions}
 #' \item{J2Clarity}{The clarity assessment made by judge J2}
-#' \item{J3}{The identifer for the judge who made the next 2 assessments}
+#' \item{J3}{The identifier for the judge who made the next 2 assessments}
 #' \item{J3Completeness}{The average completeness made by judge J3 based on the 8 completeness questions}
 #' \item{J3Clarity}{The clarity assessment made by judge J3}
-#' \item{J4}{The identifer for the judge who made the next 2 assessments}
+#' \item{J4}{The identifier for the judge who made the next 2 assessments}
 #' \item{J4Completeness}{The average completeness made by judge J4 based on the 8 completeness questions}
 #' \item{J4Clarity}{The clarity assessment made by judge J4}
 #' \item{MeanCompleteness}{The mean of J1Completeness, J2Completeness, J3Completeness, J4Completeness}
@@ -453,12 +453,12 @@
 
 #' KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults data
 #'
-#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 #' This data set reports the meta-analysis results reported by the authors of the primary studies included in the systematic review that reported results on a per document basis which for S7 and S11 was equivalent to reporting the results for each time period.
-#' @format A text file file with variables:
+#' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the the 3 primary studies which reported results per document.}
-#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropropriately specified.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropriately specified.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 #' \item{mean}{The overall mean effect size reported by the study authors}
 #' \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}
@@ -476,9 +476,9 @@
 
 #' KitchenhamMadeyskiBrereton.ReportedEffectSizes data
 #'
-#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 #' This file holds the individual effect sizes for each experiment, as reported by 13 primary studies in the systematic review.
-#' @format A text file file with variables:
+#' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
 #' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropropriately specified as gRM, r refers to the point bi-serial correlation.}
@@ -499,11 +499,11 @@
 
 #' KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes data
 #'
-#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 #' This file holds the individual effect sizes for the first time period (or equivalently the first document), as reported by the 3 primary studies in the systematic review that reported results for each document/time period separately.
-#' @format A text file file with variables:
+#' @format A text file with variables:
 #' \describe{
-#' \item{Study}{This field includes the study identifer of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
+#' \item{Study}{This field includes the study identifier of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
 #' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 #' \item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
@@ -522,9 +522,9 @@
 
 #' KitchenhamMadeyskiBrereton.ExpData data
 #'
-#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
-#' This file holds the descriptive data for each experiment which include the mean, standard deviation and sample size for the control and treatment techniques. Note in the case of studies 3, 7 and 11, which reported descriptive data for each time period (or equivalently each document) separately, the values for of the desciptive data were obtained by analysing the data reported in the DocData file.
-#' @format A text file file with variables:
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
+#' This file holds the descriptive data for each experiment which include the mean, standard deviation and sample size for the control and treatment techniques. Note in the case of studies 3, 7 and 11, which reported descriptive data for each time period (or equivalently each document) separately, the values for of the descriptive data were obtained by analysing the data reported in the DocData file.
+#' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review. }
 #' \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
@@ -546,13 +546,13 @@
 
 #' KitchenhamMadeyskiBrereton.DocData data
 #'
-#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+#' This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 #' This file holds the descriptive data for each document and each experiment for studies 3, 7 and 11 which include the mean, standard deviation and sample size for the control and treatment techniques. These studies performed ABBA crossover experiments and reported data for each document separately. Note Study 3 also undertook an independent groups study but data from that experiment is held in the ExpData file.
-#' @format A text file file with variables:
+#' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 3 primary studies which reported their basic statistics on a time period & document basis. }
 #' \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
-#' \item{Doc}{This identifies whether the data arose from the document used in the first or second time period. The value "Doc1" identifies the data as coming from the first document or first time period. The value "Doc2" identifies the data as comning from the second time period or document. Note for Study 3 we used the analysis of a specific document that was used in all 4 ABBA experiments. For studies 7 and 11, the authors identified which we used in r=each time period and Doc1 refers to data from the first time period.}
+#' \item{Doc}{This identifies whether the data arose from the document used in the first or second time period. The value "Doc1" identifies the data as coming from the first document or first time period. The value "Doc2" identifies the data as coming from the second time period or document. Note for Study 3 we used the analysis of a specific document that was used in all 4 ABBA experiments. For studies 7 and 11, the authors identified which we used in r=each time period and Doc1 refers to data from the first time period.}
 #' \item{Mc}{The mean value of the observations obtained using the control technique for the identified document.}
 #' \item{SDc}{The standard deviation of the observations obtained using the control technique for the identified document.}
 #' \item{Nc}{The number of participants using the control technique in the first time period for the identified document.}
@@ -570,9 +570,9 @@
 
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324 data
 #'
-#' This data is used in the paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019 (submitted).
-#' This file holds the descriptive data for each document and each experiment for studies 3, 7 and 11 which include the mean, standard deviation and sample size for the control and treatment techniques. These studies performed ABBA crossover experiments and reported data for each document separately. Note Study 3 also undertook an independent groups study but data from that experiment is held in the ExpData file.
-#' @format A text file file with variables:
+#' This data is used in the paper:
+#' Tomasz Lewowski and Lech Madeyski, "Creating Evolving Project Data Sets in Software Engineering", vol. 851 of Studies in Computational Intelligence, pp. 1–14. Cham: Springer, 2020. DOI: 10.1007/978-3-030-26574-8_1
+#' @format A text file with variables:
 #' \describe{
 #' \item{rowID}{unique id assigned to projects before filtering (source: API)}
 #' \item{id}{GitHub repository ID (source: API)}
@@ -621,4 +621,60 @@
 #'
 "MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324"
 
+
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022 data
+#'
+#' This data is used in the paper: Tomasz Lewowski and Lech Madeyski, "How do software engineering data sets evolve? A reproduction study", 2020 (submitted).
+#' Generated by:
+#' token <- "..."
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022<-searchForIndustryRelevantGitHubProjects(token, "2019-03-01", "2018-08-01")
+#' usethis::use_data(MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022)
+#' @format A text file with variables:
+#' \describe{
+#' \item{rowID}{unique id assigned to projects before filtering (source: API)}
+#' \item{id}{GitHub repository ID (source: API)}
+#' \item{repository owner}{the organization or user owning the repository (source: API)}
+#' \item{project name}{name of the project (source: API)}
+#' \item{manual}{link to best found project documentation - wiki, webpage, documentation directory or readme. Projects with limited documentation were marked with (limited) and ones that had documentation in Chinese - (Chinese) (source: manual)}
+#' \item{installation}{the recommended installation medium(s) for the project. Some mediums may be missing for projects with multiple recommendations. (source: manual)}
+#' \item{support}{channel(s) that can be used to get support and/or report bugs. Some channels may be missing for projects with multiple ones. Abbreviations used (source: manual):
+#' GH	GitHub Issues
+#' SO	Stack Overflow
+#' GG	Google Groups
+#' ML	Mailing list
+#' FB	Facebook
+#' MM	Mattermost
+#' LI	LinkedIn
+#' ? 	not found}
+#' \item{is not sample/playground/docs/...}{1 if the project is an actual application or library, 0 if it is a set of samples, only documentation or some experimental area (source: manual)}
+#' \item{is industrial}{whether the project can be treated as industrial quality one. Values and their meanings:
+#' 1	the repository can be classified as industrial grade;
+#' 0,5	the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
+#' 0	the repository cannot be classified as industrial-grade;
+#' -1	the repository is no longer actively maintained as of the date of data acquisition;
+#' -2	the repository is no longer in Java as of the date of data acquisition. (source: manual)}
+#' \item{createdAt}{the date at which the repository was created (source: API)}
+#' \item{updatedAt}{the date of last repository update - including changes in projects, watchers, issues etc. (source: API)}
+#' \item{pushedAt}{the date of last push to the repository - NOT the date of last pushed commit (source: API)}
+#' \item{diskUsage}{total number of bytes on disk that are needed to store the repository (source: API)}
+#' \item{forkCount}{number of existing repository forks (independent copies managed by other entities) (source: API)}
+#' \item{isArchived}{true if the repository is archived (no longer maintained), false otherwise (source: API)}
+#' \item{isFork}{true if the repository is a fork (not the main repository), false otherwise (source: API)}
+#' \item{isMirror}{true if the repository is a mirror, false otherwise (source: API)}
+#' \item{sshUrlOfRepository}{URL that can be used to immediately clone the repository (source: API)}
+#' \item{licenseInfo.name}{name of license under which the project is distributed. Names are the same as in https://choosealicense.com/appendix/ (source: API)}
+#' \item{commitSHA}{unique Git identifier of commit that was top of the main branch at the time of data acquisition (source: API)}
+#' \item{defaultBranchRef.target.history.totalCount}{number of commits on the default branch in the repository (usually master) at the time of data acquisition (source: API)}
+#' \item{stargazers.totalCount}{number of stargazers for the repository at the time of data acquisition (source: API)}
+#' \item{watchers.totalCount}{number of watchers for the repository at the time of data acquisition (source: API)}
+#' \item{languages.totalSize}{total size of all source code files (source: API)}
+#' \item{Java.byte.count}{total size of Java files (source: API)}
+#' \item{Language}{main programming language used in the repository, i.e. one that the most code is written in (source: API)}
+#' \item{searchQuery}{query used during search that obtained this project (source: API)}
+#' }
+#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @examples
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022
+#'
+"MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022"
 

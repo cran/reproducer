@@ -4,22 +4,31 @@
 \alias{searchForIndustryRelevantGitHubProjects}
 \title{searchForIndustryRelevantGitHubProjects}
 \usage{
-searchForIndustryRelevantGitHubProjects(myToken)
+searchForIndustryRelevantGitHubProjects(
+  myToken,
+  earliestPushDate,
+  latestCreationDate
+)
 }
 \arguments{
 \item{myToken}{A private token used to access GitHub}
+
+\item{earliestPushDate}{Only repositories which were pushed after this date will be included in the results (i.e., repositories for which the latest push was before this date will not be included in the results)}
+
+\item{latestCreationDate}{Only repositories which were created before this date will be included in the results (i.e., repositories created after this date will not be included in the results)}
 }
 \value{
 selected GitHub projects
 }
 \description{
-Function searches for industry relevant software projects available from GitHub. The function was used to deliver data set of software projects in an NCBiR project. More details are desribed in a report: Lech Madeyski, “Training data preparation method,” tech. rep., code quest (research project NCBiR POIR.01.01.01-00-0792/16), 2019, as well as a paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019.
+Function searches for industry relevant software projects available from GitHub. The function was used to deliver data set of software projects in an NCBiR project. More details are described in a report: Lech Madeyski, “Training data preparation method,” tech. rep., code quest (research project NCBiR POIR.01.01.01-00-0792/16), 2019, as well as a paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019.
 If you use this function or the returned data set than please cite:
 Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019
 }
 \examples{
   #to run this function you need to use your own token as a parameter of the function
-  #calculateSmallSampleSizeAdjustment("...") #use your own token as a parameter of the function
+  #use your own token as the first parameter of the function
+  #searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
 }
 \author{
 Lech Madeyski and Tomasz Lewowski

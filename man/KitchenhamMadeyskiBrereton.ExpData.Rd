@@ -4,7 +4,7 @@
 \name{KitchenhamMadeyskiBrereton.ExpData}
 \alias{KitchenhamMadeyskiBrereton.ExpData}
 \title{KitchenhamMadeyskiBrereton.ExpData data}
-\format{A text file file with variables:
+\format{A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review. }
 \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
@@ -24,8 +24,8 @@
 KitchenhamMadeyskiBrereton.ExpData
 }
 \description{
-This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
-This file holds the descriptive data for each experiment which include the mean, standard deviation and sample size for the control and treatment techniques. Note in the case of studies 3, 7 and 11, which reported descriptive data for each time period (or equivalently each document) separately, the values for of the desciptive data were obtained by analysing the data reported in the DocData file.
+This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
+This file holds the descriptive data for each experiment which include the mean, standard deviation and sample size for the control and treatment techniques. Note in the case of studies 3, 7 and 11, which reported descriptive data for each time period (or equivalently each document) separately, the values for of the descriptive data were obtained by analysing the data reported in the DocData file.
 }
 \examples{
 KitchenhamMadeyskiBrereton.ExpData

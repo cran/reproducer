@@ -8,9 +8,9 @@
 \describe{
 \item{Judge}{Alphanumeric identifier for each judge}
 \item{Institution}{Numerical value identifying each site from which data was collected}
-\item{JudgeID}{Numerical value idetifying each judge}
+\item{JudgeID}{Numerical value identifying each judge}
 \item{Age}{Age of the judge in years}
-\item{Eng1st}{Whether the judge's first langauage was Enlish: Yes/No}
+\item{Eng1st}{Whether the judge's first language was Enlish: Yes/No}
 \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
 \item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
 \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}

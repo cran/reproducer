@@ -4,7 +4,7 @@
 \name{KitchenhamMadeyskiBrereton.ReportedEffectSizes}
 \alias{KitchenhamMadeyskiBrereton.ReportedEffectSizes}
 \title{KitchenhamMadeyskiBrereton.ReportedEffectSizes data}
-\format{A text file file with variables:
+\format{A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropropriately specified as gRM, r refers to the point bi-serial correlation.}
@@ -23,7 +23,7 @@
 KitchenhamMadeyskiBrereton.ReportedEffectSizes
 }
 \description{
-This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 This file holds the individual effect sizes for each experiment, as reported by 13 primary studies in the systematic review.
 }
 \examples{

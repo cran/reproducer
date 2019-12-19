@@ -9,7 +9,7 @@ transformZrtoHg(Zr, Nc, Nt)
 \arguments{
 \item{Zr}{the normal variate}
 
-\item{Nc}{the number of observations (particpants) in the first (control) group}
+\item{Nc}{the number of observations (participants) in the first (control) group}
 
 \item{Nt}{the number of observations (participants) in the second (treatment) group}
 }

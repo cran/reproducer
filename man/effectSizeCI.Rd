@@ -4,8 +4,16 @@
 \alias{effectSizeCI}
 \title{effectSizeCI}
 \usage{
-effectSizeCI(expDesign, t, n1, n2, r = 0, epsilon = 1e-10,
-  maxsteps = 1000, stepsize = 3)
+effectSizeCI(
+  expDesign,
+  t,
+  n1,
+  n2,
+  r = 0,
+  epsilon = 1e-10,
+  maxsteps = 1000,
+  stepsize = 3
+)
 }
 \arguments{
 \item{expDesign}{Experimental design: 1) crossover repeated measures ("CrossOverRM"), 2) before-after repeated measures (expDesign=="BeforeAfterRM"), 3) independent groups ("IG)}

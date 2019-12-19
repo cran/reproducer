@@ -9,7 +9,7 @@ transformHgtoZr(g, Nc, Nt)
 \arguments{
 \item{g}{value of Hedges' g}
 
-\item{Nc}{the number of observations (particpants) in the first (control) group}
+\item{Nc}{the number of observations (participants) in the first (control) group}
 
 \item{Nt}{the number of observations (participants) in the second (treatment) group}
 }

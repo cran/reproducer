@@ -4,8 +4,7 @@
 \alias{ExtractMAStatistics}
 \title{ExtractMAStatistics}
 \usage{
-ExtractMAStatistics(maresults, Nc, Nt, Transform = TRUE, type = "d",
-  sig = 4)
+ExtractMAStatistics(maresults, Nc, Nt, Transform = TRUE, type = "d", sig = 4)
 }
 \arguments{
 \item{maresults}{is the output from the rma function.}

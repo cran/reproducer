@@ -1,3 +1,13 @@
+# CHANGES IN reproducer VERSION 0.3.1
+
+## NEW FEATURES
+- Data set: `MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022` - over 15\% of entries present in this data set is not present in the previous data set `MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324` due to moved time windows for the project creation and last push dates.
+
+
+## UPDATED FEATURES
+- Updated function `searchForIndustryRelevantGitHubProjects` - now supports flexible creation date and last push thresholds (enabling the script to better support researchers interested in gathering evolving data sets).
+
+
 # CHANGES IN reproducer VERSION 0.3.0
 
 ## NEW FEATURES

@@ -1,16 +1,19 @@
 #' @title searchForIndustryRelevantGitHubProjects
-#' @description Function searches for industry relevant software projects available from GitHub. The function was used to deliver data set of software projects in an NCBiR project. More details are desribed in a report: Lech Madeyski, “Training data preparation method,” tech. rep., code quest (research project NCBiR POIR.01.01.01-00-0792/16), 2019, as well as a paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019.
+#' @description Function searches for industry relevant software projects available from GitHub. The function was used to deliver data set of software projects in an NCBiR project. More details are described in a report: Lech Madeyski, “Training data preparation method,” tech. rep., code quest (research project NCBiR POIR.01.01.01-00-0792/16), 2019, as well as a paper: Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019.
 #' If you use this function or the returned data set than please cite:
 #' Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019
 #' @author Lech Madeyski and Tomasz Lewowski
 #' @export searchForIndustryRelevantGitHubProjects
 #' @param myToken A private token used to access GitHub
+#' @param earliestPushDate Only repositories which were pushed after this date will be included in the results (i.e., repositories for which the latest push was before this date will not be included in the results)
+#' @param latestCreationDate Only repositories which were created before this date will be included in the results (i.e., repositories created after this date will not be included in the results)
 #' @return selected GitHub projects
 #' @examples
 #'   #to run this function you need to use your own token as a parameter of the function
-#'   #calculateSmallSampleSizeAdjustment("...") #use your own token as a parameter of the function
+#'   #use your own token as the first parameter of the function
+#'   #searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
 #' @importFrom dplyr %>%
-searchForIndustryRelevantGitHubProjects = function(myToken) {
+searchForIndustryRelevantGitHubProjects = function(myToken, earliestPushDate, latestCreationDate) {
     token <- myToken
 
     language <- "Java"
@@ -282,8 +285,8 @@ searchForIndustryRelevantGitHubProjects = function(myToken) {
     sub('[^\"]+\"([^\"]+).*', '\\1', "Language")
 
     myselection <- function(projects){
-        stringr::str_sub(projects$createdAt, 1, 10) < "2018-01-01" &
-            stringr::str_sub(projects$pushedAt, 1, 10) > "2018-09-01" &
+        stringr::str_sub(projects$createdAt, 1, 10) < latestCreationDate & #"2018-01-01" -> "2018-08-01"
+            stringr::str_sub(projects$pushedAt, 1, 10) > earliestPushDate & #"2018-09-01" -> "2019-03-01"
             projects$isArchived == FALSE &
             projects$watchers.totalCount > stats::quantile(unlist(projects$watchers.totalCount), 1 /
                                                                4) &

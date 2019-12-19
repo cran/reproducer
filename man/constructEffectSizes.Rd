@@ -15,7 +15,7 @@ constructEffectSizes(Mc, Mt, SDc, SDt, Nc, Nt)
 
 \item{SDt}{is a vector of the standard deviations of the the treatment group for each experiment.}
 
-\item{Nc}{is a vector containing the the number of observations (particpants) in the control group for each experiment.}
+\item{Nc}{is a vector containing the the number of observations (participants) in the control group for each experiment.}
 
 \item{Nt}{is a vector of the number of observations (participants) in the treatment group for each experiment.}
 }
@@ -23,7 +23,7 @@ constructEffectSizes(Mc, Mt, SDc, SDt, Nc, Nt)
 data frame composed of five effect sizes (Glass delta, Cohen's d, Hedges' g, r, Hedges' g adjusted)
 }
 \description{
-The function constructs various different d-style effect sizes for a set of different experiments given basic statistics from each experiment ( the mean value of the control group Mc, the mean value of the treatment group Mt, the standard deviation of the control group SDc, standard deviation of the the treatment group SDt, the number of observations (particpants) in the control group Nc, and the number of observations (participants) in the treatment group Nt). The input variables can be vectors or individual numbers but all input vectors must be of the same length. The function returns Glass's Delta, Cohen's D, point bi-serial r (based on Hedges'g unadjusted), Hedges'g and Hegdes' g adjusted for small sample size.
+The function constructs various different d-style effect sizes for a set of different experiments given basic statistics from each experiment ( the mean value of the control group Mc, the mean value of the treatment group Mt, the standard deviation of the control group SDc, standard deviation of the the treatment group SDt, the number of observations (participants) in the control group Nc, and the number of observations (participants) in the treatment group Nt). The input variables can be vectors or individual numbers but all input vectors must be of the same length. The function returns Glass's Delta, Cohen's D, point bi-serial r (based on Hedges'g unadjusted), Hedges'g and Hegdes' g adjusted for small sample size.
 }
 \examples{
 constructEffectSizes(10, 15, 0.3, 0.2, 15, 15)

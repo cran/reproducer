@@ -4,8 +4,13 @@
 \alias{getTheoreticalEffectSizeVariancesABBA}
 \title{getTheoreticalEffectSizeVariancesABBA}
 \usage{
-getTheoreticalEffectSizeVariancesABBA(theoreticalvarW,
-  theoreticalTechniqueEffect, theoreticalrho, N1, N2)
+getTheoreticalEffectSizeVariancesABBA(
+  theoreticalvarW,
+  theoreticalTechniqueEffect,
+  theoreticalrho,
+  N1,
+  N2
+)
 }
 \arguments{
 \item{theoreticalvarW}{- The within subject variance used to construct the simulation, i.e., the built-in Variance - the built-in Covariance}

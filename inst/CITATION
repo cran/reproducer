@@ -1,4 +1,4 @@
-citHeader("To cite package 'reproducer' in publications use:")
+citHeader("To cite package 'reproducer' in publications please use:")
 
 year = sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
 vers = paste('R package version', meta$Version)
@@ -85,7 +85,48 @@ citEntry(
   "Online: http://dx.doi.org/10.1007/s10664-017-9574-5")
 )
 
+citEntry(
+  entry        = "Article",
+  title        = "Meta-analysis for families of experiments in software engineering: a systematic review and reproducibility and validity assessment",
+  author       =   personList(as.person("Barbara A. Kitchenham"),
+                   as.person("Lech Madeyski"),
+                   as.person("Pearl Brereton")),
+  journal      = "Empirical Software Engineering",
+  year         = "2019",
+  volume       = "",
+  number       = "",
+  pages        = "",
+  doi          = "10.1007/s10664-019-09747-0",
+  url          = "http://doi.org/10.1007/s10664-019-09747-0",
+  textVersion  = paste("Barbara Kitchenham, Lech Madeyski and Pearl Brereton (2019)",
+  "Meta-analysis for families of experiments in software engineering: ",
+  "a systematic review and reproducibility and validity assessment",
+  "Empirical Software Engineering, vol. XX, no.X, p. XXXX-YYYY",
+  "DOI: 10.1007/s10664-019-09747-0",
+  "Online: http://dx.doi.org/10.1007/s10664-019-09747-0")
+)
 
+citEntry(
+  entry        = "Inbook",
+  title        = "Creating Evolving Project Data Sets in Software Engineering",
+  booktitle    = "Integrating Research and Practice in Software Engineering",
+  chapter      = "Creating Evolving Project Data Sets in Software Engineering",
+  author       =  personList(as.person("Tomasz Lewowski"),
+                   as.person("Lech Madeyski")),
+  editor       = "Stanislaw Jarzabek and Aneta Poniszewska-Mara{\'{n}}da and Lech Madeyski",
+  year         = "2020",
+  volume       = "851",
+  series       = "Studies in Computational Intelligence",
+  pages        = "1--14",
+  publisher    = "Springer",
+  doi          = "10.1007/978-3-030-26574-8_1",
+  url          = "http://doi.org/10.1007/978-3-030-26574-8_1",
+  textVersion  = paste("Tomasz Lewowski and Lech Madeyski (2020)",
+  "Creating Evolving Project Data Sets in Software Engineering",
+  "vol. 851 of Studies in Computational Intelligence, p.1-14, Springer",
+  "DOI: 10.1007/s10664-019-09747-0",
+  "Online: http://dx.doi.org/10.1007/s10664-019-09747-0")
+)
 
 citEntry(
   entry = 'manual',

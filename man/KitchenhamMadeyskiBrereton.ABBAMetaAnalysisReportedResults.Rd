@@ -4,10 +4,10 @@
 \name{KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults}
 \alias{KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults}
 \title{KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults data}
-\format{A text file file with variables:
+\format{A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the the 3 primary studies which reported results per document.}
-\item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropropriately specified.}
+\item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropriately specified.}
 \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 \item{mean}{The overall mean effect size reported by the study authors}
 \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}
@@ -23,7 +23,7 @@
 KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults
 }
 \description{
-This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 This data set reports the meta-analysis results reported by the authors of the primary studies included in the systematic review that reported results on a per document basis which for S7 and S11 was equivalent to reporting the results for each time period.
 }
 \examples{

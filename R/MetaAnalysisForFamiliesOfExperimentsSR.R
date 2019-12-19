@@ -29,14 +29,14 @@ calculateSmallSampleSizeAdjustment = function(df, exact = TRUE) {
 
 
 #' @title constructEffectSizes
-#' @description The function constructs various different d-style effect sizes for a set of different experiments given basic statistics from each experiment ( the mean value of the control group Mc, the mean value of the treatment group Mt, the standard deviation of the control group SDc, standard deviation of the the treatment group SDt, the number of observations (particpants) in the control group Nc, and the number of observations (participants) in the treatment group Nt). The input variables can be vectors or individual numbers but all input vectors must be of the same length. The function returns Glass's Delta, Cohen's D, point bi-serial r (based on Hedges'g unadjusted), Hedges'g and Hegdes' g adjusted for small sample size.
+#' @description The function constructs various different d-style effect sizes for a set of different experiments given basic statistics from each experiment ( the mean value of the control group Mc, the mean value of the treatment group Mt, the standard deviation of the control group SDc, standard deviation of the the treatment group SDt, the number of observations (participants) in the control group Nc, and the number of observations (participants) in the treatment group Nt). The input variables can be vectors or individual numbers but all input vectors must be of the same length. The function returns Glass's Delta, Cohen's D, point bi-serial r (based on Hedges'g unadjusted), Hedges'g and Hegdes' g adjusted for small sample size.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export constructEffectSizes
 #' @param Mc is a vector containing the mean value of the control group for each experiment.
 #' @param Mt is a vector containing the mean value of the treatment group for each experiment.
 #' @param SDc is a vector of the standard deviations of the control group for each experiment.
 #' @param SDt is a vector of the standard deviations of the the treatment group for each experiment.
-#' @param Nc is a vector containing the the number of observations (particpants) in the control group for each experiment.
+#' @param Nc is a vector containing the the number of observations (participants) in the control group for each experiment.
 #' @param Nt is a vector of the number of observations (participants) in the treatment group for each experiment.
 #' @return data frame composed of five effect sizes (Glass delta, Cohen's d, Hedges' g, r, Hedges' g adjusted)
 #' @examples
@@ -132,7 +132,7 @@ transformHgtoR = function(g, Nc, Nt) {
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export transformHgtoZr
 #' @param g value of Hedges' g
-#' @param Nc the number of observations (particpants) in the first (control) group
+#' @param Nc the number of observations (participants) in the first (control) group
 #' @param Nt the number of observations (participants) in the second (treatment) group
 #' @return value of normal approximation of point biserial r
 #' @examples
@@ -153,7 +153,7 @@ transformHgtoZr = function(g, Nc, Nt) {
 #' @export calculateHg
 #' @param Mc is a vector containing the mean value of the control group for each experiment.
 #' @param Mt is a vector containing the mean value of the treatment group for each experiment.
-#' @param Nc is a vector containing the the number of observations (particpants) in the control group for each experiment.
+#' @param Nc is a vector containing the the number of observations (participants) in the control group for each experiment.
 #' @param Nt is a vector of the number of observations (participants) in the treatment group for each experiment.
 #' @param SDc is a vector of the standard deviations of the control group for each experiment.
 #' @param SDt is a vector of the standard deviations of the the treatment group for each experiment.
@@ -222,7 +222,7 @@ transformZrtoHgapprox = function(Zr) {
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export transformZrtoHg
 #' @param Zr the normal variate
-#' @param Nc the number of observations (particpants) in the first (control) group
+#' @param Nc the number of observations (participants) in the first (control) group
 #' @param Nt the number of observations (participants) in the second (treatment) group
 #' @return value of Hedges' g
 #' @examples
@@ -244,7 +244,7 @@ transformZrtoHg = function(Zr, Nc, Nt) {
 #' @param Mt is a vector containing the mean value of the treatment group for each experiment.
 #' @param SDc is a vector of the standard deviations of the control group for each experiment.
 #' @param SDt is a vector of the standard deviations of the the treatment group for each experiment.
-#' @param Nc is a vector containing the the number of observations (particpants) in the control group for each experiment.
+#' @param Nc is a vector containing the the number of observations (participants) in the control group for each experiment.
 #' @param Nt is a vector of the number of observations (participants) in the treatment group for each experiment.
 #' @return data frame incl. calculated effect sizes (Hedges' g, Hedges' g adjusted), upper and lower confidence bounds on Hedges' g, zr, vi - variance of zr, r and pvalue
 #' @examples

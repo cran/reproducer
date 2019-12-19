@@ -4,9 +4,9 @@
 \name{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes}
 \alias{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes}
 \title{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes data}
-\format{A text file file with variables:
+\format{A text file with variables:
 \describe{
-\item{Study}{This field includes the study identifer of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
+\item{Study}{This field includes the study identifier of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
 \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 \item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
@@ -23,7 +23,7 @@
 KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes
 }
 \description{
-This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment (to be submitted).
+This data is used in the paper: Barbara Kitchenham, Lech Madeyski and Pearl Brereton. Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment, Empirical Software Engineering (2019) doi:10.1007/s10664-019-09747-0.
 This file holds the individual effect sizes for the first time period (or equivalently the first document), as reported by the 3 primary studies in the systematic review that reported results for each document/time period separately.
 }
 \examples{

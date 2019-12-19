@@ -9,9 +9,9 @@
 \item{Project}{Project ID}
 \item{DevEffort}{Development Effort measured in hours}
 \item{UserEffort}{Effort provided by the customer/user organisation measured in hours}
-\item{Duration}{Project duration measurted in months}
-\item{HWType}{A catagorical variable defining the hardware type}
-\item{AppType}{A categorical variable definiting the application type}
+\item{Duration}{Project duration measured in months}
+\item{HWType}{A categorical variable defining the hardware type}
+\item{AppType}{A categorical variable defining the application type}
 \item{FP}{Function Points measured using the TIEKE organisation method}
 \item{Co}{A categorical variable defining the company}
 }}
@@ -25,7 +25,7 @@ KitchenhamMadeyskiBudgen16.FINNISH
 If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
-Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchneham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
+Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchenham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 }
 \examples{
 KitchenhamMadeyskiBudgen16.FINNISH
