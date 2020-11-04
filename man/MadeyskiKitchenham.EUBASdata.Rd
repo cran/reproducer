@@ -4,7 +4,8 @@
 \name{MadeyskiKitchenham.EUBASdata}
 \alias{MadeyskiKitchenham.EUBASdata}
 \title{MadeyskiKitchenham.EUBASdata data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{ID}{Project ID}
 \item{TimePeriod}{Period of time (run): R1, R2}
@@ -13,9 +14,10 @@
 \item{Technique}{The independent variable. It is a nominal variable that can assume the following two values: AM (analysis models plus source code) and SC (source code alone)}
 \item{Comp_Level}{This denotes the comprehension level of the source code achieved by a software engineer}
 \item{Modi_Level}{This denotes the capability of a maintainer to modify source code}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 MadeyskiKitchenham.EUBASdata

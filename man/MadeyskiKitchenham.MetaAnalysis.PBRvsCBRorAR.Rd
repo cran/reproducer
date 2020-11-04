@@ -4,7 +4,8 @@
 \name{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
 \alias{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
 \title{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.}
-\format{A data frame with 17 rows and 26 variables:
+\format{
+A data frame with 17 rows and 26 variables:
 \describe{
 \item{Study}{Name of empirical study}
 \item{Ref.}{Reference to the paper reporting primary study or experimental run where data were originally reported}
@@ -31,9 +32,10 @@
 \item{ArtefactType}{The type of artefact: Requirements or Other}
 \item{AssociatedWithBasili}{Whether study is associated with Basili (the forerunner): Yes or No}
 \item{ControlType_Basili}{Combined ControlType and AssociatedWithBasili: AH_AssociatedWithBasili, CBR_AssociatedWithBasili, CBR_NotAssociatedWithBasili}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR

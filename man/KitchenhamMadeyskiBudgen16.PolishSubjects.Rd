@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBudgen16.PolishSubjects}
 \alias{KitchenhamMadeyskiBudgen16.PolishSubjects}
 \title{KitchenhamMadeyskiBudgen16.PolishSubjects data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{Judge}{The identifier for each subject}
 \item{Abstract}{The identifier for each abstract - the code starts with a three alphanumeric string that defines the source of the abstract}
@@ -29,15 +30,16 @@
 \item{Sum}{The sum of the numerical completeness questions excluding those labelled NA}
 \item{TotalQuestions}{The count of the number of question related to completeness excluding questions considered not applicable }
 \item{Completeness}{Sum/TotalQuestions}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBudgen16.PolishSubjects
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.

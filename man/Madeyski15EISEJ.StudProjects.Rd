@@ -4,21 +4,23 @@
 \name{Madeyski15EISEJ.StudProjects}
 \alias{Madeyski15EISEJ.StudProjects}
 \title{Madeyski15EISEJ.StudProjects data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{PROP}{The percentage of classes of proprietary (i.e., industrial) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on student (i.e., academic) projects.}
 \item{NOTSTUD}{The percentage of classes of projects which are not student projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on student (i.e., academic) projects.}
 \item{STUD}{The percentage of classes of student (i.e., academic) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on student (i.e., academic) projects.}
 \item{OPEN}{The percentage of classes of open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on student (i.e., academic) projects.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 Madeyski15EISEJ.StudProjects
 }
 \description{
-If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 }
 \examples{
 Madeyski15EISEJ.StudProjects

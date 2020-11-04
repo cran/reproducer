@@ -4,21 +4,23 @@
 \name{Madeyski15EISEJ.OpenProjects}
 \alias{Madeyski15EISEJ.OpenProjects}
 \title{Madeyski15EISEJ.OpenProjects data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{PROP}{The percentage of classes of proprietary (i.e., industrial) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on open source projects.}
 \item{NOTOPEN}{The percentage of classes of projects which are not open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on open source projects.}
 \item{STUD}{The percentage of classes of student (i.e., academic) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on open source projects.}
 \item{OPEN}{The percentage of classes of open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on open source projects.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 Madeyski15EISEJ.OpenProjects
 }
 \description{
-If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 }
 \details{
 This paper presents an analysis of 84 versions of industrial, open-source and academic projects. We have empirically evaluated whether those project types constitute separate classes of projects with regard to defect prediction. The predictions obtained from the models trained on the data from the open source projects were compared with the predictions from the other models (built on proprietary, i.e. industrial, student, open source, and not open source projects).

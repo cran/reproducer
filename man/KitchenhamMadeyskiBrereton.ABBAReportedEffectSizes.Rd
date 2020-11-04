@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes}
 \alias{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes}
 \title{KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes data}
-\format{A text file with variables:
+\format{
+A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
@@ -15,9 +16,10 @@
 \item{Exp3}{This is the reported standardised effect size for the first time period and the third experiment in the family.}
 \item{Exp4}{This is the reported standardised effect size for the first time period and the fourth experiment in the family. NA means there was no fourth experiment in the family.}
 \item{Exp5}{This is the reported standardised effect size for the first time period and the fifth experiment in the family. NA means there was no fifth experiment in the family.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes

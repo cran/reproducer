@@ -14,12 +14,12 @@ citEntry(
   number       = "3",
   pages        = "393--422",
   doi          = "10.1007/s11219-014-9241-7",
-  url          = "http://dx.doi.org/10.1007/s11219-014-9241-7",
+  url          = "https://dx.doi.org/10.1007/s11219-014-9241-7",
   textVersion  = paste("Lech Madeyski, Marian Jureczko (2015).",
         "Which process metrics can significantly improve defect prediction models? An empirical study.",
         "Software Quality Journal, vol. 23, no. 3, pp. 393-422",
         "DOI: 10.1007/s11219-014-9241-7",
-        "Online: http://dx.doi.org/10.1007/s11219-014-9241-7")
+        "Online: https://dx.doi.org/10.1007/s11219-014-9241-7")
 )
 
 citEntry(
@@ -33,12 +33,12 @@ citEntry(
   number       = "1",
   pages        = "21--35",
   doi          = "10.5277/e-Inf150102",
-  url          = "http://dx.doi.org/10.5277/e-Inf150102",
+  url          = "https://dx.doi.org/10.5277/e-Inf150102",
   textVersion  = paste("Marian Jureczko, Lech Madeyski (2015).",
         "Cross-project defect prediction with respect to code ownership model: An empirical study",
         "e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35",
         "DOI: 10.5277/e-Inf150102",
-        "Online: http://dx.doi.org/10.5277/e-Inf150102")
+        "Online: https://dx.doi.org/10.5277/e-Inf150102")
 )
 
 citEntry(
@@ -58,12 +58,12 @@ citEntry(
   number       = "2",
   pages        = "579--630",
   doi          = "10.1007/s10664-016-9437-5",
-  url          = "http://dx.doi.org/10.1007/s10664-016-9437-5",
+  url          = "https://dx.doi.org/10.1007/s10664-016-9437-5",
   textVersion  = paste("Barbara A. Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs and Amnart Pohthong (2017).",
         "Robust Statistical Methods for Empirical Software Engineering",
         "Empirical Software Engineering, vol. 22, no.2, p. 579-630",
         "DOI: 10.1007/s10664-016-9437-5",
-        "Online: http://dx.doi.org/10.1007/s10664-016-9437-5")
+        "Online: https://dx.doi.org/10.1007/s10664-016-9437-5")
 )
 
 citEntry(
@@ -77,12 +77,12 @@ citEntry(
   number       = "4",
   pages        = "1982--2017",
   doi          = "10.1007/s10664-017-9574-5",
-  url          = "http://doi.org/10.1007/s10664-017-9574-5",
+  url          = "https://doi.org/10.1007/s10664-017-9574-5",
   textVersion  = paste("Lech Madeyski and Barbara Kitchenham (2018)",
   "Effect Sizes and their Variance for AB/BA Crossover Design Studies",
   "Empirical Software Engineering, vol. 23, no.4, p. 1982-2017",
   "DOI: 10.1007/s10664-017-9574-5",
-  "Online: http://dx.doi.org/10.1007/s10664-017-9574-5")
+  "Online: https://dx.doi.org/10.1007/s10664-017-9574-5")
 )
 
 citEntry(
@@ -92,18 +92,18 @@ citEntry(
                    as.person("Lech Madeyski"),
                    as.person("Pearl Brereton")),
   journal      = "Empirical Software Engineering",
-  year         = "2019",
-  volume       = "",
-  number       = "",
-  pages        = "",
+  year         = "2020",
+  volume       = "25",
+  number       = "1",
+  pages        = "353--401",
   doi          = "10.1007/s10664-019-09747-0",
-  url          = "http://doi.org/10.1007/s10664-019-09747-0",
-  textVersion  = paste("Barbara Kitchenham, Lech Madeyski and Pearl Brereton (2019)",
+  url          = "https://doi.org/10.1007/s10664-019-09747-0",
+  textVersion  = paste("Barbara Kitchenham, Lech Madeyski and Pearl Brereton (2020)",
   "Meta-analysis for families of experiments in software engineering: ",
   "a systematic review and reproducibility and validity assessment",
-  "Empirical Software Engineering, vol. XX, no.X, p. XXXX-YYYY",
+  "Empirical Software Engineering, vol. 25, no.1, p. 353-401",
   "DOI: 10.1007/s10664-019-09747-0",
-  "Online: http://dx.doi.org/10.1007/s10664-019-09747-0")
+  "Online: https://dx.doi.org/10.1007/s10664-019-09747-0")
 )
 
 citEntry(
@@ -120,12 +120,12 @@ citEntry(
   pages        = "1--14",
   publisher    = "Springer",
   doi          = "10.1007/978-3-030-26574-8_1",
-  url          = "http://doi.org/10.1007/978-3-030-26574-8_1",
+  url          = "https://doi.org/10.1007/978-3-030-26574-8_1",
   textVersion  = paste("Tomasz Lewowski and Lech Madeyski (2020)",
   "Creating Evolving Project Data Sets in Software Engineering",
   "vol. 851 of Studies in Computational Intelligence, p.1-14, Springer",
   "DOI: 10.1007/s10664-019-09747-0",
-  "Online: http://dx.doi.org/10.1007/s10664-019-09747-0")
+  "Online: https://dx.doi.org/10.1007/s10664-019-09747-0")
 )
 
 citEntry(

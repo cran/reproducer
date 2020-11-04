@@ -2,7 +2,7 @@
 #'
 #' If you use this data set please cite: Lech Madeyski and Marian Jureczko, "Which Process Metrics Can Significantly Improve Defect Prediction Models? An Empirical Study," Software Quality Journal, vol. 23, no. 3, pp.393-422, 2015. DOI: 10.1007/s11219-014-9241-7
 #'
-#' "This paper presents an empirical evaluation in which several process metrics were investigated in order to identify the ones which significantly improve the defect prediction models based on product metrics. Data from a wide range of software projects (both, industrial and open source) were collected. The predictions of the models that use only product metrics (simple models) were compared with the predictions of the models which used product metrics, as well as one of the process metrics under scrutiny (advanced models). To decide whether the improvements were significant or not, statistical tests were performed and effect sizes were calculated. The advanced defect prediction models trained on a data set containing product metrics and additionally Number of Distinct Committers (NDC) were significantly better than the simple models without NDC, while the effect size was medium and the probability of superiority (PS) of the advanced models over simple ones was high (p=.016, r=-.29, PS=.76), which is a substantial finding useful in defect prediction. A similar result with slightly smaller PS was achieved by the advanced models trained on a data set containing product metrics and additionally all of the investigated process metrics (p=.038, r=-.29, PS=.68). The advanced models trained on a data set containing product metrics and additionally Number of Modified Lines (NML) were significantly better than the simple models without NML, but the effect size was small (p=.038, r=.06). Hence, it is reasonable to recommend the NDC process metric in building the defect prediction models." [http://dx.doi.org/10.1007/s11219-014-9241-7]
+#' "This paper presents an empirical evaluation in which several process metrics were investigated in order to identify the ones which significantly improve the defect prediction models based on product metrics. Data from a wide range of software projects (both, industrial and open source) were collected. The predictions of the models that use only product metrics (simple models) were compared with the predictions of the models which used product metrics, as well as one of the process metrics under scrutiny (advanced models). To decide whether the improvements were significant or not, statistical tests were performed and effect sizes were calculated. The advanced defect prediction models trained on a data set containing product metrics and additionally Number of Distinct Committers (NDC) were significantly better than the simple models without NDC, while the effect size was medium and the probability of superiority (PS) of the advanced models over simple ones was high (p=.016, r=-.29, PS=.76), which is a substantial finding useful in defect prediction. A similar result with slightly smaller PS was achieved by the advanced models trained on a data set containing product metrics and additionally all of the investigated process metrics (p=.038, r=-.29, PS=.68). The advanced models trained on a data set containing product metrics and additionally Number of Modified Lines (NML) were significantly better than the simple models without NML, but the effect size was small (p=.038, r=.06). Hence, it is reasonable to recommend the NDC process metric in building the defect prediction models." [https://dx.doi.org/10.1007/s11219-014-9241-7]
 #'
 #'
 #' @format A data frame with variables:
@@ -12,7 +12,7 @@
 #' \item{advanced}{The percentage of classes that must be tested in order to find 80\% of defects in case of advanced defect prediction models, using not only software product metrics but also the NDC (Number of distinct committers) process metric.}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' Madeyski15SQJ.NDC
 #'
@@ -20,7 +20,7 @@
 
 #' Madeyski15EISEJ.OpenProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' This paper presents an analysis of 84 versions of industrial, open-source and academic projects. We have empirically evaluated whether those project types constitute separate classes of projects with regard to defect prediction. The predictions obtained from the models trained on the data from the open source projects were compared with the predictions from the other models (built on proprietary, i.e. industrial, student, open source, and not open source projects).
 #'
@@ -33,7 +33,7 @@
 #' \item{OPEN}{The percentage of classes of open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on open source projects.}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' Madeyski15EISEJ.OpenProjects
 #'
@@ -41,7 +41,7 @@
 
 #' Madeyski15EISEJ.PropProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -51,7 +51,7 @@
 #' \item{PROP}{The percentage of classes of proprietary (i.e., industrial) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on proprietary (i.e., industrial) projects.}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' Madeyski15EISEJ.PropProjects
 #'
@@ -60,7 +60,7 @@
 
 #' Madeyski15EISEJ.StudProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -70,7 +70,7 @@
 #' \item{OPEN}{The percentage of classes of open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on student (i.e., academic) projects.}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' Madeyski15EISEJ.StudProjects
 #'
@@ -90,7 +90,7 @@
 #' \item{d_ByCiolkowski}{d effect size calculated by Ciolkowski}
 #' \item{d_ByOriginalAuthors}{d effect size as reported by the original authors}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR
 #'
@@ -129,7 +129,7 @@
 #' \item{AssociatedWithBasili}{Whether study is associated with Basili (the forerunner): Yes or No}
 #' \item{ControlType_Basili}{Combined ControlType and AssociatedWithBasili: AH_AssociatedWithBasili, CBR_AssociatedWithBasili, CBR_NotAssociatedWithBasili}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
 #'
@@ -138,7 +138,7 @@
 
 #' KitchenhamMadeyskiBudgen16.FINNISH data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchenham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
@@ -154,7 +154,7 @@
 #' \item{Co}{A categorical variable defining the company}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.FINNISH
 #'
@@ -162,7 +162,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishSubjects data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.
 #'
@@ -196,7 +196,7 @@
 #' \item{Completeness}{Sum/TotalQuestions}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.PolishSubjects
 #'
@@ -205,7 +205,7 @@
 
 #' KitchenhamMadeyskiBudgen16.SubjectData
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
 #'
@@ -240,7 +240,7 @@
 #' \item{Site}{The name of the site which provided the data. HongKong refers to the Polytechnic University, HongKong.2 refers to the City University}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.SubjectData
 #'
@@ -249,7 +249,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.
 #'
@@ -258,9 +258,9 @@
 #' \describe{
 #' \item{Abstract}{The abstract identifier}
 #' \item{Site}{Numeric identifier for the site}
-#' \item{Treatment}{The first three characters of the Abstract field which identies the journal and time period of the abstract}
-#' \item{Journal}{An acronym for the journal from which the abstarct was obtained: IST or JSS}
-#' \item{Timeperiod}{The Time period in which the abstarct was found: 1 or 2}
+#' \item{Treatment}{The first three characters of the Abstract field which identifies the journal and time period of the abstract}
+#' \item{Journal}{An acronym for the journal from which the abstract was obtained: IST or JSS}
+#' \item{Timeperiod}{The Time period in which the abstract was found: 1 or 2}
 #' \item{J1}{The identifier for the judge who made the next 2 assessments}
 #' \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 #' \item{J1Clarity}{The clarity assessment made by judge J1}
@@ -277,7 +277,7 @@
 #' \item{MedianClarity}{The median of J1Clarity, J2Clarity, J3Clarity, J4Clarity}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.PolishData
 #'
@@ -286,7 +286,7 @@
 
 #' KitchenhamMadeyskiBudgen16.DiffInDiffData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.
 #'
@@ -318,7 +318,7 @@
 #' \item{VarClarity}{The variance clarity of J1Clarity, J2Clarity, J3Clarity, J4Clarity}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.DiffInDiffData
 #'
@@ -327,11 +327,11 @@
 
 #' KitchenhamMadeyskiBudgen16.COCOMO data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #'Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
 #'
-#'Explanations by Barbara Kitchehnam / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
+#'Explanations by Barbara Kitchenham / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
 #'
 #' COCOMO.txt: pro	type	year	Lang	Rely	Data	CPLX	aaf	time	store	virt	turn	type2	acap	aexp	pcap	vexp	lexp	cont	modp	TOOL	TOOLcat	SCED	RVOL	Select	rvolcat	Modecat	Mode1	Mode2	Mode3	KDSI	AKDSI	Effort	Dur	Productivity
 #' @format A data frame with variables:
@@ -373,7 +373,7 @@
 #' \item{Productivity}{Productivity of project calculated by BAK as AKDSI/Effort, so the the larger the value the better the productivity}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBudgen16.COCOMO
 #'
@@ -397,7 +397,7 @@
 #' \item{WrongTSig}{...}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyski.SimulatedCrossoverDataSets
 #'
@@ -421,7 +421,7 @@
 #' \item{Modi_Level}{This denotes the capability of a maintainer to modify source code}
 #' }
 #'
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' MadeyskiKitchenham.EUBASdata
 #'
@@ -445,7 +445,7 @@
 #' \item{QE}{The heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
 #' \item{Qep}{The p-value of the heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults
 #'
@@ -467,7 +467,7 @@
 #' \item{QE}{The heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
 #' \item{Qep}{The p-value of the heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.ABBAMetaAnalysisReportedResults
 #'
@@ -481,16 +481,16 @@
 #' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
-#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropropriately specified as gRM, r refers to the point bi-serial correlation.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropriately specified as gRM, r refers to the point bi-serial correlation.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
-#' \item{Design}{The refers to the design method used by the study author. 4GroupCO is a 4-group crossover design. Mixed means different experiments in a particular family used different methods (only S3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. IndGroups is the independent groups design also called between groups design or a randomised design. PrePost is pretest and posttest design with a post test control.}
+#' \item{Design}{The refers to the design method used by the study author. 4GroupCO is a 4-group crossover design. Mixed means different experiments in a particular family used different methods (only S3 used mixed methods and 4 experiments used the 4 group crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. IndGroups is the independent groups design also called between groups design or a randomised design. PrePost is pretest and posttest design with a post test control.}
 #' \item{Exp1}{This is the reported standardised effect size for the first experiment in the family.}
 #' \item{Exp2}{This is the reported standardised effect size for the second experiment in the family.}
 #' \item{Exp3}{This is the reported standardised effect size for the third experiment in the family.}
 #' \item{Exp4}{This is the reported standardised effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
 #' \item{Exp5}{This is the reported standardised effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.ReportedEffectSizes
 #'
@@ -513,7 +513,7 @@
 #' \item{Exp4}{This is the reported standardised effect size for the first time period and the fourth experiment in the family. NA means there was no fourth experiment in the family.}
 #' \item{Exp5}{This is the reported standardised effect size for the first time period and the fifth experiment in the family. NA means there was no fifth experiment in the family.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.ABBAReportedEffectSizes
 #'
@@ -537,7 +537,7 @@
 #' \item{Nt}{The number of participants using the treatment technique in the first time period.}
 #' \item{r}{The correlation between repeated measures. NA if not reported. Note only study 13 reported this correlation.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.ExpData
 #'
@@ -560,7 +560,7 @@
 #' \item{SDt}{The standard deviation of the observations obtained using the treatment technique for the identified document.}
 #' \item{Nt}{The number of participants using the treatment technique in the first time period for the identified document.}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' KitchenhamMadeyskiBrereton.DocData
 #'
@@ -615,7 +615,7 @@
 #' \item{Language}{main programming language used in the repository, i.e. one that the most code is written in (source: API)}
 #' \item{searchQuery}{query used during search that obtained this project (source: API)}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324
 #'
@@ -672,9 +672,10 @@
 #' \item{Language}{main programming language used in the repository, i.e. one that the most code is written in (source: API)}
 #' \item{searchQuery}{query used during search that obtained this project (source: API)}
 #' }
-#' @source \url{http://madeyski.e-informatyka.pl/reproducible-research/}
+#' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022
 #'
 "MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022"
+
 

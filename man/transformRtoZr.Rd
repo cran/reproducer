@@ -16,9 +16,9 @@ value of normal approximation of point biserial r
 The function transforms a vector of point biserial r values to their normal approximation. It also works for the correlation r.
 }
 \examples{
-transformRtoZr(0.4)
+reproducer::transformRtoZr(0.4)
 # [1] 0.4236489
-Zr=transformRtoZr(c(0.4,0.2))
+Zr=reproducer::transformRtoZr(c(0.4,0.2))
 Zr
 # [1] 0.4236489 0.2027326
 }

@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBudgen16.COCOMO}
 \alias{KitchenhamMadeyskiBudgen16.COCOMO}
 \title{KitchenhamMadeyskiBudgen16.COCOMO data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{Project}{Project ID}
 \item{Type}{A categorical variable describing the type of the project}
@@ -41,20 +42,21 @@
 \item{Effort}{Project Effort in Man months}
 \item{Duration}{Duration in months}
 \item{Productivity}{Productivity of project calculated by BAK as AKDSI/Effort, so the the larger the value the better the productivity}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBudgen16.COCOMO
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
 
-Explanations by Barbara Kitchehnam / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
+Explanations by Barbara Kitchenham / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
 
 COCOMO.txt: pro	type	year	Lang	Rely	Data	CPLX	aaf	time	store	virt	turn	type2	acap	aexp	pcap	vexp	lexp	cont	modp	TOOL	TOOLcat	SCED	RVOL	Select	rvolcat	Modecat	Mode1	Mode2	Mode3	KDSI	AKDSI	Effort	Dur	Productivity
 }

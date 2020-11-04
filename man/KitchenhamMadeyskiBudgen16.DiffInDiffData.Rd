@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBudgen16.DiffInDiffData}
 \alias{KitchenhamMadeyskiBudgen16.DiffInDiffData}
 \title{KitchenhamMadeyskiBudgen16.DiffInDiffData data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{Abstract}{The abstract identifier}
 \item{Site}{A numeric identifier of the site}
@@ -29,15 +30,16 @@
 \item{MeanClarity}{The mean clarity of J1Clarity, J2Clarity, J3Clarity, J4Clarity}
 \item{VarCompleteness}{The variance of J1Completeness, J2Completeness, J3Completeness, J4Completeness}
 \item{VarClarity}{The variance clarity of J1Clarity, J2Clarity, J3Clarity, J4Clarity}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBudgen16.DiffInDiffData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.

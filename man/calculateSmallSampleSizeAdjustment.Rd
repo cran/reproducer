@@ -15,7 +15,7 @@ calculateSmallSampleSizeAdjustment(df, exact = TRUE)
 small sample size adjustment value
 }
 \description{
-Function calculates the small sample size adjustment for standardized mean effect sizes
+Function calculates the Hedges small sample size adjustment for standardized mean effect sizes. It calculates the exact value unless the caller sets the parameter exact to FALSE, or the degrees of freedom is too large.
 }
 \examples{
 df <- 2

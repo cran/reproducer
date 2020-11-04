@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBrereton.DocData}
 \alias{KitchenhamMadeyskiBrereton.DocData}
 \title{KitchenhamMadeyskiBrereton.DocData data}
-\format{A text file with variables:
+\format{
+A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 3 primary studies which reported their basic statistics on a time period & document basis. }
 \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
@@ -15,9 +16,10 @@
 \item{Mt}{The mean value of the observations obtained using the treatment technique for the identified document.}
 \item{SDt}{The standard deviation of the observations obtained using the treatment technique for the identified document.}
 \item{Nt}{The number of participants using the treatment technique in the first time period for the identified document.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBrereton.DocData

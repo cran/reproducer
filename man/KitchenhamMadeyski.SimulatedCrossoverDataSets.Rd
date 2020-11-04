@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyski.SimulatedCrossoverDataSets}
 \alias{KitchenhamMadeyski.SimulatedCrossoverDataSets}
 \title{KitchenhamMadeyski.SimulatedCrossoverDataSets data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{actualSampleSize}{Sample size}
 \item{SSFull}{Sample Size}
@@ -13,9 +14,10 @@
 \item{Accuracy}{Accuracy}
 \item{PropSig}{...}
 \item{WrongTSig}{...}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyski.SimulatedCrossoverDataSets

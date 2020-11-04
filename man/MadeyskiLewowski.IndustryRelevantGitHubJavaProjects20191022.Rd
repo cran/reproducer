@@ -4,7 +4,8 @@
 \name{MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022}
 \alias{MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022}
 \title{MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022 data}
-\format{A text file with variables:
+\format{
+A text file with variables:
 \describe{
 \item{rowID}{unique id assigned to projects before filtering (source: API)}
 \item{id}{GitHub repository ID (source: API)}
@@ -46,9 +47,10 @@ LI	LinkedIn
 \item{Java.byte.count}{total size of Java files (source: API)}
 \item{Language}{main programming language used in the repository, i.e. one that the most code is written in (source: API)}
 \item{searchQuery}{query used during search that obtained this project (source: API)}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022

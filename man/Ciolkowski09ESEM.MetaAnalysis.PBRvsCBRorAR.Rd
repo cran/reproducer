@@ -4,7 +4,8 @@
 \name{Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR}
 \alias{Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR}
 \title{Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were reported and analysed by M. Ciolkowski ("What do we know about perspective-based reading? an approach for quantitative aggregation in software engineering", in Proceedings of the 3rd International Symposium on Empirical Software Engineering and Measurement, ESEM'09, pp. 133-144, IEEE Computer Society, 2009), corrected and re-analysed by Madeyski and Kitchenham ("How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis" (to be submitted)).}
-\format{A data frame with 21 rows and 7 variables:
+\format{
+A data frame with 21 rows and 7 variables:
 \describe{
 \item{Study}{Name of empirical study}
 \item{Ref.}{Reference to the paper reporting primary study or experimental run where data were originally reported}
@@ -13,9 +14,10 @@
 \item{Cross-over}{Yes - if the primary study used the cross-over experimental design, No - if the primary study did not use the cross-over experimental design}
 \item{d_ByCiolkowski}{d effect size calculated by Ciolkowski}
 \item{d_ByOriginalAuthors}{d effect size as reported by the original authors}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR

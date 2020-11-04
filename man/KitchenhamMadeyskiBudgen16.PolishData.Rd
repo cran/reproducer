@@ -4,13 +4,14 @@
 \name{KitchenhamMadeyskiBudgen16.PolishData}
 \alias{KitchenhamMadeyskiBudgen16.PolishData}
 \title{KitchenhamMadeyskiBudgen16.PolishData data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{Abstract}{The abstract identifier}
 \item{Site}{Numeric identifier for the site}
-\item{Treatment}{The first three characters of the Abstract field which identies the journal and time period of the abstract}
-\item{Journal}{An acronym for the journal from which the abstarct was obtained: IST or JSS}
-\item{Timeperiod}{The Time period in which the abstarct was found: 1 or 2}
+\item{Treatment}{The first three characters of the Abstract field which identifies the journal and time period of the abstract}
+\item{Journal}{An acronym for the journal from which the abstract was obtained: IST or JSS}
+\item{Timeperiod}{The Time period in which the abstract was found: 1 or 2}
 \item{J1}{The identifier for the judge who made the next 2 assessments}
 \item{J1Completeness}{The average completeness made by judge J1 based on the 8 completeness questions}
 \item{J1Clarity}{The clarity assessment made by judge J1}
@@ -25,15 +26,16 @@
 \item{J4Clarity}{The clarity assessment made by judge J4}
 \item{MedianCompleteness}{The median of J1Completeness, J2Completeness, J3Completeness, J4Completeness}
 \item{MedianClarity}{The median of J1Clarity, J2Clarity, J3Clarity, J4Clarity}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBudgen16.PolishData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.

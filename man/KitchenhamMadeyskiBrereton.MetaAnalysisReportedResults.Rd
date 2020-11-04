@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults}
 \alias{KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults}
 \title{KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults data}
-\format{A text file file with variables:
+\format{
+A text file file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
@@ -15,9 +16,10 @@
 \item{LB}{The lower bound of the confidence interval of the overall mean as reported by the primary study authors. NA means the authors did not report this statistic.}
 \item{QE}{The heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
 \item{Qep}{The p-value of the heterogeneity statistic associated with the meta-analysis as reported by the study authors. NA means the authors did not report this statistic.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBrereton.MetaAnalysisReportedResults

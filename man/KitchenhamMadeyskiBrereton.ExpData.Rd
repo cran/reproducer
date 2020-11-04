@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBrereton.ExpData}
 \alias{KitchenhamMadeyskiBrereton.ExpData}
 \title{KitchenhamMadeyskiBrereton.ExpData data}
-\format{A text file with variables:
+\format{
+A text file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review. }
 \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
@@ -16,9 +17,10 @@
 \item{SDt}{The standard deviation of the observations obtained using the treatment technique.}
 \item{Nt}{The number of participants using the treatment technique in the first time period.}
 \item{r}{The correlation between repeated measures. NA if not reported. Note only study 13 reported this correlation.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBrereton.ExpData

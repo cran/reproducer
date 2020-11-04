@@ -1,3 +1,37 @@
+# CHANGES IN reproducer VERSION 0.4.0
+
+## NEW FEATURES
+- Data set: 
+`KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE`,
+`KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM`,
+
+
+- Functions including computational procedures used to reproduce the main findings in a joint paper
+(planned to be submitted): Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and 
+Carmine Gravino, "The importance of the Correlation between Results from Individual Participants in 
+Crossover Experiments": 
+`CalculateRLevel1`,
+`ExtractGroupSizeData`,
+`ConstructLevel1ExperimentRData`,
+`ExtractExperimentData`,
+`CalculateLevel2ExperimentRData`,
+`ExtractSummaryStatisticsRandomizedExp`,
+`calculateBasicStatistics`,
+`calculateGroupSummaryStatistics`,
+`rSimulations`
+
+
 # CHANGES IN reproducer VERSION 0.3.1
 
 ## NEW FEATURES
@@ -160,4 +194,4 @@ and functions (for importing data, visualization and descriptive analyses):
     - `boxplotHV`
     - `boxplotAndDensityCurveOnHistogram`
 
-See the package homepage (http://madeyski.e-informatyka.pl/reproducible-research/) for documentation and examples.
+See the package homepage (https://madeyski.e-informatyka.pl/reproducible-research/) for documentation and examples.

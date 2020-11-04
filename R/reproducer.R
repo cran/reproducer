@@ -26,7 +26,7 @@ readExcelSheet <- function(path, sheet, colNames){
 #' @return A figure being a density curve overlaid on histogram
 #' @examples
 #' densityCurveOnHistogram(Madeyski15EISEJ.PropProjects, "STUD", 0, 100)
-#' densityCurveOnHistogram(data.frame(x<-rnorm(50, mean=50, sd=5)), "x", 0, 100)
+#' # densityCurveOnHistogram(data.frame(x<-rnorm(50, mean=50, sd=5)), "x", 0, 100)
 densityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
   p1 <- ggplot2::ggplot(df, ggplot2::aes_string(x=colName), environment = environment()) +
     ggplot2::xlab("") +

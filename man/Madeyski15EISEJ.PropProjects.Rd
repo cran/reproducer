@@ -4,21 +4,23 @@
 \name{Madeyski15EISEJ.PropProjects}
 \alias{Madeyski15EISEJ.PropProjects}
 \title{Madeyski15EISEJ.PropProjects data}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{NOTPROP}{The percentage of classes of non-proprietary (i.e., non-industrial) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on proprietary (i.e., industrial) projects.}
 \item{OPEN}{The percentage of classes of open source projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on proprietary (i.e., industrial) projects.}
 \item{STUD}{The percentage of classes of student (i.e., academic) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on proprietary (i.e., industrial) projects.}
 \item{PROP}{The percentage of classes of proprietary (i.e., industrial) projects that must be tested in order to find 80\% of defects in case of software defect prediction models built on proprietary (i.e., industrial) projects.}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 Madeyski15EISEJ.PropProjects
 }
 \description{
-If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (http://dx.doi.org/10.5277/e-Inf150102) URL: http://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 }
 \examples{
 Madeyski15EISEJ.PropProjects

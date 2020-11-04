@@ -1,6 +1,6 @@
 # reproducer
 
-The R package **reproducer** is aimed to support reproducible research in software engineering. See the package [homepage](http://madeyski.e-informatyka.pl/reproducible-research/) for details and examples.
+The R package **reproducer** is aimed to support reproducible research in software engineering. See the package [homepage](https://madeyski.e-informatyka.pl/reproducible-research/) for details and examples.
 
 ## Installation
 
@@ -14,9 +14,9 @@ install.packages('reproducer', dependencies = TRUE)
 You can use **devtools** to install the development version from my web site:
 
 ```r
-install.packages("devtools", dependencies = T, repos = "http://cran.r-project.org/")
+install.packages("devtools", dependencies = T, repos = "https://cran.r-project.org/")
 library(devtools)
-devtools::install_url("http://madeyski.e-informatyka.pl/download/R/reproducer_0.3.0.tar.gz")
+devtools::install_url("https://madeyski.e-informatyka.pl/download/R/reproducer_0.4.0.tar.gz")
 library(reproducer)
 ```
 

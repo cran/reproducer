@@ -5,7 +5,7 @@
 
 
 #' @title calculateSmallSampleSizeAdjustment
-#' @description Function calculates the small sample size adjustment for standardized mean effect sizes
+#' @description Function calculates the Hedges small sample size adjustment for standardized mean effect sizes. It calculates the exact value unless the caller sets the parameter exact to FALSE, or the degrees of freedom is too large.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export calculateSmallSampleSizeAdjustment
 #' @param df A vector of degrees of freedom
@@ -23,6 +23,7 @@
 #' # adjapprox=0.8421053 0.9230769 0.9552239
 calculateSmallSampleSizeAdjustment = function(df, exact = TRUE) {
   exactvec = c(rep(exact, length(df)))
+  # If exact is TRUE but the df is too large gamma cannot be calculated and the approximate value is used
   c = ifelse(exactvec, sqrt(2 / df) * gamma(df / 2) / gamma((df - 1) / 2) , (1 - 3 / (4 * df - 1)))
   return(c)
 }
@@ -79,9 +80,9 @@ constructEffectSizes = function(Mc, Mt, SDc, SDt, Nc, Nt) {
 #' @param r A vector of r-values
 #' @return value of normal approximation of point biserial r
 #' @examples
-#' transformRtoZr(0.4)
+#' reproducer::transformRtoZr(0.4)
 #' # [1] 0.4236489
-#' Zr=transformRtoZr(c(0.4,0.2))
+#' Zr=reproducer::transformRtoZr(c(0.4,0.2))
 #' Zr
 #' # [1] 0.4236489 0.2027326
 transformRtoZr = function(r) {

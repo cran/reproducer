@@ -4,7 +4,8 @@
 \name{KitchenhamMadeyskiBudgen16.SubjectData}
 \alias{KitchenhamMadeyskiBudgen16.SubjectData}
 \title{KitchenhamMadeyskiBudgen16.SubjectData}
-\format{A data frame with variables:
+\format{
+A data frame with variables:
 \describe{
 \item{Judge}{Alphanumeric identifier for each judge}
 \item{Institution}{Numerical value identifying each site from which data was collected}
@@ -31,15 +32,16 @@
 \item{TotalScore}{Sum of the numeric values of the 8 completeness questions}
 \item{MeanScore}{Sum of the completeness questions 1 to 8 divided by TotalScore}
 \item{Site}{The name of the site which provided the data. HongKong refers to the Polytechnic University, HongKong.2 refers to the City University}
-}}
+}
+}
 \source{
-\url{http://madeyski.e-informatyka.pl/reproducible-research/}
+\url{https://madeyski.e-informatyka.pl/reproducible-research/}
 }
 \usage{
 KitchenhamMadeyskiBudgen16.SubjectData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (http://dx.doi.org/10.1007/s10664-016-9437-5), URL: http://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
