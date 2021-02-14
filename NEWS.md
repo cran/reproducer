@@ -1,3 +1,26 @@
+# CHANGES IN reproducer VERSION 0.4.1
+
+## NEW FEATURES
+- New functions including computational procedures used to reproduce the main findings in a joint paper
+(planned to be submitted): Barbara Kitchenham, Lech Madeyski, "Non-parametric Effect Sizes and Their Meta-analysis": 
+`varStandardizedEffectSize`,
+`RandomizedBlocksAnalysis`,
+`Kendalltaupb`,
+`Cliffd`,
+`calculatePhat`,
+`Calc4GroupNPStats`,
+`LaplaceDist`,
+`simulateRandomizedDesignEffectSizes`,
+`RandomExperimentSimulations`,
+`simulateRandomizedBlockDesignEffectSizes`,
+`RandomizedBlocksExperimentSimulations`,
+`NP4GroupMetaAnalysisSimulation`,
+`NP2GroupMetaAnalysisSimulation`,
+`MetaAnalysisSimulations`,
+`CalculateTheoreticalEffectSizes`,
+`RandomizedDesignEffectSizes`,
+`RandomizedBlockDesignEffectSizes`
+
 # CHANGES IN reproducer VERSION 0.4.0
 
 ## NEW FEATURES
@@ -17,10 +40,9 @@
 `KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM`,
 
 
-- Functions including computational procedures used to reproduce the main findings in a joint paper
+- New functions including computational procedures used to reproduce the main findings in a joint paper
 (planned to be submitted): Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and 
-Carmine Gravino, "The importance of the Correlation between Results from Individual Participants in 
-Crossover Experiments": 
+Carmine Gravino, "The Importance of the Correlation in Crossover Experiments": 
 `CalculateRLevel1`,
 `ExtractGroupSizeData`,
 `ConstructLevel1ExperimentRData`,
