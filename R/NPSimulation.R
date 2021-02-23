@@ -846,7 +846,7 @@ ExtractMAStatistics = function(maresults,
 #' @title simulateRandomizedDesignEffectSizes
 #' @description This simulates one of four distributions, and finds the values of ktau, phat and Cliffs d and their variances. It assumes equal group sizes. It returns values of the effect sizes and their variance for a simulated randomized experiment with two treatments.  It returns whether to not each non-parametric effect size was significant. It also returns the parametric (unstandardized and unstandardized) Effect Size and the whether the t-test was signficiant.
 #' @author Barbara Kitchenham and Lech Madeyski
-#' @export simulateRandomzedDesignEffectSizes
+#' @export simulateRandomizedDesignEffectSizes
 #' @param mean The mean used for one of the treatment groups
 #' @param sd The spread used for both treatment groups. It mus be a real value greater than 0.
 #' @param diff This is added to the parameter mean, to define the mean of the other treatment group. It can be a real value avd can take the value zero.
@@ -856,7 +856,7 @@ ExtractMAStatistics = function(maresults,
 #' @return data frame incl. the non-parametric and parametric effect sizes and whether the effect sizes are significant at the 0.05 level.
 #' @examples
 #' set.seed(123)
-#' simulateRandomzedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="n",StdAdj=0)
+#' simulateRandomizedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="n",StdAdj=0)
 #' # A tibble: 1 x 15
 #' # phat varphat dfphat sigphat     d   vard sigd    cor varcor sigCVt ttestp    ES Variance StdES
 #' # MedDiff
@@ -866,7 +866,7 @@ ExtractMAStatistics = function(maresults,
 #' # 1.26
 #' set.seed(123)
 
-#' simulateRandomzedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="l",StdAdj=0)
+#' simulateRandomizedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="l",StdAdj=0)
 #' # A tibble: 1 x 19
 #' #   phat varphat dfphat sigphat     d   vard sigd    cor varcor sigCVt ttestp    ES Variance
 #' # StdES MedDiff transttest
@@ -876,7 +876,7 @@ ExtractMAStatistics = function(maresults,
 #' # 0.802    2.32     0.0507
 #' # … with 3 more variables: EStrans <dbl>, StdEStrans <dbl>, VarTrans <dbl>
 
-simulateRandomzedDesignEffectSizes = function(mean,
+simulateRandomizedDesignEffectSizes = function(mean,
                                               sd,
                                               diff,
                                               N,
@@ -1101,7 +1101,7 @@ RandomExperimentSimulations = function(mean,
   base::set.seed(seed)
   for (i in 1:reps) {
     # Call the program that generates the random data sets and calculates the sample statistics.
-    res = simulateRandomzedDesignEffectSizes(mean, sd, diff, N, type, StdAdj)
+    res = simulateRandomizedDesignEffectSizes(mean, sd, diff, N, type, StdAdj)
 
     if (returnData == FALSE) {
       # Aggregate data to provide counts of significance and overall effect size averages
@@ -1433,8 +1433,8 @@ simulateRandomizedBlockDesignEffectSizes = function(mean,
 }
 
 
-#' title RandomizedBlocksExperimentSimulations
-#' description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
+#' @title RandomizedBlocksExperimentSimulations
+#' @description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export RandomizedBlocksExperimentSimulations
 #' @param mean The default mean for all 4 groups. The default for the two treatment groups can be altered using the parameter diff and the block mean for block 2 can be altered using the parameter Blockmean.

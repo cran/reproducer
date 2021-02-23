@@ -2,8 +2,7 @@
 % Please edit documentation in R/NPSimulation.R
 \name{RandomizedBlocksExperimentSimulations}
 \alias{RandomizedBlocksExperimentSimulations}
-\title{title RandomizedBlocksExperimentSimulations
-description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.}
+\title{RandomizedBlocksExperimentSimulations}
 \usage{
 RandomizedBlocksExperimentSimulations(
   mean,
@@ -69,8 +68,7 @@ RandomizedBlocksExperimentSimulations(mean=0,sd=1,diff=0.5,N=10, reps=10,type="n
 #10 -0.03  0.485 0.124
 }
 \description{
-title RandomizedBlocksExperimentSimulations
-description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
+This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

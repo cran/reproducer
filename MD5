@@ -1,9 +1,9 @@
-1fa3be037921778c358e16740dc8084f *DESCRIPTION
-01a80d19b224358c2fd32450c2c6e3ed *NAMESPACE
-3dd93a3b9d93c294f3497759adbf64cb *NEWS.md
+995b3f21adc4451451200c6737c13a96 *DESCRIPTION
+e85a22c6be925f7e5810958df0557fdc *NAMESPACE
+62311f3fd4d727b878b7c1b0cdb8291b *NEWS.md
 4533a33eb674b5c2aca6b956da4aeec1 *R/MadeyskiKitchenhamMetaAnalysis.R
 34b0fc89d8a1273003e912fe8fcf9408 *R/MetaAnalysisForFamiliesOfExperimentsSR.R
-528b3d3c2ae40656ca40393e913a7879 *R/NPSimulation.R
+4101af89983f99de7134675ef10e66d6 *R/NPSimulation.R
 26fbbe251bca47efcd0096d9a9937521 *R/data.R
 bbd491b5cff2b6d87b82a226bbfb36db *R/github.R
 f41a562f9ac65c74dfa967194cb28826 *R/rPaperData.R
@@ -104,7 +104,7 @@ cd906619cce809462cf7b403df41c035 *man/MadeyskiKitchenham.MetaAnalysis.PBRvsCBRor
 6daca0a2154f10ce36faa782baf34ed9 *man/RandomExperimentSimulations.Rd
 623ca1eecdf57a9b9f2a377fca790953 *man/RandomizedBlockDesignEffectSizes.Rd
 a0dba2c04aa4ee1ff0053bfb5aad3389 *man/RandomizedBlocksAnalysis.Rd
-1991d495f3221b50b7401e429cf2056b *man/RandomizedBlocksExperimentSimulations.Rd
+3b3dcf024a36184e57e6abd0a9e3362d *man/RandomizedBlocksExperimentSimulations.Rd
 c3c285413d78446f72d595a3a4815eee *man/RandomizedDesignEffectSizes.Rd
 8d0c86e059d201b4f639645d1f44e1ba *man/aggregateIndividualDocumentStatistics.Rd
 b0085b13d5bf72de790bc80d67f0d2d0 *man/boxplotAndDensityCurveOnHistogram.Rd
@@ -140,7 +140,7 @@ b9b61f96296f6f6249d0831def41ddbd *man/reproduceTableWithSourceDataByCiolkowski.R
 0ac604d1f6a0d90a307a09b48f02b341 *man/reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments.Rd
 86faffb1c15e46ff95ddef5397520e09 *man/searchForIndustryRelevantGitHubProjects.Rd
 821e07baa451e7c9e22da1f0002b7685 *man/simulateRandomizedBlockDesignEffectSizes.Rd
-a2987c50ccbcc084c75289d80663a6ee *man/simulateRandomzedDesignEffectSizes.Rd
+c6c14378fad65f54ee9cf179a959ae60 *man/simulateRandomizedDesignEffectSizes.Rd
 0f84620087f07d191056428205d9c1c4 *man/transformHgtoR.Rd
 5946fda7eb0690a71f9dd0a89eac7f0d *man/transformHgtoZr.Rd
 6eb74c79904488bd3c99901902500a47 *man/transformRtoHg.Rd

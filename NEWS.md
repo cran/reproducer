@@ -1,3 +1,9 @@
+# CHANGES IN reproducer VERSION 0.4.2
+
+## UPDATED FEATURES
+- Corrected typo in @export of simulateRandomizedDesignEffectSizes
+- Corrected typo - lack of ‘@‘ in title and description of RandomizedBlocksExperimentSimulations
+
 # CHANGES IN reproducer VERSION 0.4.1
 
 ## NEW FEATURES
