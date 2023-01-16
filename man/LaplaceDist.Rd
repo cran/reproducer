@@ -13,9 +13,9 @@ LaplaceDist(N, mean, spread, max = 0.5, min = -0.5)
 
 \item{spread}{is the spread of the function}
 
-\item{max}{upper limits of the distribution, must be finite}
+\item{max}{the upper limit of the distribution. Must be finite.}
 
-\item{min}{lower limit of the distribution, must be finite}
+\item{min}{the lower limit of the distribution. Must be finite.}
 }
 \value{
 N values from a Laplace distribution
@@ -25,8 +25,10 @@ Returns a sample of N observations from a Laplace distribution with specified me
 }
 \examples{
 set.seed(123)
-LaplaceDist(10,0,1)
-# [1] -0.55311564  0.85946218 -0.20094937  1.45258293  2.12808209 -2.39565480  0.05785263...
+LaplaceDist(10, 0, 1)
+#  [1] -0.55311564  0.85946218 -0.20094937  1.45258293  2.12808209 -2.39565480  0.05785263
+#   [8]  1.53636446  0.10855453 -0.09076809
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

@@ -3,23 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE data illustrate correlations between
-results from individual participants in a family of five cross-over experiments conducted by
-Abrahao et al:
-[1] S. Abrahao, C. Gravino, E. Insfran Pelozo, G. Scanniello, and
-G. Tortora, "Assessing the effectiveness of sequence diagrams in the comprehension of functional
-requirements: Results from a family of five experiments," IEEE Transactions on Software
-Engineering, vol. 39, no. 3, pp. 327–342, March 2013
-The five experiments assess whether the comprehensibility of function requirements improve when
-software models include UML sequence diagrams.
-If you use this data set please cite:
-[1] S. Abrahao, C. Gravino, E. Insfran Pelozo, G. Scanniello, and
-G. Tortora, "Assessing the effectiveness of sequence diagrams in the comprehension of
-functional requirements: Results from a family of five experiments," IEEE Transactions on
-Software Engineering, vol. 39, no. 3, pp. 327–342, March 2013
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE data}
 \format{
 A data frame with 224 rows and 8 variables:
 \describe{
@@ -31,7 +15,7 @@ specific experiment.}
  B (NODM-DM,ECP-EPlat or  MShop-Theatre ), C(DM-NODM,EPlat-ECP or Theatre-MShop),
  D(NODM-DM,EPlat-ECP or Theatre-MShop)}
 \item{System}{<fct>|Software systems used in the experiment: ECP an e-commerce platform from
-which CDs and books can be bought,	EPlat a system for the management of courses, lectures and
+which CDs and books can be bought, EPlat a system for the management of courses, lectures and
 students of a university, M-Shop a system for managing sales at a music shop, Theatre a system
 for managing bookings for a theatre.}
 \item{Period}{<fct>|Time period of the cross-over experiment: 1 or 2}
@@ -49,22 +33,21 @@ available)}
 KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Abrahao13TSE data illustrate correlations between
-results from individual participants in a family of five cross-over experiments conducted by
-Abrahao et al:
+Data illustrate correlations between results from individual participants in a family of five
+cross-over experiments conducted by Abrahao et al:
 [1] S. Abrahao, C. Gravino, E. Insfran Pelozo, G. Scanniello, and
-G. Tortora, "Assessing the effectiveness of sequence diagrams in the comprehension of functional
-requirements: Results from a family of five experiments," IEEE Transactions on Software
+G. Tortora, 'Assessing the effectiveness of sequence diagrams in the comprehension of functional
+requirements: Results from a family of five experiments,' IEEE Transactions on Software
 Engineering, vol. 39, no. 3, pp. 327–342, March 2013
 The five experiments assess whether the comprehensibility of function requirements improve when
 software models include UML sequence diagrams.
 If you use this data set please cite:
 [1] S. Abrahao, C. Gravino, E. Insfran Pelozo, G. Scanniello, and
-G. Tortora, "Assessing the effectiveness of sequence diagrams in the comprehension of
-functional requirements: Results from a family of five experiments," IEEE Transactions on
+G. Tortora, 'Assessing the effectiveness of sequence diagrams in the comprehension of
+functional requirements: Results from a family of five experiments,' IEEE Transactions on
 Software Engineering, vol. 39, no. 3, pp. 327–342, March 2013
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

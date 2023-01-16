@@ -10,21 +10,21 @@ reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments()
 list incl. the data presented in five of the tables presented in the paper.
 }
 \description{
-This function reproduces five of the output tables used in the systematic review paper "Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment". It extracts the reported values for effect sizes, meta-analysis and descriptive statistics in the primary studies. It uses the descriptive statistics to re-calculate effect sizes and then performs a meta-analyses using the constructed effect sizes and compares the calculated values with the reported values.
+This function reproduces five of the output tables used in the systematic review paper 'Meta-analysis for Families of Experiments: A Systematic Review and Reproducibility Assessment'. It extracts the reported values for effect sizes, meta-analysis and descriptive statistics in the primary studies. It uses the descriptive statistics to re-calculate effect sizes and then performs a meta-analyses using the constructed effect sizes and compares the calculated values with the reported values.
 }
 \examples{
-rrData = reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments()
-# Reproduce Table "Overall Mean Values of Effect Sizes Reported and Calculated":
+rrData <- reproduceTablesOfPaperMetaAnalysisForFamiliesOfExperiments()
+# Reproduce Table 'Overall Mean Values of Effect Sizes Reported and Calculated':
 xtable::xtable(rrData$MAStats)
-# Reproduce Table "Calculated and Reported Effect Sizes":
+# Reproduce Table 'Calculated and Reported Effect Sizes':
 xtable::xtable(rrData$ESdata)
 # Report values for 3 papers that reported per document
-rrData$MAStatsTP1=data.frame(rrData$MAStatsTP1,row.names=NULL)
-rrData$ESTP1res=data.frame(rrData$ESTP1res,row.names=NULL)
+rrData$MAStatsTP1 <- data.frame(rrData$MAStatsTP1, row.names = NULL)
+rrData$ESTP1res <- data.frame(rrData$ESTP1res, row.names = NULL)
 xtable::xtable(rrData$MAStatsTP1)
 xtable::xtable(rrData$ESTP1res)
 # Report extra results for Study 8
-# Reproduce Table "Calculating r_PB Effect Size from Probabilities"
+# Reproduce Table 'Calculating r_PB Effect Size from Probabilities'
 xtable::xtable(rrData$GH2015extra)
 }
 \author{

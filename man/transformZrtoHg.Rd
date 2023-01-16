@@ -21,7 +21,7 @@ Transforms Zr to Hedge's g.
 }
 \examples{
 transformZrtoHg(0.5, 20, 20)
-#[1] 1.042191
+# [1] 1.042191
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

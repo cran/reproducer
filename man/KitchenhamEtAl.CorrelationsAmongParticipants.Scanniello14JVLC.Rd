@@ -3,21 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC data illustrate correlations
-between results from individual participants in a cross-over experiment conducted by Scanniello
-and Erra:
-[1] G. Scanniello and U. Erra, "Distributed modeling of use case diagrams with a method based on think-pair-square: Results from two controlled experiments", Journal of Visual Languages and
-Computing, vol. 25, no. 4, pp. 494–517, 2014.
-The experiment investigated whether a new method based on think-pair-square and its
-implementation in a integrated communication/modeling environment (TPS approach) is as effective
-as traditional face-to-face (F2F approach) for requirements elicitation. The experiment was performed in two stages using different software systems.
-If you use this data set please cite:
-[1] G. Scanniello and U. Erra, "Distributed modeling of use case diagrams with a method based on
- think-pair-square: Results from two controlled experiments,” Journal of Visual Languages and
- Computing, vol. 25, no. 4, pp. 494–517, 2014.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC data}
 \format{
 A data frame with 36 rows and 12 variables:
 \describe{
@@ -46,20 +32,19 @@ value is set to CO1 for each experiment stage.}
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14JVLC data illustrate correlations
-between results from individual participants in a cross-over experiment conducted by Scanniello
-and Erra:
-[1] G. Scanniello and U. Erra, "Distributed modeling of use case diagrams with a method based on think-pair-square: Results from two controlled experiments", Journal of Visual Languages and
+Data illustrate correlations between results from individual participants in a cross-over
+experiment conducted by Scanniello and Erra:
+[1] G. Scanniello and U. Erra, 'Distributed modeling of use case diagrams with a method based on think-pair-square: Results from two controlled experiments', Journal of Visual Languages and
 Computing, vol. 25, no. 4, pp. 494–517, 2014.
 The experiment investigated whether a new method based on think-pair-square and its
 implementation in a integrated communication/modeling environment (TPS approach) is as effective
 as traditional face-to-face (F2F approach) for requirements elicitation. The experiment was performed in two stages using different software systems.
 If you use this data set please cite:
-[1] G. Scanniello and U. Erra, "Distributed modeling of use case diagrams with a method based on
+[1] G. Scanniello and U. Erra, 'Distributed modeling of use case diagrams with a method based on
  think-pair-square: Results from two controlled experiments,” Journal of Visual Languages and
  Computing, vol. 25, no. 4, pp. 494–517, 2014.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The Importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

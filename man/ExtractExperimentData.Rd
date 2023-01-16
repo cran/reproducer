@@ -17,9 +17,9 @@ ExtractExperimentData(
 
 \item{ExperimentNames}{This is a list with the full names of each experiment.}
 
-\item{idvar}{This is the name of the column that contains the data for specific participants. It is only assumed to be unique within an experiment (default idvar="ParticipantID").}
+\item{idvar}{This is the name of the column that contains the data for specific participants. It is only assumed to be unique within an experiment (default idvar='ParticipantID').}
 
-\item{timevar}{This is the name of the table column that defines which data was collected in a specific time period. This function assumes that there are only two time periods (default timevar="Period").}
+\item{timevar}{This is the name of the table column that defines which data was collected in a specific time period. This function assumes that there are only two time periods (default timevar='Period').}
 
 \item{ConvertToWide}{This determine whether the function converts the data to the wide format (default ConvertToWide=TRUE).}
 }
@@ -33,16 +33,18 @@ A list with an entry for the data for each experiment. If ConvertToWide is TRUE,
 This function reads datasets from a defined directory in the reproducer package that hold the results of a family crossover experiments in the long format. It converts the data to the wide format if required.
 }
 \examples{
-ExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
+ExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
 # Obtain experimental data from each file and put in wide format
-dataset2= KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
-ReshapedData = ExtractExperimentData(dataset2, ExperimentNames=ExperimentNames,
-  idvar="ParticipantID",timevar="Period",ConvertToWide=TRUE)
+dataset2 <- KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
+ReshapedData <- ExtractExperimentData(dataset2,
+  ExperimentNames = ExperimentNames,
+  idvar = "ParticipantID", timevar = "Period", ConvertToWide = TRUE
+)
 ReshapedData[[1]]
 
 # A tibble: 24 x 15
@@ -61,6 +63,7 @@ ReshapedData[[1]]
 # … with 14 more rows, and 9 more variables: Modification.1 <dbl>, CrossOverID.1 <fct>,
 #   ExperimentID.2 <fct>, SequenceGroup.2 <fct>, System.2 <fct>, Treatment.2 <fct>,
 #   Comprehension.2 <dbl>, Modification.2 <dbl>, CrossOverID.2 <fct>
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

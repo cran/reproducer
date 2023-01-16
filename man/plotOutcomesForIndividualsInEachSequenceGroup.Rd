@@ -24,16 +24,16 @@ plotOutcomesForIndividualsInEachSequenceGroup(
 
 \item{periodEffect}{Period effect which is the difference between period 1 and period 2}
 
-\item{numOfSamples}{Number of samples ("rows" of data) required for each technique and period}
+\item{numOfSamples}{Number of samples ('rows' of data) required for each technique and period}
 }
 \value{
 plot
 }
 \description{
-Function to plot a figure on the outcomes for individuals in each sequence group used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham
+Function to plot a figure on the outcomes for individuals in each sequence group used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham
 }
 \examples{
-myPlot<-plotOutcomesForIndividualsInEachSequenceGroup(25, 18.75, 50, 10, 5, 15)
+myPlot <- plotOutcomesForIndividualsInEachSequenceGroup(25, 18.75, 50, 10, 5, 15)
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

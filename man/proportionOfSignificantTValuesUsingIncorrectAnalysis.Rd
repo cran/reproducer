@@ -13,10 +13,10 @@ proportionOfSignificantTValuesUsingIncorrectAnalysis(data)
 plot described in description
 }
 \description{
-Plots visualize the relationship between sample size, effect size and the proportion of significant t-values using the incorrect analysis. Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+Plots visualize the relationship between sample size, effect size and the proportion of significant t-values using the incorrect analysis. Function is used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham.
 }
 \examples{
-data  <- KitchenhamMadeyski.SimulatedCrossoverDataSets
+data <- KitchenhamMadeyski.SimulatedCrossoverDataSets
 myPlot <- proportionOfSignificantTValuesUsingIncorrectAnalysis(data)
 }
 \author{

@@ -22,7 +22,7 @@ printXTable(
 
 \item{selectedColumns}{Columns selected to be printed.}
 
-\item{tableType}{Type of table to produce. Possible values are "latex" or "html". Default value is "latex".}
+\item{tableType}{Type of table to produce. Possible values are 'latex' or 'html'. Default value is 'latex'.}
 
 \item{alignCells}{Defines how to align data cells.}
 
@@ -34,7 +34,7 @@ printXTable(
 
 \item{fontSize}{Size of the font used to produce a table.}
 
-\item{captionPlacement}{The caption will be have placed at the bottom of the table if captionPlacement is "bottom" and at the top of the table if it equals "top". Default value is "bottom".}
+\item{captionPlacement}{The caption will be have placed at the bottom of the table if captionPlacement is 'bottom' and at the top of the table if it equals 'top'. Default value is 'bottom'.}
 
 \item{alignHeader}{Defines how to align column headers of a table.}
 }
@@ -46,7 +46,7 @@ print data table using xtable R package
 }
 \examples{
 d <- reproducer::MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
-reproducer::printXTable(d, '"Study"', "latex", '"cc"', 0, "C", "L", "tiny", "top", "l")
+printXTable(d, "Study", "latex", "cc", 0, "C", "L", "tiny", "top", "l")
 }
 \author{
 Lech Madeyski

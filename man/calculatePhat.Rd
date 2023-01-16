@@ -13,18 +13,19 @@ calculatePhat(x, y, alpha = 0.05, sigfig = -1)
 
 \item{alpha}{is the Type 1 error level for statistical tests}
 
-\item{sigfig}{If sigfig>0 the data in x and y is truncated to the specified number of significant digits.}
+\item{sigfig}{is the number of significant digits. If sigfig>0 the data in x
+and y is truncated to the specified number of significant digits.}
 }
 \value{
 list including the value of the t-test for PHat, the estimate of PHat and Cliff's d, and the confidence intervals for PHat.
 }
 \description{
-This function extract the probability of superiority (i.e., Phat) and its confidence interval based on Brunner and Munzel (2000) heteroscedastic analog of WMW test. It is based on Wilcox'x bmp function with some amendments. It does not include a plotit facility. It uses the smallest non-zero variance to idetify confidence intervals and statistical significance for values of Phat=0 and Phat=1. It ensure that confidence intervals do not take on invalid values such as values <0 or >1.
+This function calculates the probability of superiority (i.e., Phat) and its confidence interval based on Brunner and Munzel (2000) heteroscedastic analog of WMW test. It is based on Wilcox'x bmp function with some amendments. It does not include a plotit facility. It uses the smallest non-zero variance to identify confidence intervals and statistical significance for values of Phat=0 and Phat=1. It ensure that confidence intervals do not take on invalid values such as values <0 or >1.
 }
 \examples{
-x=c(1.2, 3.0, 2.2, 4.0, 2.5, 3.0)
-y=c(3,4.2,4,6,7,5.9)
-calculatePhat(x,y)
+x <- c(1.2, 3.0, 2.2, 4.0, 2.5, 3.0)
+y <- c(3, 4.2, 4, 6, 7, 5.9)
+reproducer:::calculatePhat(x, y)
 # $test.stat
 # [1] 6.381249
 # $phat
@@ -40,9 +41,9 @@ calculatePhat(x,y)
 # $df
 # [1] 9.148489
 # Another example:
-z=c(1,2,3,4)
-y=c(5,6,7,8)
-calculatePhat(z,y)
+z <- c(1, 2, 3, 4)
+y <- c(5, 6, 7, 8)
+reproducer:::calculatePhat(z, y)
 # $test.stat
 # [1] 10.6066
 # $phat

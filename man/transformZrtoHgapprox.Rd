@@ -16,7 +16,7 @@ approx. value of Hedges' g
 This function provides an approximate transformation from Zr to Hedges g when the number of observations in the treatment and control group are unknown. It is also used to allow the forest plots to display Hedge's g when they are based on r. It is necessary because the transformation function in the forest plot function does not allow any parameters other than effect size used. The function assumes that Nc=Nt and gives the same results as transformZrtoHg when Nc=Nt.
 }
 \examples{
-transformZrtoHgapprox(c(0.4,0.2))
+transformZrtoHgapprox(c(0.4, 0.2))
 # [1] 0.8215047 0.4026720
 }
 \author{

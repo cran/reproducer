@@ -28,7 +28,7 @@ This function assumes an ABBA crossover experiment has reported means and varian
 \examples{
 aggregateIndividualDocumentStatistics(10, 2, 20, 15, 2, 20)
 #     M SD
-#1 12.5  2
+# 1 12.5  2
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

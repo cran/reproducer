@@ -3,21 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM data illustrate correlations between
-results from individual participants in a family of two cross-over experiments conducted by
-Reggio et al:
-[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero,"On the comprehension of
-workflows modeled with a precise style: results from a family of controlled experiments".
-Software and Systems Modeling, vol. 14, pp. 1481–1504, 2015.
-The experiments assess whether the level of formality/precision in workflow model influences
-comprehension.
-If you use this data set please cite:
-[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero, "On the comprehension of
-workflows modeled with a precise style: results from a family of controlled experiments".
-Software and Systems Modeling, vol. 14, pp. 1481–1504, 2015.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM data}
 \format{
 A data frame with 78 rows and 9 variables:
 \describe{
@@ -43,20 +29,19 @@ the category is set to CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Reggio15SSM data illustrate correlations between
-results from individual participants in a family of two cross-over experiments conducted by
-Reggio et al:
-[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero,"On the comprehension of
-workflows modeled with a precise style: results from a family of controlled experiments".
+Data illustrate correlations between results from individual participants in a family of two
+cross-over experiments conducted by Reggio et al:
+[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero,'On the comprehension of
+workflows modeled with a precise style: results from a family of controlled experiments'.
 Software and Systems Modeling, vol. 14, pp. 1481–1504, 2015.
 The experiments assess whether the level of formality/precision in workflow model influences
 comprehension.
 If you use this data set please cite:
-[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero, "On the comprehension of
-workflows modeled with a precise style: results from a family of controlled experiments".
+[1] G. Reggio, F. Ricca, G. Scanniello, F. D. Cerbo, and G. Dodero, 'On the comprehension of
+workflows modeled with a precise style: results from a family of controlled experiments'.
 Software and Systems Modeling, vol. 14, pp. 1481–1504, 2015.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The Importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

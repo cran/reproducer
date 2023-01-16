@@ -21,22 +21,23 @@ its standard error reported as by the lmer function, and its confidence interval
 This function extracts data obtained from the lme4 package lmer function. It assumes a simple randomized experiment with each element having one or more repeated measures. It outputs the mean together with its standard error and confidence interval bounds.
 }
 \examples{
-ShortExperimentNames=c("E1","E2","E3","E4")
-FullExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
-ReshapedData= ExtractExperimentData(
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+FullExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
+ReshapedData <- ExtractExperimentData(
   KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM,
-  ExperimentNames=FullExperimentNames, idvar="ParticipantID", timevar="Period",
-  ConvertToWide=TRUE
+  ExperimentNames = FullExperimentNames, idvar = "ParticipantID", timevar = "Period",
+  ConvertToWide = TRUE
 )
-NewTable= ConstructLevel1ExperimentRData(ReshapedData, StudyID, ShortExperimentNames, Groups,
-  Metrics,Type,Control
-  )
-resRe=lme4::lmer(r~(1|Id),data=NewTable)
+NewTable <- ConstructLevel1ExperimentRData(
+  ReshapedData, StudyID, ShortExperimentNames, Groups,
+  Metrics, Type, Control
+)
+resRe <- lme4::lmer(r ~ (1 | Id), data = NewTable)
 summary(resRe)
 # Linear mixed model fit by REML ['lmerMod']
 # Formula: r ~ (1 | Id)
@@ -55,9 +56,10 @@ summary(resRe)
 #             Estimate Std. Error t value
 #  (Intercept)  0.06175    0.09508   0.649
 #  N=length(NewTable$r)
- ExtractSummaryStatisticsRandomizedExp(lmeRA=resRe,N=32,alpha=0.05)
+ExtractSummaryStatisticsRandomizedExp(lmeRA = resRe, N = 32, alpha = 0.05)
 #      N    Mean      SE LowerBound UpperBound
 #   1 32 0.06175 0.09508    -0.1319     0.2554
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

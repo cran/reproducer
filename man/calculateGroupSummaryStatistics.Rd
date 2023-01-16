@@ -18,32 +18,34 @@ A dataframe comprising the number, mean, variance, standard error and confidence
 This function calculates the following statistics data within groups: length, mean, median, variance, standard error of the mean, and confidence interval bounds.
 }
 \examples{
-ShortExperimentNames=c("E1","E2","E3","E4")
-FullExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
-ReshapedData= ExtractExperimentData(
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+FullExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
+ReshapedData <- ExtractExperimentData(
   KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM,
-  ExperimentNames=FullExperimentNames, idvar="ParticipantID",timevar="Period",
-  ConvertToWide=TRUE
+  ExperimentNames = FullExperimentNames, idvar = "ParticipantID", timevar = "Period",
+  ConvertToWide = TRUE
 )
-NewTable= ConstructLevel1ExperimentRData(ReshapedData, StudyID,
+NewTable <- ConstructLevel1ExperimentRData(
+  ReshapedData, StudyID,
   ShortExperimentNames, Groups, Metrics, Type, Control
 )
-SeqGroupLev=NULL
-N.NT=length(NewTable$r)
+SeqGroupLev <- NULL
+N.NT <- length(NewTable$r)
 for (i in 1:N.NT) {
-	if (NewTable$n[i]<=8) SeqGroupLev[i]=as.character(NewTable$n[i])
-	if (NewTable$n[i]>8) SeqGroupLev[i]=as.character(9)
- }
- calculateGroupSummaryStatistics(NewTable$r,Group=SeqGroupLev)
+  if (NewTable$n[i] <= 8) SeqGroupLev[i] <- as.character(NewTable$n[i])
+  if (NewTable$n[i] > 8) SeqGroupLev[i] <- as.character(9)
+}
+calculateGroupSummaryStatistics(NewTable$r, Group = SeqGroupLev)
 #     N    Mean  Median Variance  StDev     SE
 #  1  4 -0.0833 -0.1699   0.2314 0.4810 0.2405
 #  2 12  0.3658  0.4477   0.2109 0.4592 0.1326
 #  3 16 -0.1300 -0.2214   0.1933 0.4397 0.1099
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

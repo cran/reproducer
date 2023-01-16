@@ -3,24 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC data illustrate correlations
-between results from individual participants in a family of three cross-over experiments
-conducted by Torchiano et al:
-[1] M. Torchiano, G. Scanniello, F. Ricca, G. Reggio, and M. Leotta,
-"Do UML object diagrams affect design comprehensibility? Results
-from a family of four controlled experiments." Journal of Visual Languages
-and  Computing, vol. 41, pp. 10–21, 2017.
-Although the paper reports four experiment, we only have data from three of those experiments.
-The experiments assess whether the comprehensibility of UML specifications improve when the
-software documents include UML object diagrams as well as the standard UML class diagrams.
-If you use this data set please cite:
-[1] M. Torchiano, G. Scanniello, F. Ricca, G. Reggio, and M. Leotta,
-"Do UML object diagrams affect design comprehensibility? Results
-from a family of four controlled experiments." Journal of Visual Languages
-and  Computing, vol. 41, pp. 10–21, 2017.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC data}
 \format{
 A data frame with 214 rows and 8 variables:
 \describe{
@@ -49,23 +32,22 @@ the category is set to CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Torchiano17JVLC data illustrate correlations
-between results from individual participants in a family of three cross-over experiments
-conducted by Torchiano et al:
+Data illustrate correlations between results from individual participants in a family of three
+cross-over experiments conducted by Torchiano et al:
 [1] M. Torchiano, G. Scanniello, F. Ricca, G. Reggio, and M. Leotta,
-"Do UML object diagrams affect design comprehensibility? Results
-from a family of four controlled experiments." Journal of Visual Languages
+'Do UML object diagrams affect design comprehensibility? Results
+from a family of four controlled experiments.' Journal of Visual Languages
 and  Computing, vol. 41, pp. 10–21, 2017.
 Although the paper reports four experiment, we only have data from three of those experiments.
 The experiments assess whether the comprehensibility of UML specifications improve when the
 software documents include UML object diagrams as well as the standard UML class diagrams.
 If you use this data set please cite:
 [1] M. Torchiano, G. Scanniello, F. Ricca, G. Reggio, and M. Leotta,
-"Do UML object diagrams affect design comprehensibility? Results
-from a family of four controlled experiments." Journal of Visual Languages
+'Do UML object diagrams affect design comprehensibility? Results
+from a family of four controlled experiments.' Journal of Visual Languages
 and  Computing, vol. 41, pp. 10–21, 2017.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

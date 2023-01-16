@@ -24,28 +24,34 @@ CalculateLevel2ExperimentRData(
 
 \item{Metrics}{This is a list of of character strings identifying each outcome metric reported in each of the experiments in the set of replicated experiments.}
 
-\item{Type}{this is a list of character strings specifying for each experiment whether the experiment is a two sequence group "2G" or four sequence group "4G" experiment.
-return RExp.Table This is a table containing the pooled data variance and the pooled difference variance for the experiment and the value r for the experiment for eachm metric}
+\item{Type}{this is a list of character strings specifying for each experiment whether the experiment is a two sequence group '2G' or four sequence group '4G' experiment.
+return RExp.Table This is a table containing the pooled data variance and the pooled difference variance for the experiment and the value r for the experiment for each metric}
 }
 \description{
 This function analyses data on r values obtained in the format obtained from  the ConstructLevel1ExperimentRData function and finds the r-value for each metric for each experiment.
 }
 \examples{
-ShortExperimentNames=c("E1","E2","E3","E4")
-FullExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+FullExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
 # Obtain experimental data from each file and put in wide format
-ReshapedData = ExtractExperimentData(
+ReshapedData <- ExtractExperimentData(
   KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM,
-  ExperimentNames=FullExperimentNames, idvar="ParticipantID",timevar="Period",ConvertToWide=TRUE)
-Lev1Data= ConstructLevel1ExperimentRData(ReshapedData, StudyID, ShortExperimentNames, Groups,
-  Metrics, Type, Control)
-CalculateLevel2ExperimentRData(Lev1Data,Groups=Groups,StudyID=StudyID,
-  ExperimentNames=ShortExperimentNames,Metrics=Metrics,Type=Type)
+  ExperimentNames = FullExperimentNames, idvar = "ParticipantID",
+  timevar = "Period", ConvertToWide = TRUE
+)
+Lev1Data <- ConstructLevel1ExperimentRData(
+  ReshapedData, StudyID, ShortExperimentNames, Groups,
+  Metrics, Type, Control
+)
+CalculateLevel2ExperimentRData(Lev1Data,
+  Groups = Groups, StudyID = StudyID,
+  ExperimentNames = ShortExperimentNames, Metrics = Metrics, Type = Type
+)
 # A tibble: 8 x 10
 #  StudyID ExpID     N Metric        PooledVar1 PooledVar2 VarProp PooledVar PooledDiffVar    r.Exp
 #  <chr>   <chr> <int> <chr>              <dbl>      <dbl>   <dbl>     <dbl>         <dbl>    <dbl>
@@ -56,6 +62,7 @@ CalculateLevel2ExperimentRData(Lev1Data,Groups=Groups,StudyID=StudyID,
 # 6 S2      S2E3     22 Modification      0.0433     0.0414   0.511    0.0424        0.0997 -0.176
 # 7 S2      S2E4     18 Comprehension     0.0439     0.0237   0.649    0.0338        0.0355  0.475
 # 8 S2      S2E4     18 Modification      0.0322     0.0592   0.353    0.0457        0.0894  0.0222
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

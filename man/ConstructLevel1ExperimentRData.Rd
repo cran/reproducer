@@ -15,7 +15,7 @@ ConstructLevel1ExperimentRData(
 )
 }
 \arguments{
-\item{Data}{This is a list parameter each entry in the list holds the data for each participant in a 2-group or 4-group crossover experiment in the "wide" format. I.e., there is only one entry per participant. The data should have been generated from a long version of the data based on a variable labelled "Period" which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.}
+\item{Data}{This is a list parameter each entry in the list holds the data for each participant in a 2-group or 4-group crossover experiment in the 'wide' format. I.e., there is only one entry per participant. The data should have been generated from a long version of the data based on a variable labelled 'Period' which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.}
 
 \item{StudyID}{This holds an identifer used to identify the origin of the experimental data in the output from this function.}
 
@@ -33,25 +33,28 @@ ConstructLevel1ExperimentRData(
 R.Data.Table this is a tibble holding information identifying for each metric and sequence group the first time period and second time period variance, the pooled variance, the variance of the difference values and the exact r and pooled r.
 }
 \description{
-This function returns the r value for a 2-group (2G) or 4-Group (4G) Crossover experiment for a group of 1 or more experiments for each sequence group and each outcome metric. For sets of 2 or more experiments, the experiments are assumed to be replicates and to report the same sets of Metrics and have the same Control treatment and use the same squence Group identifiers, but are not necessarily the same Type. We return both the exact r value and the r value based on pooled variances for each sequence group and outcome metric.
+This function returns the r value for a 2-group (2G) or 4-Group (4G) Crossover experiment for a group of 1 or more experiments for each sequence group and each outcome metric. For sets of 2 or more experiments, the experiments are assumed to be replicates and to report the same sets of Metrics and have the same Control treatment and use the same sequence Group identifiers, but are not necessarily the same Type. We return both the exact r value and the r value based on pooled variances for each sequence group and outcome metric.
 }
 \examples{
 #
-ShortExperimentNames=c("E1","E2","E3","E4")
-FullExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+FullExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
 # Obtain experimental data from each file and put in wide format
-dataset2= KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
-ReshapedData=ExtractExperimentData(dataset2, ExperimentNames=FullExperimentNames,
-  idvar="ParticipantID",timevar="Period",ConvertToWide=TRUE)
+dataset2 <- KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
+ReshapedData <- ExtractExperimentData(dataset2,
+  ExperimentNames = FullExperimentNames,
+  idvar = "ParticipantID", timevar = "Period", ConvertToWide = TRUE
+)
 # Calculate the correlations for each sequence group and each metric in each experiment
-ConstructLevel1ExperimentRData(Data=ReshapedData, StudyID=StudyID,
-  ExperimentNames=ShortExperimentNames, Groups=Groups, Metrics=Metrics, Type=Type,
-  Control=Control
+ConstructLevel1ExperimentRData(
+  Data = ReshapedData, StudyID = StudyID,
+  ExperimentNames = ShortExperimentNames, Groups = Groups, Metrics = Metrics, Type = Type,
+  Control = Control
 )
 # # A tibble: 32 x 15
 # Study Exp   Group Metric Id        n ControlFirst    var1   var2    varp
@@ -68,6 +71,7 @@ ConstructLevel1ExperimentRData(Data=ReshapedData, StudyID=StudyID,
 # 10 S2    E2    B     Compr… S2E2B     6 TRUE         0.0198  0.0192 0.0195
 # # … with 22 more rows, and 5 more variables: ControlVarProp <dbl>,
 # #   VarProp <dbl>, vardiff <dbl>, r <dbl>, r.p <dbl>
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

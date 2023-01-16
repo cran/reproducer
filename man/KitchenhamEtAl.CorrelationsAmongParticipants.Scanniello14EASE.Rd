@@ -3,23 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE data illustrate correlations
-between results from individual participants in a family of two cross-over experiments conducted
-by Scanniello et al:
-[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, "On the effect of using SysML
-requirement diagrams to comprehend requirements: results from two controlled experiments," in
-Proceedings of the 18th International Conference on Evaluation and Assessment in Software
-Engineering, EASE. ACM, 2014.
-The two experiments investigate whether requirements specified as SysML requirement diagrams
-improve the comprehensibility of requirements.
-If you use this data set please cite:
-[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, "On the effect of using SysML
-requirement diagrams to comprehend requirements: results from two controlled experiments",
-in Proceedings of the 18th International Conference on Evaluation and Assessment in Software
-Engineering, EASE. ACM, 2014.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE data}
 \format{
 A data frame with 174 rows and 9 variables:
 \describe{
@@ -47,22 +31,21 @@ the category is set to CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14EASE data illustrate correlations
-between results from individual participants in a family of two cross-over experiments conducted
-by Scanniello et al:
-[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, "On the effect of using SysML
-requirement diagrams to comprehend requirements: results from two controlled experiments," in
+Data illustrate correlations between results from individual participants in a family of two
+cross-over experiments conducted by Scanniello et al:
+[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, 'On the effect of using SysML
+requirement diagrams to comprehend requirements: results from two controlled experiments,' in
 Proceedings of the 18th International Conference on Evaluation and Assessment in Software
 Engineering, EASE. ACM, 2014.
 The two experiments investigate whether requirements specified as SysML requirement diagrams
 improve the comprehensibility of requirements.
 If you use this data set please cite:
-[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, "On the effect of using SysML
-requirement diagrams to comprehend requirements: results from two controlled experiments",
+[1] G. Scanniello, M. Staron, H. Burden, and R. Heldal, 'On the effect of using SysML
+requirement diagrams to comprehend requirements: results from two controlled experiments',
 in Proceedings of the 18th International Conference on Evaluation and Assessment in Software
 Engineering, EASE. ACM, 2014.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

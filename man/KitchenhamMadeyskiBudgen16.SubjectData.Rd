@@ -13,7 +13,7 @@ A data frame with variables:
 \item{Age}{Age of the judge in years}
 \item{Eng1st}{Whether the judge's first language was Enlish: Yes/No}
 \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
-\item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
+\item{AbstractsRead}{Number of abstracts the judge had read prior to the study' 0, 1 to 10, 10+}
 \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}
 \item{AbstractID}{Alphanumeric identifier for an abstract. The first character identifies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
 \item{Treat}{The initial 3 characters of AbstractID}
@@ -41,12 +41,12 @@ A data frame with variables:
 KitchenhamMadeyskiBudgen16.SubjectData
 }
 \description{
-If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 }
 \details{
 Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
 
-subjectdata.txt: Judge	Institution  JudgeID age eng1st years.study abs.read Absid Treat TreatID Order Com.1 Com.2 Com.3 Com.4 Com.5 Com.6
+subjectdata.txt: Judge Institution JudgeID age eng1st years.study abs.read Absid Treat TreatID Order Com.1 Com.2 Com.3 Com.4 Com.5 Com.6
 Com.7 Com.8 Clarity num.questions total.score av.score Site
 }
 \examples{

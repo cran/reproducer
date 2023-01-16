@@ -28,11 +28,11 @@ data frame incl. calculated effect sizes and variances:
 # var.t.ipe - variance of t-variable
 }
 \description{
-Function to calculate both effect sizes (dIG.ipe, dRM.ipe), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies ignoring period effect (thus wrong). Function was removed in the revision of the paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+Function to calculate both effect sizes (dIG.ipe, dRM.ipe), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies ignoring period effect (thus wrong). Function was removed in the revision of the paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham.
 }
 \examples{
-simulationData<-getSimulationData(25, 18.75, 50, 10, 5, 500) #generate simulated data set
-es.ipe<-getEffectSizesABBAIgnoringPeriodEffect(simulationData) #return effect sizes and variances
+simulationData <- getSimulationData(25, 18.75, 50, 10, 5, 500) # generate simulated data set
+es.ipe <- getEffectSizesABBAIgnoringPeriodEffect(simulationData) # return effect sizes and variances
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

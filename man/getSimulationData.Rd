@@ -24,28 +24,29 @@ getSimulationData(
 
 \item{periodEffect}{Period effect which is the difference between period 1 and period 2}
 
-\item{numOfSamples}{Number of samples ("rows" of data) required for each technique and period}
+\item{numOfSamples}{Number of samples ('rows' of data) required for each technique and period}
 }
 \value{
 Data frame:
 'data.frame':  4*numOfSamples obs. of  5 variables:
  $ pid      : int  1 2 3 4 5 6 7 8 9 10 ...
- $ technique: Factor w/ 2 levels "T1","T2":  ...
- $ period   : Factor w/ 2 levels "P1","P2":  ...
- $ sequence : Factor w/ 2 levels "S1","S2":  ...
+ $ technique: Factor w/ 2 levels 'T1','T2':  ...
+ $ period   : Factor w/ 2 levels 'P1','P2':  ...
+ $ sequence : Factor w/ 2 levels 'S1','S2':  ...
  $ result   : num  ...
 }
 \description{
-Function to generate the simulated data set used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham
+Function to generate the simulated data set used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham
 }
 \details{
 -------------------------------------------------------------------------------------------------------
-Functions related to a paper "Effect sizes and their variance for AB/BA crossover design studies" by Lech Madeyski and Barbara Kitchenham
+Functions related to a paper 'Effect sizes and their variance for AB/BA crossover design studies' by Lech Madeyski and Barbara Kitchenham
 -------------------------------------------------------------------------------------------------------
 }
 \examples{
-data<-getSimulationData(25, 18.75, 50, 10, 5, 500) # generate the simulated data set from the paper
-data<-getSimulationData(25, 18.75, 50, 10, 5, 15)
+# generate the simulated data set from the paper
+data <- getSimulationData(25, 18.75, 50, 10, 5, 500)
+data <- getSimulationData(25, 18.75, 50, 10, 5, 15)
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

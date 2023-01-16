@@ -20,7 +20,7 @@ A data frame with variables:
 Madeyski15EISEJ.StudProjects
 }
 \description{
-If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+If you use this data set please cite: Marian Jureczko and Lech Madeyski, 'Cross-project defect prediction with respect to code ownership model: An empirical study', e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 }
 \examples{
 Madeyski15EISEJ.StudProjects

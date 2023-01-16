@@ -15,7 +15,7 @@ CalculateRLevel1(
 )
 }
 \arguments{
-\item{Dataset}{This holds the data for each participant in a 2-group or 4-group crossover experiment in the "wide" format. I.e., there is only one entry per participant. The data set should have been generated from a long version of the data based on a variable labelled "Period" which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.}
+\item{Dataset}{This holds the data for each participant in a 2-group or 4-group crossover experiment in the 'wide' format. I.e., there is only one entry per participant. The data set should have been generated from a long version of the data based on a variable labelled 'Period' which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.}
 
 \item{StudyID}{This holds an identifier used to identify the origin of the experimental data in the output from this function.}
 
@@ -23,7 +23,7 @@ CalculateRLevel1(
 
 \item{ExperimentName}{This an identifiers used to define the specific experiment in the output from this function.}
 
-\item{Metrics}{This is a list of metrics, e.g., ("Correctness","Time","Efficiency").}
+\item{Metrics}{This is a list of metrics, e.g., ('Correctness','Time','Efficiency').}
 
 \item{Type}{this is a character string specifying whether the experiment is a two sequence group of four sequence group experiment.}
 
@@ -42,20 +42,24 @@ This function calculates the r value for a 2-group (2G) or 4-Group (4G) Crossove
 script to obtain correlation coefficients
 }
 \examples{
-ExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-ShortExperimentNames=c("E1","E2","E3","E4")
-Metrics=c("Comprehension","Modification")
-Type=c("4G", "4G", "4G", "4G")
-Groups=c("A","B","C","D")
-StudyID="S2"
-Control="SC"
+ExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+Metrics <- c("Comprehension", "Modification")
+Type <- c("4G", "4G", "4G", "4G")
+Groups <- c("A", "B", "C", "D")
+StudyID <- "S2"
+Control <- "SC"
 # Obtain experimental data from a file and put in wide format
-dataset2= KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
-ReshapedData=ExtractExperimentData(dataset2, ExperimentNames=ExperimentNames,
-  idvar="ParticipantID",timevar="Period",ConvertToWide=TRUE)
+dataset2 <- KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
+ReshapedData <- ExtractExperimentData(dataset2,
+  ExperimentNames = ExperimentNames,
+  idvar = "ParticipantID", timevar = "Period", ConvertToWide = TRUE
+)
 # Calculate the correlations for each sequence group and each metric.
- CalculateRLevel1(Dataset=ReshapedData[[1]], StudyID, Groups=c("A","B","C","D"),
-   ExperimentName=ShortExperimentNames[1],Metrics,Type=Type[1],Control)
+CalculateRLevel1(
+  Dataset = ReshapedData[[1]], StudyID, Groups = c("A", "B", "C", "D"),
+  ExperimentName = ShortExperimentNames[1], Metrics, Type = Type[1], Control
+)
 # A tibble: 8 x 15
 # # A tibble: 8 x 15
 # Study Exp   Group Metric Id        n ControlFirst    var1   var2
@@ -70,6 +74,7 @@ ReshapedData=ExtractExperimentData(dataset2, ExperimentNames=ExperimentNames,
 # 8 S2    E1    D     Modif… S2E1D     6 TRUE         0.0222  0.0266
 # # … with 6 more variables: varp <dbl>, ControlVarProp <dbl>,
 # #   VarProp <dbl>, vardiff <dbl>, r <dbl>, r.p <dbl>
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

@@ -3,20 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC data illustrate correlations between results
-from individual participants in a family of 2 cross-over experiments conducted by Gravino et al.:
-[1] C. Gravino, G. Scanniello, and G. Tortora, "Source-code comprehension tasks supported by UML design models:
-Results from a controlled experiment and a differentiated replication,"
-Journal of Visual Languages and Computing, vol. 28, pp. 23–38, 2015.
-The experiments assess whether the comprehension of object oriented source-code increases used
-with UML class and sequence diagrams produced in the software design phase.
-If you use this data set please cite:
-[1] C. Gravino, G. Scanniello, and G. Tortora, "Source-code comprehension tasks supported by UML
-design models: Results from a controlled experiment and a differentiated replication,"
-Journal of Visual Languages and Computing, vol. 28, pp. 23–38, 2015.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC data}
 \format{
 A data frame with 64  rows and 9 variables:
 \describe{
@@ -42,19 +29,19 @@ the category is set to CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Gravino15JVLC data illustrate correlations between results
-from individual participants in a family of 2 cross-over experiments conducted by Gravino et al.:
-[1] C. Gravino, G. Scanniello, and G. Tortora, "Source-code comprehension tasks supported by UML design models:
-Results from a controlled experiment and a differentiated replication,"
+Data illustrate correlations between results from individual participants in a family of two
+cross-over experiments conducted by Gravino et al.:
+[1] C. Gravino, G. Scanniello, and G. Tortora, 'Source-code comprehension tasks supported by
+UML design models: Results from a controlled experiment and a differentiated replication,'
 Journal of Visual Languages and Computing, vol. 28, pp. 23–38, 2015.
 The experiments assess whether the comprehension of object oriented source-code increases used
 with UML class and sequence diagrams produced in the software design phase.
 If you use this data set please cite:
-[1] C. Gravino, G. Scanniello, and G. Tortora, "Source-code comprehension tasks supported by UML
-design models: Results from a controlled experiment and a differentiated replication,"
+[1] C. Gravino, G. Scanniello, and G. Tortora, 'Source-code comprehension tasks supported by UML
+design models: Results from a controlled experiment and a differentiated replication,'
 Journal of Visual Languages and Computing, vol. 28, pp. 23–38, 2015.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

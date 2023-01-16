@@ -23,7 +23,7 @@ A data frame with variables:
 KitchenhamMadeyski.SimulatedCrossoverDataSets
 }
 \description{
-If you use this data set please cite this R package and the following paper: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
+If you use this data set please cite this R package and the following paper: Lech Madeyski and Barbara Kitchenham, 'Effect Sizes and their Variance for AB/BA Crossover Design Studies', Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 }
 \details{
 This is simulated normally distributed data from 30 subjects, with technique A being 10 units more effective than technique B, and there is a period effect equaling 5 units. Subject 1 to 15 used technique B first while subjects 16 to 30 used technique A first.

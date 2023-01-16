@@ -3,22 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM data illustrate correlations
-between results from individual participants in a family of four cross-over experiments
-conducted by Scanniello et al.:
-[1] G. Scanniello, M. Risi, P. Tramontana, and S. Romano, "Fixing faults in C and Java source
-code: Abbreviated vs. full-word identifier names", ACM Transactions on Software Engineering
-Methodology, vol. 26, no. 2, 2017.
-The experiments assess whether whether the use of abbreviated identifier names (ABBR), impacts
-the effectiveness of fault fixing in C and Java source code in comparison with full-word
-identifier names (FULL).
-If you use this data set please cite:
-[1] G. Scanniello, M. Risi, P. Tramontana, and S. Romano, “Fixing faults in C and Java source
-code: Abbreviated vs. full-word identifier names", ACM Transactions on Software Engineering
-Methodology, vol. 26, no. 2, 2017.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "On the
-Importance of the Correlation between Results from Individual Participants in Crossover
-Experiments" (to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM data}
 \format{
 A data frame with 200 rows and 17 variables:
 \describe{
@@ -39,7 +24,7 @@ manages as electronic register and LaTazza  (a system for a drinks vending machi
 account correctness and completeness of the fault fixing tasks}
 \item{Efficiency}{<dbl>|Dependent variable: The ratio of effectiveness to time. }
 \item{CrossOverID}{<fct>|CrossOver category: For 4 group crossover designs, the crossover
-category specifies the matching pairs of	sequence groups, CO1 and CO2. For 2 group crossover,
+category specifies the matching pairs of sequence groups, CO1 and CO2. For 2 group crossover,
 the category is set to CO1 only.}
 \item{Language}{<fct>|Java or C. The language was the same for all participants in a specific
 experiment. POLINA and PROF used Java, UNIBAS and UNINA used C.}
@@ -57,22 +42,21 @@ total number of fault.}
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM data illustrate correlations
-between results from individual participants in a family of four cross-over experiments
-conducted by Scanniello et al.:
-[1] G. Scanniello, M. Risi, P. Tramontana, and S. Romano, "Fixing faults in C and Java source
-code: Abbreviated vs. full-word identifier names", ACM Transactions on Software Engineering
+Data illustrate correlations between results from individual participants in a family of four
+cross-over experiments conducted by Scanniello et al.:
+[1] G. Scanniello, M. Risi, P. Tramontana, and S. Romano, 'Fixing faults in C and Java source
+code: Abbreviated vs. full-word identifier names', ACM Transactions on Software Engineering
 Methodology, vol. 26, no. 2, 2017.
 The experiments assess whether whether the use of abbreviated identifier names (ABBR), impacts
 the effectiveness of fault fixing in C and Java source code in comparison with full-word
 identifier names (FULL).
 If you use this data set please cite:
 [1] G. Scanniello, M. Risi, P. Tramontana, and S. Romano, “Fixing faults in C and Java source
-code: Abbreviated vs. full-word identifier names", ACM Transactions on Software Engineering
+code: Abbreviated vs. full-word identifier names', ACM Transactions on Software Engineering
 Methodology, vol. 26, no. 2, 2017.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "On the
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'On the
 Importance of the Correlation between Results from Individual Participants in Crossover
-Experiments" (to be submitted as of 2020).
+Experiments' (to be submitted as of 2020).
 }
 \examples{
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello17TOSEM

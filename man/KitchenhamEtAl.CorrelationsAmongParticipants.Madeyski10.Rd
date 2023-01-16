@@ -3,24 +3,14 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10 data illustrate correlations between
-results from individual participants in cross-over experiment P2007 (Smell\&Library) conducted
-by Madeyski, see:
-[1] Lech Madeyski, Test-Driven Development: An Empirical Evaluation of Agile Practice.
-(Heidelberg, London, New York): Springer, 2010. Foreword by Prof. Claes Wohlin.
-If you use this data set please cite:
-[1] Lech Madeyski, Test-Driven Development: An Empirical Evaluation of Agile Practice.
-(Heidelberg, London, New York): Springer, 2010. Foreword by Prof. Claes Wohlin.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10 data}
 \format{
 `KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10`: a data frame with 45 rows
 and 10 variables:
 \describe{
 \item{ExperimentID}{<fct>| ExperimentID: This experiment is the only cross-over experiment in
 the family of TDD and Pair-Programming experiments conducted by Madeyski, so all values in this
-column are set to "P2007".}
+column are set to 'P2007'.}
 \item{ParticipantID}{<fct> | Participant ID: An identifier for each participant, unique for a
 specific experiment.}
 \item{SequenceGroup}{<fct> | Experimental Sequence Group: A (TLSP-TFSP), B (TFSP-TLSP)}
@@ -39,7 +29,7 @@ see CK set of metrics}
 \item{RFC}{<dbl> | Dependent variable: Mean value of Response For a Class (RFC), see CK set of
 metrics}
 \item{CrossOverID}{<fct> | Cross-Over Code. This experiment is a simple two-group cross-over
-experiment with one cross-over code, so all values in this column are set to "CO1".
+experiment with one cross-over code, so all values in this column are set to 'CO1'.
 However, four-group experiments require a code to identify the linked sequence groups
 (although that can be deduced from the system used in the first time period).
 A crossover code is also essential for non-parametric analysis.}
@@ -52,16 +42,15 @@ A crossover code is also essential for non-parametric analysis.}
 KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Madeyski10 data illustrate correlations between
-results from individual participants in cross-over experiment P2007 (Smell\&Library) conducted
-by Madeyski, see:
+Data illustrate correlations between results from individual participants in cross-over
+experiment P2007 (Smell and Library) conducted by Madeyski, see:
 [1] Lech Madeyski, Test-Driven Development: An Empirical Evaluation of Agile Practice.
 (Heidelberg, London, New York): Springer, 2010. Foreword by Prof. Claes Wohlin.
 If you use this data set please cite:
 [1] Lech Madeyski, Test-Driven Development: An Empirical Evaluation of Agile Practice.
 (Heidelberg, London, New York): Springer, 2010. Foreword by Prof. Claes Wohlin.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

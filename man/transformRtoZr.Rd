@@ -18,7 +18,7 @@ The function transforms a vector of point biserial r values to their normal appr
 \examples{
 reproducer::transformRtoZr(0.4)
 # [1] 0.4236489
-Zr=reproducer::transformRtoZr(c(0.4,0.2))
+Zr <- reproducer::transformRtoZr(c(0.4, 0.2))
 Zr
 # [1] 0.4236489 0.2027326
 }

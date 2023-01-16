@@ -26,9 +26,9 @@ If you use this function or the returned data set than please cite:
 Tomasz Lewowski and Lech Madeyski, "Creating evolving project data sets in software engineering", 2019
 }
 \examples{
-  #to run this function you need to use your own token as a parameter of the function
-  #use your own token as the first parameter of the function
-  #searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
+# to run this function you need to use your own token as a parameter of the function
+# use your own token as the first parameter of the function
+# searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
 }
 \author{
 Lech Madeyski and Tomasz Lewowski

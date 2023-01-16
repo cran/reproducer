@@ -2,7 +2,8 @@
 % Please edit documentation in R/NPSimulation.R
 \name{RandomizedBlocksExperimentSimulations}
 \alias{RandomizedBlocksExperimentSimulations}
-\title{RandomizedBlocksExperimentSimulations}
+\title{title RandomizedBlocksExperimentSimulations
+description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-parametric effect sizes P-hat, Cliff' d and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.}
 \usage{
 RandomizedBlocksExperimentSimulations(
   mean,
@@ -16,7 +17,8 @@ RandomizedBlocksExperimentSimulations(
   BlockStdAdj = 0,
   StdAdj = 0,
   seed = 123,
-  returnData = FALSE
+  returnData = FALSE,
+  AlwaysTwoSidedTests = FALSE
 )
 }
 \arguments{
@@ -26,13 +28,14 @@ RandomizedBlocksExperimentSimulations(
 
 \item{diff}{The is is added to the parameter mean, to define the mean of the other treatment group. It can be a real value ad can take the value zero.}
 
-\item{N}{this is the number of observations in each group. It must be an interger greater than 3.}
+\item{N}{this is the number of observations in each group. It must be an integer greater than 3.}
 
-\item{reps}{this identifies the number of tiume the simulation is replicated.}
+\item{reps}{this identifies the number of times the simulation is replicated.}
 
-\item{type}{this specifies the underlying distribution used to generate the data. it takes the values "n" for a normal distribution, "l" for lognormal distribution,"g" for a gamma distribution, "lap" for a Laplace distribution.}
+\item{type}{this specifies the underlying distribution used to generate the data. it takes the values 'n' for a normal distribution, 'l' for lognormal distribution,'g' for a gamma distribution, 'lap' for a Laplace distribution.}
 
-\item{alpha}{is the Type 1 error level used for constructing confidence intervals}
+\item{alpha}{is the Type 1 error level used for constructing confidence
+intervals and statistical tests (default 0.05)}
 
 \item{Blockmean}{is the effect of having two different blocks}
 
@@ -42,33 +45,66 @@ RandomizedBlocksExperimentSimulations(
 
 \item{seed}{this specifies the seed value for the simulations and allows the experiment to be repeated.}
 
-\item{returnData}{= FALSE if TRUE the function returns the generated data otherwise it returns summary statistics.}
-}
-\value{
-depending on the parameter returnData it returns the generated nonparametric and parametric values or the summary statistics
-examples
-RandomizedBlocksExperimentSimulations(mean=0,sd=1,diff=0.5,N=10, reps=500,type="n",alpha=0.05,Blockmean=0.5, BlockStdAdj=0,StdAdj=0,seed=123)
-# A tibble: 1 x 18
-#    phat varphat sigphat emp.phat.var     d   vard  sigd emp.d.var  ktau kconsistentvar emp.tau.var kpowerCVt StdES
-#   <dbl>   <dbl>   <dbl>        <dbl> <dbl>  <dbl> <dbl>     <dbl> <dbl>          <dbl>       <dbl>     <dbl> <dbl>
-# 1 0.640 0.00832   0.326      0.00773 0.279 0.0343 0.282    0.0309 0.147        0.00956     0.00856     0.168 0.513
-#  … with 5 more variables: ES <dbl>, Var <dbl>, emp.StdESvar <dbl>, MedDiff <dbl>, tpower <dbl>
-RandomizedBlocksExperimentSimulations(mean=0,sd=1,diff=0.5,N=10, reps=10,type="n",alpha=0.05,Blockmean=0.5, BlockStdAdj=0,StdAdj=0,seed=123,returnData=T)
-# A tibble: 10 x 3
-#   Cliffd  PHat StdES
-#    <dbl> <dbl> <dbl>
-# 1  0.58  0.79  1.06
-# 3  0.37  0.685 0.761
-# 4  0.440 0.72  0.821
-# 5  0.13  0.565 0.240
-# 6  0.16  0.58  0.222
-# 7  0.38  0.69  0.580
-# 8  0.48  0.74  0.882
-# 9  0.11  0.555 0.181
-#10 -0.03  0.485 0.124
+\item{returnData}{if TRUE the function returns the generated data otherwise it returns summary statistics.}
+
+\item{AlwaysTwoSidedTests}{A boolean variable. If TRUE the simulations always used two-sided tests otherwise the simulations use one-sided tests.
+return depending on the parameter returnData it returns the generated nonparametric and parametric values and their statistical significance (1 for significant, 0 for not significant) or the summary statistics (averages of effect sizes and their variances and the proportion significant effect sizes)}
 }
 \description{
-This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-paramtric effect sizes P-hat, Cliff' d and Kendall's point biserial tau and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
+title RandomizedBlocksExperimentSimulations
+description This function performs multiple simulations of 4 group balanced randomised Block experiments with two control groups and two treatment groups where one control group and one treatment group are assigned to block 1 and the other control group and treatment group are assigned to block 2.  The simulations are based on one of four distributions and a specific group size. The function identifies the average value of the non-parametric effect sizes P-hat, Cliff' d and their variances and whether ot not the statistics were significant at the 0.05 level. We also present the values of the t-test as a comparison.
+}
+\examples{
+as.data.frame(
+  RandomizedBlocksExperimentSimulations(
+    mean = 0, sd = 1, diff = 0.5, N = 10, reps = 100, type = "n",
+    alpha = 0.05, Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123,
+    AlwaysTwoSidedTests = FALSE))
+#     phat     varphat sigphat emp.phat.var      d      vard sigd  emp.d.var
+#1 0.64415 0.008271389    0.45  0.005888917 0.2883 0.0340919 0.41 0.02355567
+#        StdES        ES       Var emp.StdESvar   MedDiff tpower
+#1   0.5413961 0.5264245 0.9904726   0.08811262 0.5538213   0.46
+#as.data.frame(
+ # RandomizedBlocksExperimentSimulations(
+ #   mean = 0, sd = 1, diff = 0.5, N = 10, reps = 500, type = "n",
+ #   alpha = 0.05, Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123,
+ #   AlwaysTwoSidedTests = FALSE))
+#  phat    varphat       sigphat emp.phat.var  d       vard        sigd  emp.d.var
+# 1  0.63967  0.008322856  0.436   0.007728698   0.27934 0.03430328  0.416 0.03091479
+#       StdES        ES      Var emp.StdESvar   MedDiff
+# 1 0.5130732 0.5029075 1.001602    0.1116687 0.5110203
+#  tpower
+# 1   0.45
+
+#as.data.frame(
+ # RandomizedBlocksExperimentSimulations(
+ #   mean = 0, sd = 1, diff = 0.5, N = 10, reps = 500, type = "n",
+ #   alpha = 0.05, Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123,
+ #   AlwaysTwoSidedTests = TRUE))
+#       phat     varphat sigphat emp.phat.var        d       vard   sigd
+# 1  0.63967 0.008322856   0.326  0.007728698  0.27934 0.03430328  0.282
+#     emp.d.var        StdES        ES      Var
+# 1  0.03091479    0.5130732 0.5029075 1.001602
+# emp.StdESvar   MedDiff tpower
+# 1    0.1116687 0.5110203  0.334
+
+#RandomizedBlocksExperimentSimulations(
+ # mean = 0, sd = 1, diff = 0.5, N = 10, reps = 10, type = "n", alpha = 0.05,
+ #Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123, returnData = TRUE)
+# A tibble: 10 x 6
+#   Cliffd  PHat StdES CliffdSig PHatSig ESSig
+#    <dbl> <dbl> <dbl>     <dbl>   <dbl> <dbl>
+# 1   0.58 0.79  1.06          1       1     1
+# 2   0.21 0.605 0.383         0       0     0
+# 3   0.37 0.685 0.761         1       1     1
+# 4   0.44 0.72  0.821         1       1     1
+# 5   0.13 0.565 0.240         0       0     0
+# 6   0.16 0.58  0.222         0       0     0
+# 7   0.38 0.69  0.580         1       1     1
+# 8   0.48 0.74  0.882         1       1     1
+# 9   0.11 0.555 0.181         0       0     0
+# 10  -0.03 0.485 0.124        0       0     0
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

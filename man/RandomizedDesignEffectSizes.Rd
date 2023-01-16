@@ -15,30 +15,24 @@ RandomizedDesignEffectSizes(m1, std1, m2, std2, type = "n")
 
 \item{std2}{The theoretical variance for the treatment group}
 
-\item{type}{String identifying the distribution, "n" for normal, "ln" for lognormal, "lap" for Laplace, "g" for Gamma}
+\item{type}{String identifying the distribution, 'n' for normal, 'ln' for lognormal, 'lap' for Laplace, 'g' for Gamma}
 }
 \value{
 dataframe containing the expected values of the unstandardized mean difference effect size, the pooled witjin group variance, the standardized mean difference effect size and the point bi-serial correlation.
 }
 \description{
-This function creates the theoretical effect sizes for random samples from one of four different distributions for specified parameter values for the diftribution specified by the type parameter. It assumes there are two samples, one corresponding to a control group and the other to the treatment group. It returns the theoretical effect sizes for a fully randomized experiment.
+This function creates the theoretical effect sizes for data from one of four different distributions for specified parameter values for the distribution specified by the type parameter. It assumes there are two samples, one corresponding to a control group and the other to the treatment group. It returns the theoretical effect sizes for a fully randomized experiment.
 }
 \examples{
-RandomizedDesignEffectSizes(m1=0, std1=1, m2=1, std2=3, type = "n")
-# A tibble: 1 x 4
-#      ES   Var StdES  rPBS
-#   <dbl> <dbl> <dbl> <dbl>
-# 1     1     5 0.447 0.218
-RandomizedDesignEffectSizes(m1=0, std1=1, m2=1, std2=3, type = "l")
-# A tibble: 1 x 4
-#     ES        Var  StdES    rPBS
-# <dbl>      <dbl>  <dbl>   <dbl>
-#1  243. 242552663. 0.0156 0.00780
- RandomizedDesignEffectSizes(m1=0, std1=1, m2=0.266, std2=1, type = "l")
-# A tibble: 1 x 4
-#     ES   Var StdES   rPBS
-#  <dbl> <dbl> <dbl>  <dbl>
-#1 0.502  6.31 0.200 0.0995
+RandomizedDesignEffectSizes(m1=0, std1=1, m2=1, std2=3, type = 'n')
+#  ES Var     StdES      rPBS
+#1  1   5 0.4472136 0.2182179
+RandomizedDesignEffectSizes(m1=0, std1=1, m2=1, std2=3, type = 'l')
+#        ES       Var     StdES        rPBS
+#1 243.0432 242552663 0.0156056 0.007802562
+ RandomizedDesignEffectSizes(m1=0, std1=1, m2=0.266, std2=1, type = 'l')
+#          ES      Var     StdES       rPBS
+# 1 0.5024232 6.310995 0.1999957 0.09950162
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

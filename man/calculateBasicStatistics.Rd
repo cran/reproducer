@@ -15,23 +15,29 @@ calculateBasicStatistics(x, alpha = 0.05)
 A dataframe comprising the length, mean, variance, standard error and confidence limit bounds of the input data x.
 }
 \description{
-This function calculates the following statistcs for a set of data: length, mean, median, variance, standard error of the mean, and confidence interval bounds. The input data must be a vector of 2 or more numerical values.
+This function calculates the following statistics for a set of data: length, mean, median, variance, standard error of the mean, and confidence interval bounds. The input data must be a vector of 2 or more numerical values.
 }
 \examples{
-ShortExperimentNames=c("E1","E2","E3","E4")
-FullExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-Metrics=c("Comprehension","Modification")
-Groups=c("A","B","C","D")
-Type=c(rep("4G",4))
-StudyID="S2"
-Control="SC"
-ReshapedData=ExtractExperimentData(KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
-,ExperimentNames=FullExperimentNames, idvar="ParticipantID",timevar="Period",ConvertToWide=TRUE)
-NewTable= ConstructLevel1ExperimentRData(ReshapedData,StudyID,ShortExperimentNames,Groups,
-Metrics,Type,Control)
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+FullExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+Metrics <- c("Comprehension", "Modification")
+Groups <- c("A", "B", "C", "D")
+Type <- c(rep("4G", 4))
+StudyID <- "S2"
+Control <- "SC"
+ReshapedData <- ExtractExperimentData(
+  KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM,
+  ExperimentNames = FullExperimentNames, idvar = "ParticipantID",
+  timevar = "Period", ConvertToWide = TRUE
+)
+NewTable <- ConstructLevel1ExperimentRData(
+  ReshapedData, StudyID, ShortExperimentNames, Groups,
+  Metrics, Type, Control
+)
 calculateBasicStatistics(NewTable$r)
- #    N    Mean Median Variance      SE LowerBound UpperBound
- # 1 32 0.06175 0.1688   0.2482 0.08808    -0.1109     0.2344
+#    N    Mean Median Variance      SE LowerBound UpperBound
+# 1 32 0.06175 0.1688   0.2482 0.08808    -0.1109     0.2344
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

@@ -17,8 +17,8 @@ readExcelSheet(path, sheet, colNames)
 Function reads data from an Excel file from a specified sheet
 }
 \examples{
-myPath=system.file("extdata", "DataSet.xlsx", package = "reproducer")
-Madeyski15SQJ.NDC<-readExcelSheet(path=myPath, sheet="Madeyski15SQJ.NDC", colNames=TRUE)
+myPath <- system.file("extdata", "DataSet.xlsx", package = "reproducer")
+Madeyski15SQJ.NDC <- readExcelSheet(path = myPath, sheet = "Madeyski15SQJ.NDC", colNames = TRUE)
 }
 \author{
 Lech Madeyski

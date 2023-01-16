@@ -16,13 +16,13 @@ effectSizeCI(
 )
 }
 \arguments{
-\item{expDesign}{Experimental design: 1) crossover repeated measures ("CrossOverRM"), 2) before-after repeated measures (expDesign=="BeforeAfterRM"), 3) independent groups ("IG)}
+\item{expDesign}{Experimental design: 1) crossover repeated measures ('CrossOverRM'), 2) before-after repeated measures (expDesign=='BeforeAfterRM'), 3) independent groups ('IG)}
 
 \item{t}{t-statistics (t must be less than or equal to 37.62, the limit from the R function documentation)}
 
-\item{n1}{The number of observations in sequence group 1 (expDesign=="CrossOverRM"), the number of observations in group 1 (expDesign=="IG"), or the total number of observations (expDesign=="BeforeAfterRM")}
+\item{n1}{The number of observations in sequence group 1 (expDesign=='CrossOverRM'), the number of observations in group 1 (expDesign=='IG'), or the total number of observations (expDesign=='BeforeAfterRM')}
 
-\item{n2}{The number of observations in sequence group 2 (expDesign=="CrossOverRM") or the number of observations in group 2 (expDesign=="IG")}
+\item{n2}{The number of observations in sequence group 2 (expDesign=='CrossOverRM') or the number of observations in group 2 (expDesign=='IG')}
 
 \item{r}{The correlation between outcomes for individual subject (the within subject correlation)}
 
@@ -45,11 +45,11 @@ Upper and lower bounds on the equivalent independent groups effect size (d_IG) a
 bounds on d_RM by sqrt(1-r).
 }
 \examples{
-effectSizeCI(expDesign="CrossOverRM", t=14.4, n1=15, n2=15, r=0.6401)
-effectSizeCI(expDesign = "BeforeAfterRM", t=14.16536, n1=15, n2=0, r=0.6146771)
-effectSizeCI(expDesign = "IG", t=-6.344175, n1=15, n2=15)
-effectSizeCI(expDesign="CrossOverRM", t=0.5581, n1=6, n2=6, r=0.36135)
-effectSizeCI(expDesign = "CrossOverRM", r=0.855,t=4.33, n1=7, n2=6)
+effectSizeCI(expDesign = "CrossOverRM", t = 14.4, n1 = 15, n2 = 15, r = 0.6401)
+effectSizeCI(expDesign = "BeforeAfterRM", t = 14.16536, n1 = 15, n2 = 0, r = 0.6146771)
+effectSizeCI(expDesign = "IG", t = -6.344175, n1 = 15, n2 = 15)
+effectSizeCI(expDesign = "CrossOverRM", t = 0.5581, n1 = 6, n2 = 6, r = 0.36135)
+effectSizeCI(expDesign = "CrossOverRM", r = 0.855, t = 4.33, n1 = 7, n2 = 6)
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

@@ -10,7 +10,7 @@ A text file with variables:
 \item{Study}{This field includes the study identifier of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
 \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
-\item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
+\item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 group crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
 \item{Exp1}{This is the reported standardised effect size for the first time period and the first experiment in the family.}
 \item{Exp2}{This is the reported standardised effect size for the first time period and second experiment in the family.}
 \item{Exp3}{This is the reported standardised effect size for the first time period and the third experiment in the family.}

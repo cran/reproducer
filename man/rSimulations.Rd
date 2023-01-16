@@ -51,31 +51,33 @@ investigate the distribution of correlations for specific sample sizes.
 \examples{
 # output=rSimulations(mean=0,var=1,diff=0,r=0.25,N=4,reps=10000)
 # reduced reps to pass CRAN time limits
-output=rSimulations(mean=0,var=1,diff=0,r=0.25,N=4,reps=1000)
-output=signif(output,4)
+output <- rSimulations(mean = 0, var = 1, diff = 0, r = 0.25, N = 4, reps = 1000)
+output <- signif(output, 4)
 output
 #  r.Mean r.Median  Var.r PercentNegative Mean.VarProp Variance.VarProp ...
 # 1 0.2132   0.3128 0.3126           34.21       0.5036          0.06046 ...
-#output=rSimulations(mean=0,var=1,diff=0.8,r=0.25,N=60,reps=10000,returntSignificant=TRUE)
+# output=rSimulations(mean=0,var=1,diff=0.8,r=0.25,N=60,reps=10000,returntSignificant=TRUE)
 # reduced reps to pass CRAN time limits
-output=rSimulations(mean=0,var=1,diff=0.8,r=0.25,N=60,reps=1000,returntSignificant=TRUE)
-output=signif(output,4)
+output <- rSimulations(mean = 0, var = 1, diff = 0.8, r = 0.25, N = 60,
+  reps = 1000, returntSignificant = TRUE)
+output <- signif(output, 4)
 output
 #   r.Mean r.Median   Var.r PercentNegative Mean.VarProp Variance.VarProp ...
 # 1 0.2492   0.2534 0.01529            2.62       0.5009         0.003897 ...
-output=rSimulations(mean=0,var=1,diff=0,r=0.25,N=30,reps=10,returndata=TRUE)
+output <- rSimulations(mean = 0, var = 1, diff = 0, r = 0.25, N = 30, reps = 10, returndata = TRUE)
 output
 #     rvalues   VarProp VarAccuracy VarDiffAccuracy tSig
-#1  0.3981111 0.4276398   0.8630528       0.6974386    0
-#2  0.2104742 0.4994285   0.7812448       0.8224174    0
-#3  0.4252424 0.4933579   1.1568545       0.8866058    0
-#4  0.3502651 0.6004373   0.8710482       0.7628923    0
-#5  0.3845145 0.6029086   0.9618363       0.7998859    0
-#6  0.1397217 0.4201069   1.1817022       1.3582855    0
-#7  0.2311455 0.3894894   0.8322239       0.8594886    0
-#8  0.3725047 0.5985897   1.1742117       0.9938662    0
-#9  0.4881618 0.2712268   0.7585261       0.5723671    0
-#10 0.1568071 0.3936400   0.9869924       1.1143561    0
+# 1  0.3981111 0.4276398   0.8630528       0.6974386    0
+# 2  0.2104742 0.4994285   0.7812448       0.8224174    0
+# 3  0.4252424 0.4933579   1.1568545       0.8866058    0
+# 4  0.3502651 0.6004373   0.8710482       0.7628923    0
+# 5  0.3845145 0.6029086   0.9618363       0.7998859    0
+# 6  0.1397217 0.4201069   1.1817022       1.3582855    0
+# 7  0.2311455 0.3894894   0.8322239       0.8594886    0
+# 8  0.3725047 0.5985897   1.1742117       0.9938662    0
+# 9  0.4881618 0.2712268   0.7585261       0.5723671    0
+# 10 0.1568071 0.3936400   0.9869924       1.1143561    0
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

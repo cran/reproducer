@@ -36,7 +36,7 @@ RandomizedBlockDesignEffectSizes(
 
 \item{BE}{A fixed block effect to be added to the Block 2 mean values.}
 
-\item{type}{String identifying the distribution, "n" for normal, "ln" for lognormal, "lap" for Laplace, "g" for Gamma}
+\item{type}{String identifying the distribution, 'n' for normal, 'ln' for lognormal, 'lap' for Laplace, 'g' for Gamma}
 }
 \value{
 dataframe holing the expected unstandardized mean difference effect size, the pooled within group variance, the standardized effect size and the point bi-serial correlation.
@@ -45,22 +45,18 @@ dataframe holing the expected unstandardized mean difference effect size, the po
 This function finds the theoretical effect sizes for a four-group randomized block experiments assuming one of four different underlying distributions specified by the type parameter. The design assumes two blocks each comprising a control and treatment group. If required a fixed Blocking effect is added to the mean for Block 2.
 }
 \examples{
-RandomizedBlockDesignEffectSizes(m1=0,std1=1,m2=1,std2=1,m3=0,std3=1,m4=1,std4=1,BE=1,type="n")
-#  A tibble: 1 x 4
-#      ES   Var StdES  rPBS
-#   <dbl> <dbl> <dbl> <dbl>
-# 1     1     1     1 0.447
-RandomizedBlockDesignEffectSizes(m1=0,std1=1,m2=1,std2=1,m3=0,std3=1,m4=1,std4=1,BE=1,type="l")
-#  A tibble: 1 x 4
-#      ES   Var StdES  rPBS
-#   <dbl> <dbl> <dbl> <dbl>
-# 1  5.27  82.2 0.581 0.279
-RandomizedBlockDesignEffectSizes(m1=0,std1=1,m2=0.266,std2=1,m3=0,std3=1,m4=0.266,std4=1,BE=0,
- type = "l")
-#  A tibble: 1 x 4
-#      ES   Var StdES   rPBS
-#   <dbl> <dbl> <dbl>  <dbl>
-# 1 0.502  6.31 0.200 0.0995
+RandomizedBlockDesignEffectSizes(m1=0,std1=1,m2=1,std2=1,m3=0,std3=1,m4=1,
+  std4=1,BE = 1,type = 'n')
+# ES Var StdES      rPBS
+#1  1   1     1 0.4472136
+RandomizedBlockDesignEffectSizes(m1=0,std1=1,m2=1,std2=1,m3=0,std3=1,m4=1,
+  std4=1,BE = 1,type = 'l')
+#        ES      Var     StdES      rPBS
+#1 5.266886 82.17791 0.5810004 0.2789675
+RandomizedBlockDesignEffectSizes(
+  m1=0,std1=1,m2=0.266,std2=1,m3=0,std3=1,m4=0.266,std4=1,BE = 0,type = 'l')
+#        ES      Var     StdES       rPBS
+#1 0.5024232 6.310995 0.1999957 0.09950162
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

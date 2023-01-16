@@ -3,15 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE data illustrate correlations
-between results from individual participants in cross-over experiment usb2  conducted by
-Scanniello et al:
-[1] G. Scanniello, A. Marcus, and D. Pascale, "Link analysis algorithms for static concept
-location: an empirical assessment", Empirical Software Engineering, vol. 20, no. 6,
-pp. 1666–1720, 2015.
-The goal of the experiment is to assess whether a new technique (implemented as an Eclipse
-plug-in) for static concept location (proposed by the authors) supports users in identifying the
-places in the code where changes are to be made.}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE data}
 \format{
 `KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE`: a data frame with 48
 rows and 10 variables:
@@ -40,12 +32,22 @@ category specifies the matching pairs of sequence groups, CO1 and CO2. }
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello15EMSE
 }
 \description{
-If you use this data set please cite:
-[1] G. Scanniello, A. Marcus, and D. Pascale, "Link analysis algorithms for static concept
-location: an empirical assessment", Empirical Software Engineering, vol. 20, no. 6,
+Data illustrate correlations between results from individual participants in cross-over
+experiment usb2 conducted by Scanniello et al:
+[1] G. Scanniello, A. Marcus, and D. Pascale, 'Link analysis algorithms for static concept
+location: an empirical assessment', Empirical Software Engineering, vol. 20, no. 6,
 pp. 1666–1720, 2015.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+The goal of the experiment is to assess whether a new technique (implemented as an Eclipse
+plug-in) for static concept location (proposed by the authors) supports users in identifying the
+places in the code where changes are to be made.
+}
+\details{
+If you use this data set please cite:
+[1] G. Scanniello, A. Marcus, and D. Pascale, 'Link analysis algorithms for static concept
+location: an empirical assessment', Empirical Software Engineering, vol. 20, no. 6,
+pp. 1666–1720, 2015.
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

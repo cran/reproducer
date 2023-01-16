@@ -28,13 +28,13 @@ The function constructs various different d-style effect sizes for a set of diff
 \examples{
 constructEffectSizes(10, 15, 0.3, 0.2, 15, 15)
 
-Mt = c(0.633, 0.673, 0.423, 0.727, 0.631)
-Mc = c(0.612, 0.526, 0.356, 0.618, 0.534)
-SDt = c(0.198, 0.115, 0.172, 0.088, 0.122)
-SDc = c(0.159, 0.089, 0.111, 0.166, 0.119)
-Nt = c(12, 12, 14, 10, 8)
-Nc= c(12, 12, 14, 10, 8)
-EffectSizes=constructEffectSizes(Mc, Mt, SDc,SDt,Nt,Nc)
+Mt <- c(0.633, 0.673, 0.423, 0.727, 0.631)
+Mc <- c(0.612, 0.526, 0.356, 0.618, 0.534)
+SDt <- c(0.198, 0.115, 0.172, 0.088, 0.122)
+SDc <- c(0.159, 0.089, 0.111, 0.166, 0.119)
+Nt <- c(12, 12, 14, 10, 8)
+Nc <- c(12, 12, 14, 10, 8)
+EffectSizes <- constructEffectSizes(Mc, Mt, SDc, SDt, Nt, Nc)
 EffectSizes
 # GlassDelta    Cohend   Hedgesg          r HedgesgAdjusted
 # 1  0.1320755 0.1221516 0.1169513 0.05837591       0.1129107

@@ -3,21 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM data illustrate correlations
-between results from individual participants in a family of four cross-over experiments
-conducted by Scanniello et al:
-[1] G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora,  "On the Impact
-of UML Analysis Models on Source-Code Comprehensibility and Modifiability", ACM Transactions on
-Software Engineering and Methodlogy, vol. 23, no. 2, pp. 13:1-13:26, 2014
-The family of experiments investigated whether the availability of analysis models in addition
-to the source code made the code easier to understand and modify.
-If you use this data set please cite:
-[1] G.  G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora, "On the
-Impact of UML Analysis Models on Source-Code Comprehensibility and Modifiability", ACM
-Transactions on Software Engineering and Methodology, vol. 23, no. 2, pp. 13:1-13:26, 2014
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM data}
 \format{
 `KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM`: a data frame with 172
 rows and 9 variables:
@@ -46,20 +32,19 @@ CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM data illustrate correlations
-between results from individual participants in a family of four cross-over experiments
-conducted by Scanniello et al:
-[1] G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora,  "On the Impact
-of UML Analysis Models on Source-Code Comprehensibility and Modifiability", ACM Transactions on
+Data illustrate correlations between results from individual participants in a family of four
+cross-over experiments conducted by Scanniello et al:
+[1] G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora,  'On the Impact
+of UML Analysis Models on Source-Code Comprehensibility and Modifiability', ACM Transactions on
 Software Engineering and Methodlogy, vol. 23, no. 2, pp. 13:1-13:26, 2014
 The family of experiments investigated whether the availability of analysis models in addition
 to the source code made the code easier to understand and modify.
 If you use this data set please cite:
-[1] G.  G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora, "On the
-Impact of UML Analysis Models on Source-Code Comprehensibility and Modifiability", ACM
+[1] G.  G.  Scanniello,  C. Gravino,  M. Genero, J.A. Cruz-Lemus, and  G. Tortora, 'On the
+Impact of UML Analysis Models on Source-Code Comprehensibility and Modifiability', ACM
 Transactions on Software Engineering and Methodology, vol. 23, no. 2, pp. 13:1-13:26, 2014
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

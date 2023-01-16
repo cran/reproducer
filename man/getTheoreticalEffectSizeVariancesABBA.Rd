@@ -32,11 +32,11 @@ theoreticalvardRM -  variance of the effect size dRM based on the parameters bui
 }
 \description{
 Function provides the theoretical value of the t-statistic, variance of t, and variance of the effect sizes based on the parameters built into crossover model data simulated by the getSimilationData() function.
-Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+Function is used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham.
 }
 \examples{
 # Generates data used in Table 15 of the paper
-theoreticalEffectSizeVariances <- getTheoreticalEffectSizeVariancesABBA(6.25,-10,0.75,15,15)
+theoreticalEffectSizeVariances <- getTheoreticalEffectSizeVariancesABBA(6.25, -10, 0.75, 15, 15)
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

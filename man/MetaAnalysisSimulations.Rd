@@ -20,7 +20,8 @@ MetaAnalysisSimulations(
   BlockStdAdj = 0,
   StdExp = 0,
   MAMethod = "PM",
-  returnES = F
+  returnES = FALSE,
+  AlwaysTwoSidedTests = FALSE
 )
 }
 \arguments{
@@ -30,82 +31,119 @@ MetaAnalysisSimulations(
 
 \item{diff}{mean+diff is the value used for the mean of the treatment group. It can be zero.}
 
-\item{GroupSize}{is the size of each of the groups comprising one experiment. GroupSize should be an integer of 4 or more}
+\item{GroupSize}{is the size of each of the groups comprising one experiment. Groupsize should be an integer of 4 or more}
 
-\item{type}{specifies the distribution being simulated. The permited values are "n" for the normal distribution,  "l" for the lognormal distribution, "g" for the gamma distribution and "lap" for the Laplace distribution. The parameter defaults to "n".}
+\item{type}{specifies the distribution being simulated. The permitted values
+are 'n' for the normal distribution (default), 'l' for the lognormal
+distribution, 'g' for the gamma distribution and 'lap' for the Laplace
+distribution.}
 
-\item{Replications}{The number of times the set of experiments is simulated. It defaults to 500.}
+\item{Replications}{The number of times the set of experiments is simulated.}
 
-\item{Exp}{the number of experiments being simulated. Exp should be an integer of 2 or more. It defaults to 5.}
+\item{Exp}{is the number of experiments in each family of experiments being
+simulated. Exp should be an integer of 2 or more (default 5).}
 
-\item{seed}{specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defaults to 456.}
+\item{seed}{specifies the seed to be used to initiate the simulation, so the simulation is repeatable.}
 
-\item{alpha}{This is the Type 1 probability level used in significnace tests. It defaults to 0.05.}
+\item{alpha}{The significance level used for tests and confidence intervals
+(default 0.05)}
 
-\item{FourGroup}{is a Boolean variable that determines whether the experiment is a two group experiments or a 4-Group randomised block experiment. It defaults to FALSE which means a two group experiment is the default condition.}
+\item{FourGroup}{is a Boolean variable that determines whether the experiment
+is a two group experiments or a 4-Group randomised block experiment. It
+defaults to FALSE which means a two-group experiment is the default condition}
 
-\item{StdAdj}{specifies the adjustment made to the treatment variance if it is required to simulate variance heterogeneity due to the treatment. It defaults to 0.}
+\item{StdAdj}{If non-zero that can be used to introduced variability into
+the treatment spread/variance (default 0). Not appropriate for gamma data.}
 
-\item{BlockEffect}{specified a fixed block effect that can be applied to randomized blocks designs.}
+\item{BlockEffect}{A factor used to change the mean difference between
+blocks (default 0.5)}
 
-\item{BlockStdAdj}{specifies the adjustment made to the variance of one block if it is required to simulate heterogeneity due to  blocks in a randomized blocks experiment. The variance adjusment is made to the same block that any Block affect is applied to. It defaults to 0.}
+\item{BlockStdAdj}{if non-zero this can be used to change the BlockEffect
+from a fixed to random effect (default 0).}
 
-\item{StdExp}{specifies the adjustment made to the variance of each experiment  if it is required to simulate variance heterogeneity due to individual experiments in a family. It defaults to 0.}
+\item{StdExp}{if non-zero it simulates a random effect between experiments
+in the same family (default 0).}
 
 \item{MAMethod}{specifies the model to be used when experimental effect sizes ar aggregated using the R metafor package.}
 
-\item{returnES}{if TRUE the function outputs the summary statistics otherwise it outputs the meta-analysis results for each family. The parameter defaults to FALSE}
+\item{returnES}{if TRUE the function outputs the summary statistics otherwise it outputs the meta-analysis results for each family (default FALSE)}
+
+\item{AlwaysTwoSidedTests}{This parameter can be used to override the
+one-sided tests used as default if the diff parameter is non-zero
+(default FALSE). This should only be set to TRUE to check simulation
+reported in other papers that seem to have used two-sided tests.}
 }
 \value{
-The parameter either returns the meta-analysis values obtained from each family or the average values of the meta-analysis over all replications.
+The parameter either returns the meta-analysis values obtained from
+each family or the average values of the meta-analysis over all replications.
 }
 \description{
-This function simulates data from many families of experiments. The number of families simulated is defined by the Replications parameter. The parameter Exp determines the number of experiments in each family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The experimental design of individual experiments in each family is determined by the FourGroup parameter. If FourGroup=FALSE, the basic experimental design is a balanced two group randomized experiment, otherwise the experimental design is a balanced four group experiment corresponding to a randomized blocks experiment. The function calls either NP2GroupMetaAnalysisSimulation or NP4GroupMetaAnalysisSimulation to generate and analyse data for each individual family. The function either returns the meta-analysed data from each experiment or provides summary statistics.
+This function simulates data from many families of experiments. The number of families simulated is defined by the Replications parameter. The parameter Exp determines the number of experiments in each family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The experimental design of individual experiments in each family is determined by the FourGroup parameter. If FourGroup=FALSE, the basic experimental design is a balanced two group randomized experiment, otherwise the experimental design is a balanced four group experiment corresponding to a randomized blocks experiment. The function calls either NP2GMetaAnalysisSimulation or NP2GMetaAnalysisSimulation to generate and analyse data for each individual family. The function either returns the meta-analysed data from each experiment or provides summary statistics.
 }
 \examples{
-MetaAnalysisSimulations(mean=0,sd=1,diff=0.5,GroupSize=10,type="n",Replications=25,Exp=5,
-seed=456,alpha=0.05,FourGroup=FALSE,StdAdj=0,BlockEffect=0,BlockStdAdj=0,StdExp=0,MAMethod="PM")
-# A tibble: 1 x 26
-# Averagektau Averagektauctvar AveragetauSigCVt AverageCliffd AverageCliffdvar AverageCliffdsig
-# <dbl>            <dbl>            <dbl>         <dbl>            <dbl>            <dbl>
-#  1       0.164          0.00375             0.72         0.311           0.0134             0.72
-#… with 20 more variables: Averagephat <dbl>, Averagephatvar <dbl>, Averagephatsig <dbl>,
-#  MAAverage <dbl>, MAVariance <dbl>, MASignificant <dbl>, HetSignificant <dbl>, PMAAverage <dbl>,
-#  PMASignificant <dbl>, PMAHetSignificant <dbl>, Mean.phat <dbl>, phat.sig <dbl>, Mean.d <dbl>,
-#  d.sig <dbl>, Mean.g.exact <dbl>, g.exact.sig <dbl>, Mean.g.approx <dbl>, g.approx.sig <dbl>,
-#  Mean.Cohend <dbl>, Cohend.sig <dbl>
-MetaAnalysisSimulations(mean=0,sd=1,diff=0.734,GroupSize=100,type="l",Replications=25,Exp=5,
-seed=456,alpha=0.05,FourGroup=FALSE,StdAdj=0,BlockEffect=0,BlockStdAdj=0,StdExp=0,MAMethod="PM")
-#  A tibble: 1 x 26
-#  Averagektau Averagektauctvar AveragetauSigCVt AverageCliffd AverageCliffdvar AverageCliffdsig
-# <dbl>            <dbl>            <dbl>         <dbl>            <dbl>            <dbl>
-#  0.200         0.000276                1         0.399          0.00109                1
-# … with 20 more variables: Averagephat <dbl>, Averagephatvar <dbl>, Averagephatsig <dbl>,
-#   MAAverage <dbl>, MAVariance <dbl>, MASignificant <dbl>, HetSignificant <dbl>, PMAAverage <dbl>,
-#   PMASignificant <dbl>, PMAHetSignificant <dbl>, Mean.phat <dbl>, phat.sig <dbl>, Mean.d <dbl>,
-#   d.sig <dbl>, Mean.g.exact <dbl>, g.exact.sig <dbl>, Mean.g.approx <dbl>, g.approx.sig <dbl>,
-#   Mean.Cohend <dbl>, Cohend.sig <dbl>
-# MetaAnalysisSimulations(mean=0,sd=1,diff=0.5,GroupSize=10,type="n",Replications=10,Exp=5,
-# seed=456,alpha=0.05,FourGroup=TRUE,StdAdj=0,BlockEffect=0.5,BlockStdAdj=0,StdExp=0,
-# MAMethod="PM",returnES=TRUE)
-# A tibble: 10 x 31
-# Family NumExp GroupSize AveKtau AveKtauctvar tauSigCVt AveCliffd AveCliffdvar AveCliffdsig
-# <int>  <dbl>     <dbl>   <dbl>        <dbl> <lgl>         <dbl>        <dbl> <lgl>
-#  1      1      5        10   0.133      0.00206 TRUE          0.252      0.00742 TRUE
-# 2      2      5        10   0.161      0.00190 TRUE          0.306      0.00681 TRUE
-# 3      3      5        10   0.135      0.00206 TRUE          0.256      0.00744 TRUE
-# 4      4      5        10   0.16       0.00191 TRUE          0.304      0.00686 TRUE
-# 5      5      5        10   0.133      0.00178 TRUE          0.252      0.00636 TRUE
-# 6      6      5        10   0.192      0.00178 TRUE          0.364      0.00634 TRUE
-# 7      7      5        10   0.189      0.00185 TRUE          0.36       0.00661 TRUE
-# 8      8      5        10   0.126      0.00199 TRUE          0.24       0.00715 TRUE
-# 9      9      5        10   0.132      0.00200 TRUE          0.25       0.00719 TRUE
-# 10     10      5        10   0.18       0.00181 TRUE          0.342      0.00646 TRUE
-# # … with 22 more variables: Avephat <dbl>, Avephatvar <dbl>, Avephatsig <lgl>, MAMean <dbl>,
-# #   MAvar <dbl>, MASig <lgl>, QE <dbl>, QEp <dbl>, HetSig <lgl>, P.mean <dbl>, P.rsig <lgl>,
-# #   P.hetsig <lgl>, Mean.phat <dbl>, phat.sig <lgl>, Mean.d <dbl>, d.sig <lgl>,
-# #   Mean.g.exact <dbl>, g.exact.sig <lgl>, Mean.g.approx <dbl>, g.approx.sig <lgl>,
-# #   Cohend.mean <dbl>, Cohend.sig <lgl>
+as.data.frame(
+  MetaAnalysisSimulations(
+    mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=10, Exp=5,
+    seed=456, alpha=0.05, FourGroup=FALSE, StdAdj=0, BlockEffect=0.5,
+    BlockStdAdj=0,StdExp=0,MAMethod='PM',returnES=FALSE))
+#  AverageCliffd AverageCliffdvar AverageCliffdsig Averagephat Averagephatvar
+#1        0.3336        0.0132419              0.8      0.6668    0.003214756
+#Averagephatsig  AveMDStd AveMDStdvar AveMDStdsig MAMean.phat  MAphat.var
+#1          0.9 0.6176206  0.04278117         0.9    0.689908 0.003888047
+#MAphat.sig MAMean.Cliffd MACliffd.var MACliffd.sig Mean.StdMDUnweighted
+#1      0.9       0.37984   0.01575063          0.9            0.6449963
+#StdMDUnweighted.var StdMDUnweighted.sig Mean.StdMDAdjUnweighted
+#1        0.04299001                 0.9               0.6145034
+#StdMDAdjUnweighted.var StdMDAdjUnweighted.sig Mean.HedgesMA Hedges.var
+#1           0.04192908                    0.9     0.6150575 0.04455833
+#Hedges.sig Mean.StdMDAdjMA.exact StdMDAdjMA.exact.var StdMDAdjMA.exact.sig
+#1      0.9             0.5834754           0.05171067                  0.8
+#Mean.StdMDAdjMA.approx StdMDAdjMA.approx.var StdMDAdjMA.approx.sig
+#1              0.58643            0.04749064                   0.9
+#Mean.StdMDMA.exact StdMDMA.exact.var StdMDMA.exact.sig Mean.StdMDMA.approx
+#1        0.6134374        0.05711235               0.8           0.6165884
+#StdMDMA.approx.var StdMDMA.approx.sig
+#1       0.05242339                0.9
+#as.data.frame(
+ # MetaAnalysisSimulations(
+ #   mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=50, Exp=5,
+ #   seed=456, alpha=0.05, FourGroup=FALSE, StdAdj=0, BlockEffect=0.5,
+ #   BlockStdAdj=0,StdExp=0,MAMethod='PM',returnES=FALSE))
+# AverageCliffd AverageCliffdvar AverageCliffdsig Averagephat Averagephatvar
+#1      0.29808       0.01333744             0.74     0.64904    0.003236444
+# Averagephatsig  AveMDStd   AveMDStdvar AveMDStdsig MAMean.phat  MAphat.var
+#           0.78 0.5450377    0.04217901        0.78   0.6677884 0.004538661
+#  MAphat.sig MAMean.Cliffd MACliffd.var MACliffd.sig  Mean.StdMDUnweighted
+#1       0.72     0.3356298   0.01833956         0.72             0.5686653
+#  StdMDUnweighted.var StdMDUnweighted.sig Mean.StdMDAdjUnweighted
+#1          0.04237386                0.82               0.5419554
+#StdMDAdjUnweighted.var StdMDAdjUnweighted.sig Mean.HedgesMA Hedges.var
+#            0.04138573                   0.78     0.5420552 0.04388383
+#  Hedges.sig Mean.StdMDAdjMA.exact StdMDAdjMA.exact.var StdMDAdjMA.exact.sig
+#1       0.76             0.5163304           0.05874152                 0.72
+#Mean.StdMDAdjMA.approx StdMDAdjMA.approx.var StdMDAdjMA.approx.sig
+#1            0.5203279            0.05591752                  0.74
+# Mean.StdMDMA.exact StdMDMA.exact.var
+#        0.5418705        0.06468786
+# StdMDMA.exact.sig Mean.StdMDMA.approx StdMDMA.approx.var StdMDMA.approx.sig
+#              0.72           0.5461255         0.06159257               0.74
+
+#as.data.frame(
+#   MetaAnalysisSimulations(
+#     mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=50, Exp=5,
+#     seed=456, alpha=0.05, FourGroup=TRUE, StdAdj=0, BlockEffect=0.5,
+#     BlockStdAdj=0, StdExp=0, MAMethod='PM', returnES=FALSE))
+#  AverageCliffd AverageCliffdvar AverageCliffdsig Averagephat ...
+#1       0.27968       0.00683327             0.92     0.63984 ...
+# as.data.frame(
+#   MetaAnalysisSimulations(
+#     mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=10, Exp=5,
+#     seed=456, alpha=0.05, FourGroup=TRUE, StdAdj=0, BlockEffect=0.5,
+#     BlockStdAdj=0, StdExp=0, MAMethod='PM', returnES=TRUE))
+#Family NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  ...
+#     1      1         5        10        0.252  0.007423693    TRUE  ...
+# Family NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat ...
+#1     1      5        10     0.252  0.007423693         TRUE   0.626 ...
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

@@ -3,20 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM data illustrate correlations between
-results from individual participants in a  cross-over experiment conducted by Romano et al.:
-[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, "The effect of noise on
-software engineers’ performance", in Proceedings of the 12th ACM/IEEE International Symposium on
-Empirical Software Engineering and Measurement, ser. ESEM'18, 2018.
-The experiments assess whether noise has an impact on the performance of software engineers.
-If you use this data set please cite:
-[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, "The effect of noise on
-software engineers’ performance", in Proceedings of the 12th ACM/IEEE International Symposium on
- Empirical Software Engineering and Measurement, ser. ESEM'18, 2018.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).
-The experiment had two parts but Kitchenham et al. only use the data from the first part of the experiment.}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM data}
 \format{
 A data frame with 194 and 10 variables:
 \describe{
@@ -29,13 +16,13 @@ parts of the experiment.}
 \item{System}{<fct>|Software systems used in the experiment: For the first part of the
 experiment, M-Shop (a system for managing a music shop) and Theater (a system for managing
 theatre reservations). For the second part of the experiment: AveCalc (a system that manages as
- electronic register and LaTazza  (a system for a drinks vending machine)  }
+electronic register and LaTazza  (a system for a drinks vending machine)  }
 \item{Period}{<fct>|Time period of the cross-over experiment: 1 or 2}
 \item{Treatment}{<fct>|Experimental Treatment: NOISE, participants were asked to perform a
 comprehension task in a noisy environment.
 NORMAL, participants were asked to perform a comprehension task under normal working conditions.}
 \item{Fc}{<dbl>|Dependent variable: the balanced F-measure which represents the trade-off
-between  precision and recall,	measured in the first part of the experiment.}
+between  precision and recall, measured in the first part of the experiment.}
 \item{Avg}{<dbl>|Dependent variable: The average number of fully correct answers, measured in
 the first part of the experiment. }
 \item{Ff}{<dbl>|Dependent variable: Effectiveness of fault correction. Measured in the second
@@ -49,18 +36,18 @@ category is set to CO1 only.}
 KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Romano18ESEM data illustrate correlations between
-results from individual participants in a  cross-over experiment conducted by Romano et al.:
-[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, "The effect of noise on
-software engineers’ performance", in Proceedings of the 12th ACM/IEEE International Symposium on
+Data illustrate correlations between results from individual participants in a cross-over
+experiment conducted by Romano et al.:
+[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, 'The effect of noise on
+software engineers’ performance', in Proceedings of the 12th ACM/IEEE International Symposium on
 Empirical Software Engineering and Measurement, ser. ESEM'18, 2018.
 The experiments assess whether noise has an impact on the performance of software engineers.
 If you use this data set please cite:
-[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, "The effect of noise on
-software engineers’ performance", in Proceedings of the 12th ACM/IEEE International Symposium on
+[1] S. Romano, G. Scanniello, D. Fucci, N. Juristo, and B. Turhan, 'The effect of noise on
+software engineers’ performance', in Proceedings of the 12th ACM/IEEE International Symposium on
  Empirical Software Engineering and Measurement, ser. ESEM'18, 2018.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The Importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 The experiment had two parts but Kitchenham et al. only use the data from the first part of the experiment.
 }

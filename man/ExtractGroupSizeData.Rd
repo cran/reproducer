@@ -15,11 +15,11 @@ ExtractGroupSizeData(
 \arguments{
 \item{ExpDataWide}{this is a list of tibbles each comprising data from one experiment in its wide format}
 
-\item{StudyID}{an identifer for the group of related experiments (i.e., a family).}
+\item{StudyID}{an identifier for the group of related experiments (i.e., a family).}
 
 \item{ShortExperimentNames}{a list of character strings identifying each experiment.}
 
-\item{Type}{A list identifying the type of crossover "2G" or "4G" for each experiment in the family}
+\item{Type}{A list identifying the type of crossover '2G' or '4G' for each experiment in the family}
 
 \item{Groups}{a list of the terms used to specify sequence groups in the experiments.}
 }
@@ -30,38 +30,40 @@ A tibble containing the number of participants in each sequence group in each ex
 This function constructs a table identifying the number of participants in each sequence group for a set of experiments each of which used a crossover design.
 }
 \examples{
-ExperimentNames=c("EUBAS","R1UCLM","R2UCLM","R3UCLM")
-ShortExperimentNames=c("E1","E2","E3","E4")
-Metrics=c("Comprehension","Modification")
-Type=c("4G", "4G", "4G", "4G")
-Groups=c("A","B","C","D")
-StudyID="S2"
-Control="SC"
+ExperimentNames <- c("EUBAS", "R1UCLM", "R2UCLM", "R3UCLM")
+ShortExperimentNames <- c("E1", "E2", "E3", "E4")
+Metrics <- c("Comprehension", "Modification")
+Type <- c("4G", "4G", "4G", "4G")
+Groups <- c("A", "B", "C", "D")
+StudyID <- "S2"
+Control <- "SC"
 # Obtain experimental data from a file and put in wide format
-dataset2= KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
-ReshapedData=ExtractExperimentData(dataset2, ExperimentNames=ExperimentNames,
-  idvar="ParticipantID", timevar="Period", ConvertToWide=TRUE
-  )
-ExtractGroupSizeData(ReshapedData, StudyID, ShortExperimentNames, Type, Groups=Groups)
+dataset2 <- KitchenhamEtAl.CorrelationsAmongParticipants.Scanniello14TOSEM
+ReshapedData <- ExtractExperimentData(dataset2,
+  ExperimentNames = ExperimentNames,
+  idvar = "ParticipantID", timevar = "Period", ConvertToWide = TRUE
+)
+ExtractGroupSizeData(ReshapedData, StudyID, ShortExperimentNames, Type, Groups = Groups)
 # A tibble: 16 x 4
 #  Study Exp   Group     n
 #  <chr> <chr> <chr> <int>
-#1 S2    Exp1  A         6
-#2 S2    Exp1  B         6
-#3 S2    Exp1  C         6
-#4 S2    Exp1  D         6
-#5 S2    Exp2  A         6
-#6 S2    Exp2  B         6
-#7 S2    Exp2  C         5
-#8 S2    Exp2  D         5
-#9 S2    Exp3  A         5
-#10 S2    Exp3  B         5
-#11 S2    Exp3  C         6
-#12 S2    Exp3  D         6
-#13 S2    Exp4  A         5
-#14 S2    Exp4  B         5
-#15 S2    Exp4  C         4
-#16 S2    Exp4  D         4
+# 1 S2    Exp1  A         6
+# 2 S2    Exp1  B         6
+# 3 S2    Exp1  C         6
+# 4 S2    Exp1  D         6
+# 5 S2    Exp2  A         6
+# 6 S2    Exp2  B         6
+# 7 S2    Exp2  C         5
+# 8 S2    Exp2  D         5
+# 9 S2    Exp3  A         5
+# 10 S2    Exp3  B         5
+# 11 S2    Exp3  C         6
+# 12 S2    Exp3  D         6
+# 13 S2    Exp4  A         5
+# 14 S2    Exp4  B         5
+# 15 S2    Exp4  C         4
+# 16 S2    Exp4  D         4
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

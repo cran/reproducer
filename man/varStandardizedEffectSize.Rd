@@ -22,11 +22,11 @@ if returnVarg if set to TRUE, return var(g) otherwise var(d)
 Function calculates the exact variance of a standardized effect size based on the relationship between t and the standardized effect size, see Morris and DeShon, Combining Effect Size Estimates in Meta-Analysis With Repeated Measures and Independent-Groups Designs, Psychological Methods, 7 (1), pp 105-125.
 }
 \examples{
-d=0.5
-varStandardizedEffectSize(d,sqrt(1/30),29,returnVarg=FALSE)
-# [1] 0.2007699
-varStandardizedEffectSize(d,sqrt(1/30),29,returnVarg=TRUE)
-# [1] 0.1904167
+d <- 0.5
+varStandardizedEffectSize(d, 2 / 20, 38, returnVarg = FALSE)
+# [1]  0.1047567
+varStandardizedEffectSize(d, 2 / 20, 38, returnVarg = TRUE)
+# [1] 0.1090516
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

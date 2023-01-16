@@ -1,3 +1,37 @@
+# CHANGES IN reproducer VERSION 0.5.0
+
+## UPDATED FEATURES
+- Corrected cross-over data set descriptions
+- Updated functions simulateRandomizedBlockDesignEffectSizes, NP4GroupMetaAnalysisSimulation (now NP4GMetaAnalysisSimulation), RandomizedBlockDesignEffectSizes, percentageInaccuracyOfLargeSampleVarianceApproximation
+- Changed function names: NP4GroupMetaAnalysisSimulation now NP4GMetaAnalysisSimulation, NP2GroupMetaAnalysisSimulation now NP2GMetaAnalysisSimulation, Kendalltaupb now calculateKendalltaupb, CalculateTheoreticalEffectSizes now calculatePopulationStatistics
+- New functions:
+`AnalyseResiduals`
+`calc.a`
+`calc.b`
+`calcCliffdConfidenceIntervals`
+`calcEffectSizeConfidenceIntervals`
+`calcPHatConfidenceIntervals`
+`calculate2GMdMRE`
+`calculate4GMdMRE`
+`calculateCliffd`
+`calculateLargeSampleRandomizedDesignEffectSizes`
+`calculateLargeSampleRandomizedBlockDesignEffectSizes`
+`calculateNullESAccuracy`
+`CatchError`
+`checkIfValidDummyVariable`
+`Cliffd.test`
+`crossoverResidualAnalysis`
+`doLM`
+`metaanalyseSmallSampleSizeExperiments`
+`NP2GMetaAnalysisSimulation`
+`NP4GMetaAnalysisSimulation`
+`PHat.test`
+`simulate2GExperimentData`
+`simulate4GExperimentData`
+`testfunctionParameterChecks`
+
+
+
 # CHANGES IN reproducer VERSION 0.4.2
 
 ## UPDATED FEATURES

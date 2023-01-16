@@ -3,18 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM data illustrate correlations between
-results from individual participants in a family of three of four cross-over experiments
-conducted by Ricca et al:
-[1] F. Ricca, G. Scanniello, M. Torchiano, G. Reggio, and E. Astesiano,
-"Assessing the effect of screen mockups on the comprehension of functional requirements,"
-ACM Transactions on Software Engineering and Methodology, vol. 24, no. 1, pp. 1:1–1:38, Oct.
-2014.
-The goal of the study was to assess whether stakeholders benefit from the presence of screen
-mock-ups in the comprehension of functional requirements represented with use cases.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM data}
 \format{
 A data frame with 176 rows and 10 variables:
 \describe{
@@ -32,7 +21,7 @@ task.}
 \item{Comprehension}{<dbl>|Dependent variable: The comprehension level the software engineers.}
 \item{Efficiency}{<dbl>|Dependent variable: The ratio of comprehension to time. }
 \item{CrossOverID}{<fct>|CrossOver category: For 4 group crossover designs, the crossover
-category specifies the matching pairs of	sequence groups, CO1 and CO2. For a 2 group crossover,
+category specifies the matching pairs of sequence groups, CO1 and CO2. For a 2 group crossover,
 the category is set to CO1 only.}
 }
 }
@@ -40,17 +29,16 @@ the category is set to CO1 only.}
 KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Ricca14TOSEM data illustrate correlations between
-results from individual participants in a family of three of four cross-over experiments
-conducted by Ricca et al:
+Data illustrate correlations between results from individual participants in a family of three
+of four cross-over experiments conducted by Ricca et al:
 [1] F. Ricca, G. Scanniello, M. Torchiano, G. Reggio, and E. Astesiano,
-"Assessing the effect of screen mockups on the comprehension of functional requirements,"
+'Assessing the effect of screen mockups on the comprehension of functional requirements,'
 ACM Transactions on Software Engineering and Methodology, vol. 24, no. 1, pp. 1:1–1:38, Oct.
 2014.
 The goal of the study was to assess whether stakeholders benefit from the presence of screen
 mock-ups in the comprehension of functional requirements represented with use cases.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

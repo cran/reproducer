@@ -4,47 +4,90 @@
 \alias{simulateRandomizedDesignEffectSizes}
 \title{simulateRandomizedDesignEffectSizes}
 \usage{
-simulateRandomizedDesignEffectSizes(mean, sd, diff, N, type = "n", StdAdj = 0)
+simulateRandomizedDesignEffectSizes(
+  mean,
+  sd,
+  diff,
+  N,
+  type = "n",
+  StdAdj = 0,
+  alpha = 0.05,
+  AlwaysTwoSidedTests = FALSE,
+  Return.Data = FALSE
+)
 }
 \arguments{
-\item{mean}{The mean used for one of the treatment groups}
+\item{mean}{The mean used for one of the treatment groups (this is the rate for the gamma data)}
 
-\item{sd}{The spread used for both treatment groups. It mus be a real value greater than 0.}
+\item{sd}{The spread used for both treatment groups. It mus be a real value greater than 0 (this is the shape for the gamma data).}
 
 \item{diff}{This is added to the parameter mean, to define the mean of the other treatment group. It can be a real value avd can take the value zero.}
 
 \item{N}{this is the number of observations in each group. It must be an integer greater than 3.}
 
-\item{type}{this specifies the underlying distribution used to generate the data. it takes the values "n" for a normal distribution, "l" for lognormal distribution,"g" for a gamma distribution, "lap" for a Laplace distribution.}
+\item{type}{this specifies the underlying distribution used to generate the data. it takes the values 'n' for a normal distribution, 'l' for lognormal distribution,'g' for a gamma distribution, 'lap' for a Laplace distribution.}
 
-\item{StdAdj}{this specifes the extent of variance instability introduced by the treatment.}
+\item{StdAdj}{this specifies the extent of variance instability to be introduced.}
+
+\item{alpha}{the level for all statistical tests (default 0.05)}
+
+\item{AlwaysTwoSidedTests}{if set to FALSE (i.e. default) the algorithms uses one-sided tests if diff!=0 and two-sided tests otherwise. If set to TRUE the algorithm always uses two-sided tests.}
+
+\item{Return.Data}{if set to true the algorithm returns the data not the effect sizes (default FALSE).}
 }
 \value{
-data frame incl. the non-parametric and parametric effect sizes and whether the effect sizes are significant at the 0.05 level.
+data frame incl. the non-parametric and parametric effect sizes and whether the effect sizes are significant at the specified alpha level. For log-normal data the function returns the effect sizes for the transformed data.
 }
 \description{
-This simulates one of four distributions, and finds the values of ktau, phat and Cliffs d and their variances. It assumes equal group sizes. It returns values of the effect sizes and their variance for a simulated randomized experiment with two treatments.  It returns whether to not each non-parametric effect size was significant. It also returns the parametric (unstandardized and unstandardized) Effect Size and the whether the t-test was signficiant.
+This simulates one of four data distributions (normal, log-normal, gamma and Laplace), and finds the values of phat and Cliffs d and their variances. It assumes equal group sizes. It returns values of the effect sizes and their variance for a simulated randomized experiment with two treatments.  It returns whether or not each non-parametric effect size was significant. It also returns the parametric (standardized and unstandardized) Effect Size and the whether the t-test was significant.
 }
 \examples{
 set.seed(123)
-simulateRandomizedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="n",StdAdj=0)
-# A tibble: 1 x 15
-# phat varphat dfphat sigphat     d   vard sigd    cor varcor sigCVt ttestp    ES Variance StdES
-# MedDiff
-# <dbl>   <dbl>  <dbl> <lgl>   <dbl>  <dbl> <lgl> <dbl>  <dbl> <lgl>   <dbl> <dbl>    <dbl> <dbl>
-# <dbl>
-#1  0.75  0.0152   17.5 FALSE     0.5 0.0624 FALSE 0.263 0.0175 FALSE  0.0507 0.934  0.994 0.937
-# 1.26
+as.data.frame(
+  simulateRandomizedDesignEffectSizes(
+    mean = 0, sd = 1, diff = 0.8, N = 10, type = "n", StdAdj = 0))
+#   phat    varphat   dfphat sigphat   d       vard sigd       cor     varcor sigCVt  t.value
+# 1 0.75 0.01522222 17.46405    TRUE 0.5 0.06237576 TRUE 0.2631579 0.01754995   TRUE 2.095142
+#      t.se     t.df      t.lb t.ub t.sig        ES  Variance     StdES  MedDiff
+# 1 0.4457915 17.87244 0.1606665  Inf  TRUE 0.9339963 0.9936502 0.9369759 1.260127
 set.seed(123)
-simulateRandomizedDesignEffectSizes(mean=0,sd=1,diff=0.8,N=10,type="l",StdAdj=0)
-# A tibble: 1 x 19
-#   phat varphat dfphat sigphat     d   vard sigd    cor varcor sigCVt ttestp    ES Variance
-# StdES MedDiff transttest
-#  <dbl>   <dbl>  <dbl> <lgl>   <dbl>  <dbl> <lgl> <dbl>  <dbl> <lgl>   <dbl> <dbl>    <dbl>
-# <dbl>   <dbl>      <dbl>
-#1  0.75  0.0152   17.5 FALSE     0.5 0.0624 FALSE 0.263 0.0175 FALSE  0.0958  2.41     9.01
-# 0.802    2.32     0.0507
-# … with 3 more variables: EStrans <dbl>, StdEStrans <dbl>, VarTrans <dbl>
+as.data.frame(
+  simulateRandomizedDesignEffectSizes(
+    mean = 0, sd = 1, diff = 0.8, N = 10, type = "n", StdAdj = 0,
+    AlwaysTwoSidedTests = TRUE))
+#  phat    varphat   dfphat sigphat   d       vard  sigd       cor
+# 1 0.75 0.01522222 17.46405   FALSE 0.5 0.06237576 FALSE 0.2631579
+#      varcor sigCVt  t.value      t.se     t.df         t.lb     t.ub t.sig
+# 1 0.01754995  FALSE 2.095142 0.4457915 17.87244 -0.003056196 1.871049 FALSE
+#         ES  Variance     StdES  MedDiff
+# 1 0.9339963 0.9936502 0.9369759 1.260127
+set.seed(456)
+as.data.frame(
+  simulateRandomizedDesignEffectSizes(
+    mean = 0, sd = 1, diff = 0.8, N = 10, type = "l", StdAdj = 0))
+# phat     varphat  dfphat sigphat    d      vard sigd       cor     varcor
+# 1 0.87 0.008466667 11.1111    TRUE 0.74 0.0350497 TRUE 0.3894737 0.01039674
+#  sigCVt  t.value     t.se     t.df     t.lb t.ub t.sig       ES Variance
+# 1   TRUE 3.599375 2.148297 9.312472 3.809448  Inf  TRUE 7.732529 23.07591
+#    StdES MedDiff transttest  EStrans StdEStrans VarTrans
+# 1 1.60969 7.77893   0.998772 1.731323   1.598065 1.173728
+
+set.seed(123)
+as.data.frame(
+  simulateRandomizedDesignEffectSizes(
+    mean = 0, sd = 1, diff = 0.8, N = 10, type = "n", StdAdj = 0,
+    Return.Data = TRUE))
+#   BaselineData AlternativeData
+# 1   -0.69470698       1.0533185
+# 2   -0.20791728       0.7714532
+# 3   -1.26539635       0.7571295
+# 4    2.16895597       2.1686023
+# 5    1.20796200       0.5742290
+# 6   -1.12310858       2.3164706
+# 7   -0.40288484      -0.7487528
+# 8   -0.46665535       1.3846137
+# 9    0.77996512       0.9238542
+# 10  -0.08336907       1.0159416
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

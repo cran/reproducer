@@ -20,7 +20,7 @@ value of Hedges' g
 This function coverts a vector of point bi-serial r values with associated sample size information back to the mean difference effect size Hedges g.
 }
 \examples{
-transformRtoHg(c(0.4,0.2), c(20,20), c(20,20))
+transformRtoHg(c(0.4, 0.2), c(20, 20), c(20, 20))
 # [1] 0.8728716 0.4082483
 }
 \author{

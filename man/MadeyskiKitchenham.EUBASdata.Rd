@@ -23,10 +23,10 @@ A data frame with variables:
 MadeyskiKitchenham.EUBASdata
 }
 \description{
-If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
+If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, 'Effect Sizes and their Variance for AB/BA Crossover Design Studies', Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 }
 \details{
-Data set comes from an experiment conducted in Italy at the University of Basilicata (with 24 first-year students from the Master's Program in Computer Science) to answer the question "Do the software models produced in the requirements analysis process aid in the comprehensibility and modifiability of source code?", see G. Scanniello, C. Gravino, M. Genero, J. A. Cruz-Lemus, and G. Tortora, "On the Impact of UML Analysis Models on Source-code Comprehensibility and Modifiability," ACM Transactions on Software Engineering and Methodology, vol. 23, pp. 13:1-13:26, Apr. 2014. However, the inconsistent subject data for subject 2 was removed, see the aforementioned paper by Madeyski and Kitchenham.
+Data set comes from an experiment conducted in Italy at the University of Basilicata (with 24 first-year students from the Master's Program in Computer Science) to answer the question 'Do the software models produced in the requirements analysis process aid in the comprehensibility and modifiability of source code?', see G. Scanniello, C. Gravino, M. Genero, J. A. Cruz-Lemus, and G. Tortora, 'On the Impact of UML Analysis Models on Source-code Comprehensibility and Modifiability,' ACM Transactions on Software Engineering and Methodology, vol. 23, pp. 13:1-13:26, Apr. 2014. However, the inconsistent subject data for subject 2 was removed, see the aforementioned paper by Madeyski and Kitchenham.
 }
 \examples{
 MadeyskiKitchenham.EUBASdata

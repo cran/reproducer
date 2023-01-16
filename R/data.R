@@ -1,13 +1,13 @@
 #' Madeyski15SQJ.NDC data
 #'
-#' If you use this data set please cite: Lech Madeyski and Marian Jureczko, "Which Process Metrics Can Significantly Improve Defect Prediction Models? An Empirical Study," Software Quality Journal, vol. 23, no. 3, pp.393-422, 2015. DOI: 10.1007/s11219-014-9241-7
+#' If you use this data set please cite: Lech Madeyski and Marian Jureczko, 'Which Process Metrics Can Significantly Improve Defect Prediction Models? An Empirical Study,' Software Quality Journal, vol. 23, no. 3, pp.393-422, 2015. DOI: 10.1007/s11219-014-9241-7
 #'
-#' "This paper presents an empirical evaluation in which several process metrics were investigated in order to identify the ones which significantly improve the defect prediction models based on product metrics. Data from a wide range of software projects (both, industrial and open source) were collected. The predictions of the models that use only product metrics (simple models) were compared with the predictions of the models which used product metrics, as well as one of the process metrics under scrutiny (advanced models). To decide whether the improvements were significant or not, statistical tests were performed and effect sizes were calculated. The advanced defect prediction models trained on a data set containing product metrics and additionally Number of Distinct Committers (NDC) were significantly better than the simple models without NDC, while the effect size was medium and the probability of superiority (PS) of the advanced models over simple ones was high (p=.016, r=-.29, PS=.76), which is a substantial finding useful in defect prediction. A similar result with slightly smaller PS was achieved by the advanced models trained on a data set containing product metrics and additionally all of the investigated process metrics (p=.038, r=-.29, PS=.68). The advanced models trained on a data set containing product metrics and additionally Number of Modified Lines (NML) were significantly better than the simple models without NML, but the effect size was small (p=.038, r=.06). Hence, it is reasonable to recommend the NDC process metric in building the defect prediction models." [https://dx.doi.org/10.1007/s11219-014-9241-7]
+#' 'This paper presents an empirical evaluation in which several process metrics were investigated in order to identify the ones which significantly improve the defect prediction models based on product metrics. Data from a wide range of software projects (both, industrial and open source) were collected. The predictions of the models that use only product metrics (simple models) were compared with the predictions of the models which used product metrics, as well as one of the process metrics under scrutiny (advanced models). To decide whether the improvements were significant or not, statistical tests were performed and effect sizes were calculated. The advanced defect prediction models trained on a data set containing product metrics and additionally Number of Distinct Committers (NDC) were significantly better than the simple models without NDC, while the effect size was medium and the probability of superiority (PS) of the advanced models over simple ones was high (p=.016, r=-.29, PS=.76), which is a substantial finding useful in defect prediction. A similar result with slightly smaller PS was achieved by the advanced models trained on a data set containing product metrics and additionally all of the investigated process metrics (p=.038, r=-.29, PS=.68). The advanced models trained on a data set containing product metrics and additionally Number of Modified Lines (NML) were significantly better than the simple models without NML, but the effect size was small (p=.038, r=.06). Hence, it is reasonable to recommend the NDC process metric in building the defect prediction models.' [https://dx.doi.org/10.1007/s11219-014-9241-7]
 #'
 #'
 #' @format A data frame with variables:
 #' \describe{
-#' \item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string "proprietary" (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
+#' \item{Project}{In case of open source projects this field includes the name of the project as well as its version. In case of industrial projects this field includes the string 'proprietary' (we were not allowed to disclose the names of the analyzed industrial software projects developed by Capgemini Polska).}
 #' \item{simple}{The percentage of classes that must be tested in order to find 80\% of defects in case of simple defect prediction models, i.e., using only software product metrics as predictors.}
 #' \item{advanced}{The percentage of classes that must be tested in order to find 80\% of defects in case of advanced defect prediction models, using not only software product metrics but also the NDC (Number of distinct committers) process metric.}
 #' }
@@ -20,7 +20,7 @@
 
 #' Madeyski15EISEJ.OpenProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, 'Cross-project defect prediction with respect to code ownership model: An empirical study', e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' This paper presents an analysis of 84 versions of industrial, open-source and academic projects. We have empirically evaluated whether those project types constitute separate classes of projects with regard to defect prediction. The predictions obtained from the models trained on the data from the open source projects were compared with the predictions from the other models (built on proprietary, i.e. industrial, student, open source, and not open source projects).
 #'
@@ -41,7 +41,7 @@
 
 #' Madeyski15EISEJ.PropProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, 'Cross-project defect prediction with respect to code ownership model: An empirical study', e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -60,7 +60,7 @@
 
 #' Madeyski15EISEJ.StudProjects data
 #'
-#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, "Cross-project defect prediction with respect to code ownership model: An empirical study", e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
+#' If you use this data set please cite: Marian Jureczko and Lech Madeyski, 'Cross-project defect prediction with respect to code ownership model: An empirical study', e-Informatica Software Engineering Journal, vol. 9, no. 1, pp. 21-35, 2015. DOI: 10.5277/e-Inf150102 (https://dx.doi.org/10.5277/e-Inf150102) URL: https://madeyski.e-informatyka.pl/download/JureczkoMadeyski15.pdf)
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -76,9 +76,11 @@
 #'
 "Madeyski15EISEJ.StudProjects"
 
-#' Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were reported and analysed by M. Ciolkowski ("What do we know about perspective-based reading? an approach for quantitative aggregation in software engineering", in Proceedings of the 3rd International Symposium on Empirical Software Engineering and Measurement, ESEM'09, pp. 133-144, IEEE Computer Society, 2009), corrected and re-analysed by Madeyski and Kitchenham ("How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis" (to be submitted)).
+#' Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR data
 #'
-#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
+#' Data form a set of primary studies on reading methods for software inspections. They were reported and analysed by M. Ciolkowski ('What do we know about perspective-based reading? an approach for quantitative aggregation in software engineering', in Proceedings of the 3rd International Symposium on Empirical Software Engineering and Measurement, ESEM'09, pp. 133-144, IEEE Computer Society, 2009), corrected and re-analysed by Madeyski and Kitchenham ('How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis' (to be submitted)).
+#'
+#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, 'How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis', 2015.
 #'
 #' @format A data frame with 21 rows and 7 variables:
 #' \describe{
@@ -97,9 +99,11 @@
 "Ciolkowski09ESEM.MetaAnalysis.PBRvsCBRorAR"
 
 
-#' MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
+#' MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data
 #'
-#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
+#' Data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, 'How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis', 2015.
+#'
+#' If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, 'How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis', 2015.
 #'
 #' @format A data frame with 17 rows and 26 variables:
 #' \describe{
@@ -138,9 +142,9 @@
 
 #' KitchenhamMadeyskiBudgen16.FINNISH data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#'Data set collected from 9 Finish companies by Mr Hanna M\"aki from the TIEKE organisation see Barbara Kitchenham and Kari K\"{a}ns\"{a}l\"{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
+#' Data set collected from 9 Finish companies by Mr Hanna M\'aki from the TIEKE organisation see Barbara Kitchenham and Kari K\'{a}ns\'{a}l\'{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -162,7 +166,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishSubjects data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set collected at Wroclaw University of Technology (POLAND) by Lech Madeyski includes separate entries for each abstract assessed by a judge, that is 4 entries for each judge. Data collected from 16 subjects recruited from Wroclaw  University of Technology who were each asked to assess 4 abstracts.
 #'
@@ -205,11 +209,11 @@
 
 #' KitchenhamMadeyskiBudgen16.SubjectData
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no. 2, pp. 579–630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#'Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
+#' Data set collected from 16 judges assessing 4 abstracts at 6 sites: Lincoln University NZ=1, Hong Kong Polytechnic University=2, PSu Thailand=3, Durham=4, Keele=5, Hong Kong City University=6
 #'
-#' subjectdata.txt: Judge	Institution  JudgeID age eng1st years.study abs.read Absid Treat TreatID Order Com.1 Com.2 Com.3 Com.4 Com.5 Com.6
+#' subjectdata.txt: Judge Institution JudgeID age eng1st years.study abs.read Absid Treat TreatID Order Com.1 Com.2 Com.3 Com.4 Com.5 Com.6
 #' Com.7 Com.8 Clarity num.questions total.score av.score Site
 #' @format A data frame with variables:
 #' \describe{
@@ -219,7 +223,7 @@
 #' \item{Age}{Age of the judge in years}
 #' \item{Eng1st}{Whether the judge's first language was Enlish: Yes/No}
 #' \item{YearsStudy}{The number of years have student been studying computing at University: 1, 2, 3, 4}
-#' \item{AbstractsRead}{Number of abstracts the judge had read prior to the study" 0, 1 to 10, 10+}
+#' \item{AbstractsRead}{Number of abstracts the judge had read prior to the study' 0, 1 to 10, 10+}
 #' \item{AbstractsWritten}{Whether the judge had ever written an abstract for a scientific report/article}
 #' \item{AbstractID}{Alphanumeric identifier for an abstract. The first character identifies the journal, I=IST, J=JSS, the third digit identifies the time period as 1 or 2, the remaining digits identify the abstract number within the set of abstracts found for the specified journal and time period}
 #' \item{Treat}{The initial 3 characters of AbstractID}
@@ -249,7 +253,7 @@
 
 #' KitchenhamMadeyskiBudgen16.PolishData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
 #' Data set derived from PolishSubjects data set collected at Wroclaw University. It summarizes the completeness and clarity data collected from 4 judges about the same abstract.
 #'
@@ -286,9 +290,9 @@
 
 #' KitchenhamMadeyskiBudgen16.DiffInDiffData data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#'Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.
+#' Data set was derived from the data reported in the SubjectData data set (subjectdata.txt). It contains the summary completeness and clarity data from 4 judges who assessed the same abstract. Only the initial 5 sites are included.
 #'
 #' dinddata.txt
 #' @format A data frame with variables:
@@ -327,13 +331,13 @@
 
 #' KitchenhamMadeyskiBudgen16.COCOMO data
 #'
-#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, "Robust Statistical Methods for Empirical Software Engineering", Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
+#' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#'Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
+#' Data set collected at TRW by Barry Boehm see: B.W. Boehm. 1981.  Software Engineering Economics. Prentice-Hall.
 #'
-#'Explanations by Barbara Kitchenham / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
+#' Explanations by Barbara Kitchenham / https://terapromise.csc.ncsu.edu:8443/!/#repo/view/head/effort/cocomo/cocomo1/nasa93/nasa93.arff
 #'
-#' COCOMO.txt: pro	type	year	Lang	Rely	Data	CPLX	aaf	time	store	virt	turn	type2	acap	aexp	pcap	vexp	lexp	cont	modp	TOOL	TOOLcat	SCED	RVOL	Select	rvolcat	Modecat	Mode1	Mode2	Mode3	KDSI	AKDSI	Effort	Dur	Productivity
+#' COCOMO.txt: pro type year Lang Rely Data CPLX aaf time store virt turn type2 acap aexp pcap vexp lexp cont modp TOOL TOOLcat SCED RVOL Select rvolcat Modecat Mode1 Mode2 Mode3 KDSI AKDSI Effort Dur Productivity
 #' @format A data frame with variables:
 #' \describe{
 #' \item{Project}{Project ID}
@@ -382,7 +386,7 @@
 
 #' KitchenhamMadeyski.SimulatedCrossoverDataSets data
 #'
-#' If you use this data set please cite this R package and the following paper: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
+#' If you use this data set please cite this R package and the following paper: Lech Madeyski and Barbara Kitchenham, 'Effect Sizes and their Variance for AB/BA Crossover Design Studies', Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 #'
 #' This is simulated normally distributed data from 30 subjects, with technique A being 10 units more effective than technique B, and there is a period effect equaling 5 units. Subject 1 to 15 used technique B first while subjects 16 to 30 used technique A first.
 #'
@@ -406,9 +410,9 @@
 
 #' MadeyskiKitchenham.EUBASdata data
 #'
-#' If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, "Effect Sizes and their Variance for AB/BA Crossover Design Studies", Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
+#' If you use this data set please cite this R package and the paper where we analyze the data set: Lech Madeyski and Barbara Kitchenham, 'Effect Sizes and their Variance for AB/BA Crossover Design Studies', Empirical Software Engineering, vol. 24, no.4, p. 1982-2017, 2018. DOI: 10.1007/s10664-017-9574-5
 #'
-#'Data set comes from an experiment conducted in Italy at the University of Basilicata (with 24 first-year students from the Master's Program in Computer Science) to answer the question "Do the software models produced in the requirements analysis process aid in the comprehensibility and modifiability of source code?", see G. Scanniello, C. Gravino, M. Genero, J. A. Cruz-Lemus, and G. Tortora, "On the Impact of UML Analysis Models on Source-code Comprehensibility and Modifiability," ACM Transactions on Software Engineering and Methodology, vol. 23, pp. 13:1-13:26, Apr. 2014. However, the inconsistent subject data for subject 2 was removed, see the aforementioned paper by Madeyski and Kitchenham.
+#' Data set comes from an experiment conducted in Italy at the University of Basilicata (with 24 first-year students from the Master's Program in Computer Science) to answer the question 'Do the software models produced in the requirements analysis process aid in the comprehensibility and modifiability of source code?', see G. Scanniello, C. Gravino, M. Genero, J. A. Cruz-Lemus, and G. Tortora, 'On the Impact of UML Analysis Models on Source-code Comprehensibility and Modifiability,' ACM Transactions on Software Engineering and Methodology, vol. 23, pp. 13:1-13:26, Apr. 2014. However, the inconsistent subject data for subject 2 was removed, see the aforementioned paper by Madeyski and Kitchenham.
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -484,11 +488,11 @@
 #' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropriately specified as gRM, r refers to the point bi-serial correlation.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 #' \item{Design}{The refers to the design method used by the study author. 4GroupCO is a 4-group crossover design. Mixed means different experiments in a particular family used different methods (only S3 used mixed methods and 4 experiments used the 4 group crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. IndGroups is the independent groups design also called between groups design or a randomised design. PrePost is pretest and posttest design with a post test control.}
-#' \item{Exp1}{This is the reported standardised effect size for the first experiment in the family.}
-#' \item{Exp2}{This is the reported standardised effect size for the second experiment in the family.}
-#' \item{Exp3}{This is the reported standardised effect size for the third experiment in the family.}
-#' \item{Exp4}{This is the reported standardised effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
-#' \item{Exp5}{This is the reported standardised effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
+#' \item{Exp1}{This is the reported standardized effect size for the first experiment in the family.}
+#' \item{Exp2}{This is the reported standardized effect size for the second experiment in the family.}
+#' \item{Exp3}{This is the reported standardized effect size for the third experiment in the family.}
+#' \item{Exp4}{This is the reported standardized effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
+#' \item{Exp5}{This is the reported standardized effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
 #' }
 #' @source \url{https://madeyski.e-informatyka.pl/reproducible-research/}
 #' @examples
@@ -506,7 +510,7 @@
 #' \item{Study}{This field includes the study identifier of each of the 3 primary studies which were included in the systematic review. The studies are S3, S7 and S11.}
 #' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
-#' \item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 goup crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
+#' \item{Design}{Mixed means different experiments in a particular family used different methods (onlyS3 used mixed methods and 4 experiments used the 4 group crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. }
 #' \item{Exp1}{This is the reported standardised effect size for the first time period and the first experiment in the family.}
 #' \item{Exp2}{This is the reported standardised effect size for the first time period and second experiment in the family.}
 #' \item{Exp3}{This is the reported standardised effect size for the first time period and the third experiment in the family.}
@@ -552,7 +556,7 @@
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 3 primary studies which reported their basic statistics on a time period & document basis. }
 #' \item{Exp}{This identifies the experiment to which the descriptive data belongs.}
-#' \item{Doc}{This identifies whether the data arose from the document used in the first or second time period. The value "Doc1" identifies the data as coming from the first document or first time period. The value "Doc2" identifies the data as coming from the second time period or document. Note for Study 3 we used the analysis of a specific document that was used in all 4 ABBA experiments. For studies 7 and 11, the authors identified which we used in r=each time period and Doc1 refers to data from the first time period.}
+#' \item{Doc}{This identifies whether the data arose from the document used in the first or second time period. The value 'Doc1' identifies the data as coming from the first document or first time period. The value 'Doc2' identifies the data as coming from the second time period or document. Note for Study 3 we used the analysis of a specific document that was used in all 4 ABBA experiments. For studies 7 and 11, the authors identified which we used in r=each time period and Doc1 refers to data from the first time period.}
 #' \item{Mc}{The mean value of the observations obtained using the control technique for the identified document.}
 #' \item{SDc}{The standard deviation of the observations obtained using the control technique for the identified document.}
 #' \item{Nc}{The number of participants using the control technique in the first time period for the identified document.}
@@ -571,7 +575,7 @@
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20190324 data
 #'
 #' This data is used in the paper:
-#' Tomasz Lewowski and Lech Madeyski, "Creating Evolving Project Data Sets in Software Engineering", vol. 851 of Studies in Computational Intelligence, pp. 1–14. Cham: Springer, 2020. DOI: 10.1007/978-3-030-26574-8_1
+#' Tomasz Lewowski and Lech Madeyski, 'Creating Evolving Project Data Sets in Software Engineering', vol. 851 of Studies in Computational Intelligence, pp. 1–14. Cham: Springer, 2020. DOI: 10.1007/978-3-030-26574-8_1
 #' @format A text file with variables:
 #' \describe{
 #' \item{rowID}{unique id assigned to projects before filtering (source: API)}
@@ -581,21 +585,21 @@
 #' \item{manual}{link to best found project documentation - wiki, webpage, documentation directory or readme. Projects with limited documentation were marked with (limited) and ones that had documentation in Chinese - (Chinese) (source: manual)}
 #' \item{installation}{the recommended installation medium(s) for the project. Some mediums may be missing for projects with multiple recommendations. (source: manual)}
 #' \item{support}{channel(s) that can be used to get support and/or report bugs. Some channels may be missing for projects with multiple ones. Abbreviations used (source: manual):
-#' GH	GitHub Issues
-#' SO	Stack Overflow
-#' GG	Google Groups
-#' ML	Mailing list
-#' FB	Facebook
-#' MM	Mattermost
-#' LI	LinkedIn
-#' ? 	not found}
+#' GH GitHub Issues
+#' SO Stack Overflow
+#' GG Google Groups
+#' ML Mailing list
+#' FB Facebook
+#' MM Mattermost
+#' LI LinkedIn
+#' ?  not found}
 #' \item{is not sample/playground/docs/...}{1 if the project is an actual application or library, 0 if it is a set of samples, only documentation or some experimental area (source: manual)}
 #' \item{is industrial}{whether the project can be treated as industrial quality one. Values and their meanings:
-#' 1	the repository can be classified as industrial grade;
-#' 0,5	the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
-#' 0	the repository cannot be classified as industrial-grade;
-#' -1	the repository is no longer actively maintained as of the date of data acquisition;
-#' -2	the repository is no longer in Java as of the date of data acquisition. (source: manual)}
+#' 1   the repository can be classified as industrial grade;
+#' 0,5 the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
+#' 0   the repository cannot be classified as industrial-grade;
+#' -1  the repository is no longer actively maintained as of the date of data acquisition;
+#' -2  the repository is no longer in Java as of the date of data acquisition. (source: manual)}
 #' \item{createdAt}{the date at which the repository was created (source: API)}
 #' \item{updatedAt}{the date of last repository update - including changes in projects, watchers, issues etc. (source: API)}
 #' \item{pushedAt}{the date of last push to the repository - NOT the date of last pushed commit (source: API)}
@@ -624,10 +628,10 @@
 
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022 data
 #'
-#' This data is used in the paper: Tomasz Lewowski and Lech Madeyski, "How do software engineering data sets evolve? A reproduction study", 2020 (submitted).
+#' This data is used in the paper: Tomasz Lewowski and Lech Madeyski, 'How do software engineering data sets evolve? A reproduction study', 2020 (submitted).
 #' Generated by:
-#' token <- "..."
-#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022<-searchForIndustryRelevantGitHubProjects(token, "2019-03-01", "2018-08-01")
+#' token <- '...'
+#' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022<-searchForIndustryRelevantGitHubProjects(token, '2019-03-01', '2018-08-01')
 #' usethis::use_data(MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022)
 #' @format A text file with variables:
 #' \describe{
@@ -638,21 +642,21 @@
 #' \item{manual}{link to best found project documentation - wiki, webpage, documentation directory or readme. Projects with limited documentation were marked with (limited) and ones that had documentation in Chinese - (Chinese) (source: manual)}
 #' \item{installation}{the recommended installation medium(s) for the project. Some mediums may be missing for projects with multiple recommendations. (source: manual)}
 #' \item{support}{channel(s) that can be used to get support and/or report bugs. Some channels may be missing for projects with multiple ones. Abbreviations used (source: manual):
-#' GH	GitHub Issues
-#' SO	Stack Overflow
-#' GG	Google Groups
-#' ML	Mailing list
-#' FB	Facebook
-#' MM	Mattermost
-#' LI	LinkedIn
-#' ? 	not found}
+#' GH GitHub Issues
+#' SO Stack Overflow
+#' GG Google Groups
+#' ML Mailing list
+#' FB Facebook
+#' MM Mattermost
+#' LI LinkedIn
+#' ?  not found}
 #' \item{is not sample/playground/docs/...}{1 if the project is an actual application or library, 0 if it is a set of samples, only documentation or some experimental area (source: manual)}
 #' \item{is industrial}{whether the project can be treated as industrial quality one. Values and their meanings:
-#' 1	the repository can be classified as industrial grade;
-#' 0,5	the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
-#' 0	the repository cannot be classified as industrial-grade;
-#' -1	the repository is no longer actively maintained as of the date of data acquisition;
-#' -2	the repository is no longer in Java as of the date of data acquisition. (source: manual)}
+#' 1   the repository can be classified as industrial grade;
+#' 0,5 the repository can sometimes be classified as industrial grade, but it is either a minor project or its documentation or support may be lacking the depth;
+#' 0   the repository cannot be classified as industrial-grade;
+#' -1  the repository is no longer actively maintained as of the date of data acquisition;
+#' -2  the repository is no longer in Java as of the date of data acquisition. (source: manual)}
 #' \item{createdAt}{the date at which the repository was created (source: API)}
 #' \item{updatedAt}{the date of last repository update - including changes in projects, watchers, issues etc. (source: API)}
 #' \item{pushedAt}{the date of last push to the repository - NOT the date of last pushed commit (source: API)}
@@ -677,5 +681,3 @@
 #' MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022
 #'
 "MadeyskiLewowski.IndustryRelevantGitHubJavaProjects20191022"
-
-

@@ -4,40 +4,83 @@
 \alias{Calc4GroupNPStats}
 \title{Calc4GroupNPStats}
 \usage{
-Calc4GroupNPStats(x1, x2, x3, x4, sigfig = -1, alpha = 0.05)
+Calc4GroupNPStats(
+  x1,
+  x2,
+  x3,
+  x4,
+  sigfig = -1,
+  alpha = 0.05,
+  alternative = "two.sided"
+)
 }
 \arguments{
-\item{x1}{is the data associated with treatment A in one block 1}
+\item{x1}{is the data associated with  treatment A in one block 1}
 
-\item{x2}{is the data associated with treatment B in block 1}
+\item{x2}{is the data associated with treatement B in block 1}
 
 \item{x3}{is the data associated with treatment A in block 2}
 
 \item{x4}{is the data associated with treatment B in block 2}
 
-\item{sigfig}{is the number of significant digits in the data. If >0 the datav will be appropriately truncated}
+\item{sigfig}{is the number of significant digits in the data. If >0
+the datav will be appropriately truncated.}
 
 \item{alpha}{is the significance level for all statistical tests}
+
+\item{alternative}{The type of statistical test. Valid values are one of
+c('two.sided', 'greater', 'less')}
 }
 \value{
-The function returns the point biserial version of Kendall's tau and its variance, Cliff's d and its variance, the probability of superiority, phat, and its variance, for the 4 group experiment experiment.
+The function returns the Cliff's d and its variance, the probability
+of superiority, phat, and its variance for the 4 group experiment experiment.
 }
 \description{
-This function does a non-parametric analysis of a randomized blocks experiment assuming 2 blocks and 2 treatment conditions.
+This function does a non-parametric analysis of a randomized
+blocks experiment assuming 2 blocks and 2 treatment conditions.
 }
 \examples{
 set.seed(123)
-x=list()
-x[[1]]=stats::rnorm(10,0,1)
-x[[2]]=stats::rnorm(10,0.8,1)
-x[[3]]=stats::rnorm(10,0.5,1)
-x[[4]]=stats::rnorm(10,1.3,1)
-Calc4GroupNPStats(x[[1]],x[[2]],x[[3]],x[[4]],sigfig=-1,alpha=0.05)
-# A tibble: 1 x 17
-#       N  phat phat.var phat.df phat.test phat.pvalue phat.sig      d   vard d.sig    cor   sqse
-# <int> <dbl>    <dbl>   <dbl>     <dbl>       <dbl> <lgl>     <dbl>  <dbl> <lgl>  <dbl>  <dbl>
-#   1    40  0.17  0.00497    31.0     -4.68   0.0000532 TRUE     -0.660 0.0206 TRUE  -0.347 0.0132
-# … with 5 more variables: ctvar <dbl>, n1 <int>, n2 <int>, sigCVt <lgl>, sigCVn <lgl>
+x <- list()
+x[[1]] <- rnorm(10, 0, 1)
+x[[2]] <- rnorm(10, 0.8, 1)
+x[[3]] <- rnorm(10, 0.5, 1)
+x[[4]] <- rnorm(10, 1.3, 1)
+as.data.frame(
+Calc4GroupNPStats(x[[1]], x[[2]], x[[3]], x[[4]], sigfig = -1, alpha = 0.05)
+)
+#   N phat    phat.var  phat.df phat.test  phat.pvalue phat.sig phat.ci.upper
+# 1 40 0.17 0.004966667 31.00131 -4.682539 5.324252e-05     TRUE     0.3137336
+#  phat.ci.lower     d       vard d.sig d.ci.lower d.ci.upper        cor       sqse
+# 1    0.02626639 -0.66 0.02060121  TRUE -0.8545073 -0.3031667 -0.3473684 0.01315789
+#        ctvar n1 n2 sigCVt
+# 1 0.005990797 20 20   TRUE
+as.data.frame(
+Calc4GroupNPStats(x[[1]], x[[2]], x[[3]], x[[4]], sigfig = -1, alpha = 0.05,
+alternative = "less")
+)
+#   N phat    phat.var  phat.df phat.test  phat.pvalue phat.sig phat.ci.upper
+# 1 40 0.17 0.004966667 31.00131 -4.682539 2.662126e-05     TRUE     0.2894908
+#  phat.ci.lower     d       vard d.sig d.ci.lower d.ci.upper        cor       sqse
+# 1             0 -0.66 0.02060121  TRUE         -1 -0.3677704 -0.3473684 0.01315789
+#        ctvar n1 n2 sigCVt
+# 0.005990797 20 20   TRUE
+as.data.frame(
+Calc4GroupNPStats(x[[2]], x[[1]], x[[4]], x[[3]], sigfig = -1, alpha = 0.05,
+alternative = "greater")
+)
+#   N phat    phat.var  phat.df phat.test  phat.pvalue phat.sig phat.ci.upper
+# 1 40 0.83 0.004966667 31.00131  4.682539 2.662126e-05     TRUE             1
+#  phat.ci.lower    d       vard d.sig d.ci.lower d.ci.upper       cor       sqse
+# 1     0.7105092 0.66 0.02060121  TRUE  0.3677704          1 0.3473684 0.01315789
+#        ctvar n1 n2 sigCVt
+# 1 0.005990797 20 20   TRUE
+
+#as.data.frame(
+#Calc4GroupNPStats(x[[1]],x[[2]],x[[3]],x[[4]],sigfig=-1,alpha=0.00))
+#Error in testfunctionParameterChecks(alternative = alternative, alpha = alpha,  :
+#  Invalid alpha parameter, select alpha in range (0.0001,0.2)
+
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

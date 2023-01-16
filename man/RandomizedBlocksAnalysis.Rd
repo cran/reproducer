@@ -4,30 +4,39 @@
 \alias{RandomizedBlocksAnalysis}
 \title{RandomizedBlocksAnalysis}
 \usage{
-RandomizedBlocksAnalysis(x, con = c(-0.5, 0.5, -0.5, 0.5), alpha = 0.05)
+RandomizedBlocksAnalysis(
+  x,
+  con = c(-0.5, 0.5, -0.5, 0.5),
+  alpha = 0.05,
+  alternative = "two.sided"
+)
 }
 \arguments{
 \item{x}{the structure holding the data. In list format, for a 2 treatment by J block randomized blocks experiments, there are  2J list elements each one specifying the outcome for a specific block and a specific treatment.}
 
-\item{con}{is a 2J list containing the contrast coefficients that are used to calculate the mean effet size.}
+\item{con}{is a 2J list containing the contrast coefficients that are used to calculate the mean effect size.}
 
-\item{alpha}{default to 0.05 is the Type 1 error level used for the test of significance}
+\item{alpha}{is the Type 1 error level used for the test of significance
+(default 0.05)}
+
+\item{alternative}{The type of statistical test. Valid values are one of
+c('two.sided', 'greater', 'less')}
 }
 \value{
-The t-test and its associated metrics (i.e., critical value stansard error and degrees of freedom) and the estimate of the contrast with its upper and lower confidence interval bounds and p-value.
+The t-test and its associated metrics (i.e., critical value standard error and degrees of freedom) and the estimate of the contrast with its upper and lower confidence interval bounds and p-value.
 }
 \description{
-The function performs a heteroscedastic test of a two treatment by J blocks randomized blocks effect size. The data are assumed to be stored in $x$ in list mode, a matrix or a data frame. If in list mode, length(x) is assumed to correspond to the total number of groups. All groups are assumed to be independent. Missing values are automatically removed.
+The function performs a heteroscedastic test of a two treatment by J blocks randomized blocks effect size. The data are assumed to be stored in $x$ in list mode. All groups are assumed to be independent. Missing values are not permitted.
 }
 \examples{
 set.seed(123)
-x=list()
-x[[1]]=stats::rnorm(10,0,1)
-x[[2]]=stats::rnorm(10,0.8,1)
-x[[3]]=stats::rnorm(10,0.5,1)
-x[[4]]=stats::rnorm(10,1.3,1)
-vec=c(-1,1,-1,1)/2
-RandomizedBlocksAnalysis(x,con=vec,alpha=0.05)
+x <- list()
+x[[1]] <- rnorm(10, 0, 1)
+x[[2]] <- rnorm(10, 0.8, 1)
+x[[3]] <- rnorm(10, 0.5, 1)
+x[[4]] <- rnorm(10, 1.3, 1)
+vec <- c(-1, 1, -1, 1) / 2
+RandomizedBlocksAnalysis(x, con = vec, alpha = 0.05)
 # $n
 # [1] 10 10 10 10
 # $test
@@ -36,17 +45,44 @@ RandomizedBlocksAnalysis(x,con=vec,alpha=0.05)
 # $psihat
 #      psihat  ci.lower ci.upper      p.value
 # [1,] 1.2403 0.6698721 1.810728 0.0001062952
-# dat=c(x[[1]],x[[2]],x[[3]],x[[4]])
-# matx=matrix(dat,nrow=10,ncol=4)
-# RandomizedBlocksAnalysis(matx,con=c(-1,1,-1,1)/2,alpha=0.05)
+# $sig
+# [1] TRUE
+RandomizedBlocksAnalysis(x,con=vec,alpha=0.05,alternative='greater')
+# n
+# [1] 10 10 10 10
+# $test
+#          test     crit        se       df
+# [1,] 4.432644 1.694956 0.2798104 31.33793
+# $psihat
+# psihat  ci.lower ci.upper      p.value
+#[1,] 1.2403 0.7660336      Inf 5.314762e-05
+# $sig
+# [1] TRUE
+RandomizedBlocksAnalysis(x,con=-vec,alpha=0.05,alternative='greater')
 #$n
 #[1] 10 10 10 10
 #$test
-#         test     crit        se       df
-#[1,] 4.432644 2.038622 0.2798104 31.33793
+#          test     crit        se       df
+#[1,] -4.432644 1.694956 0.2798104 31.33793
 #$psihat
-#     psihat  ci.lower ci.upper      p.value
-#[1,] 1.2403 0.6698721 1.810728 0.0001062952
+#      psihat  ci.lower ci.upper   p.value
+#[1,] -1.2403 -1.714566      Inf 0.9999469
+#$sig
+#[1] FALSE
+x[[5]]=rnorm(10,-0.2,1)
+x[[6]]=rnorm(10,0.6,1)
+vec=c(1,-1,1,-1,1,-1)/3
+RandomizedBlocksAnalysis(x,con=vec,alpha=0.05,alternative='less')
+#$n
+#[1] 10 10 10 10 10 10
+#$test
+#          test     crit       se       df
+#[1,] -4.946987  1.677021 0.236575 48.29776
+#$psihat
+#        psihat ci.lower   ci.upper     p.value
+#[1,] -1.170334     -Inf -0.7735925 4.76961e-06
+#$sig
+#[1] TRUE
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

@@ -26,8 +26,8 @@ data frame incl. calculated effect sizes (Hedges' g, Hedges' g adjusted), upper 
 This function calculates the standardized effect sizes and their confidence intervals, the equivalence point biserial effect size and the Zr and var(Zr) needed for input into the metafor rma function (meta analysis). In this function the point bi-serial effect size is based on the adjusted Hedges g value. The function uses the Hedges g to r transformation to prepare for meta-analysing the data where the mean values, the standard deviations, and the number of observations are available.
 }
 \examples{
-PrepareForMetaAnalysisGtoR(c(10,10), c(12,14), c(4,4), c(4,4), c(20,20), c(40,40))
-#HGvalues.Hg HGvalues.HgAdjusted  Hgupper     Hglower        zr         vi         r       pvalue
+PrepareForMetaAnalysisGtoR(c(10, 10), c(12, 14), c(4, 4), c(4, 4), c(20, 20), c(40, 40))
+# HGvalues.Hg HGvalues.HgAdjusted  Hgupper     Hglower        zr         vi         r       pvalue
 #        0.5           0.4935018 1.082017 -0.06156572 0.2305901 0.01754386 0.2265882 0.0816981743
 #        1.0           0.9870036 1.634701  0.40620071 0.4499419 0.01754386 0.4218513 0.0006813222
 }

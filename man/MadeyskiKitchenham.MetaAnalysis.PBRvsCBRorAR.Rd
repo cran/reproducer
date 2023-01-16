@@ -3,7 +3,7 @@
 \docType{data}
 \name{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
 \alias{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR}
-\title{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.}
+\title{MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR data}
 \format{
 A data frame with 17 rows and 26 variables:
 \describe{
@@ -41,7 +41,10 @@ A data frame with 17 rows and 26 variables:
 MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR
 }
 \description{
-If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, "How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis", 2015.
+Data form a set of primary studies on reading methods for software inspections. They were analysed by Lech Madeyski and Barbara Kitchenham, 'How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis', 2015.
+}
+\details{
+If you use this data set please cite: Lech Madeyski and Barbara Kitchenham, 'How variations in experimental designs impact the construction of comparable effect sizes for meta-analysis', 2015.
 }
 \examples{
 MadeyskiKitchenham.MetaAnalysis.PBRvsCBRorAR

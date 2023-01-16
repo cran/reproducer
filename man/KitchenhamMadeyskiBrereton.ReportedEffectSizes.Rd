@@ -11,11 +11,11 @@ A text file with variables:
 \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to dIG and gIG, p is the p-value used for aggregation, if the repeated measures estimate was obtained it is appropriately specified as gRM, r refers to the point bi-serial correlation.}
 \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 \item{Design}{The refers to the design method used by the study author. 4GroupCO is a 4-group crossover design. Mixed means different experiments in a particular family used different methods (only S3 used mixed methods and 4 experiments used the 4 group crossover and one used an independent groups design). ABBACO is the standard 2-group crossover design. IndGroups is the independent groups design also called between groups design or a randomised design. PrePost is pretest and posttest design with a post test control.}
-\item{Exp1}{This is the reported standardised effect size for the first experiment in the family.}
-\item{Exp2}{This is the reported standardised effect size for the second experiment in the family.}
-\item{Exp3}{This is the reported standardised effect size for the third experiment in the family.}
-\item{Exp4}{This is the reported standardised effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
-\item{Exp5}{This is the reported standardised effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
+\item{Exp1}{This is the reported standardized effect size for the first experiment in the family.}
+\item{Exp2}{This is the reported standardized effect size for the second experiment in the family.}
+\item{Exp3}{This is the reported standardized effect size for the third experiment in the family.}
+\item{Exp4}{This is the reported standardized effect size for the fourth experiment in the family. NA means there was no fourth experiment in the family.}
+\item{Exp5}{This is the reported standardized effect size for the fifth experiment in the family. NA means there was no fifth experiment in the family.}
 }
 }
 \source{

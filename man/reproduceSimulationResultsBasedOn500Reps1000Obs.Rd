@@ -19,11 +19,11 @@ data frame including the following simulation results:
 # dIG.Var.ModerateSampleSizeApprox -
 }
 \description{
-Function to calculate simulation results based on 500 repetitions of 1000 observation samples. Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+Function to calculate simulation results based on 500 repetitions of 1000 observation samples. Function is used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham.
 }
 \examples{
 # return simulation results based on 500 repetitions of 1000 observation samples
-simulationResultsTable500x1000<-reproduceSimulationResultsBasedOn500Reps1000Obs()
+simulationResultsTable500x1000 <- reproduceSimulationResultsBasedOn500Reps1000Obs()
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

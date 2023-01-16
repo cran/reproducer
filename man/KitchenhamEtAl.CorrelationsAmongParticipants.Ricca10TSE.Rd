@@ -3,26 +3,7 @@
 \docType{data}
 \name{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE}
 \alias{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE}
-\title{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE data illustrate correlations between
-results from individual participants in a family of four cross-over experiments conducted by
-Ricca et al.:
-[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato "How developers’ experience
-and ability influence web application comprehension tasks supported by uml stereotypes: A series
-of four experiments", IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96-118,
-2010.
-Although we present the full data set, only the first two experiments were used in the
-correlation study, because many of the observations in the final two studies were unpaired.
-The experiments assess whether participants performance comprehension tasks better when using
-source code complemented by standard UML diagrams (UML) or by diagrams stereotyped using the
-Conallen notation (Conallen).
-If you use this data set please cite:
-[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato "How developers’ experience
-and ability influence web application comprehension tasks supported by uml stereotypes: A series
-of four experiments", IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96—118,
-2010.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
-(to be submitted as of 2020).}
+\title{KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE data}
 \format{
 A data frame with 176 rows and 10 variables:
 \describe{
@@ -48,12 +29,11 @@ the category is set to CO1 only}
 KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE
 }
 \description{
-KitchenhamEtAl.CorrelationsAmongParticipants.Ricca10TSE data illustrate correlations between
-results from individual participants in a family of four cross-over experiments conducted by
-Ricca et al.:
-[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato "How developers’ experience
+Data illustrate correlations between results from individual participants in a family of four
+cross-over experiments conducted by Ricca et al.:
+[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato 'How developers’ experience
 and ability influence web application comprehension tasks supported by uml stereotypes: A series
-of four experiments", IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96-118,
+of four experiments', IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96-118,
 2010.
 Although we present the full data set, only the first two experiments were used in the
 correlation study, because many of the observations in the final two studies were unpaired.
@@ -61,12 +41,12 @@ The experiments assess whether participants performance comprehension tasks bett
 source code complemented by standard UML diagrams (UML) or by diagrams stereotyped using the
 Conallen notation (Conallen).
 If you use this data set please cite:
-[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato "How developers’ experience
+[1] F. Ricca, M. D. Penta, M. Torchiano, P. Tonella, and M. Ceccato 'How developers’ experience
 and ability influence web application comprehension tasks supported by uml stereotypes: A series
-of four experiments", IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96—118,
+of four experiments', IEEE Transactions on Software Engineering, vol. 36, no. 1, pp. 96—118,
 2010.
-[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, "The Importance
-of the Correlation between Results from Individual Participants in Crossover Experiments"
+[2] Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello and Carmine Gravino, 'The Importance
+of the Correlation between Results from Individual Participants in Crossover Experiments'
 (to be submitted as of 2020).
 }
 \examples{

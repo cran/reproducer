@@ -38,14 +38,14 @@ data frame incl. calculated effect sizes and variances:
 # r - the correlation between the values observed for the same subject
 }
 \description{
-Function to calculate both effect sizes (dIG, dRM), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies. Function is used in a paper "Effect Sizes and their Variance for AB/BA Crossover Design Studies" by Lech Madeyski and Barbara Kitchenham.
+Function to calculate both effect sizes (dIG, dRM), i.e., independent groups and repeated measures standardized effect sizes and variances, for AB/BA crossover design studies. Function is used in a paper 'Effect Sizes and their Variance for AB/BA Crossover Design Studies' by Lech Madeyski and Barbara Kitchenham.
 }
 \examples{
-simulationData<-getSimulationData(25, 18.75, 50, 10, 5, 500) #generate simulated data set
-es<-getEffectSizesABBA(simulationData) #return effect sizes and variances
-#OR
-simulationData<-getSimulationData(25, 18.75,50,10,5,15)
-es<-getEffectSizesABBA(simulationData) #return effect sizes and variances
+simulationData <- getSimulationData(25, 18.75, 50, 10, 5, 500) # generate simulated data set
+es <- getEffectSizesABBA(simulationData) # return effect sizes and variances
+# OR
+simulationData <- getSimulationData(25, 18.75, 50, 10, 5, 15)
+es <- getEffectSizesABBA(simulationData) # return effect sizes and variances
 }
 \author{
 Lech Madeyski and Barbara Kitchenham

@@ -9,133 +9,138 @@
 #' @param latestCreationDate Only repositories which were created before this date will be included in the results (i.e., repositories created after this date will not be included in the results)
 #' @return selected GitHub projects
 #' @examples
-#'   #to run this function you need to use your own token as a parameter of the function
-#'   #use your own token as the first parameter of the function
-#'   #searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
+#' # to run this function you need to use your own token as a parameter of the function
+#' # use your own token as the first parameter of the function
+#' # searchForIndustryRelevantGitHubProjects("...", "2019-03-01", "2018-08-01")
 #' @importFrom dplyr %>%
-searchForIndustryRelevantGitHubProjects = function(myToken, earliestPushDate, latestCreationDate) {
-    token <- myToken
+searchForIndustryRelevantGitHubProjects <- function(myToken,
+                                                    earliestPushDate,
+                                                    latestCreationDate) {
+  token <- myToken
 
-    language <- "Java"
-    minForks <- 1
-    minStars <- 1
+  language <- "Java"
+  minForks <- 1
+  minStars <- 1
 
-    pushedAt <- "2018-09-01..2019-03-25"
-    repoCount <- 50
-    languageCount <- 1
-    afterClause <- ''
-    listOfRepos <- NULL
-    repoCountTotal <- 100
-    analyzedRepos <- repoCountTotal / repoCount
+  pushedAt <- "2018-09-01..2019-03-25"
+  repoCount <- 50
+  languageCount <- 1
+  afterClause <- ""
+  listOfRepos <- NULL
+  repoCountTotal <- 100
+  analyzedRepos <- repoCountTotal / repoCount
+  hasNextPage <- TRUE
+
+  companies <-
+    c(
+      "microsoft",
+      "google",
+      "redhat-developer",
+      "IBM",
+      "Intel",
+      "amzn",
+      "SAP",
+      "thoughtworks",
+      "alibaba",
+      "github",
+      "facebook",
+      "Tencent",
+      "Pivotal",
+      "epam",
+      "baidu",
+      "mozilla",
+      "oracle",
+      "Unity-Technologies",
+      "uber",
+      "yandex",
+      "Shopify",
+      "linkedin",
+      "SUSE",
+      "Esri",
+      "Apple",
+      "salesforce",
+      "vmware",
+      "adobe",
+      "andela",
+      "cisco"
+    )
+  # Who really contributes to open source https://www.infoworld.com/article/3253948/open-source-tools/who-really-contributes-to-open-source.html
+
+
+  AmazonGitHubAccountsFrom_amzn.github.io <-
+    c(
+      "alexa",
+      "aws",
+      "awsdocs",
+      "awslabs",
+      "aws-quickstart",
+      "aws-samples",
+      "blox",
+      "boto",
+      "carbonado",
+      "c9",
+      "ajaxorg",
+      "cloud9ide",
+      "goodreads",
+      "gluon-api",
+      "IvonaSoftware",
+      "twitchtv",
+      "twitchtv",
+      "TwitchScience",
+      "justintv",
+      "Zappos",
+      "amazon-archives"
+    )
+
+  # Pivotal also keep projects under project name, not company (vide https://pivotal.io/open-source )
+  # Pivotal is involved in or supports some Apache projects...
+  OtherPivotalGitHubAccounts <-
+    c(
+      "pivotalsoftware",
+      "Pivotal-Open-Source-Hub",
+      "kubernetes",
+      "spring-projects",
+      "cloudfoundry",
+      "reactor",
+      "openservicebrokerapi",
+      "greenplum-db",
+      "rabbitmq",
+      "jasmine",
+      "robolectric",
+      "pivotal-sprout"
+    )
+  # Apache and Eclipse projects:
+  # "rabbitmq", "jasmine", "robolectric", "pivotal-sprout"
+
+
+  Apache <- "apache"
+
+  Eclipse <- "eclipse"
+
+  companies <-
+    c(
+      companies,
+      AmazonGitHubAccountsFrom_amzn.github.io,
+      OtherPivotalGitHubAccounts,
+      Apache,
+      Eclipse
+    )
+
+  for (company in companies)
+  {
+    currentPage <- 0
+    afterClause <- ""
     hasNextPage <- TRUE
+    searchQuery <-
+      GetoptLong::qq("\\\"user:@{company} language:@{language}\\\"")
+    print(searchQuery)
 
-    companies <-
-    c(
-    "microsoft",
-    "google",
-    "redhat-developer",
-    "IBM",
-    "Intel",
-    "amzn",
-    "SAP",
-    "thoughtworks",
-    "alibaba",
-    "github",
-    "facebook",
-    "Tencent",
-    "Pivotal",
-    "epam",
-    "baidu",
-    "mozilla",
-    "oracle",
-    "Unity-Technologies",
-    "uber",
-    "yandex",
-    "Shopify",
-    "linkedin",
-    "SUSE",
-    "Esri",
-    "Apple",
-    "salesforce",
-    "vmware",
-    "adobe",
-    "andela",
-    "cisco"
-    )
-    # Who really contributes to open source https://www.infoworld.com/article/3253948/open-source-tools/who-really-contributes-to-open-source.html
-
-
-    AmazonGitHubAccountsFrom_amzn.github.io <-
-    c(
-    "alexa",
-    "aws",
-    "awsdocs",
-    "awslabs",
-    "aws-quickstart",
-    "aws-samples",
-    "blox",
-    "boto",
-    "carbonado",
-    "c9",
-    "ajaxorg",
-    "cloud9ide",
-    "goodreads",
-    "gluon-api",
-    "IvonaSoftware",
-    "twitchtv",
-    "twitchtv",
-    "TwitchScience",
-    "justintv",
-    "Zappos",
-    "amazon-archives"
-    )
-
-    #Pivotal also keep projects under project name, not company (vide https://pivotal.io/open-source )
-    #Pivotal is involved in or supports some Apache projects...
-    OtherPivotalGitHubAccounts <-
-    c(
-    "pivotalsoftware",
-    "Pivotal-Open-Source-Hub",
-    "kubernetes",
-    "spring-projects",
-    "cloudfoundry",
-    "reactor",
-    "openservicebrokerapi",
-    "greenplum-db",
-    #Apache and Exlipse projects
-    "rabbitmq",
-    "jasmine",
-    "robolectric",
-    "pivotal-sprout"
-    )
-
-
-    Apache <- "apache"
-
-    Eclipse <- "eclipse"
-
-    companies <-
-    c(
-    companies,
-    AmazonGitHubAccountsFrom_amzn.github.io,
-    OtherPivotalGitHubAccounts,
-    Apache,
-    Eclipse
-    )
-
-    for (company in companies)
-    {
-        currentPage <- 0
-        afterClause <- ''
-        hasNextPage <- TRUE
-        searchQuery <-
+    while (hasNextPage) {
+      query <- gsub(
+        "\n",
+        " ",
         GetoptLong::qq(
-        "\\\"user:@{company} language:@{language}\\\"")
-        print(searchQuery)
-
-        while (hasNextPage) {
-            query <- gsub("\n", " ", GetoptLong::qq(
-            '{"query": "query {
+          '{"query": "query {
             viewer {
             login
             }
@@ -202,153 +207,156 @@ searchForIndustryRelevantGitHubProjects = function(myToken, earliestPushDate, la
             }
         }","variables": {}}
             '
-            ))
+        )
+      )
 
-            #  cli$load_schema()
+      #  cli$load_schema()
 
-            result <- httr::POST(
-              url="https://api.github.com/graphql",
-              httr::add_headers(
-                  Authorization = paste0("Bearer ", token),
-                  Accept = "application/vnd.github.machine-man-preview+json"
-                  ),
-              body=query
-            )
-            #qry <- ghql::Query$new()
-            #qry$query('myquery', query)
+      result <- httr::POST(
+        url = "https://api.github.com/graphql",
+        httr::add_headers(
+          Authorization = paste0("Bearer ", token),
+          Accept = "application/vnd.github.machine-man-preview+json"
+        ),
+        body = query
+      )
+      # qry <- ghql::Query$new()
+      # qry$query('myquery', query)
 
-            jsonResult <- httr::content(result)
-            repos <- jsonlite::fromJSON(jsonlite::toJSON(jsonResult), flatten = TRUE)
+      jsonResult <- httr::content(result)
+      repos <-
+        jsonlite::fromJSON(jsonlite::toJSON(jsonResult), flatten = TRUE)
 
-            rows <- repos$data$search$nodes
-            rows["searchQuery"] <- searchQuery
+      rows <- repos$data$search$nodes
+      rows["searchQuery"] <- searchQuery
 
-            listOfRepos <- dplyr::bind_rows(listOfRepos, rows)
+      listOfRepos <- dplyr::bind_rows(listOfRepos, rows)
 
-            repoCountTotal <- repos$data$search$repositoryCount
+      repoCountTotal <- repos$data$search$repositoryCount
 
-            hasNextPage <- repos$data$search$pageInfo$hasNextPage
-            print(
-            GetoptLong::qq(
-            "Page: @{currentPage + 1} ends at cursor: @{repos$data$search$pageInfo$endCursor}. Has next page? @{hasNextPage}"
-            )
-            )
-            print(
-            GetoptLong::qq(
-            "In total there are: @{repos$data$search$repositoryCount} repositories. This query contained: @{repoCount} starting from @{currentPage * repoCount}"
-            )
-            )
-            print(
-            GetoptLong::qq(
-            "Query cost: @{repos$data$rateLimit$cost}, remaining: @{repos$data$rateLimit$remaining}/@{repos$data$rateLimit$limit} until: @{repos$data$rateLimit$resetAt} for @{repos$data$viewer$login}"
-            )
-            )
-            afterClause <-
-            GetoptLong::qq(", after: \\\"@{repos$data$search$pageInfo$endCursor}\\\"")
-            currentPage <- currentPage + 1
-        }
-
-
-        print(
+      hasNextPage <- repos$data$search$pageInfo$hasNextPage
+      print(
         GetoptLong::qq(
-        "Finished fetching after @{currentPage} pages. Downloaded metadata for @{currentPage * repoCount} repositories. Day: @{pushedAt}"
+          "Page: @{currentPage + 1} ends at cursor: @{repos$data$search$pageInfo$endCursor}. Has next page? @{hasNextPage}"
         )
+      )
+      print(
+        GetoptLong::qq(
+          "In total there are: @{repos$data$search$repositoryCount} repositories. This query contained: @{repoCount} starting from @{currentPage * repoCount}"
         )
-
+      )
+      print(
+        GetoptLong::qq(
+          "Query cost: @{repos$data$rateLimit$cost}, remaining: @{repos$data$rateLimit$remaining}/@{repos$data$rateLimit$limit} until: @{repos$data$rateLimit$resetAt} for @{repos$data$viewer$login}"
+        )
+      )
+      afterClause <-
+        GetoptLong::qq(", after: \\\"@{repos$data$search$pageInfo$endCursor}\\\"")
+      currentPage <- currentPage + 1
     }
 
-    listOfRepos <- listOfRepos %>% tidyr::drop_na("id")
 
-    allGithubProjects <- listOfRepos
+    print(
+      GetoptLong::qq(
+        "Finished fetching after @{currentPage} pages. Downloaded metadata for @{currentPage * repoCount} repositories. Day: @{pushedAt}"
+      )
+    )
+  }
 
-    allGithubProjects <-
+  listOfRepos <- listOfRepos %>% tidyr::drop_na("id")
+
+  allGithubProjects <- listOfRepos
+
+  allGithubProjects <-
     tibble::rowid_to_column(allGithubProjects, "rowID")
 
-    allGithubProjects <-
+  allGithubProjects <-
     allGithubProjects %>% dplyr::rename(commitSHA = "defaultBranchRef.target.oid")
-    allGithubProjects <-
+  allGithubProjects <-
     allGithubProjects %>% dplyr::rename(sshUrlOfRepository = "sshUrl")
 
-    # split column "languages.edges" (including, e.g., "1104419, Java") into two columns "Java.byte.count" (inclunding, e.g., "1104419") and "Language" (e.g., "Java")
-    allGithubProjects <-
+  # split column "languages.edges" (including, e.g., "1104419, Java") into two columns "Java.byte.count" (inclunding, e.g., "1104419") and "Language" (e.g., "Java")
+  allGithubProjects <-
     tidyr::separate(
-    allGithubProjects,
-    col = "languages.edges",
-    into = c("Java.byte.count", "Language"),
-    convert = TRUE,
-    sep = "\\,"
+      allGithubProjects,
+      col = "languages.edges",
+      into = c("Java.byte.count", "Language"),
+      convert = TRUE,
+      sep = "\\,"
     )
-    allGithubProjects$Java.byte.count <-
+  allGithubProjects$Java.byte.count <-
     readr::parse_number(allGithubProjects$Java.byte.count)
-    #https://stackoverflow.com/questions/29508943/r-regular-expression-isolate-a-string-between-quotes
-    allGithubProjects$Language <-
-    sub('[^\"]+\"([^\"]+).*', '\\1', "Language")
+  # https://stackoverflow.com/questions/29508943/r-regular-expression-isolate-a-string-between-quotes
+  allGithubProjects$Language <-
+    sub('[^\"]+\"([^\"]+).*', "\\1", "Language")
 
-    myselection <- function(projects){
-        stringr::str_sub(projects$createdAt, 1, 10) < latestCreationDate & #"2018-01-01" -> "2018-08-01"
-            stringr::str_sub(projects$pushedAt, 1, 10) > earliestPushDate & #"2018-09-01" -> "2019-03-01"
-            projects$isArchived == FALSE &
-            projects$watchers.totalCount > stats::quantile(unlist(projects$watchers.totalCount), 1 /
-                                                               4) &
-            projects$stargazers.totalCount > stats::quantile(unlist(projects$stargazers.totalCount), 1 /
-                                                                 4) &
-            projects$Java.byte.count > stats::quantile(unlist(projects$Java.byte.count), na.rm = TRUE, 1 /
-                                                           4) &
-            projects$defaultBranchRef.target.history.totalCount > stats::quantile(
-                unlist(projects$defaultBranchRef.target.history.totalCount),
-                1 / 4
-            ) &
-            projects$forkCount > stats::quantile(unlist(projects$forkCount), 1 / 4)
+  myselection <- function(projects) {
+    stringr::str_sub(projects$createdAt, 1, 10) < latestCreationDate &
+      # "2018-01-01" -> "2018-08-01"
+      stringr::str_sub(projects$pushedAt, 1, 10) > earliestPushDate &
+      # "2018-09-01" -> "2019-03-01"
+      projects$isArchived == FALSE &
+      projects$watchers.totalCount > stats::quantile(unlist(projects$watchers.totalCount), 1 /
+        4) &
+      projects$stargazers.totalCount > stats::quantile(unlist(projects$stargazers.totalCount), 1 /
+        4) &
+      projects$Java.byte.count > stats::quantile(unlist(projects$Java.byte.count), na.rm = TRUE, 1 /
+        4) &
+      projects$defaultBranchRef.target.history.totalCount > stats::quantile(
+        unlist(projects$defaultBranchRef.target.history.totalCount),
+        1 / 4
+      ) &
+      projects$forkCount > stats::quantile(unlist(projects$forkCount), 1 / 4)
+  }
 
-    }
-
-    selectedGithubProjects <-
+  selectedGithubProjects <-
     subset(
-    allGithubProjects,
-    myselection(allGithubProjects)
+      allGithubProjects,
+      myselection(allGithubProjects)
     )
 
 
-    sshPaths2SelectedProjects <-
+  sshPaths2SelectedProjects <-
     subset(
-    allGithubProjects,
-    myselection(allGithubProjects),
-    select = c("rowID", "sshUrlOfRepository", "commitSHA")
+      allGithubProjects,
+      myselection(allGithubProjects),
+      select = c("rowID", "sshUrlOfRepository", "commitSHA")
     )
 
-    sshPaths2SelectedProjects <-
+  sshPaths2SelectedProjects <-
     tibble::rowid_to_column(sshPaths2SelectedProjects, "rowNr")
 
 
-    sshPaths2AllProjects <-
+  sshPaths2AllProjects <-
     subset(allGithubProjects,
-    select = c("rowID", "sshUrlOfRepository", "commitSHA"))
+      select = c("rowID", "sshUrlOfRepository", "commitSHA")
+    )
 
-    repoOwners <-
-    dplyr::count(selectedGithubProjects,
-    stringr::word("nameWithOwner", 1, sep = "\\/"))
+  repoOwners <-
+    dplyr::count(
+      selectedGithubProjects,
+      stringr::word("nameWithOwner", 1, sep = "\\/")
+    )
 
-    openxlsx::write.xlsx(
+  openxlsx::write.xlsx(
     as.data.frame(allGithubProjects),
     file = paste("githubAllProjects", ".xlsx", sep = ""),
     colNames = TRUE,
     borders = "columns"
-    )
-    openxlsx::write.xlsx(
+  )
+  openxlsx::write.xlsx(
     as.data.frame(selectedGithubProjects),
     file = paste("githubSelectedProjects", ".xlsx", sep = ""),
     colNames = TRUE,
     borders = "columns"
-    )
+  )
 
-    openxlsx::write.xlsx(
+  openxlsx::write.xlsx(
     as.data.frame(sshPaths2SelectedProjects),
     file = paste("githubSshPaths2SelectedProjects", ".xlsx", sep = ""),
     colNames = TRUE,
     borders = "columns"
-    )
+  )
 
-    return(selectedGithubProjects)
+  return(selectedGithubProjects)
 }
-
-

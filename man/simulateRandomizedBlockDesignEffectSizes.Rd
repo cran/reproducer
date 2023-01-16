@@ -13,7 +13,9 @@ simulateRandomizedBlockDesignEffectSizes(
   alpha = 0.05,
   Blockmean = 0,
   BlockStdAdj = 0,
-  StdAdj = 0
+  StdAdj = 0,
+  AlwaysTwoSidedTests = FALSE,
+  ReturnData = FALSE
 )
 }
 \arguments{
@@ -25,50 +27,84 @@ simulateRandomizedBlockDesignEffectSizes(
 
 \item{N}{this is the number of observations in each group. It must be an integer greater than 3.}
 
-\item{type}{this specifies the underlying distribution used to generate the data. it takes the values "n" for a normal distribution, "l" for lognormal distribution,"g" for a gamma distribution, "lap" for a Laplace distribution.}
+\item{type}{this specifies the underlying distribution used to generate the data. it takes the values 'n' for a normal distribution, 'l' for lognormal distribution,'g' for a gamma distribution, 'lap' for a Laplace distribution.}
 
-\item{alpha}{is the significance level for statistical tests}
+\item{alpha}{The level used for statistical tests (default 0.05).}
 
-\item{Blockmean}{if >0 an adjusment made to both group means in Block 2}
+\item{Blockmean}{if >0 an adjustment made to both group means in Block 2}
 
 \item{BlockStdAdj}{if >0, an adjustment that can be made to the sd of each group in block 2}
 
-\item{StdAdj}{this specifies the extent of variance instability introduced by the treatment and if >0 will be used to amend the sd parameter for both treatment groups.}
+\item{StdAdj}{this specifies the extent of variance instability introduced by the treatment and if >0 will be used to amend the sd parameter for both treatment groups. This value must be positive and less than 0.5}
+
+\item{AlwaysTwoSidedTests}{Logical varable (default FALSE) if TRUE the
+function always performs two-sided tests. Otherwise if the parameter diff is
+not equal to zero, the function performs one-sided tests.}
+
+\item{ReturnData}{Logical variable, If TRUE, the function simply returns the
+generated data. If false (which is default value) the function returns
+various effect sizes and whether the effect sizes are statistically
+significant.}
 }
 \value{
-data frame incl. the non-parametric and parametric effect sizes and whether the effect sizes are significant at the 0.05 level.
+data frame incl. either the non-parametric and parametric effect
+sizes and whether the effect sizes are significant at the 0.05 level or the
+generated data depending on the value of the ReturnData parameter.
 }
 \description{
-This simulates one of four distributions, and finds the values of ktau and Cliffs d and their variances. It simulates a randomised blocks experiment with two treatment groups and two control groups each of which being divided into two blocks. By default it assumes equal group sizes but  group spread (standard deviation can be changed, see Stadj). It returns values of both parametric and non=parametric effect sizes and their variance for simulated experiments. It returns the number of times each effect size was signficiant. For the logarithmic distribution it calcates effect sizes based on the log transformed data as well as the raw data.
+This simulates a two-block and two-treatment design based on one of four distributions, and finds the values of ktau and Cliffs d and their variances. It simulates a randomised blocks experiment with two treatment groups and two control groups each of which being divided into two blocks. It assumes equal group sizes but  group spread (standard deviation can be changed, see StAdj). It returns values of both parametric and non-parametric effect sizes and their variance and significance. For the logarithmic distribution it calculates effect sizes based on the log transformed data as well as the raw data.
 }
 \examples{
 set.seed(123)
-simulateRandomizedBlockDesignEffectSizes(mean=0,sd=1,diff=.5,N=10,type="n",alpha=0.05,
-Blockmean=0.5,BlockStdAdj=0,StdAdj=0)
-# A tibble: 1 x 23
-#      N  phat phat.var phat.df phat.test phat.pvalue phat.sig     d   vard d.sig   cor   sqse
-# ctvar    n1    n2
-#  <int> <dbl>    <dbl>   <dbl>     <dbl>       <dbl> <lgl>    <dbl>  <dbl> <lgl> <dbl>  <dbl>
-# <dbl> <int> <int>
-#1    40  0.79  0.00587    30.2      3.79    0.000681 TRUE      0.58 0.0243 TRUE  0.305 0.0132
-# 0.00695    20    20
-## … with 8 more variables: sigCVt <lgl>, sigCVn <lgl>, ttest.sig <lgl>, ES <dbl>,
-# Variance <dbl>, StdES <dbl>,
-#   BlockEffect <dbl>, MedianDiff <dbl>
+as.data.frame(
+  simulateRandomizedBlockDesignEffectSizes(
+    mean = 0, sd = 1, diff = .5, N = 10, type = "n", alpha = 0.05,
+    Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0))
+#  N phat    phat.var  phat.df phat.test  phat.pvalue phat.sig phat.ci.upper phat.ci.lower    d
+# 1 40 0.79 0.005866667 30.15715  3.786189 0.0003403047     TRUE             1     0.6600213 0.58
+#     vard d.sig d.ci.lower d.ci.upper       cor       sqse       ctvar n1 n2 sigCVt sigCVn
+# 1 0.02430788  TRUE  0.2775601          1 0.3052632 0.01315789 0.006953352 20 20   TRUE   TRUE
+#    ttest.sig     ES  Variance   StdES BlockEffect MedianDiff
+# 1      TRUE 0.9402999 0.7829385 1.06268    0.307119   1.313642
 set.seed(123)
-simulateRandomizedBlockDesignEffectSizes(mean=0,sd=1,diff=.5,N=10,type="l",alpha=0.05,
-Blockmean=0.5,BlockStdAdj=0,StdAdj=0)
-# A tibble: 1 x 27
-#      N  phat phat.var phat.df phat.test phat.pvalue phat.sig     d   vard d.sig   cor   sqse
-# ctvar    n1    n2
-#  <int> <dbl>    <dbl>   <dbl>     <dbl>       <dbl> <lgl>    <dbl>  <dbl> <lgl> <dbl>  <dbl>
-# <dbl> <int> <int>
-#1    40  0.79  0.00587    30.2      3.79    0.000681 TRUE      0.58 0.0243 TRUE  0.305 0.0132
-# 0.00695    20    20
-# … with 12 more variables: sigCVt <lgl>, sigCVn <lgl>, ttest.sig <lgl>, ES <dbl>,
-# Variance <dbl>, StdES <dbl>,
-#   BlockEffect <dbl>, MedianDiff <dbl>, Log.sig <lgl>, ES.Trans <dbl>, StdES.Trans <dbl>,
-# VarTrans <dbl>
+as.data.frame(
+  simulateRandomizedBlockDesignEffectSizes(
+    mean = 0, sd = 1, diff = 0.5, N = 10, type = "n", alpha = 0.05,
+    Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, AlwaysTwoSidedTests = TRUE)
+    )
+#   N phat    phat.var  phat.df phat.test  phat.pvalue phat.sig phat.ci.upper phat.ci.lower
+# 1 40 0.79 0.005866667 30.15715  3.786189 0.0006806094     TRUE      0.946392      0.633608
+#     d       vard d.sig d.ci.lower d.ci.upper       cor       sqse       ctvar n1 n2 sigCVt
+# 1 0.58 0.02430788  TRUE  0.2135334  0.8033737 0.3052632 0.01315789 0.006953352 20 20   TRUE
+#  ttest.sig        ES  Variance   StdES BlockEffect MedianDiff
+# 1      TRUE 0.9402999 0.7829385 1.06268    0.307119   1.313642
+set.seed(123)
+as.data.frame(
+  simulateRandomizedBlockDesignEffectSizes(
+    mean = 0, sd = 1, diff = .5, N = 10, type = "l", alpha = 0.05,
+    Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, ReturnData = TRUE))
+#   BaselineData.B1 AlternativeData.B1 transBaselineData.B1 transAlternativeData.B1
+# 1        0.5709374          5.6073700          -0.56047565              1.72408180
+# 2        0.7943926          2.3627208          -0.23017749              0.85981383
+# 3        4.7526783          2.4615013           1.55870831              0.90077145
+# 4        1.0730536          1.8416883           0.07050839              0.61068272
+# 5        1.1380175          0.9456894           0.12928774             -0.05584113
+# 6        5.5570366          9.8445021           1.71506499              2.28691314
+# 7        1.5855260          2.7124451           0.46091621              0.99785048
+# 8        0.2822220          0.2307046          -1.26506123             -1.46661716
+# 9        0.5031571          3.3246217          -0.68685285              1.20135590
+# 10       0.6404002          1.0275821          -0.44566197              0.02720859
+#   BaselineData.B2 AlternativeData.B2 transBaselineData.B2 transAlternativeData.B2
+# 1        0.5667575           4.163950           -0.5678237               1.4264642
+# 2        1.3258120           2.023702            0.2820251               0.7049285
+# 3        0.5909615           6.653384           -0.5260044               1.8951257
+# 4        0.7954150           6.541284           -0.2288912               1.8781335
+# 5        0.8824622           6.181624           -0.1250393               1.8215811
+# 6        0.3052289           5.412117           -1.1866933               1.6886403
+# 7        3.8106015           4.729964            1.3377870               1.5539177
+# 8        1.9220131           2.555092            0.6533731               0.9380883
+# 9        0.5282757           2.001781           -0.6381369               0.6940373
+# 10       5.7765980           1.858053            1.7538149               0.6195290
 }
 \author{
 Barbara Kitchenham and Lech Madeyski
