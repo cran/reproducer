@@ -1194,7 +1194,7 @@ simulateRandomizedDesignEffectSizes <- function(mean, sd, diff, N, type = "n", S
 #' @examples
 #' as.data.frame(
 #'   RandomExperimentSimulations(
-#'     mean = 0, sd = 1, diff = 0.5, N = 20, reps = 100, type = "n",
+#'     mean = 0, sd = 1, diff = 0.5, N = 20, reps = 50, type = "n",
 #'     seed = 123, StdAdj = 0, alpha = 0.05))
 #' #        phat     phatvar sigphat emp.phat.var       d       dvar sigd
 #' # 1  0.636675 0.007980072    0.38  0.006413391 0.27335 0.03257962 0.36
@@ -1390,20 +1390,20 @@ RandomExperimentSimulations <- function(mean, sd, diff, N, reps, type = "n", see
 #' each of the two groups used to obtain expected values of the non-parametric
 #' effect sizes (the expected value of the standardized men difference are
 #' always known)
-#' @return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, PHat, and StdMD estimates found in each sample, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
+#' @return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, CentralPHat, and StdMD estimates found in each sample, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
 #' @examples
 #' as.data.frame(
 #'   calculate2GMdMRE(
 #'     mean=0, sd=1, N=10, reps=20, diff=c(0.2,0.5,0.8), type='n', seed=123,
 #'     StdAdj = 0, AlwaysTwoSidedTests=FALSE, LargeSampleSize=10000))
-#'# Design Obs Diff CliffdMdMRE  PHatMdMRE StdESMdMRE  varCliffd     varPHat
-#'# 1   2G_n  20  0.2   1.8866607 0.18083062  1.3757827 0.06089579 0.015223947
-#'# 2   2G_n  20  0.5   0.5956595 0.12644453  0.5295375 0.04872737 0.012181842
-#'# 3   2G_n  20  0.8   0.3077882 0.09139686  0.3698596 0.03492526 0.008731316
-#'# StdESVar ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
-#'# 1 0.1666288     0.127  0.5635 0.2267731      0.1060074    0.5530037
-#'# 2 0.1804443     0.283  0.6415 0.5386875      0.2694811    0.6347405
-#'# 3 0.1978285     0.429  0.7145 0.8506020      0.4223684    0.7111842
+#'#   Design Obs Diff CliffdMdMRE  CentralPHatMdMRE StdESMdMRE  varCliffd
+#'# 1   2G_n  20  0.2   1.8866607        -0.3191790 1.3757827 0.06089579
+#'# 2   2G_n  20  0.5   0.5956595        -0.3735555 0.5295375 0.04872737
+#'# 3   2G_n  20  0.8   0.3077882        -0.4086031 0.3698596 0.03492526
+#'#       varPHat  StdESVar ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
+#'# 1 0.015223947 0.1666288     0.127  0.5635 0.2267731      0.1060074    0.5530037
+#'# 2 0.012181842 0.1804443     0.283  0.6415 0.5386875      0.2694811    0.6347405
+#'# 3 0.008731316 0.1978285     0.429  0.7145 0.8506020      0.4223684    0.7111842
 #'# StdESExpected CliffdPower PHatPower StdESPower
 #'# 1     0.1866728        0.10      0.10        0.1
 #'# 2     0.4884736        0.15      0.15        0.2
@@ -1412,14 +1412,18 @@ RandomExperimentSimulations <- function(mean, sd, diff, N, reps, type = "n", see
 #' #  calculate2GMdMRE(
 #' #   mean=0, sd=1, N=10, reps=100, diff=c(0.2,0.5,0.8), type='n', seed=123,
 #' #   StdAdj = 0, AlwaysTwoSidedTests=FALSE, LargeSampleSize=10000))
-#' #  Design Obs Diff CliffdMdMRE PHatMdMRE StdESMdMRE  varCliffd    varPHat  StdESVar ObsCliffd
-#' #1   2G_n  20  0.2   1.9702583 0.1840919  1.7111237 0.07552663 0.01888166 0.2522504    0.1092
-#' #2   2G_n  20  0.5   0.6428482 0.1358012  0.6357666 0.06842711 0.01710678 0.2624379    0.2646
-#' #3   2G_n  20  0.8   0.4036555 0.1196213  0.4063333 0.05873046 0.01468262 0.2787054    0.4078
-#' #  ObsPHat  ObsStdES CliffdExpected PHatExpected StdESExpected CliffdPower PHatPower StdESPower
-#' #1  0.5546 0.1835910      0.1030653    0.5515327     0.1870328        0.09      0.12       0.10
-#' #2  0.6323 0.4949159      0.2678275    0.6339138     0.4869850        0.18      0.22       0.24
-#' #3  0.7039 0.8062407      0.4211512    0.7105756     0.7869372        0.44      0.52       0.56
+#' #  Design Obs Diff CliffdMdMRE CentralPHatMdMRE StdESMdMRE  varCliffd
+#' #1   2G_n  20  0.2   1.9702583       -0.3144569  1.7111237 0.07552663
+#' #2   2G_n  20  0.5   0.6428482       -0.3641988  0.6357666 0.06842711
+#' #3   2G_n  20  0.8   0.4036555       -0.3803787  0.4063333 0.05873046
+#' #     varPHat  StdESVar ObsCliffd    ObsPHat  ObsStdES CliffdExpected
+#' #1 0.01888166  0.2522504    0.1092    0.5546 0.1835910      0.1030653
+#' #2 0.01710678  0.2624379    0.2646    0.6323 0.4949159      0.2678275
+#' #3 0.01468262  0.2787054    0.4078    0.7039 0.8062407      0.4211512
+#' #  PHatExpected StdESExpected CliffdPower PHatPower StdESPower
+#' #1    0.5515327     0.1870328        0.09      0.12       0.10
+#' #2    0.6339138     0.4869850        0.18      0.22       0.24
+#' #3    0.7105756     0.7869372        0.44      0.52       0.56
 #'
 calculate2GMdMRE <- function(mean = 0, sd = 1, N, reps, diff = c(0.2, 0.5, 0.8), type = "n", seed = 123, StdAdj = 0, AlwaysTwoSidedTests = FALSE, LargeSampleSize = 5e+06) {
   MdMRETable <- NULL
@@ -1437,14 +1441,31 @@ calculate2GMdMRE <- function(mean = 0, sd = 1, N, reps, diff = c(0.2, 0.5, 0.8),
 
     CliffdMdMRE <- median(abs((Out1$Cliffd - Expected$Cliffd) / Expected$Cliffd))
     PHatMdMRE <- median(abs((Out1$PHat - Expected$Phat) / Expected$Phat))
+    CentralPHatMdMRE <- PHatMdMRE - 0.5 # added in reproducer v.0.5.1
+
     StdESMdMRE <- median(abs((Out1$StdES - Expected$StdES) / Expected$StdES))
 
 
     MdMRETable <- tibble::tibble(dplyr::bind_rows(MdMRETable, dplyr::bind_cols(
-      Design = Design, Obs = as.character(2 * N), Diff = diff[i], CliffdMdMRE = CliffdMdMRE,
-      PHatMdMRE = PHatMdMRE, StdESMdMRE = StdESMdMRE, varCliffd = var(Out1$Cliffd), varPHat = var(Out1$PHat), StdESVar = var(Out1$StdES), ObsCliffd = mean(Out1$Cliffd),
-      ObsPHat = mean(Out1$PHat), ObsStdES = mean(Out1$StdES), CliffdExpected = Expected$Cliffd, PHatExpected = Expected$Phat, StdESExpected = Expected$StdES,
-      CliffdPower = mean(Out1$CliffdSig), PHatPower = mean(Out1$PHatSig), StdESPower = mean(Out1$ESSig)
+      Design = Design,
+      Obs = as.character(2 * N),
+      Diff = diff[i],
+      CliffdMdMRE = CliffdMdMRE,
+      #PHatMdMRE = PHatMdMRE, # removed in reproducer v.0.5.1
+      CentralPHatMdMRE = CentralPHatMdMRE, # added in reproducer v.0.5.1
+      StdESMdMRE = StdESMdMRE,
+      varCliffd = var(Out1$Cliffd),
+      varPHat = var(Out1$PHat),
+      StdESVar = var(Out1$StdES),
+      ObsCliffd = mean(Out1$Cliffd),
+      ObsPHat = mean(Out1$PHat),
+      ObsStdES = mean(Out1$StdES),
+      CliffdExpected = Expected$Cliffd,
+      PHatExpected = Expected$Phat,
+      StdESExpected = Expected$StdES,
+      CliffdPower = mean(Out1$CliffdSig),
+      PHatPower = mean(Out1$PHatSig),
+      StdESPower = mean(Out1$ESSig)
     )))
   }
   return(MdMRETable)
@@ -2093,7 +2114,7 @@ simulateRandomizedBlockDesignEffectSizes <- function(mean, sd, diff, N, type = "
 #' @examples
 #' as.data.frame(
 #'   RandomizedBlocksExperimentSimulations(
-#'     mean = 0, sd = 1, diff = 0.5, N = 10, reps = 100, type = "n",
+#'     mean = 0, sd = 1, diff = 0.5, N = 10, reps = 50, type = "n",
 #'     alpha = 0.05, Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123,
 #'     AlwaysTwoSidedTests = FALSE))
 #' #     phat     varphat sigphat emp.phat.var      d      vard sigd  emp.d.var
@@ -2288,16 +2309,22 @@ RandomizedBlocksExperimentSimulations <- function(mean, sd, diff, N, reps, type 
 #' the four groups used to obtain expected values of the non-parametric effect
 #' sizes for four group experiments (the expected value of the standardized
 #' mean difference is always known)
-#' return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, PHat, and StdMD estimates found in each simulation, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
+#' return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, CentralPHat, and StdMD estimates found in each simulation, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
 #' example
 #' as.data.frame(calculate4GMdMRE(mean=0,sd=1,N=10,reps=100,diff=c(0.2,0.5,0.8),type='n',seed=123,StdAdj = 0,Blockmean = 0.5,AlwaysTwoSidedTests=FALSE,LargeSampleSize=5000))
-# Design Obs Diff CliffdMdMRE PHatMdMRE StdESMdMRE varCliffd varPHat varStdES ObsCliffd 1 4G_n 40 0.2 0.9160567 0.09420236 0.9130131 0.02596173
-# 0.006490432 0.08449443 0.1317 2 4G_n 40 0.5 0.3707537 0.08047185 0.4064130 0.02355567 0.005888917 0.08811262 0.2883 3 4G_n 40 0.8 0.2184928
-# 0.06555720 0.2724099 0.02044181 0.005110452 0.09511715 0.4381 ObsPHat ObsStdES CliffdExpected PHatExpected StdESExpected CliffdPower PHatPower
-# StdESPower 1 0.56585 0.2324695 0.1146217 0.5573109 0.2043608 0.12 0.13 0.15 2 0.64415 0.5413961 0.2772198 0.6386099 0.4990205 0.41 0.45 0.46 3
-# 0.71905 0.8503227 0.4286589 0.7143294 0.7985776 0.80 0.84 0.84
-calculate4GMdMRE <- function(mean = 0, sd = 1, N = 10, reps = 10, diff = c(0.2, 0.5, 0.8), type = "n", seed = 123, StdAdj = 0, Blockmean = 0.5, AlwaysTwoSidedTests = FALSE,
-                             LargeSampleSize = 2500000) {
+#' #   Design Obs Diff CliffdMdMRE  CentralPHatMdMRE StdESMdMRE  varCliffd
+#' # 1   4G_n  40  0.2   0.9233922        -0.4057206  0.9363782 0.02596173
+#' # 2   4G_n  40  0.5   0.3707537        -0.4195281  0.4064130 0.02355567
+#' # 3   4G_n  40  0.8   0.2184928        -0.4344428  0.2724099 0.02044181
+#' # varPHat   varStdES ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
+#' # 1 0.006490432 0.08449443    0.1317 0.56585 0.2324695      0.1137112    0.5568556
+#' # 2 0.005888917 0.08811262    0.2883 0.64415 0.5413961      0.2772198    0.6386099
+#' # 3 0.005110452 0.09511715    0.4381 0.71905 0.8503227      0.4286589    0.7143294
+#' # StdESExpected CliffdPower PHatPower StdESPower
+#' # 1     0.1994634        0.12      0.13       0.15
+#' # 2     0.4990205        0.41      0.45       0.46
+#' # 3     0.7985776        0.80      0.84       0.84
+calculate4GMdMRE <- function(mean = 0, sd = 1, N = 10, reps = 10, diff = c(0.2, 0.5, 0.8), type = "n", seed = 123, StdAdj = 0, Blockmean = 0.5, AlwaysTwoSidedTests = FALSE, LargeSampleSize = 2500000) {
   MdMRETable <- NULL
 
   NumESizes <- length(diff)
@@ -2321,15 +2348,35 @@ calculate4GMdMRE <- function(mean = 0, sd = 1, N = 10, reps = 10, diff = c(0.2, 
     CliffdMdMRE <- median(abs((Out1$Cliffd - Expected$Cliffd) / Expected$Cliffd))
 
     PHatMdMRE <- median(abs((Out1$PHat - Expected$Phat) / Expected$Phat))
+    CentralPHatMdMRE <- PHatMdMRE - 0.5 # added in reproducer v.0.5.1
 
     StdESMdMRE <- median(abs((Out1$StdES - Expected$StdES) / Expected$StdES))
 
-    MdMRETable <- tibble::tibble(dplyr::bind_rows(MdMRETable, dplyr::bind_cols(
-      Design = Design, Obs = as.character(4 * N), Diff = diff[i], CliffdMdMRE = CliffdMdMRE,
-      PHatMdMRE = PHatMdMRE, StdESMdMRE = StdESMdMRE, varCliffd = var(Out1$Cliffd), varPHat = var(Out1$PHat), varStdES = var(Out1$StdES), ObsCliffd = mean(Out1$Cliffd),
-      ObsPHat = mean(Out1$PHat), ObsStdES = mean(Out1$StdES), CliffdExpected = Expected$Cliffd, PHatExpected = Expected$Phat, StdESExpected = Expected$StdES,
-      CliffdPower = mean(Out1$CliffdSig), PHatPower = mean(Out1$PHatSig), StdESPower = mean(Out1$ESSig)
-    )))
+    MdMRETable <-
+      tibble::tibble(dplyr::bind_rows(
+        MdMRETable,
+        dplyr::bind_cols(
+          Design = Design,
+          Obs = as.character(4 * N),
+          Diff = diff[i],
+          CliffdMdMRE = CliffdMdMRE,
+          #PHatMdMRE = PHatMdMRE, # removed in reproducer v.0.5.1
+          CentralPHatMdMRE = CentralPHatMdMRE, # added in reproducer v.0.5.1
+          StdESMdMRE = StdESMdMRE,
+          varCliffd = var(Out1$Cliffd),
+          varPHat = var(Out1$PHat),
+          varStdES = var(Out1$StdES),
+          ObsCliffd = mean(Out1$Cliffd),
+          ObsPHat = mean(Out1$PHat),
+          ObsStdES = mean(Out1$StdES),
+          CliffdExpected = Expected$Cliffd,
+          PHatExpected = Expected$Phat,
+          StdESExpected = Expected$StdES,
+          CliffdPower = mean(Out1$CliffdSig),
+          PHatPower = mean(Out1$PHatSig),
+          StdESPower = mean(Out1$ESSig)
+        )
+      ))
   }
   return(MdMRETable)
 }
@@ -3481,7 +3528,7 @@ NP4GMetaAnalysisSimulation <- function(mean, sd, diff, GroupSize, Exp = 5, type 
 #' @examples
 #' as.data.frame(
 #'   MetaAnalysisSimulations(
-#'     mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=10, Exp=5,
+#'     mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=5, Exp=5,
 #'     seed=456, alpha=0.05, FourGroup=FALSE, StdAdj=0, BlockEffect=0.5,
 #'     BlockStdAdj=0,StdExp=0,MAMethod='PM',returnES=FALSE))
 #' #  AverageCliffd AverageCliffdvar AverageCliffdsig Averagephat Averagephatvar

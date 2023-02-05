@@ -1,9 +1,15 @@
+# CHANGES IN reproducer VERSION 0.5.1
+
+## UPDATED FEATURES
+- Updated functions `calculate2GMdMRE`, `calculate4GMdMRE`
+- PHatMdMRE replaced by CentralPHatMdMRE
+
 # CHANGES IN reproducer VERSION 0.5.0
 
 ## UPDATED FEATURES
 - Corrected cross-over data set descriptions
-- Updated functions simulateRandomizedBlockDesignEffectSizes, NP4GroupMetaAnalysisSimulation (now NP4GMetaAnalysisSimulation), RandomizedBlockDesignEffectSizes, percentageInaccuracyOfLargeSampleVarianceApproximation
-- Changed function names: NP4GroupMetaAnalysisSimulation now NP4GMetaAnalysisSimulation, NP2GroupMetaAnalysisSimulation now NP2GMetaAnalysisSimulation, Kendalltaupb now calculateKendalltaupb, CalculateTheoreticalEffectSizes now calculatePopulationStatistics
+- Updated functions `simulateRandomizedBlockDesignEffectSizes`, NP4GroupMetaAnalysisSimulation (now `NP4GMetaAnalysisSimulation`), `RandomizedBlockDesignEffectSizes`, `percentageInaccuracyOfLargeSampleVarianceApproximation`
+- Changed function names: NP4GroupMetaAnalysisSimulation now `NP4GMetaAnalysisSimulation`, NP2GroupMetaAnalysisSimulation now `NP2GMetaAnalysisSimulation`, Kendalltaupb now `calculateKendalltaupb`, CalculateTheoreticalEffectSizes now `calculatePopulationStatistics`
 - New functions:
 `AnalyseResiduals`
 `calc.a`

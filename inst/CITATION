@@ -3,11 +3,11 @@ citHeader("To cite package 'reproducer' in publications please use:")
 year = sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
 vers = paste('R package version', meta$Version)
 
-citEntry(
-  entry        = "Article",
+bibentry(
+  bibtype      = "Article",
   title        = "Which process metrics can significantly improve defect prediction models? An empirical study",
-  author       = personList(as.person("Lech Madeyski"),
-                   as.person("Marian Jureczko")),
+  author       = c(person(given = "Lech", family = "Madeyski"),
+                   person(given = "Marian", family = "Jureczko")),
   journal      = "Software Quality Journal",
   year         = "2015",
   volume       = "23",
@@ -22,11 +22,12 @@ citEntry(
         "Online: https://dx.doi.org/10.1007/s11219-014-9241-7")
 )
 
-citEntry(
-  entry        = "Article",
+
+bibentry(
+  bibtype      = "Article",
   title        = "Cross-project defect prediction with respect to code ownership model: An empirical study",
-  author       = personList(as.person("Marian Jureczko"),
-                   as.person("Lech Madeyski")),
+  author       = c(person(given = "Marian", family = "Jureczko"),
+                   person(given = "Lech", family = "Madeyski")),
   journal      = "e-Informatica Software Engineering Journal",
   year         = "2015",
   volume       = "9",
@@ -41,17 +42,18 @@ citEntry(
         "Online: https://dx.doi.org/10.5277/e-Inf150102")
 )
 
-citEntry(
-  entry        = "Article",
+bibentry(
+  bibtype      = "Article",
   title        = "Robust Statistical Methods for Empirical Software Engineering",
-  author       = personList(as.person("Barbara A. Kitchenham"),
-                   as.person("Lech Madeyski"),
-                   as.person("David Budgen"),
-                   as.person("Jacky Keung"),
-                   as.person("Pearl Brereton"),
-                   as.person("Stuart Charters"),
-                   as.person("Shirley Gibbs"),
-                   as.person("Amnart Pohthong")),
+  author       = c(person(given = "Barbara", family = "Kitchenham"),
+                   person(given = "Lech", family = "Madeyski"),
+                   person(given = "David", family = "Budgen"),
+                   person(given = "Jacky", family = "Keung"),
+                   person(given = "Pearl", family = "Brereton"),
+                   person(given = "Stuart", family = "Charters"),
+                   person(given = "Shirley", family = "Gibbs"),
+                   person(given = "Amnart", family = "Pohthong")
+                   ),
   journal      = "Empirical Software Engineering",
   year         = "2017",
   volume       = "22",
@@ -66,11 +68,11 @@ citEntry(
         "Online: https://dx.doi.org/10.1007/s10664-016-9437-5")
 )
 
-citEntry(
-  entry        = "Article",
+bibentry(
+  bibtype      = "Article",
   title        = "Effect Sizes and their Variance for AB/BA Crossover Design Studies",
-  author       = personList(as.person("Lech Madeyski"),
-                   as.person("Barbara Kitchenham")),
+  author       = c(person(given = "Lech", family = "Madeyski"),
+                   person(given = "Barbara", family = "Kitchenham")),
   journal      = "Empirical Software Engineering",
   year         = "2018",
   volume       = "23",
@@ -85,12 +87,12 @@ citEntry(
   "Online: https://dx.doi.org/10.1007/s10664-017-9574-5")
 )
 
-citEntry(
-  entry        = "Article",
+bibentry(
+  bibtype      = "Article",
   title        = "Meta-analysis for families of experiments in software engineering: a systematic review and reproducibility and validity assessment",
-  author       =   personList(as.person("Barbara A. Kitchenham"),
-                   as.person("Lech Madeyski"),
-                   as.person("Pearl Brereton")),
+  author       = c(person(given = "Barbara", family = "Kitchenham"),
+                   person(given = "Lech", family = "Madeyski"),
+                   person(given = "Pearl", family = "Pearl")),
   journal      = "Empirical Software Engineering",
   year         = "2020",
   volume       = "25",
@@ -106,13 +108,13 @@ citEntry(
   "Online: https://dx.doi.org/10.1007/s10664-019-09747-0")
 )
 
-citEntry(
-  entry        = "Inbook",
+bibentry(
+  bibtype      = "Inbook",
   title        = "Creating Evolving Project Data Sets in Software Engineering",
   booktitle    = "Integrating Research and Practice in Software Engineering",
   chapter      = "Creating Evolving Project Data Sets in Software Engineering",
-  author       =  personList(as.person("Tomasz Lewowski"),
-                   as.person("Lech Madeyski")),
+  author       = c(person(given = "Tomasz", family = "Lewowski"),
+                   person(given = "Lech", family = "Madeyski")),
   editor       = "Stanislaw Jarzabek and Aneta Poniszewska-Mara{\'{n}}da and Lech Madeyski",
   year         = "2020",
   volume       = "851",
@@ -128,8 +130,31 @@ citEntry(
   "Online: https://dx.doi.org/10.1007/s10664-019-09747-0")
 )
 
-citEntry(
-  entry = 'manual',
+
+bibentry(
+  bibtype      = "Article",
+  title        = "The importance of the correlation in crossover experiments",
+  author       = c(person(given = "Barbara", family = "Kitchenham"),
+                   person(given = "Lech", family = "Madeyski"),
+                   person(given = "Giuseppe", family = "Scanniello"),
+                   person(given = "Carmine", family = "Gravino")),
+  journal      = "IEEE Transactions on Software Engineering",
+  year         = "2022",
+  volume       = "48",
+  number       = "8",
+  pages        = "2802--2813",
+  doi          = "10.1109/TSE.2021.3070480",
+  url          = "https://doi.org/10.1109/TSE.2021.3070480",
+  textVersion  = paste("Barbara Kitchenham, Lech Madeyski, Giuseppe Scanniello, and Carmine Gravino (2022)",
+  "The importance of the correlation in crossover experiments",
+  "IEEE Transactions on Software Engineering, vol. 48, no.8, p. 2802-2813",
+  "DOI: 10.1109/TSE.2021.3070480",
+  "Online: https://doi.org/10.1109/TSE.2021.3070480")
+)
+
+
+bibentry(
+  bibtype = 'manual',
   title = paste('reproducer:', meta$Title),
   author = Filter(function(p) 'aut' %in% p$role, as.person(meta$Author)),
   year = year,

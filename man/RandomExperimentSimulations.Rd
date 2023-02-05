@@ -49,7 +49,7 @@ This function performs multiple simulations of two-group balanced experiments fo
 \examples{
 as.data.frame(
   RandomExperimentSimulations(
-    mean = 0, sd = 1, diff = 0.5, N = 20, reps = 100, type = "n",
+    mean = 0, sd = 1, diff = 0.5, N = 20, reps = 50, type = "n",
     seed = 123, StdAdj = 0, alpha = 0.05))
 #        phat     phatvar sigphat emp.phat.var       d       dvar sigd
 # 1  0.636675 0.007980072    0.38  0.006413391 0.27335 0.03257962 0.36

@@ -83,7 +83,7 @@ This function simulates data from many families of experiments. The number of fa
 \examples{
 as.data.frame(
   MetaAnalysisSimulations(
-    mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=10, Exp=5,
+    mean=0, sd=1, diff=0.5, GroupSize=10, type='n', Replications=5, Exp=5,
     seed=456, alpha=0.05, FourGroup=FALSE, StdAdj=0, BlockEffect=0.5,
     BlockStdAdj=0,StdExp=0,MAMethod='PM',returnES=FALSE))
 #  AverageCliffd AverageCliffdvar AverageCliffdsig Averagephat Averagephatvar

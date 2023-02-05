@@ -43,9 +43,21 @@ calculate4GMdMRE(
 the four groups used to obtain expected values of the non-parametric effect
 sizes for four group experiments (the expected value of the standardized
 mean difference is always known)
-return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, PHat, and StdMD estimates found in each simulation, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
+return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, CentralPHat, and StdMD estimates found in each simulation, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
 example
-as.data.frame(calculate4GMdMRE(mean=0,sd=1,N=10,reps=100,diff=c(0.2,0.5,0.8),type='n',seed=123,StdAdj = 0,Blockmean = 0.5,AlwaysTwoSidedTests=FALSE,LargeSampleSize=5000))}
+as.data.frame(calculate4GMdMRE(mean=0,sd=1,N=10,reps=100,diff=c(0.2,0.5,0.8),type='n',seed=123,StdAdj = 0,Blockmean = 0.5,AlwaysTwoSidedTests=FALSE,LargeSampleSize=5000))
+#   Design Obs Diff CliffdMdMRE  CentralPHatMdMRE StdESMdMRE  varCliffd
+# 1   4G_n  40  0.2   0.9233922        -0.4057206  0.9363782 0.02596173
+# 2   4G_n  40  0.5   0.3707537        -0.4195281  0.4064130 0.02355567
+# 3   4G_n  40  0.8   0.2184928        -0.4344428  0.2724099 0.02044181
+# varPHat   varStdES ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
+# 1 0.006490432 0.08449443    0.1317 0.56585 0.2324695      0.1137112    0.5568556
+# 2 0.005888917 0.08811262    0.2883 0.64415 0.5413961      0.2772198    0.6386099
+# 3 0.005110452 0.09511715    0.4381 0.71905 0.8503227      0.4286589    0.7143294
+# StdESExpected CliffdPower PHatPower StdESPower
+# 1     0.1994634        0.12      0.13       0.15
+# 2     0.4990205        0.41      0.45       0.46
+# 3     0.7985776        0.80      0.84       0.84}
 }
 \description{
 The function uses simulation to assess the accuracy and power of parametric and non-parametric effect sizes for four group randomized block ddesigns and four different distributions.

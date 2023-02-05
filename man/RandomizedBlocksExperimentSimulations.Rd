@@ -57,7 +57,7 @@ description This function performs multiple simulations of 4 group balanced rand
 \examples{
 as.data.frame(
   RandomizedBlocksExperimentSimulations(
-    mean = 0, sd = 1, diff = 0.5, N = 10, reps = 100, type = "n",
+    mean = 0, sd = 1, diff = 0.5, N = 10, reps = 50, type = "n",
     alpha = 0.05, Blockmean = 0.5, BlockStdAdj = 0, StdAdj = 0, seed = 123,
     AlwaysTwoSidedTests = FALSE))
 #     phat     varphat sigphat emp.phat.var      d      vard sigd  emp.d.var

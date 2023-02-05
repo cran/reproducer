@@ -31,7 +31,10 @@ densityCurveOnHistogram <- function(df, colName, limLow, limHigh) {
   p1 <- ggplot2::ggplot(df, ggplot2::aes_string(x = colName), environment = environment()) +
     ggplot2::xlab("") +
     ggplot2::ggtitle(colName) +
-    ggplot2::geom_histogram(ggplot2::aes_string(y = "..density.."),
+    # The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+    # Please use `after_stat(density)` instead.
+    #ggplot2::geom_histogram(ggplot2::aes_string(y = "..density.."),
+    ggplot2::geom_histogram(ggplot2::aes_string(y = "ggplot2::after_stat(density)"),
       fill = "cornsilk", colour = "grey60"
     ) +
     ggplot2::geom_density(fill = "green", alpha = 0.4) +
@@ -87,7 +90,10 @@ boxplotHV <- function(df, colName, limLow, limHigh, isHorizontal) {
       limLow,
       limHigh
     ) +
-    ggplot2::stat_summary(fun.y = "mean", geom = "point", shape = 23, fill = "white") +
+    # The `fun.y` argument of `stat_summary()` is deprecated as of ggplot2 3.3.0.
+    # Please use the `fun` argument instead.
+    # ggplot2::stat_summary(fun.y = "mean", geom = "point", shape = 23, fill = "white") +
+    ggplot2::stat_summary(fun = "mean", geom = "point", shape = 23, fill = "white") +
     ggplot2::scale_x_continuous(breaks = NULL)
 
   if (isHorizontal) {
