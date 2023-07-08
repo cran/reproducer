@@ -17,9 +17,14 @@ calculateCliffd(x, y, alpha = 0.05, sigfig = -1)
 }
 \value{
 list including the value of Cliffs d its consistent variance and confidence intervals and the equivalent probability of superiority value and its confidence intervals.
+}
+\description{
+This function implements finds Cliff's d and its confidence intervals. The null hypothesis is that for two independent group, P(X<Y)=P(X>Y). The function reports a 1-alpha confidence interval for P(X>Y)-P(X<Y). The algorithm computes a confidence interval for Cliff's d using the method in Cliff, 1996, p. 140, eq 5.12. The function is based on code produce by Rand Wilcox but has been amended. The plotting function has been removed and the dependency on Wilcox's binomci function has been removed. Construction of confidence intervals if values in one group are all larger than values in the other group has been amended to use the smallest non-zero variance method. Upper and lower confidence interval bounds cannot assume invalid values, i.e. values <-1 or >1.
+}
+\examples{
 x=c(1.2,3,2.2,4,2.5,3)
 y=c(3,4.2,4,6,7,5.9)
-# calculateCliffd(x,y)
+calculateCliffd(x,y)
 #  $n1
 # [1] 6
 # $n2
@@ -43,9 +48,6 @@ calculateCliffd(z,y)
 # [1] 0.009765625
 # $phat
 # [1] 0
-}
-\description{
-This function implements finds Cliff's d and its confidence intervals. The null hypothesis is that for two independent group, P(X<Y)=P(X>Y). The function reports a 1-alpha confidence interval for P(X>Y)-P(X<Y). The algorithm computes a confidence interval for Cliff's d using the method in Cliff, 1996, p. 140, eq 5.12. The function is based on code produce by Rand Wilcox but has been amended. The plotting function has been removed and the dependency on Wilcox's binomci function has been removed. Construction of confidence intervals if values in one group are all larger than values in the other group has been amended to use the smallest non-zero variance method. Upper and lower confidence interval bounds cannot assume invalid values, i.e. values <-1 or >1.
 }
 \author{
 Rand Wilcox, amendments Barbara Kitchenham and Lech Madeyski

@@ -1,7 +1,7 @@
 Package: reproducer
 Title: Reproduce Statistical Analyses and Meta-Analyses
-Version: 0.5.1
-Date: 2023-02-05
+Version: 0.5.2
+Date: 2023-07-08
 Authors@R: c(
     person("Lech", "Madeyski", , "lech.madeyski@gmail.com", role = c("cre", "aut", "ctb"),
            comment = "The main contributor and maintainer"),
@@ -29,13 +29,13 @@ Authors@R: c(
            comment = "Data contributor")
   )
 Maintainer: Lech Madeyski <lech.madeyski@gmail.com>
-Description: Includes data analysis functions (e.g., to calculate effect
-    sizes and 95% Confidence Intervals (CI) on Standardised Effect Sizes
-    (d) for AB/BA cross-over repeated-measures experimental designs), data
-    presentation functions (e.g., density curve overlaid on histogram),
-    and the data sets analyzed in different research papers in software
-    engineering (e.g., related to software defect prediction or multi-site
-    experiment concerning the extent to which structured abstracts were
+Description: Includes data analysis and meta-analysis functions (e.g., to 
+    calculate effect sizes and 95% Confidence Intervals (CI) on Standardised 
+    Effect Sizes (d) for AB/BA cross-over repeated-measures experimental 
+    designs), data presentation functions (e.g., density curve overlaid on 
+    histogram),and the data sets analyzed in different research papers in 
+    software engineering (e.g., related to software defect prediction or multi-
+    site experiment concerning the extent to which structured abstracts were
     clearer and more complete than conventional abstracts) to streamline
     reproducible research in software engineering.
 License: GPL (>= 2)
@@ -52,7 +52,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-02-05 22:44:10 UTC; lma
+Packaged: 2023-07-08 10:20:43 UTC; lma
 Author: Lech Madeyski [cre, aut, ctb] (The main contributor and maintainer),
   Barbara Kitchenham [ctb] (Data and code contributor),
   Tomasz Lewowski [ctb] (Data and code contributor),
@@ -66,4 +66,4 @@ Author: Lech Madeyski [cre, aut, ctb] (The main contributor and maintainer),
   Giuseppe Scanniello [ctb] (Data contributor),
   Carmine Gravino [ctb] (Data contributor)
 Repository: CRAN
-Date/Publication: 2023-02-05 23:12:32 UTC
+Date/Publication: 2023-07-08 10:40:10 UTC

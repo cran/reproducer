@@ -1,3 +1,9 @@
+# CHANGES IN reproducer VERSION 0.5.2
+
+## UPDATED FEATURES
+- Updated function `calculateCliffd` (added export)
+- Updated functions `calculate2GMdMRE`, `calculate4GMdMRE` (fixed `CentralPHatMdMRE` calculation)
+
 # CHANGES IN reproducer VERSION 0.5.1
 
 ## UPDATED FEATURES
