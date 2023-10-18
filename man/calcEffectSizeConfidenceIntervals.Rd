@@ -19,7 +19,7 @@ calcEffectSizeConfidenceIntervals(
 
 \item{effectsize.variance}{The effect size variance}
 
-\item{effectsize.df}{The degrees of freedome for confidence intervals based on the t- distribution. If df=0 (default), the confidence interval is based on the normal distribution}
+\item{effectsize.df}{The degrees of freedom for confidence intervals based on the t- distribution. If df=0 (default), the confidence interval is based on the normal distribution}
 
 \item{alpha}{The significance level of the confidence interval
 (default 0.05).}

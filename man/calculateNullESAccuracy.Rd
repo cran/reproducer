@@ -20,7 +20,7 @@ calculateNullESAccuracy(
 
 \item{sd}{The standard deviation or shape of the baseline distribution}
 
-\item{N}{The number of obervations per group for two group experiments and N/2 the sample sizes for four group experiments. N must be even to ensure equal N/2 defines appropriate sample sizes per group for 4 group experiments}
+\item{N}{The number of observations per group for two group experiments and N/2 the sample sizes for four group experiments. N must be even to ensure equal N/2 defines appropriate sample sizes per group for 4 group experiments}
 
 \item{reps}{The number of replications (i.e. two-group and four group experiments) to be simulated}
 

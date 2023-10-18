@@ -18,7 +18,7 @@ CalculateLevel2ExperimentRData(
 
 \item{Groups}{This is a list that defines the sequence group labels used in the dataset.}
 
-\item{StudyID}{This holds an identifer used to identify the origin of the experimental data in the output from this function.}
+\item{StudyID}{This holds an identifier used to identify the origin of the experimental data in the output from this function.}
 
 \item{ExperimentNames}{This a list of identifiers used to define each experiment in the output from this function.}
 

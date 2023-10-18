@@ -17,7 +17,7 @@ ConstructLevel1ExperimentRData(
 \arguments{
 \item{Data}{This is a list parameter each entry in the list holds the data for each participant in a 2-group or 4-group crossover experiment in the 'wide' format. I.e., there is only one entry per participant. The data should have been generated from a long version of the data based on a variable labelled 'Period' which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.}
 
-\item{StudyID}{This holds an identifer used to identify the origin of the experimental data in the output from this function.}
+\item{StudyID}{This holds an identifier used to identify the origin of the experimental data in the output from this function.}
 
 \item{ExperimentNames}{This a list of identifiers used to define each experiment in the output from this function.}
 

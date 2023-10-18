@@ -31,48 +31,72 @@ NP2GMetaAnalysisSimulation(
 
 \item{Exp}{is the number of experiments being simulated. Exp should be an integer of 2 or more. It defaults to 5.}
 
-\item{type}{specifies the distribution being simulated. The permitted values are 'n' for the normal distribution,  'l' for the lognormal distribution, 'g' for the gamma distribution and 'lap' for the Laplace distribution. The parameter defaults to 'n'.}
+\item{type}{specifies the distribution being simulated. The permitted values are "n" for the normal distribution,  "l" for the lognormal distribution, "g" for the gamma distribution and "lap" for the Laplace distribution. The parameter defaults to "n".}
 
 \item{StdAdj}{specifies a level used to adjust the treatment variance. It allows heterogeneity to be modelled. It defaults to zero meaning no variance heterogeneity is introduced.}
 
-\item{alpha}{the Type 1 error rate level use for statistical tests (default 0.05).}
+\item{alpha}{the Type 1 error rate level use for statistical tests.}
 
-\item{seed}{specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defaults to 123.}
+\item{seed}{specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defauls to 123.}
 
-\item{StdExp}{if non-zero it simulates a random effect between experiments
-in the same family (default 0).}
+\item{StdExp}{defines whether any additional heterogeneity is introduced between families. The value (set to 0 or 0.5 for our simulations) is used when we generate a deviation to be added to the control mean (control rate for gamma data) for each family. The deviation is generated from a Normal distribution with mean 0 and standard deviation=0.5. If StdExp=0 we do not add any deviations to the mean.}
 
 \item{MAMethod}{the meta-analysis method needed for the call to the metafor package rma algorithm}
 
 \item{returnES}{Determines the format of the output. It defaults to FALSE which causes the function to output the meta-analysis results for the family of experiments. If set to TRUE it returns the effect sizes for each experiment.}
 
-\item{AlwaysTwoSidedTests}{If FALSE the function performs one-sided tests if diff!=0, and two-sided tests if diff=0. If set to TRUE the function always does two-sided tests (default: AlwaysTwoSidedTests=FALSE).}
+\item{AlwaysTwoSidedTests}{If FALSE the function performs one-sided tests if diff!=0, and two-sided tests if diff=0. If set to TRUE the function alsways does two-sided tests.}
 }
 \value{
 Depending on the value of the returnES parameter, the function either returns the effect sizes for each experiment or the aggregated results for the family
 }
 \description{
-This function simulates data from a family of experiments. The parameter Exp determines the number of experiments in the family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The distribution for one  of the groups corresponds to the control and is based on the given mean and spread, the distribution for the other group corresponds to the treatment group and  is based on the mean+diff and the spread plus any variance adjustment requested (determined by the parameter StdAdj). The data from each experiment is analysed separately to estimate three non-parametric effect sizes: the Cliff's d and the probability of superiority referred to as phat and their variances. Parametric effect sizes Cohen's d (also known as the standardized means difference, SMD) and the small sample size adjusted standardized mean difference g are also calculated together with their variances. The effect sizes are then meta-analysed using various methods: the simple average of the effect size and the variance weighted averages (using the exact and approximate normal variance and the weighted and unweighted standardized mean difference). The function uses the metafor package for formal meta-analysis, and the specific method of formal meta-analysis used is determined by the MAMethod. All tests of significance are done at the 0.05 level. If the parameter returnES is TRUE, the function returns the effect sizes for each experiment in the family, otherwise it returns the meta-analysis results.
+This function simulates data from a family of experiments. The parameter Exp determines the number of experiments in the family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The distribution for one  of the groups corresponds to the control and is based on the given mean and spread, the distribution for the other group corresponds to the treatment group and  is based on the mean+diff and the spread plus any variance adjustment requested (determined by the parameter StdAdj). The data from each experiment is analysed separately to estimate three non-parametric effect sizes: the Cliff's d and the probability of superiority referred to as phat and their variances. Parametric effect sizes Cohen's d (also known as the standarized means difference, SMD) and the small sample size adjusted standardized mean difference g are also calculated together with their variances. The effect sizes are then meta-analysed using various methods: the simple average of the effect size and the variance weighted averages (using the exact and approximate normal variance and the weighted and unweighted standardized mean difference). The function uses the metafor package for formal meta-analysis, and the specific method of formal meta-analysis used is determined by the MAMethod. All tests of significance are done at the 0.05 level. If the parameter returnES is TRUE, the function returns the effect sizes for each experiment in the family, otherwise it returns the meta-analysis results.
 }
 \examples{
-as.data.frame(
-  NP2GMetaAnalysisSimulation(
-    mean = 0, sd = 1, diff = 0.5, GroupSize = 10, Exp = 5, type = "n",
-    StdAdj = 0, alpha = 0.05, seed = 457, StdExp = 1, MAMethod = "PM",
-    returnES = FALSE))
-#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar..
-#      5        10     0.252   0.01499003         TRUE   0.626 0.003645333..
-as.data.frame(
-  NP2GMetaAnalysisSimulation(
-    mean=0, sd=1, diff=0.5, GroupSize=10, Exp=5, type='n', StdAdj=0,
-    alpha=0.05, seed=457, StdExp=1, MAMethod='PM', returnES=TRUE))
-#    MeanExp   VarExp     StdMD       df      tval t.sig Cliffd  Cliffdvar...
-as.data.frame(
-  NP2GMetaAnalysisSimulation(
-    mean=0, sd=1, diff=0.724, GroupSize=10, Exp=5, type='l', StdAdj=0,
-    alpha=0.05, seed=123, StdExp=1, MAMethod='PM', returnES=FALSE))
-#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar..
-#1      5        10     0.344   0.01288023         TRUE   0.672 0.003118222..
+as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.5,GroupSize=10,
+  Exp=5,type="n",StdAdj=0,alpha=0.05,seed=457,StdExp=1,MAMethod="PM",
+  returnES=FALSE))
+#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar Avephatsig AveMDStd..
+#      5        10     0.252   0.01499003         TRUE   0.626 0.003645333       TRUE 0.4883188..
+#  AveMDStdsig MAphat   MAphatvar MAphatsig MACliffd MACliffdvar MACliffdsig StdMDAdjUnweighted..
+#1        TRUE 0.6288 0.003620188      TRUE   0.2575  0.01490134        TRUE          0.4748065..
+#  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#1            0.04065614                  TRUE       0.4980148         0.04157691            TRUE
+#  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#1         0.4755316           0.04307274                 TRUE       0.4725834         0.04315211
+#  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox St..
+#1               TRUE           0.4716          0.03762363                TRUE     0.4955783 ..
+#  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#1             TRUE    0.4966121      0.04756193            TRUE
+as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.5,GroupSize=10,Exp=5,type="n",
+  StdAdj=0,alpha=0.05,seed=457,StdExp=1,MAMethod="PM",returnES=TRUE))
+#    MeanExp   VarExp     StdMD       df      tval t.sig Cliffd  Cliffdvar Cliffd.sig PHat PHat..
+#1 0.5641594 1.437447 0.4705502 17.77980 1.0521822 FALSE   0.26 0.08149818      FALSE 0.63 0.02..
+#2 0.6400936 1.081352 0.6155452 17.23411 1.3764009 FALSE   0.36 0.06527192      FALSE 0.68 0.01..
+#3 0.8199650 1.698610 0.6291418 15.42141 1.4068038 FALSE   0.28 0.07362909      FALSE 0.64 0.01..
+#4 0.2970819 1.709441 0.2272214 13.87833 0.5080824 FALSE   0.04 0.07936485      FALSE 0.52 0.01..
+#5 0.5688567 1.079082 0.5476154 16.79899 1.2245053 FALSE   0.32 0.07498667      FALSE 0.66 0.01..
+#  Phat.sig  StdMDAdj StdMDAdjvar.exact StdMDAdjvar.approx StdMDvar.exact StdMDvar.approx
+#1    FALSE 0.4503698         0.2129598          0.1884384      0.2324722       0.2057040
+#2    FALSE 0.5882961         0.2182075          0.1918563      0.2388898       0.2100409
+#3    FALSE 0.5979539         0.2211428          0.1911344      0.2448130       0.2115926
+#4    FALSE 0.2146782         0.2105671          0.1800107      0.2358918       0.2016604
+#5    FALSE 0.5227345         0.2162500          0.1896495      0.2373259       0.2081330
+as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.724,GroupSize=10,Exp=5,type="l",
+  StdAdj=0,alpha=0.05,seed=123,StdExp=1,MAMethod="PM",returnES=FALSE))
+#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar Avephatsig  AveMDSt..
+#1      5        10     0.344   0.01288023         TRUE   0.672 0.003118222       TRUE 0.483665..
+#  AveMDStdsig MAphat   MAphatvar MAphatsig MACliffd MACliffdvar MACliffdsig StdMDAdjUnweighted
+#1        TRUE 0.7014 0.004229764      TRUE    0.403  0.01690867        TRUE          0.5722448
+#  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#1            0.04146189                  TRUE       0.6046947         0.04260837            TRUE
+#  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#1         0.5742311           0.04453436                 TRUE       0.5405307          0.0450343
+#  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox S..
+#1               TRUE           0.5411          0.03819079                TRUE     0.5737401 0...
+#  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#1             TRUE    0.5727409      0.05042801            TRUE
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

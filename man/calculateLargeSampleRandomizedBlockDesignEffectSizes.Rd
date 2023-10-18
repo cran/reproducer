@@ -34,14 +34,14 @@ normal (default), 'l' for log-normal, 'g' for gamma, and 'lap' for Laplace.}
 a fixed block effect (default 0).}
 
 \item{StdAdj}{a value that can be added to sdC to introduce heterogeneity
-into the tretament group (default 0).}
+into the treatment group (default 0).}
 }
 \value{
 A tibble identifying the sample statistics and the values of the
 probability of superiority, Cliff's d and StdMD (labelled StdES)
 }
 \description{
-The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a four group randomized blocks experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. tyep='g') and Laplace (i.e., type='lap').
+The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a four group randomized blocks experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. type='g') and Laplace (i.e., type='lap').
 }
 \examples{
 set.seed=400

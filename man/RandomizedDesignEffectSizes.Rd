@@ -18,7 +18,7 @@ RandomizedDesignEffectSizes(m1, std1, m2, std2, type = "n")
 \item{type}{String identifying the distribution, 'n' for normal, 'ln' for lognormal, 'lap' for Laplace, 'g' for Gamma}
 }
 \value{
-dataframe containing the expected values of the unstandardized mean difference effect size, the pooled witjin group variance, the standardized mean difference effect size and the point bi-serial correlation.
+dataframe containing the expected values of the unstandardized mean difference effect size, the pooled within group variance, the standardized mean difference effect size and the point bi-serial correlation.
 }
 \description{
 This function creates the theoretical effect sizes for data from one of four different distributions for specified parameter values for the distribution specified by the type parameter. It assumes there are two samples, one corresponding to a control group and the other to the treatment group. It returns the theoretical effect sizes for a fully randomized experiment.

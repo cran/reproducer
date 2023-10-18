@@ -8,7 +8,7 @@
 A text file file with variables:
 \describe{
 \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
-\item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
+\item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_IG and g_IG, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
 \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 \item{mean}{The overall mean effect size reported by the study authors}
 \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}

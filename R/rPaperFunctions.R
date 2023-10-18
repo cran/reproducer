@@ -245,7 +245,7 @@ ExtractGroupSizeData <- function(ExpDataWide, StudyID, ShortExperimentNames, Typ
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export ConstructLevel1ExperimentRData
 #' @param Data This is a list parameter each entry in the list holds the data for each participant in a 2-group or 4-group crossover experiment in the 'wide' format. I.e., there is only one entry per participant. The data should have been generated from a long version of the data based on a variable labelled 'Period' which is used to define which participant data was collected in the first period of the experiment - see function ExtractLevel1ExperimentRData.
-#' @param StudyID This holds an identifer used to identify the origin of the experimental data in the output from this function.
+#' @param StudyID This holds an identifier used to identify the origin of the experimental data in the output from this function.
 #' @param Groups This is a list that defined the sequence group identifiers used in the dataset.
 #' @param ExperimentNames This a list of identifiers used to define each experiment in the output from this function.
 #' @param Metrics This is a list of of character strings identifying each outcome metric reported in each of the experiments in the set of replicated experiments.
@@ -385,7 +385,7 @@ ExtractExperimentData <- function(DataSet, ExperimentNames, idvar = "Participant
 #' @export CalculateLevel2ExperimentRData
 #' @param Level1Data a tibble in the format produced by the ConstructLevel1ExperimentRData function which has r-values for each sequence group in a crossover experiment
 #' @param Groups This is a list that defines the sequence group labels used in the dataset.
-#' @param StudyID This holds an identifer used to identify the origin of the experimental data in the output from this function.
+#' @param StudyID This holds an identifier used to identify the origin of the experimental data in the output from this function.
 #' @param ExperimentNames This a list of identifiers used to define each experiment in the output from this function.
 #' @param Metrics This is a list of of character strings identifying each outcome metric reported in each of the experiments in the set of replicated experiments.
 #' @param Type this is a list of character strings specifying for each experiment whether the experiment is a two sequence group '2G' or four sequence group '4G' experiment.
@@ -670,7 +670,7 @@ calculateGroupSummaryStatistics <- function(x, Group) {
 ############################################################################################################################
 
 #' @title rSimulations
-#' @description This function simulates many datasest from the same bivariate distribution to
+#' @description This function simulates many datasets from the same bivariate distribution to
 #' investigate the distribution of correlations for specific sample sizes.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export rSimulations

@@ -25,7 +25,7 @@ simulate4GExperimentData(
 
 \item{GroupSize}{An integer defining the number of data items in each group.}
 
-\item{type}{A string dentifying the distrubtion used to simulate the data: 'n' for normal, 'l' for log-normal, 'g' for gamma, 'lap' for Laplace.}
+\item{type}{A string identifying the distrubtion used to simulate the data: 'n' for normal, 'l' for log-normal, 'g' for gamma, 'lap' for Laplace.}
 
 \item{ExpAdj}{An additional adjument factor that is added to both the mean values. Defaults to zero.}
 

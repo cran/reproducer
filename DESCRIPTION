@@ -1,7 +1,7 @@
 Package: reproducer
 Title: Reproduce Statistical Analyses and Meta-Analyses
-Version: 0.5.2
-Date: 2023-07-08
+Version: 0.5.3
+Date: 2023-10-18
 Authors@R: c(
     person("Lech", "Madeyski", , "lech.madeyski@gmail.com", role = c("cre", "aut", "ctb"),
            comment = "The main contributor and maintainer"),
@@ -52,7 +52,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-07-08 10:20:43 UTC; lma
+Packaged: 2023-10-18 14:12:53 UTC; lma
 Author: Lech Madeyski [cre, aut, ctb] (The main contributor and maintainer),
   Barbara Kitchenham [ctb] (Data and code contributor),
   Tomasz Lewowski [ctb] (Data and code contributor),
@@ -66,4 +66,4 @@ Author: Lech Madeyski [cre, aut, ctb] (The main contributor and maintainer),
   Giuseppe Scanniello [ctb] (Data contributor),
   Carmine Gravino [ctb] (Data contributor)
 Repository: CRAN
-Date/Publication: 2023-07-08 10:40:10 UTC
+Date/Publication: 2023-10-18 14:40:02 UTC

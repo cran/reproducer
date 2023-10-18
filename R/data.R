@@ -144,7 +144,7 @@
 #'
 #' If you use this data set please cite this R package and the following paper when accepted: Barbara Kitchenham, Lech Madeyski, David Budgen, Jacky Keung, Pearl Brereton, Stuart Charters, Shirley Gibbs, and Amnart Pohthong, 'Robust Statistical Methods for Empirical Software Engineering', Empirical Software Engineering, vol. 22, no.2, p. 579-630, 2017. DOI: 10.1007/s10664-016-9437-5 (https://dx.doi.org/10.1007/s10664-016-9437-5), URL: https://madeyski.e-informatyka.pl/download/KitchenhamMadeyskiESE.pdf
 #'
-#' Data set collected from 9 Finish companies by Mr Hanna M\'aki from the TIEKE organisation see Barbara Kitchenham and Kari K\'{a}ns\'{a}l\'{a}, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
+#' Data set collected from 9 Finish companies by Mr Hanna M\'aki from the TIEKE organisation see Barbara Kitchenham and Kari Kansala, Inter-item correlations among function points, Proceedings ICSE 15, 1983, pp 477-480
 #'
 #' @format A data frame with variables:
 #' \describe{
@@ -440,7 +440,7 @@
 #' @format A text file file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the 13 primary studies which were included in the systematic review.}
-#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_IG and g_IG, P is the aggregated p values, if the repeated measures estimate was obtained it is appropriately specified, r refers to the point bi-serial correlation.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 #' \item{mean}{The overall mean effect size reported by the study authors}
 #' \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}
@@ -462,7 +462,7 @@
 #' @format A text file with variables:
 #' \describe{
 #' \item{Study}{This field includes the study identifier of each of the the 3 primary studies which reported results per document.}
-#' \item{Type}{This identifies the type of effect size used by the study authors. d  or g refer to d_{IG} and g_{IG}, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropriately specified.}
+#' \item{Type}{This identifies the type of effect size used by the study authors. d or g refer to d_IG and g_IG, P is the aggregated p values, if the repeated measures (RM) estimate was obtained it is appropriately specified.}
 #' \item{Source}{Always set to Rep. This identifies that the data was as reported by the primary study authors.}
 #' \item{mean}{The overall mean effect size reported by the study authors}
 #' \item{pvalue}{The one-sided p-value associated with the overall mean reported by the study authors. NA means the authors did not report this statistic.}

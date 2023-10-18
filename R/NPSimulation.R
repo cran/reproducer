@@ -33,11 +33,16 @@ checkIfValidDummyVariable <- function(vector) {
 #' outcome
 #' # [1] 'Failure'
 CatchError <- function(expr) {
-  tryCatch(expr, error = function(e) {
-    "Failure"
-  }, warning = function(w) {
-    "Failure"
-  }, finally = "Success")
+  tryCatch(
+    expr,
+    error = function(e) {
+      "Failure"
+    },
+    warning = function(w) {
+      "Failure"
+    },
+    finally = "Success"
+  )
 }
 
 #' @title testfunctionParameterChecks
@@ -59,27 +64,29 @@ CatchError <- function(expr) {
 #' #reproducer:::testfunctionParameterChecks(alternative='greater',alpha=0.1,stderr=0.000)
 #' #Error in testfunctionParameterChecks(alternative = 'greater', alpha = 0.1,  :
 #' #  Improbably small variance, data are essentially constant
-testfunctionParameterChecks <- function(alternative, alpha, stderr) {
-  alternative.allowed <- c("two.sided", "greater", "less")
-  Alt.test <- CatchError(match.arg(arg = alternative, choices = alternative.allowed))
-  if (Alt.test == "Failure") {
-    stop("Invalid alternative parameter, choose one of two.sided, greater or less")
+testfunctionParameterChecks <-
+  function(alternative, alpha, stderr) {
+    alternative.allowed <- c("two.sided", "greater", "less")
+    Alt.test <-
+      CatchError(match.arg(arg = alternative, choices = alternative.allowed))
+    if (Alt.test == "Failure") {
+      stop("Invalid alternative parameter, choose one of two.sided, greater or less")
+    }
+    if (alpha < 1e-04 | alpha > 0.2) {
+      stop("Invalid alpha parameter, select alpha in range (0.0001,0.2)")
+    }
+    if (stderr < 10 * .Machine$double.eps) {
+      stop("Improbably small variance, data are essentially constant")
+    }
+    return("Success")
   }
-  if (alpha < 1e-04 | alpha > 0.2) {
-    stop("Invalid alpha parameter, select alpha in range (0.0001,0.2)")
-  }
-  if (stderr < 10 * .Machine$double.eps) {
-    stop("Improbably small variance, data are essentially constant")
-  }
-  return("Success")
-}
 
 #' @title calcEffectSizeConfidenceIntervals
 #' @description This function provides single-sided and two-sided confidence interval of an effect size (assuming that the null hypothesis value is zero).
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @param effectsize The effect size
 #' @param effectsize.variance The effect size variance
-#' @param effectsize.df The degrees of freedome for confidence intervals based on the t- distribution. If df=0 (default), the confidence interval is based on the normal distribution
+#' @param effectsize.df The degrees of freedom for confidence intervals based on the t- distribution. If df=0 (default), the confidence interval is based on the normal distribution
 #' @param alpha The significance level of the confidence interval
 #' (default 0.05).
 #' @param alternative This defines whether a one-sided test or a two-sided
@@ -101,64 +108,82 @@ testfunctionParameterChecks <- function(alternative, alpha, stderr) {
 #' #  ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
 #' #    <dbl>     <dbl> <lgl>        <dbl>       <dbl>
 #' #1    4.02   0.00198 TRUE         0.168         0.5
-calcEffectSizeConfidenceIntervals <- function(effectsize, effectsize.variance, effectsize.df = 0, alpha = 0.05, alternative = "two.sided", UpperValue = Inf, LowerValue = -Inf) {
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(effectsize.variance))
+calcEffectSizeConfidenceIntervals <-
+  function(effectsize,
+           effectsize.variance,
+           effectsize.df = 0,
+           alpha = 0.05,
+           alternative = "two.sided",
+           UpperValue = Inf,
+           LowerValue = -Inf) {
+    testfunctionParameterChecks(
+      alternative = alternative,
+      alpha = alpha,
+      stderr = sqrt(effectsize.variance)
+    )
 
-  ES.se <- sqrt(effectsize.variance)
-  ES.test <- effectsize / ES.se
-  useTTest <- (effectsize.df > 0)
+    ES.se <- sqrt(effectsize.variance)
+    ES.test <- effectsize / ES.se
+    useTTest <- (effectsize.df > 0)
 
 
-  if (alternative == "two.sided") {
-    if (useTTest) {
-      vv <- stats::qt(alpha / 2, effectsize.df)
-      ES.pvalue <- 2 * (1 - stats::pt(abs(ES.test), effectsize.df))
-    } else {
-      vv <- stats::qnorm(alpha / 2)
-      ES.pvalue <- 2 * (1 - stats::pnorm(abs(ES.test)))
-    }
-    ES.ci.lower <- effectsize + vv * ES.se
-    ES.ci.upper <- effectsize - vv * ES.se
-    ES.sig <- (ES.ci.upper < 0 | ES.ci.lower > 0)
-  } else {
-    if (useTTest) {
-      vv <- stats::qt(alpha, effectsize.df)
-    } else {
-      vv <- stats::qnorm(alpha)
-    }
-
-    if (alternative == "greater") {
+    if (alternative == "two.sided") {
+      if (useTTest) {
+        vv <- stats::qt(alpha / 2, effectsize.df)
+        ES.pvalue <- 2 * (1 - stats::pt(abs(ES.test), effectsize.df))
+      } else {
+        vv <- stats::qnorm(alpha / 2)
+        ES.pvalue <- 2 * (1 - stats::pnorm(abs(ES.test)))
+      }
       ES.ci.lower <- effectsize + vv * ES.se
-      ES.ci.upper <- UpperValue
-      ES.sig <- ES.ci.lower > 0
-      if (useTTest) {
-        ES.pvalue <- (1 - stats::pt(ES.test, effectsize.df))
-      } else {
-        ES.pvalue <- (1 - stats::pnorm(ES.test))
-      }
-    } else {
       ES.ci.upper <- effectsize - vv * ES.se
-      ES.ci.lower <- LowerValue
-      ES.sig <- ES.ci.upper < 0
-
+      ES.sig <- (ES.ci.upper < 0 | ES.ci.lower > 0)
+    } else {
       if (useTTest) {
-        ES.pvalue <- (stats::pt(ES.test, effectsize.df))
+        vv <- stats::qt(alpha, effectsize.df)
       } else {
-        ES.pvalue <- (stats::pnorm(ES.test))
+        vv <- stats::qnorm(alpha)
+      }
+
+      if (alternative == "greater") {
+        ES.ci.lower <- effectsize + vv * ES.se
+        ES.ci.upper <- UpperValue
+        ES.sig <- ES.ci.lower > 0
+        if (useTTest) {
+          ES.pvalue <- (1 - stats::pt(ES.test, effectsize.df))
+        } else {
+          ES.pvalue <- (1 - stats::pnorm(ES.test))
+        }
+      } else {
+        ES.ci.upper <- effectsize - vv * ES.se
+        ES.ci.lower <- LowerValue
+        ES.sig <- ES.ci.upper < 0
+
+        if (useTTest) {
+          ES.pvalue <- (stats::pt(ES.test, effectsize.df))
+        } else {
+          ES.pvalue <- (stats::pnorm(ES.test))
+        }
       }
     }
-  }
 
-  if (ES.ci.upper > UpperValue) {
-    ES.ci.upper <- UpperValue
-  }
-  if (ES.ci.lower < LowerValue) {
-    ES.ci.lower <- LowerValue
-  }
-  out <- tibble::tibble(ES.test = ES.test, ES.pvalue = ES.pvalue, ES.sig = ES.sig, ES.ci.lower = ES.ci.lower, ES.ci.upper = ES.ci.upper)
+    if (ES.ci.upper > UpperValue) {
+      ES.ci.upper <- UpperValue
+    }
+    if (ES.ci.lower < LowerValue) {
+      ES.ci.lower <- LowerValue
+    }
+    out <-
+      tibble::tibble(
+        ES.test = ES.test,
+        ES.pvalue = ES.pvalue,
+        ES.sig = ES.sig,
+        ES.ci.lower = ES.ci.lower,
+        ES.ci.upper = ES.ci.upper
+      )
 
-  return(out)
-}
+    return(out)
+  }
 
 
 #' @title calculateCliffd
@@ -200,7 +225,10 @@ calcEffectSizeConfidenceIntervals <- function(effectsize, effectsize.variance, e
 #' # [1] 0
 
 
-calculateCliffd <- function(x, y, alpha = 0.05, sigfig = -1) {
+calculateCliffd <- function(x,
+                            y,
+                            alpha = 0.05,
+                            sigfig = -1) {
   # Check that the data is valid
   if (length(x) <= 1) {
     stop("Too few data points")
@@ -240,19 +268,22 @@ calculateCliffd <- function(x, y, alpha = 0.05, sigfig = -1) {
   dimnames(c.sum) <- list(NULL, c("P(X<Y)", "P(X=Y)", "P(X>Y)"))
   if (flag) {
     # This is appropriate for the consistent variance of d
-    sigdih <- sum((m - d)^2) / (length(x) * length(y) - 1)
+    sigdih <- sum((m - d) ^ 2) / (length(x) * length(y) - 1)
 
     di <- NA
-    for (i in 1:length(x)) di[i] <- sum(x[i] > y) / length(y) - sum(x[i] < y) / length(y)
+    for (i in 1:length(x))
+      di[i] <- sum(x[i] > y) / length(y) - sum(x[i] < y) / length(y)
 
     dh <- NA
-    for (i in 1:length(y)) dh[i] <- sum(y[i] < x) / length(x) - sum(y[i] > x) / length(x)
+    for (i in 1:length(y))
+      dh[i] <- sum(y[i] < x) / length(x) - sum(y[i] > x) / length(x)
 
 
     sdi <- stats::var(di)
     sdh <- stats::var(dh)
     # sh is the consistent variance of d
-    sh <- ((length(y) - 1) * sdi + (length(x) - 1) * sdh + sigdih) / (length(x) * length(y))
+    sh <-
+      ((length(y) - 1) * sdi + (length(x) - 1) * sdh + sigdih) / (length(x) * length(y))
   }
   if (!flag) {
     # phat=0 and d=-1 or phat=1 and d=1 Cannot calculate standard error of d, use alternative minimum change approach to calculate a 'close'
@@ -281,7 +312,14 @@ calculateCliffd <- function(x, y, alpha = 0.05, sigfig = -1) {
     sh <- disturbedanalysis$sqse
   }
 
-  cid.results <- list(n1 = length(x), n2 = length(y), d = d, sqse.d = sh, phat = phat)
+  cid.results <-
+    list(
+      n1 = length(x),
+      n2 = length(y),
+      d = d,
+      sqse.d = sh,
+      phat = phat
+    )
   return(cid.results)
 }
 
@@ -289,6 +327,7 @@ calculateCliffd <- function(x, y, alpha = 0.05, sigfig = -1) {
 #' @title calculatePhat
 #' @description This function calculates the probability of superiority (i.e., Phat) and its confidence interval based on Brunner and Munzel (2000) heteroscedastic analog of WMW test. It is based on Wilcox'x bmp function with some amendments. It does not include a plotit facility. It uses the smallest non-zero variance to identify confidence intervals and statistical significance for values of Phat=0 and Phat=1. It ensure that confidence intervals do not take on invalid values such as values <0 or >1.
 #' @author Rand Wilcox amendments by Barbara Kitchenham and Lech Madeyski
+#' @export calculatePhat
 #' @param x is a vector of values from group 1
 #' @param y is a vector of values from group 2
 #' @param alpha is the Type 1 error level for statistical tests
@@ -331,7 +370,10 @@ calculateCliffd <- function(x, y, alpha = 0.05, sigfig = -1) {
 #' # [1] 0.8918608 1.0000000
 #' # $df
 #' # [1] 6
-calculatePhat <- function(x, y, alpha = 0.05, sigfig = -1) {
+calculatePhat <- function(x,
+                          y,
+                          alpha = 0.05,
+                          sigfig = -1) {
   if (sigfig > 0) {
     x <- signif(x, sigfig)
     y <- signif(y, sigfig)
@@ -359,13 +401,15 @@ calculatePhat <- function(x, y, alpha = 0.05, sigfig = -1) {
   if (flag) {
     Rg1 <- base::rank(x)
     Rg2 <- base::rank(y)
-    S1sq <- sum((R[flag1] - Rg1 - R1 + (n1 + 1) / 2)^2) / (n1 - 1)
-    S2sq <- sum((R[flag2] - Rg2 - R2 + (n2 + 1) / 2)^2) / (n2 - 1)
-    sig1 <- S1sq / n2^2
-    sig2 <- S2sq / n1^2
+    S1sq <- sum((R[flag1] - Rg1 - R1 + (n1 + 1) / 2) ^ 2) / (n1 - 1)
+    S2sq <- sum((R[flag2] - Rg2 - R2 + (n2 + 1) / 2) ^ 2) / (n2 - 1)
+    sig1 <- S1sq / n2 ^ 2
+    sig2 <- S2sq / n1 ^ 2
     se <- sqrt((sig1 / n1 + sig2 / n2))
 
-    df <- (S1sq / n2 + S2sq / n1)^2 / ((S1sq / n2)^2 / (n1 - 1) + (S2sq / n1)^2 / (n2 - 1))
+    df <-
+      (S1sq / n2 + S2sq / n1) ^ 2 / ((S1sq / n2) ^ 2 / (n1 - 1) + (S2sq / n1) ^
+                                       2 / (n2 - 1))
   } else {
     # Calculate the smallest non-negative variance and use results to approximate variance and confidence intervals of phat. Gives a more
     # realistic confidence interval than other methods
@@ -378,7 +422,12 @@ calculatePhat <- function(x, y, alpha = 0.05, sigfig = -1) {
   }
 
 
-  list(phat = phat, dhat = dhat, s.e. = se, df = df)
+  list(
+    phat = phat,
+    dhat = dhat,
+    s.e. = se,
+    df = df
+  )
 }
 
 
@@ -421,45 +470,65 @@ calculatePhat <- function(x, y, alpha = 0.05, sigfig = -1) {
 #' #  d.tvalue d.pvalue d.ci.lower d.ci.upper d.sig
 #' #   <dbl>    <dbl>      <dbl>      <dbl> <lgl>
 #' #1     -2.5   0.0112         -1     -0.123 TRUE
-calcCliffdConfidenceIntervals <- function(d.value, d.variance, d.df, alpha = 0.05, alternative = "two.sided") {
-  d <- d.value
-  vard <- d.variance
-  d.tvalue <- d / sqrt(vard)
+calcCliffdConfidenceIntervals <-
+  function(d.value,
+           d.variance,
+           d.df,
+           alpha = 0.05,
+           alternative = "two.sided") {
+    d <- d.value
+    vard <- d.variance
+    d.tvalue <- d / sqrt(vard)
 
-  if (alternative == "two.sided") {
-    zv <- stats::qnorm(alpha / 2)
-    d.cu <- (d - d^3 - zv * sqrt(vard) * sqrt((1 - d^2)^2 + zv^2 * vard)) / (1 - d^2 + zv^2 * vard)
-    d.cl <- (d - d^3 + zv * sqrt(vard) * sqrt((1 - d^2)^2 + zv^2 * vard)) / (1 - d^2 + zv^2 * vard)
-    d.sig <- d.cu < 0 | d.cl > 0
+    if (alternative == "two.sided") {
+      zv <- stats::qnorm(alpha / 2)
+      d.cu <-
+        (d - d ^ 3 - zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) / (1 - d ^
+                                                                                   2 + zv ^ 2 * vard)
+      d.cl <-
+        (d - d ^ 3 + zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) / (1 - d ^
+                                                                                   2 + zv ^ 2 * vard)
+      d.sig <- d.cu < 0 | d.cl > 0
 
-    d.pvalue <- 2 * (1 - stats::pt(abs(d.tvalue), d.df))
-  } else {
-    zv <- stats::qnorm(alpha)
-    if (alternative == "greater") {
-      d.cu <- 1
-      d.cl <- (d - d^3 + zv * sqrt(vard) * sqrt((1 - d^2)^2 + zv^2 * vard)) / (1 - d^2 + zv^2 * vard)
-      d.sig <- d.cl > 0
-      d.pvalue <- 1 - stats::pt(d.tvalue, d.df)
+      d.pvalue <- 2 * (1 - stats::pt(abs(d.tvalue), d.df))
     } else {
-      d.cl <- -1
-      d.cu <- (d - d^3 - zv * sqrt(vard) * sqrt((1 - d^2)^2 + zv^2 * vard)) / (1 - d^2 + zv^2 * vard)
+      zv <- stats::qnorm(alpha)
+      if (alternative == "greater") {
+        d.cu <- 1
+        d.cl <-
+          (d - d ^ 3 + zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) / (1 - d ^
+                                                                                     2 + zv ^ 2 * vard)
+        d.sig <- d.cl > 0
+        d.pvalue <- 1 - stats::pt(d.tvalue, d.df)
+      } else {
+        d.cl <- -1
+        d.cu <-
+          (d - d ^ 3 - zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) / (1 - d ^
+                                                                                     2 + zv ^ 2 * vard)
 
-      d.sig <- d.cu < 0
-      d.pvalue <- stats::pt(d.tvalue, d.df)
+        d.sig <- d.cu < 0
+        d.pvalue <- stats::pt(d.tvalue, d.df)
+      }
     }
-  }
 
-  if (d.cl < -1) {
-    d.cl <- -1
-  }
-  if (d.cu > 1) {
-    d.cu <- 1
-  }
+    if (d.cl < -1) {
+      d.cl <- -1
+    }
+    if (d.cu > 1) {
+      d.cu <- 1
+    }
 
-  out <- tibble::tibble(d.tvalue = d.tvalue, d.pvalue = d.pvalue, d.ci.lower = d.cl, d.ci.upper = d.cu, d.sig = d.sig)
+    out <-
+      tibble::tibble(
+        d.tvalue = d.tvalue,
+        d.pvalue = d.pvalue,
+        d.ci.lower = d.cl,
+        d.ci.upper = d.cu,
+        d.sig = d.sig
+      )
 
-  return(out)
-}
+    return(out)
+  }
 
 #' @title Cliffd.test
 #' @description This function provides single-sided and two-sided tests of Cliff's d
@@ -492,23 +561,43 @@ calcCliffdConfidenceIntervals <- function(d.value, d.variance, d.df, alpha = 0.0
 #' #  <dbl>  <dbl>    <dbl>    <dbl>      <dbl>      <dbl> <lgl>
 #' #1 0.861 0.0202     42.7 5.99e-13      0.824          1 TRUE
 #'
-Cliffd.test <- function(x, y, alpha = 0.05, alternative = "two.sided", sigfig = -1) {
-  Cliffd.stats <- calculateCliffd(x, y, alpha = alpha, sigfig = sigfig)
+Cliffd.test <-
+  function(x,
+           y,
+           alpha = 0.05,
+           alternative = "two.sided",
+           sigfig = -1) {
+    Cliffd.stats <-
+      calculateCliffd(x, y, alpha = alpha, sigfig = sigfig)
 
 
-  d <- Cliffd.stats$d
-  sqse.d <- Cliffd.stats$sqse.d # SQuared Standard Error
-  df <- length(x) + length(y) - 2
+    d <- Cliffd.stats$d
+    sqse.d <- Cliffd.stats$sqse.d # SQuared Standard Error
+    df <- length(x) + length(y) - 2
 
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(sqse.d))
+    testfunctionParameterChecks(alternative = alternative,
+                                alpha = alpha,
+                                stderr = sqrt(sqse.d))
 
-  CliffsCI <- calcCliffdConfidenceIntervals(d.value = d, d.variance = sqse.d, d.df = df, alpha = alpha, alternative = alternative)
-  out <- tibble::tibble(
-    d = d, sqse.d = sqse.d, d.tvalue = CliffsCI$d.tvalue, d.pvalue = CliffsCI$d.pvalue, d.ci.lower = CliffsCI$d.ci.lower, d.ci.upper = CliffsCI$d.ci.upper,
-    d.sig = CliffsCI$d.sig
-  )
-  return(out)
-}
+    CliffsCI <-
+      calcCliffdConfidenceIntervals(
+        d.value = d,
+        d.variance = sqse.d,
+        d.df = df,
+        alpha = alpha,
+        alternative = alternative
+      )
+    out <- tibble::tibble(
+      d = d,
+      sqse.d = sqse.d,
+      d.tvalue = CliffsCI$d.tvalue,
+      d.pvalue = CliffsCI$d.pvalue,
+      d.ci.lower = CliffsCI$d.ci.lower,
+      d.ci.upper = CliffsCI$d.ci.upper,
+      d.sig = CliffsCI$d.sig
+    )
+    return(out)
+  }
 
 
 
@@ -537,42 +626,54 @@ Cliffd.test <- function(x, y, alpha = 0.05, alternative = "two.sided", sigfig = 
 #' #      <dbl>  <dbl> <lgl>            <dbl>         <dbl>
 #' # 1      2.12 0.0333 TRUE             0.519             1
 
-calcPHatConfidenceIntervals <- function(phat, phat.variance, phat.df, alpha = 0.05, alternative = "two.sided") {
-  phat.se <- sqrt(phat.variance)
-  phat.test <- (phat - 0.5) / phat.se
+calcPHatConfidenceIntervals <-
+  function(phat,
+           phat.variance,
+           phat.df,
+           alpha = 0.05,
+           alternative = "two.sided") {
+    phat.se <- sqrt(phat.variance)
+    phat.test <- (phat - 0.5) / phat.se
 
 
-  if (alternative == "two.sided") {
-    vv <- stats::qt(alpha / 2, phat.df)
-    phat.ci.lower <- phat + vv * phat.se
-    phat.ci.upper <- phat - vv * phat.se
-    phat.sig <- phat.ci.upper < 0.5 | phat.ci.lower > 0.5
-    phat.pvalue <- 2 * (1 - stats::pt(abs(phat.test), phat.df))
-  } else {
-    vv <- stats::qt(alpha, phat.df)
-    if (alternative == "greater") {
+    if (alternative == "two.sided") {
+      vv <- stats::qt(alpha / 2, phat.df)
       phat.ci.lower <- phat + vv * phat.se
-      phat.ci.upper <- 1
-      phat.sig <- phat.ci.lower > 0.5
-      phat.pvalue <- 1 - stats::pt(phat.test, phat.df)
-    } else {
       phat.ci.upper <- phat - vv * phat.se
-      phat.ci.lower <- 0
-      phat.sig <- phat.ci.upper < 0.5
-      phat.pvalue <- stats::pt(phat.test, phat.df)
+      phat.sig <- phat.ci.upper < 0.5 | phat.ci.lower > 0.5
+      phat.pvalue <- 2 * (1 - stats::pt(abs(phat.test), phat.df))
+    } else {
+      vv <- stats::qt(alpha, phat.df)
+      if (alternative == "greater") {
+        phat.ci.lower <- phat + vv * phat.se
+        phat.ci.upper <- 1
+        phat.sig <- phat.ci.lower > 0.5
+        phat.pvalue <- 1 - stats::pt(phat.test, phat.df)
+      } else {
+        phat.ci.upper <- phat - vv * phat.se
+        phat.ci.lower <- 0
+        phat.sig <- phat.ci.upper < 0.5
+        phat.pvalue <- stats::pt(phat.test, phat.df)
+      }
     }
-  }
 
-  if (phat.ci.upper > 1) {
-    phat.ci.upper <- 1
-  }
-  if (phat.ci.lower < 0) {
-    phat.ci.lower <- 0
-  }
-  out <- tibble::tibble(phat.test = phat.test, pvalue = phat.pvalue, phat.sig = phat.sig, phat.ci.lower = phat.ci.lower, phat.ci.upper = phat.ci.upper)
+    if (phat.ci.upper > 1) {
+      phat.ci.upper <- 1
+    }
+    if (phat.ci.lower < 0) {
+      phat.ci.lower <- 0
+    }
+    out <-
+      tibble::tibble(
+        phat.test = phat.test,
+        pvalue = phat.pvalue,
+        phat.sig = phat.sig,
+        phat.ci.lower = phat.ci.lower,
+        phat.ci.upper = phat.ci.upper
+      )
 
-  return(out)
-}
+    return(out)
+  }
 
 #' @title PHat.test
 #' @description This function provides single-sided and two-sided tests of the probability of superiority (phat).
@@ -603,23 +704,45 @@ calcPHatConfidenceIntervals <- function(phat, phat.variance, phat.df, alpha = 0.
 #' #  <dbl>     <dbl>   <dbl>       <dbl>       <dbl>         <dbl>         <dbl> <lgl>
 #' # 1  0.79    0.0118    13.6        2.67      0.0185         0.557             1 TRUE
 #'
-PHat.test <- function(x, y, alpha = 0.05, alternative = "two.sided", sigfig = -1) {
-  PHat.stats <- calculatePhat(x, y, alpha = alpha, sigfig = sigfig)
+PHat.test <-
+  function(x,
+           y,
+           alpha = 0.05,
+           alternative = "two.sided",
+           sigfig = -1) {
+    PHat.stats <- calculatePhat(x, y, alpha = alpha, sigfig = sigfig)
 
-  phat <- PHat.stats$phat
-  sqse.phat <- PHat.stats$s.e^2
-  df <- PHat.stats$df
+    phat <- PHat.stats$phat
+    sqse.phat <- PHat.stats$s.e ^ 2
+    df <- PHat.stats$df
 
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(sqse.phat))
+    testfunctionParameterChecks(
+      alternative = alternative,
+      alpha = alpha,
+      stderr = sqrt(sqse.phat)
+    )
 
 
-  PhatCI <- calcPHatConfidenceIntervals(phat = phat, phat.variance = sqse.phat, phat.df = df, alpha = alpha, alternative = alternative)
-  out <- tibble::tibble(
-    phat = phat, sqse.phat = sqse.phat, phat.df = df, phat.tvalue = PhatCI$phat.test, phat.pvalue = PhatCI$pvalue, phat.ci.lower = PhatCI$phat.ci.lower,
-    phat.ci.upper = PhatCI$phat.ci.upper, phat.sig = PhatCI$phat.sig
-  )
-  return(out)
-}
+    PhatCI <-
+      calcPHatConfidenceIntervals(
+        phat = phat,
+        phat.variance = sqse.phat,
+        phat.df = df,
+        alpha = alpha,
+        alternative = alternative
+      )
+    out <- tibble::tibble(
+      phat = phat,
+      sqse.phat = sqse.phat,
+      phat.df = df,
+      phat.tvalue = PhatCI$phat.test,
+      phat.pvalue = PhatCI$pvalue,
+      phat.ci.lower = PhatCI$phat.ci.lower,
+      phat.ci.upper = PhatCI$phat.ci.upper,
+      phat.sig = PhatCI$phat.sig
+    )
+    return(out)
+  }
 
 #' @title calc.a
 #' @description This function is a helper function that calculates one element of the standardized mean difference effect size variance based on Hedges and Olkin p128-131.
@@ -632,7 +755,7 @@ PHat.test <- function(x, y, alpha = 0.05, alternative = "two.sided", sigfig = -1
 #' # [1] 0.2128649
 calc.a <- function(f, A) {
   c <- reproducer::calculateSmallSampleSizeAdjustment(f)
-  a <- c^2 * (f) * A / (f - 2)
+  a <- c ^ 2 * (f) * A / (f - 2)
   return(a)
 }
 
@@ -647,7 +770,7 @@ calc.a <- function(f, A) {
 #'
 calc.b <- function(f) {
   c <- reproducer::calculateSmallSampleSizeAdjustment(f)
-  b <- c^2 * (f) / (f - 2) - 1
+  b <- c ^ 2 * (f) / (f - 2) - 1
   return(b)
 }
 
@@ -677,14 +800,21 @@ metaanalyseSmallSampleSizeExperiments <- function(d, f, A) {
   b <- calc.b(f)
 
   # Hedges recommended analysis
-  temp.gvar <- meang.unweighted^2 * b + a
+  temp.gvar <- meang.unweighted ^ 2 * b + a
   gweight <- 1 / temp.gvar / sum(1 / temp.gvar)
 
   meang.weighted <- sum(g * gweight)
   g.exact.var <- 1 / sum(1 / temp.gvar)
 
 
-  output <- tibble::as_tibble(dplyr::bind_cols(UnweightedMean = meang.unweighted, WeightedMean = meang.weighted, VarWeightedMean = g.exact.var))
+  output <-
+    tibble::as_tibble(
+      dplyr::bind_cols(
+        UnweightedMean = meang.unweighted,
+        WeightedMean = meang.weighted,
+        VarWeightedMean = g.exact.var
+      )
+    )
 
   return(output)
 }
@@ -707,31 +837,38 @@ metaanalyseSmallSampleSizeExperiments <- function(d, f, A) {
 #' #1        ExpName -0.1396192 -0.01943395 0.8424521 -0.1964175 4.559587   0.1608315       0.1316835
 #' #  NumOut
 #' #  1
-AnalyseResiduals <- function(Residuals, ExperimentName = "ExpName") {
-  n <- length(Residuals)
-  Res.Mean <- mean(Residuals)
-  Res.Median <- median(Residuals)
-  Res.Var <- var(Residuals)
-  Res.Std <- sqrt(Res.Var)
-  Res.Skew <- sum((Res.Mean - Residuals)^3) / n
-  Res.Skew <- Res.Skew / Res.Std^3
-  Res.Kurt <- sum((Res.Mean - Residuals)^4) / n
-  Res.Kurt <- Res.Kurt / Res.Std^4
-  # Res.ShapTes=rstatix::shapiro_test(Residuals)$p.value
-  Res.ShapTes <- stats::shapiro.test(Residuals)$p.value
-  Res.AndersonDarling <- nortest::ad.test(Residuals)$p.value
-  # Calculate number of outliers
+AnalyseResiduals <-
+  function(Residuals, ExperimentName = "ExpName") {
+    n <- length(Residuals)
+    Res.Mean <- mean(Residuals)
+    Res.Median <- median(Residuals)
+    Res.Var <- var(Residuals)
+    Res.Std <- sqrt(Res.Var)
+    Res.Skew <- sum((Res.Mean - Residuals) ^ 3) / n
+    Res.Skew <- Res.Skew / Res.Std ^ 3
+    Res.Kurt <- sum((Res.Mean - Residuals) ^ 4) / n
+    Res.Kurt <- Res.Kurt / Res.Std ^ 4
+    # Res.ShapTes=rstatix::shapiro_test(Residuals)$p.value
+    Res.ShapTes <- stats::shapiro.test(Residuals)$p.value
+    Res.AndersonDarling <- nortest::ad.test(Residuals)$p.value
+    # Calculate number of outliers
 
-  NumOut <- length(boxplot.stats(Residuals)$out)
-  ResStats <- data.frame(
-    Mean = Res.Mean, Median = Res.Median, Variance = Res.Var, Skewness = Res.Skew, Kurtosis = Res.Kurt, ShapiroTest = Res.ShapTes,
-    AndersonDarling = Res.AndersonDarling, NumOut = NumOut
-  )
+    NumOut <- length(boxplot.stats(Residuals)$out)
+    ResStats <- data.frame(
+      Mean = Res.Mean,
+      Median = Res.Median,
+      Variance = Res.Var,
+      Skewness = Res.Skew,
+      Kurtosis = Res.Kurt,
+      ShapiroTest = Res.ShapTes,
+      AndersonDarling = Res.AndersonDarling,
+      NumOut = NumOut
+    )
 
-  ResStats <- cbind(ExperimentName, ResStats)
+    ResStats <- cbind(ExperimentName, ResStats)
 
-  return(ResStats)
-}
+    return(ResStats)
+  }
 
 
 #' @title LaplaceDist
@@ -750,8 +887,13 @@ AnalyseResiduals <- function(Residuals, ExperimentName = "ExpName") {
 #' #  [1] -0.55311564  0.85946218 -0.20094937  1.45258293  2.12808209 -2.39565480  0.05785263
 #' #   [8]  1.53636446  0.10855453 -0.09076809
 #'
-LaplaceDist <- function(N, mean, spread, max = 0.5, min = -0.5) {
-  y <- stats::runif(N, min, max) # Get data from a uniform distribution
+LaplaceDist <- function(N,
+                        mean,
+                        spread,
+                        max = 0.5,
+                        min = -0.5) {
+  y <-
+    stats::runif(N, min, max) # Get data from a uniform distribution
   x <- mean - spread * sign(y) * log(1 - 2 * abs(y))
 
   return(x)
@@ -766,7 +908,7 @@ LaplaceDist <- function(N, mean, spread, max = 0.5, min = -0.5) {
 #' @param sd The standard deviation (or shape for gamma data) of the baseline distribution
 #' @param diff The adjustment to the baseline mean for the alternative distribution.
 #' @param GroupSize An integer defining the number of data items in each group.
-#' @param type A string dentifying the distribution used to simulate the data: 'n' for normal, 'ln' for log-normal, 'g' for gamma, 'lap' for Laplace.
+#' @param type A string identifying the distribution used to simulate the data: 'n' for normal, 'ln' for log-normal, 'g' for gamma, 'lap' for Laplace.
 #' @param ExpAdj An additional adjustment factor that is added to both the mean value. Defaults to zero.
 #' @param StdAdj An additional adjustment factor that is added to both group variance (or rate for gamma data). Defaults to zero.
 #' @param BlockEffect An additional factor that is added to the mean of the both groups (shape for the gamma distribution). Defaults to zero.
@@ -807,90 +949,185 @@ LaplaceDist <- function(N, mean, spread, max = 0.5, min = -0.5) {
 #' # 9        5.23            0.602            1.65                 -0.508
 #' # 10        6.11            2.23             1.81                  0.802
 #'
-simulate2GExperimentData <- function(mean, sd, diff, GroupSize, type = "n", ExpAdj = 0, StdAdj = 0, BlockEffect = 0, BlockStdAdj = 0) {
-  if (type == "n") {
-    BaselineData <- stats::rnorm(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
-    AlternativeData <- stats::rnorm(GroupSize, mean + ExpAdj + BlockEffect + diff, sd + StdAdj + BlockStdAdj)
-  }
-  if (type == "g") {
-    rate1 <- mean + ExpAdj
-    rate2 <- rate1 + diff + StdAdj
-    shape1 <- sd + BlockStdAdj + BlockEffect
-    BaselineData <- stats::rgamma(GroupSize, shape1, rate1)
-    AlternativeData <- stats::rgamma(GroupSize, shape1, rate2)
-  }
-  if (type == "l") {
-    BaselineData <- stats::rlnorm(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
-    AlternativeData <- stats::rlnorm(GroupSize, mean + ExpAdj + BlockEffect + diff, sd + StdAdj + BlockStdAdj)
-    transBaselineData <- log(BaselineData)
-    transAlternativeData <- log(AlternativeData)
-  }
+simulate2GExperimentData <-
+  function(mean,
+           sd,
+           diff,
+           GroupSize,
+           type = "n",
+           ExpAdj = 0,
+           StdAdj = 0,
+           BlockEffect = 0,
+           BlockStdAdj = 0) {
+    if (type == "n") {
+      BaselineData <-
+        stats::rnorm(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
+      AlternativeData <-
+        stats::rnorm(GroupSize,
+                     mean + ExpAdj + BlockEffect + diff,
+                     sd + StdAdj + BlockStdAdj)
+    }
+    if (type == "g") {
+      rate1 <- mean + ExpAdj
+      rate2 <- rate1 + diff + StdAdj
+      shape1 <- sd + BlockStdAdj + BlockEffect
+      BaselineData <- stats::rgamma(GroupSize, shape1, rate1)
+      AlternativeData <- stats::rgamma(GroupSize, shape1, rate2)
+    }
+    if (type == "l") {
+      BaselineData <-
+        stats::rlnorm(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
+      AlternativeData <-
+        stats::rlnorm(GroupSize,
+                      mean + ExpAdj + BlockEffect + diff,
+                      sd + StdAdj + BlockStdAdj)
+      transBaselineData <- log(BaselineData)
+      transAlternativeData <- log(AlternativeData)
+    }
 
-  if (type == "lap") {
-    # Changed to use built-in defaults for max and min
-    BaselineData <- LaplaceDist(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
-    AlternativeData <- LaplaceDist(GroupSize, mean + ExpAdj + diff + BlockEffect, sd + StdAdj + BlockStdAdj)
+    if (type == "lap") {
+      # Changed to use built-in defaults for max and min
+      BaselineData <-
+        LaplaceDist(GroupSize, mean + ExpAdj + BlockEffect, sd + BlockStdAdj)
+      AlternativeData <-
+        LaplaceDist(GroupSize,
+                    mean + ExpAdj + diff + BlockEffect,
+                    sd + StdAdj + BlockStdAdj)
+    }
+
+    OutputData <-
+      dplyr::bind_cols(BaselineData = BaselineData, AlternativeData = AlternativeData)
+    if (type == "l") {
+      OutputData <-
+        dplyr::bind_cols(OutputData,
+                         transBaselineData = transBaselineData,
+                         transAlternativeData = transAlternativeData)
+    }
+
+    return(OutputData)
   }
-
-  OutputData <- dplyr::bind_cols(BaselineData = BaselineData, AlternativeData = AlternativeData)
-  if (type == "l") {
-    OutputData <- dplyr::bind_cols(OutputData, transBaselineData = transBaselineData, transAlternativeData = transAlternativeData)
-  }
-
-  return(OutputData)
-}
-
 
 
 #' @title calculateLargeSampleRandomizedDesignEffectSizes
-#' @description The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a two group randomized experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. tyep='g') and Laplace (i.e., type='lap').
+#' @description The function simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a two group randomized experiment for four different distributions: Normal (i.e. type="n"), log-normal (i.e. type="l"), gama (i.e. tyep="g") and Laplace (i.e., type="lap").
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export calculateLargeSampleRandomizedDesignEffectSizes
-#' @param meanC to act as the mean of the distribution (default 0) used to
-#' generate the control group data (note for the gamma distribution this is the
-#' rate parameter and must not be zero)
-#' @param sdC the variance/spread of the distribution (default 1) used to generate the control group data.
-#' @param diff a value (default 0) added to meanC to generate the treatment group data.
+#' @param meanC to act as the mean of the distribution used to generate the control group data (default 0) (note for the gamma distribution this is the rate parameter and must not be zero)
+#' @param sdC the variance/spread of the distribution used to generate the control group data (default 1).
+#' @param diff a value added to meanC to generate the treatment group data (default 0).
 #' @param N the size of each group (default 5000000)
-#' @param type the distribution of the data to be generated (default 'n')
-#' @param StdAdj a value (default 0) that can be added to sdC to introduce heterogeneity into the tretament group
+#' @param type the distribution of the data to be generated (default "n").
+#' @param StdAdj a value that can be added to sdC to introduce heterogeneity into the treatment group (default 0).
+#' @param reporttrans If set to "Yes" AND type="l" the algorithm returns the values obtained by analysing applying the logarithmic transformation to the simulated data (default "No").
 #' @return A tibble identifying the sample statistics and the values of the probability of superiority, Cliff's d and StdMD (labelled StdES)
 #' @examples
-#' set.seed=400
-#' calculateLargeSampleRandomizedDesignEffectSizes(
-#'   meanC=0, sdC=1, diff=.5, N=100000, type='n',StdAdj = 0)
-#' # A tibble: 1 x 9
-#' #  MeanC   SdC MeanT   SdT  Phat Cliffd   UES   Var StdES
-#' #  <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
-#' #1     0     1   0.5     1 0.637  0.275 0.499  1.01 0.497
-#'
-calculateLargeSampleRandomizedDesignEffectSizes <- function(meanC = 0, sdC = 1, diff = 0, N = 5e+06, type = "n", StdAdj = 0) {
-  DataSet <- simulate2GExperimentData(mean = meanC, sd = sdC, diff = diff, GroupSize = N, type = type, ExpAdj = 0, StdAdj = 0, BlockEffect = 0, BlockStdAdj = 0)
+#'set.seed=400
+#'calculateLargeSampleRandomizedDesignEffectSizes(meanC=0, sdC=1, diff=.5,
+#' N=10000, type="n",StdAdj = 0) #N=100000, type="n",StdAdj = 0)
+#'# A tibble: 1 x 9
+#'#     MeanC   SdC MeanT   SdT  Phat Cliffd   UES   Var StdES
+#'#     <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+#'#1  0.00642  1.00 0.519 0.995 0.642  0.284 0.513 0.996 0.514
+#'#1     0     1   0.5     1 0.637  0.275 0.499  1.01 0.497
+#'as.data.frame(calculateLargeSampleRandomizedDesignEffectSizes(meanC=0, sdC=1, diff=0.707104,
+#' N=100000, type="l",StdAdj = 0,reporttrans="Yes"))
+#' #N=1000000, type="l",StdAdj = 0,reporttrans="Yes"))
+#'#     MeanC     StdC    MeanT     StdT      Phat    Cliffd      UES      Var
+#'#1 1.647446 2.219114  3.33124 4.404537 0.6926779 0.3853558 1.683795 12.1622
+#'#       StdES   MeanCTrans MeanTTrans StdCTrans StdTTrans PhatTrans CliffdTrans
+#'#1  0.4828175 -0.004298487  0.7066049  1.001199 0.9963736 0.6926779   0.3853558
+#'#   UESTrans VarTrans StdESTrans
+#'#1 0.7109034  0.99758  0.7117651
 
+calculateLargeSampleRandomizedDesignEffectSizes <-
+  function (meanC = 0,
+            sdC = 1,
+            diff = 0,
+            N = 5e+06,
+            type = "n",
+            StdAdj = 0,
+            reporttrans = "No")
+  {
+    DataSet <-
+      reproducer::simulate2GExperimentData(
+        mean = meanC,
+        sd = sdC,
+        diff = diff,
+        GroupSize = N,
+        type = type,
+        ExpAdj = 0,
+        StdAdj = StdAdj,
+        BlockEffect = 0,
+        BlockStdAdj = 0
+      )
+    UES <-
+      base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
+    Var <-
+      (stats::var(DataSet$AlternativeData) + stats::var(DataSet$BaselineData)) /
+      2
+    StdES <- UES / sqrt(Var)
+    B1res <-
+      calculatePhat(DataSet$BaselineData, DataSet$AlternativeData)
+    Phat <- B1res$phat
+    Cliffd <- B1res$dhat
+    MeanC <- base::mean(DataSet$BaselineData)
+    MeanT <- base::mean(DataSet$AlternativeData)
+    StdT = sqrt(stats::var(DataSet$AlternativeData))
+    StdC = sqrt(stats::var(DataSet$BaselineData))
 
-  UES <- base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
+    res <-
+      as.data.frame(
+        cbind(
+          MeanC = MeanC,
+          StdC = StdC,
+          MeanT = MeanT,
+          StdT = StdT,
+          Phat = Phat,
+          Cliffd = Cliffd,
+          UES = UES,
+          Var = Var,
+          StdES = StdES
+        )
+      )
 
-  Var <- (stats::var(DataSet$AlternativeData) + stats::var(DataSet$BaselineData)) / 2
-  StdES <- UES / sqrt(Var)
+    if (type == "l" & reporttrans == "Yes") {
+      UESTrans = base::mean(DataSet$transAlternativeData) - base::mean(DataSet$transBaselineData)
+      VarTrans <-
+        (
+          stats::var(DataSet$transAlternativeData) + stats::var(DataSet$transBaselineData)
+        ) / 2
+      StdESTrans <- UESTrans / sqrt(VarTrans)
+      B1resTrans <-
+        calculatePhat(DataSet$transBaselineData, DataSet$transAlternativeData)
+      PhatTrans <- B1resTrans$phat
+      CliffdTrans <- B1resTrans$dhat
+      MeancTrans <- base::mean(DataSet$transBaselineData)
+      MeantTrans <- base::mean(DataSet$transAlternativeData)
+      StdTTrans <- sqrt((stats::var(DataSet$transAlternativeData)))
+      StdCTrans <- sqrt((stats::var(DataSet$transBaselineData)))
+      res <-
+        as.data.frame(
+          cbind(
+            res,
+            MeanCTrans = MeancTrans,
+            MeanTTrans = MeantTrans,
+            StdCTrans = StdCTrans,
+            StdTTrans = StdTTrans,
+            PhatTrans = PhatTrans,
+            CliffdTrans = CliffdTrans,
+            UESTrans = UESTrans,
+            VarTrans = VarTrans,
+            StdESTrans = StdESTrans
+          )
+        )
 
-  B1res <- calculatePhat(DataSet$BaselineData, DataSet$AlternativeData)
+    }
 
-  Phat <- B1res$phat
-
-  Cliffd <- B1res$dhat
-
-  MeanT <- meanC + diff
-  SdT <- sdC + StdAdj
-
-  if (type == "g") {
-    MeanT <- meanC + diff + StdAdj
-    SdT <- sdC
+    res <- tibble::as_tibble(res)
+    return(res)
   }
 
-  res <- as.data.frame(cbind(MeanC = meanC, SdC = sdC, MeanT = MeanT, SdT = SdT, Phat = Phat, Cliffd = Cliffd, UES = UES, Var = Var, StdES = StdES))
-  res <- tibble::as_tibble(res)
-  return(res)
-}
+
 
 #'  @title calculateKendalltaupb
 #'  @description  Computes point bi-serial version of  Kendall's tau plus a 1-alpha confidence interval using the method recommended by Long and Cliff (1997).  The algorithm is based on Wilcox's code but was extended to return the consistent variance and the confidence intervals based on the t-distribution. Also added a Diagnostic parameter to output internal calculations.
@@ -966,64 +1203,83 @@ calculateLargeSampleRandomizedDesignEffectSizes <- function(meanC = 0, sdC = 1, 
 #' #$sig
 #' #[1] FALSE
 
-calculateKendalltaupb <- function(x, y = NULL, alpha = 0.05, alternative = "two.sided") {
-  if (!checkIfValidDummyVariable(x) & !checkIfValidDummyVariable(y)) {
-    stop("No valid dummy variable - use only 1 and 0")
+calculateKendalltaupb <-
+  function(x,
+           y = NULL,
+           alpha = 0.05,
+           alternative = "two.sided") {
+    if (!checkIfValidDummyVariable(x) & !checkIfValidDummyVariable(y)) {
+      stop("No valid dummy variable - use only 1 and 0")
+    }
+    if (length(x) <= 3) {
+      stop("Too few data points")
+    }
+    if (length(x) != length(y)) {
+      stop("Invalid input vectors")
+    }
+    if (length(x) != length(x[!is.na(x)])) {
+      stop("Missing values not permitted")
+    }
+    if (length(y) != length(y[!is.na(y)])) {
+      stop("Missing values not permitted")
+    }
+
+    # Needs a test to ensure one of the variables contains only 1 or 0 values
+
+    m <- cbind(x, y)
+
+    x <- m[, 1]
+    y <- m[, 2]
+    xdif <- base::outer(x, x, FUN = "-")
+    ydif <- base::outer(y, y, FUN = "-")
+    tv <- sign(xdif) * sign(ydif)
+
+    # Corrects error in Wilcox's algorithm
+    n <- length(x)
+    dbar <- base::apply(tv, 1, sum) / (n - 1)
+
+    tau <- sum(tv) / (n * (n - 1))
+
+    A <- sum((dbar - tau) ^ 2) / (n - 1)
+    B <- (n * (n - 1) * (-1) * tau ^ 2 + sum(tv ^ 2)) / (n ^ 2 - n - 1)
+    C <-
+      (4 * (n - 2) * A + 2 * B) / (n * (n - 1)) # C is the consistent variance
+
+    # Confidence interval based on t distribution - recommended by Long and Cliff
+    vv <- stats::qt(alpha / 2, 2 * n - 3)
+
+    cilowt <- tau + vv * sqrt(C)
+    if (cilowt < (-n / (2 * (n - 1)))) {
+      cilowt <- -n / (2 * (n - 1))
+    }
+    cihit <- tau - vv * sqrt(C)
+    if (cihit > n / (2 * (n - 1))) {
+      cihit <- n / (2 * (n - 1))
+    }
+
+    testfunctionParameterChecks(alternative = alternative,
+                                alpha = alpha,
+                                stderr = sqrt(C))
+
+    tau.Stats <- calcEffectSizeConfidenceIntervals(
+      effectsize = tau,
+      effectsize.variance = C,
+      effectsize.df = n - 3,
+      alpha = alpha,
+      alternative = alternative,
+      UpperValue = n / (2 * (n - 1)),
+      LowerValue = -n / (2 * (n - 1))
+    )
+
+    list(
+      cor = tau,
+      cit = c(tau.Stats$ES.ci.lower, tau.Stats$ES.ci.upper),
+      n = n,
+      df = n - 3,
+      consistentvar = C,
+      sig = tau.Stats$ES.sig
+    )
   }
-  if (length(x) <= 3) {
-    stop("Too few data points")
-  }
-  if (length(x) != length(y)) {
-    stop("Invalid input vectors")
-  }
-  if (length(x) != length(x[!is.na(x)])) {
-    stop("Missing values not permitted")
-  }
-  if (length(y) != length(y[!is.na(y)])) {
-    stop("Missing values not permitted")
-  }
-
-  # Needs a test to ensure one of the variables contains only 1 or 0 values
-
-  m <- cbind(x, y)
-
-  x <- m[, 1]
-  y <- m[, 2]
-  xdif <- base::outer(x, x, FUN = "-")
-  ydif <- base::outer(y, y, FUN = "-")
-  tv <- sign(xdif) * sign(ydif)
-
-  # Corrects error in Wilcox's algorithm
-  n <- length(x)
-  dbar <- base::apply(tv, 1, sum) / (n - 1)
-
-  tau <- sum(tv) / (n * (n - 1))
-
-  A <- sum((dbar - tau)^2) / (n - 1)
-  B <- (n * (n - 1) * (-1) * tau^2 + sum(tv^2)) / (n^2 - n - 1)
-  C <- (4 * (n - 2) * A + 2 * B) / (n * (n - 1)) # C is the consistent variance
-
-  # Confidence interval based on t distribution - recommended by Long and Cliff
-  vv <- stats::qt(alpha / 2, 2 * n - 3)
-
-  cilowt <- tau + vv * sqrt(C)
-  if (cilowt < (-n / (2 * (n - 1)))) {
-    cilowt <- -n / (2 * (n - 1))
-  }
-  cihit <- tau - vv * sqrt(C)
-  if (cihit > n / (2 * (n - 1))) {
-    cihit <- n / (2 * (n - 1))
-  }
-
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(C))
-
-  tau.Stats <- calcEffectSizeConfidenceIntervals(
-    effectsize = tau, effectsize.variance = C, effectsize.df = n - 3, alpha = alpha, alternative = alternative,
-    UpperValue = n / (2 * (n - 1)), LowerValue = -n / (2 * (n - 1))
-  )
-
-  list(cor = tau, cit = c(tau.Stats$ES.ci.lower, tau.Stats$ES.ci.upper), n = n, df = n - 3, consistentvar = C, sig = tau.Stats$ES.sig)
-}
 
 
 
@@ -1090,89 +1346,157 @@ calculateKendalltaupb <- function(x, y = NULL, alpha = 0.05, alternative = "two.
 #' # 8   -0.46665535       1.3846137
 #' # 9    0.77996512       0.9238542
 #' # 10  -0.08336907       1.0159416
-simulateRandomizedDesignEffectSizes <- function(mean, sd, diff, N, type = "n", StdAdj = 0, alpha = 0.05, AlwaysTwoSidedTests = FALSE, Return.Data = FALSE) {
-  # 12-03-2022 Corrected spelling of function name
+simulateRandomizedDesignEffectSizes <-
+  function(mean,
+           sd,
+           diff,
+           N,
+           type = "n",
+           StdAdj = 0,
+           alpha = 0.05,
+           AlwaysTwoSidedTests = FALSE,
+           Return.Data = FALSE) {
+    # 12-03-2022 Corrected spelling of function name
 
-  conf.level <- 1 - alpha
-  # Allowed for one-sided tests
-  if (AlwaysTwoSidedTests | (diff == 0)) {
-    alternative <- "two.sided"
-  } else {
-    # Find direction of MD
-
-    if (type == "g") {
-      # A negative value for diff decreases the rate & the MD is positive
-      Positive.MD <- (diff < 0)
+    conf.level <- 1 - alpha
+    # Allowed for one-sided tests
+    if (AlwaysTwoSidedTests | (diff == 0)) {
+      alternative <- "two.sided"
     } else {
-      Positive.MD <- (diff > 0)
+      # Find direction of MD
+
+      if (type == "g") {
+        # A negative value for diff decreases the rate & the MD is positive
+        Positive.MD <- (diff < 0)
+      } else {
+        Positive.MD <- (diff > 0)
+      }
+      if (Positive.MD) {
+        alternative <- "greater"
+      } else {
+        alternative <- "less"
+      }
     }
-    if (Positive.MD) {
-      alternative <- "greater"
-    } else {
-      alternative <- "less"
-    }
-  }
 
-  DataSet <- simulate2GExperimentData(
-    mean = mean, sd = sd, diff = diff, GroupSize = N, type = type, ExpAdj = 0, StdAdj = StdAdj, BlockEffect = 0,
-    BlockStdAdj = 0
-  )
-
-
-  if (Return.Data) {
-    output <- tibble::as_tibble(DataSet)
-  } else {
-    # Remove_ktau Calculate the Kendall's tau value for the data dummy = c(rep(0, N), rep(1, N)) xy = c(DataSet$BaselineData,
-    # DataSet$AlternativeData) Calculate ktau for the data set ktest = calculateKendalltaupb( dummy, xy, alpha = alpha, alternative =
-    # alternative )
-
-
-    # Calculate Cliff's d for the data set and determine whether the value is significant
-    d.test <- Cliffd.test(DataSet$AlternativeData, DataSet$BaselineData, alternative = alternative, alpha = alpha)
-    # Calculate phat statistics for the data set
-
-
-    ptest <- PHat.test(DataSet$BaselineData, DataSet$AlternativeData, alpha = alpha, alternative = alternative)
-
-    # Add the results of a t-test as a baseline
-
-
-    res <- t.test(DataSet$AlternativeData, DataSet$BaselineData, alternative = alternative, conf.level = conf.level)
-
-    UES <- base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
-    Var <- (stats::var(DataSet$BaselineData) + stats::var(DataSet$AlternativeData)) / 2
-    MedDiff <- stats::median(DataSet$AlternativeData) - stats::median(DataSet$BaselineData)
-    EffectSize <- UES / sqrt(Var)
-    pval <- res$p.value
-    t.sig <- (pval < 0.05)
-
-    se <- as.numeric(res$stderr)
-    df <- as.numeric(res$parameter)
-    t.val <- UES / se
-
-    StandardMetrics <- tibble::tibble(
-      phat = ptest$phat, varphat = ptest$sqse.phat, dfphat = ptest$phat.df, sigphat = ptest$phat.sig, d = d.test$d,
-      vard = d.test$sqse.d, sigd = d.test$d.sig, t.value = t.val, t.se = as.numeric(res$stderr), t.df = as.numeric(res$parameter), t.lb = as.numeric(res$conf.int[1]),
-      t.ub = as.numeric(res$conf.int[2]), t.sig = t.sig, ES = UES, Variance = Var, StdES = EffectSize, MedDiff = MedDiff
+    DataSet <- simulate2GExperimentData(
+      mean = mean,
+      sd = sd,
+      diff = diff,
+      GroupSize = N,
+      type = type,
+      ExpAdj = 0,
+      StdAdj = StdAdj,
+      BlockEffect = 0,
+      BlockStdAdj = 0
     )
 
-    if (type == "l") {
-      # Check that log-normal data gives appropriate values after transformation
-      trans.t <- t.test(DataSet$transBaselineData, DataSet$transAlternativeData, alt = alternative, conf.level = conf.level)
-      pval.trans <- trans.t$p.value
-      ES.trans <- base::mean(DataSet$transAlternativeData) - base::mean(DataSet$transBaselineData)
-      VarTrans <- (stats::var(DataSet$transBaselineData) + stats::var(DataSet$transAlternativeData)) / 2
-      StdES.trans <- ES.trans / sqrt(VarTrans)
 
-      AdditionalMetrics <- cbind(transttest = pval.trans, EStrans = ES.trans, StdEStrans = StdES.trans, VarTrans = VarTrans)
+    if (Return.Data) {
+      output <- tibble::as_tibble(DataSet)
+    } else {
+      # Remove_ktau Calculate the Kendall's tau value for the data dummy = c(rep(0, N), rep(1, N)) xy = c(DataSet$BaselineData,
+      # DataSet$AlternativeData) Calculate ktau for the data set ktest = calculateKendalltaupb( dummy, xy, alpha = alpha, alternative =
+      # alternative )
 
-      AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
-      StandardMetrics <- dplyr::bind_cols(StandardMetrics, AdditionalMetrics)
+
+      # Calculate Cliff's d for the data set and determine whether the value is significant
+      d.test <-
+        Cliffd.test(
+          DataSet$AlternativeData,
+          DataSet$BaselineData,
+          alternative = alternative,
+          alpha = alpha
+        )
+      # Calculate phat statistics for the data set
+
+
+      ptest <-
+        PHat.test(
+          DataSet$BaselineData,
+          DataSet$AlternativeData,
+          alpha = alpha,
+          alternative = alternative
+        )
+
+      # Add the results of a t-test as a baseline
+
+
+      res <-
+        t.test(
+          DataSet$AlternativeData,
+          DataSet$BaselineData,
+          alternative = alternative,
+          conf.level = conf.level
+        )
+
+      UES <-
+        base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
+      Var <-
+        (stats::var(DataSet$BaselineData) + stats::var(DataSet$AlternativeData)) / 2
+      MedDiff <-
+        stats::median(DataSet$AlternativeData) - stats::median(DataSet$BaselineData)
+      EffectSize <- UES / sqrt(Var)
+      pval <- res$p.value
+      t.sig <- (pval < 0.05)
+
+      se <- as.numeric(res$stderr)
+      df <- as.numeric(res$parameter)
+      t.val <- UES / se
+
+      StandardMetrics <- tibble::tibble(
+        phat = ptest$phat,
+        varphat = ptest$sqse.phat,
+        dfphat = ptest$phat.df,
+        sigphat = ptest$phat.sig,
+        d = d.test$d,
+        vard = d.test$sqse.d,
+        sigd = d.test$d.sig,
+        t.value = t.val,
+        t.se = as.numeric(res$stderr),
+        t.df = as.numeric(res$parameter),
+        t.lb = as.numeric(res$conf.int[1]),
+        t.ub = as.numeric(res$conf.int[2]),
+        t.sig = t.sig,
+        ES = UES,
+        Variance = Var,
+        StdES = EffectSize,
+        MedDiff = MedDiff
+      )
+
+      if (type == "l") {
+        # Check that log-normal data gives appropriate values after transformation
+        trans.t <-
+          t.test(
+            DataSet$transBaselineData,
+            DataSet$transAlternativeData,
+            alt = alternative,
+            conf.level = conf.level
+          )
+        pval.trans <- trans.t$p.value
+        ES.trans <-
+          base::mean(DataSet$transAlternativeData) - base::mean(DataSet$transBaselineData)
+        VarTrans <-
+          (
+            stats::var(DataSet$transBaselineData) + stats::var(DataSet$transAlternativeData)
+          ) / 2
+        StdES.trans <- ES.trans / sqrt(VarTrans)
+
+        AdditionalMetrics <-
+          cbind(
+            transttest = pval.trans,
+            EStrans = ES.trans,
+            StdEStrans = StdES.trans,
+            VarTrans = VarTrans
+          )
+
+        AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
+        StandardMetrics <-
+          dplyr::bind_cols(StandardMetrics, AdditionalMetrics)
+      }
+      output = StandardMetrics
     }
-    output=StandardMetrics
+    return(output)
   }
-  return(output)
-}
 
 
 #' @title RandomExperimentSimulations
@@ -1249,263 +1573,194 @@ simulateRandomizedDesignEffectSizes <- function(mean, sd, diff, N, type = "n", S
 #' # 9  0.37          1 0.685       1  0.419     0
 #' # 10  0.115         0 0.557       0  0.273     0
 #'
-RandomExperimentSimulations <- function(mean, sd, diff, N, reps, type = "n", seed = 123, StdAdj = 0, alpha = 0.05, returnData = FALSE, AlwaysTwoSidedTests = FALSE) {
-  phatsum <- 0 # This is used to sum the value of phat across the replications
-  phatvarsum <- 0 # This is used to sum the value of the variance of phat across the replications
-  sig.phat <- 0 # This is used to sum the number of times pat is significant across the replications
-  phatsquare <- 0 # This  is used to sum phat^2 and construct an empirical variance of phat
-  dsum <- 0 # This is used to sum the value of Cliff's d across the replications
-  dvarsum <- 0 # This is used to sum the value of the variance of Cliff's d across the replications
-  sig.d <- 0 # This is used to sum the number of times d is significant across the replications
-  dsquare <- 0 # This  is used to sum d^2 and construct an empirical variance of d.
+RandomExperimentSimulations <-
+  function(mean,
+           sd,
+           diff,
+           N,
+           reps,
+           type = "n",
+           seed = 123,
+           StdAdj = 0,
+           alpha = 0.05,
+           returnData = FALSE,
+           AlwaysTwoSidedTests = FALSE) {
+    phatsum <-
+      0 # This is used to sum the value of phat across the replications
+    phatvarsum <-
+      0 # This is used to sum the value of the variance of phat across the replications
+    sig.phat <-
+      0 # This is used to sum the number of times pat is significant across the replications
+    phatsquare <-
+      0 # This  is used to sum phat^2 and construct an empirical variance of phat
+    dsum <-
+      0 # This is used to sum the value of Cliff's d across the replications
+    dvarsum <-
+      0 # This is used to sum the value of the variance of Cliff's d across the replications
+    sig.d <-
+      0 # This is used to sum the number of times d is significant across the replications
+    dsquare <-
+      0 # This  is used to sum d^2 and construct an empirical variance of d.
 
-  # Remove_ktau ksum = 0 # This is used to sum the value of the point biserial tau across the replications kvarsum = 0 # This is used to sum the
-  # value of the variance of the point biserial tau across the replications ksquare = 0 # This is used to sum the square of tau_pb across the
-  # replications and construct an empirical variance ksigCVt = 0
+    # Remove_ktau ksum = 0 # This is used to sum the value of the point biserial tau across the replications kvarsum = 0 # This is used to sum the
+    # value of the variance of the point biserial tau across the replications ksquare = 0 # This is used to sum the square of tau_pb across the
+    # replications and construct an empirical variance ksigCVt = 0
 
-  tsig <- 0 # This is used to count the number of significant t values across the replications
-  ES <- 0 # This is used to sum the value of the parametric effect size (unstandardized) across the replications
-  StdES <- 0 # This is used to sum the value of the parametric effect size (standardized) across the replications
-  ESSig <- 0 # Used to assess whether the t-test was significant
-  ESCISig <- 0 # Check the CI results
-  Var <- 0 # This is used to sum the value of the variance across replications
-  ES.l.trans <- 0 # This is used to sum the transformed unstandardized effect size for lognormal data sets
-  StdES.l.trans <- 0 # This is used to sum the transformed standardized effect size for lognormal data sets
-  Var.l.trans <- 0 # This is used to sum the transformed variance for lognormal data sets
+    tsig <-
+      0 # This is used to count the number of significant t values across the replications
+    ES <-
+      0 # This is used to sum the value of the parametric effect size (unstandardized) across the replications
+    StdES <-
+      0 # This is used to sum the value of the parametric effect size (standardized) across the replications
+    ESSig <- 0 # Used to assess whether the t-test was significant
+    ESCISig <- 0 # Check the CI results
+    Var <-
+      0 # This is used to sum the value of the variance across replications
+    ES.l.trans <-
+      0 # This is used to sum the transformed unstandardized effect size for lognormal data sets
+    StdES.l.trans <-
+      0 # This is used to sum the transformed standardized effect size for lognormal data sets
+    Var.l.trans <-
+      0 # This is used to sum the transformed variance for lognormal data sets
 
 
-  MedDiff <- 0 # Used to hold the median difference
+    MedDiff <- 0 # Used to hold the median difference
 
-  DataTable <- NULL
+    DataTable <- NULL
 
-  base::set.seed(seed)
-  for (i in 1:reps) {
-    # Call the program that generates the random data sets and calculates the sample statistics.  12-03-2022 Corrected name of function res =
-    # simulateRandomzedDesignEffectSizes(mean, sd, diff, N, type, StdAdj)
-    res <- simulateRandomizedDesignEffectSizes(mean = mean, sd = sd, diff = diff, N = N, type = type, StdAdj = StdAdj, alpha = alpha, AlwaysTwoSidedTests = AlwaysTwoSidedTests)
-    if (returnData == FALSE) {
-      # Aggregate data to provide counts of significance and overall effect size averages Cliff's d
-      dsum <- dsum + res$d
-      dvarsum <- dvarsum + res$vard
-      if (res$sigd) {
-        sig.d <- sig.d + 1
-      }
-      dsquare <- dsquare + res$d^2
+    base::set.seed(seed)
+    for (i in 1:reps) {
+      # Call the program that generates the random data sets and calculates the sample statistics.  12-03-2022 Corrected name of function res =
+      # simulateRandomzedDesignEffectSizes(mean, sd, diff, N, type, StdAdj)
+      res <-
+        simulateRandomizedDesignEffectSizes(
+          mean = mean,
+          sd = sd,
+          diff = diff,
+          N = N,
+          type = type,
+          StdAdj = StdAdj,
+          alpha = alpha,
+          AlwaysTwoSidedTests = AlwaysTwoSidedTests
+        )
+      if (returnData == FALSE) {
+        # Aggregate data to provide counts of significance and overall effect size averages Cliff's d
+        dsum <- dsum + res$d
+        dvarsum <- dvarsum + res$vard
+        if (res$sigd) {
+          sig.d <- sig.d + 1
+        }
+        dsquare <- dsquare + res$d ^ 2
 
-      # Probability of superiority
-      phatsum <- phatsum + res$phat
-      phatvarsum <- phatvarsum + res$varphat
-      if (res$sigphat) {
-        sig.phat <- sig.phat + 1
-      }
-      phatsquare <- phatsquare + res$phat^2
+        # Probability of superiority
+        phatsum <- phatsum + res$phat
+        phatvarsum <- phatvarsum + res$varphat
+        if (res$sigphat) {
+          sig.phat <- sig.phat + 1
+        }
+        phatsquare <- phatsquare + res$phat ^ 2
 
-      # Parametric statistics This needs a change to simulateRandomizedDesignEffectSizes to return the significance not the pvalue
+        # Parametric statistics This needs a change to simulateRandomizedDesignEffectSizes to return the significance not the pvalue
 
-      ES <- ES + res$ES
-      StdES <- StdES + res$StdES
-      MedDiff <- MedDiff + res$MedDiff
-      ESSig <- if (res$t.sig) {
-        1
+        ES <- ES + res$ES
+        StdES <- StdES + res$StdES
+        MedDiff <- MedDiff + res$MedDiff
+        ESSig <- if (res$t.sig) {
+          1
+        } else {
+          0
+        }
+
+        tsig <- tsig + ESSig
+
+        Var <- Var + res$Variance
+
+        if (type == "l") {
+          ES.l.trans <- ES.l.trans + res$EStrans
+          StdES.l.trans <- StdES.l.trans + res$StdEStrans
+          Var.l.trans <- Var.l.trans + res$VarTrans
+        }
       } else {
-        0
+        # Store the outcome from each replication
+        ESSig <- if (res$t.sig) {
+          1
+        } else {
+          0
+        }
+
+        DataTable <-
+          tibble::tibble(dplyr::bind_rows(
+            DataTable,
+            dplyr::bind_cols(
+              Cliffd = res$d,
+              CliffdSig = as.numeric(res$sigd),
+              PHat = res$phat,
+              PHatSig = as.numeric(res$sigphat),
+              StdES = res$StdES,
+              ESSig = ESSig
+            )
+          ))
       }
+    }
 
-      tsig <- tsig + ESSig
+    if (returnData == FALSE) {
+      # Calculate averages of the statistics across the replications
+      d <- dsum / reps
+      dvar <- dvarsum / (reps)
+      sigd <- sig.d / (reps)
+      emp.d.var <- (dsquare - reps * d ^ 2) / (reps - 1)
 
-      Var <- Var + res$Variance
+      phat <- phatsum / reps
+      phatvar <- phatvarsum / (reps)
+      sigphat <- sig.phat / (reps)
+      emp.phat.var <- (phatsquare - reps * phat ^ 2) / (reps - 1)
+
+      ES <- ES / reps
+      StdES <- StdES / reps
+      MedDiff <- MedDiff / reps
+      Variance <- Var / reps
+      tpower <- tsig / reps
+
+      outcome <-
+        tibble::tibble(
+          phat,
+          phatvar,
+          sigphat,
+          emp.phat.var,
+          d,
+          dvar,
+          sigd,
+          emp.d.var,
+          tpower,
+          ES,
+          Variance,
+          StdES,
+          MedDiff
+        )
+
 
       if (type == "l") {
-        ES.l.trans <- ES.l.trans + res$EStrans
-        StdES.l.trans <- StdES.l.trans + res$StdEStrans
-        Var.l.trans <- Var.l.trans + res$VarTrans
+        # This is used for validation that the algorithms are consistent. The statistics from the transformed lognormal data can be compared
+        # with the statistics from the normal data.
+        ESLog <- ES.l.trans / reps
+        StdESLog <- StdES.l.trans / reps
+        VarLog <- Var.l.trans / reps
+        AdditionalMetrics <-
+          cbind(ESLog = ESLog,
+                StdESLog = StdESLog,
+                VarLog = VarLog)
+
+        AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
+        outcome <- dplyr::bind_cols(outcome, AdditionalMetrics)
       }
     } else {
-      # Store the outcome from each replication
-      ESSig <- if (res$t.sig) {
-        1
-      } else {
-        0
-      }
-
-      DataTable <- tibble::tibble(dplyr::bind_rows(DataTable, dplyr::bind_cols(
-        Cliffd = res$d, CliffdSig = as.numeric(res$sigd), PHat = res$phat,
-        PHatSig = as.numeric(res$sigphat), StdES = res$StdES, ESSig = ESSig
-      )))
+      outcome <- DataTable
     }
+    return(outcome)
   }
 
-  if (returnData == FALSE) {
-    # Calculate averages of the statistics across the replications
-    d <- dsum / reps
-    dvar <- dvarsum / (reps)
-    sigd <- sig.d / (reps)
-    emp.d.var <- (dsquare - reps * d^2) / (reps - 1)
-
-    phat <- phatsum / reps
-    phatvar <- phatvarsum / (reps)
-    sigphat <- sig.phat / (reps)
-    emp.phat.var <- (phatsquare - reps * phat^2) / (reps - 1)
-
-    ES <- ES / reps
-    StdES <- StdES / reps
-    MedDiff <- MedDiff / reps
-    Variance <- Var / reps
-    tpower <- tsig / reps
-
-    outcome <- tibble::tibble(phat, phatvar, sigphat, emp.phat.var, d, dvar, sigd, emp.d.var, tpower, ES, Variance, StdES, MedDiff)
 
 
-    if (type == "l") {
-      # This is used for validation that the algorithms are consistent. The statistics from the transformed lognormal data can be compared
-      # with the statistics from the normal data.
-      ESLog <- ES.l.trans / reps
-      StdESLog <- StdES.l.trans / reps
-      VarLog <- Var.l.trans / reps
-      AdditionalMetrics <- cbind(ESLog = ESLog, StdESLog = StdESLog, VarLog = VarLog)
-
-      AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
-      outcome <- dplyr::bind_cols(outcome, AdditionalMetrics)
-    }
-  } else {
-    outcome <- DataTable
-  }
-  return(outcome)
-}
-
-
-#' @title calculate2GMdMRE
-#' @description The function uses simulations assess the accuracy and power of parametric and non-parametric effect sizes for two group designs and four different distributions.
-#' @author Barbara Kitchenham and Lech Madeyski
-#' @export calculate2GMdMRE
-#' @param mean The mean (or rate for gamma data) of the baseline distribution
-#' @param sd The standard deviation or shape of the baseline distribution
-#' @param N The nuber of obervations per group in each of the simulated experiment
-#' @param reps The number of  experiments  (i.e. two-group datasets) to be simulated
-#' @param diff A list identifying the mean group differences being assessed
-#' @param type A string parameter defining the distribution being simulated i.e. 'n' for normal data, 'l' for log-normal data, 'g' for gamma data and 'lap' for LaPlace data.
-#' @param seed A starting value for the simulations
-#' @param StdAdj A value that can be used to add additional variance for normal, lognormal and Laplce data and to change the shape parameter for gamma data.
-#' @param AlwaysTwoSidedTests A boolean variable. If TRUE the simulation always used two-sided tests otherwise the simulations use one-sided tests.
-#' @param LargeSampleSize Size of the large sample (default 5000000) used in
-#' each of the two groups used to obtain expected values of the non-parametric
-#' effect sizes (the expected value of the standardized men difference are
-#' always known)
-#' @return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, CentralPHat, and StdMD estimates found in each sample, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
-#' @examples
-#' as.data.frame(
-#'   calculate2GMdMRE(
-#'     mean=0, sd=1, N=10, reps=20, diff=c(0.2,0.5,0.8), type='n', seed=123,
-#'     StdAdj = 0, AlwaysTwoSidedTests=FALSE, LargeSampleSize=10000))
-#'#   Design Obs Diff CliffdMdMRE  CentralPHatMdMRE StdESMdMRE  varCliffd
-#'# 1   2G_n  20  0.2   1.8866607        -0.3191790 1.3757827 0.06089579
-#'# 2   2G_n  20  0.5   0.5956595        -0.3735555 0.5295375 0.04872737
-#'# 3   2G_n  20  0.8   0.3077882        -0.4086031 0.3698596 0.03492526
-#'#       varPHat  StdESVar ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
-#'# 1 0.015223947 0.1666288     0.127  0.5635 0.2267731      0.1060074    0.5530037
-#'# 2 0.012181842 0.1804443     0.283  0.6415 0.5386875      0.2694811    0.6347405
-#'# 3 0.008731316 0.1978285     0.429  0.7145 0.8506020      0.4223684    0.7111842
-#'# StdESExpected CliffdPower PHatPower StdESPower
-#'# 1     0.1866728        0.10      0.10        0.1
-#'# 2     0.4884736        0.15      0.15        0.2
-#'# 3     0.7882317        0.50      0.50        0.6
-#' #as.data.frame(
-#' #  calculate2GMdMRE(
-#' #   mean=0, sd=1, N=10, reps=100, diff=c(0.2,0.5,0.8), type='n', seed=123,
-#' #   StdAdj = 0, AlwaysTwoSidedTests=FALSE, LargeSampleSize=10000))
-#' #  Design Obs Diff CliffdMdMRE CentralPHatMdMRE StdESMdMRE  varCliffd
-#' #1   2G_n  20  0.2   1.9702583       -0.3144569  1.7111237 0.07552663
-#' #2   2G_n  20  0.5   0.6428482       -0.3641988  0.6357666 0.06842711
-#' #3   2G_n  20  0.8   0.4036555       -0.3803787  0.4063333 0.05873046
-#' #     varPHat  StdESVar ObsCliffd    ObsPHat  ObsStdES CliffdExpected
-#' #1 0.01888166  0.2522504    0.1092    0.5546 0.1835910      0.1030653
-#' #2 0.01710678  0.2624379    0.2646    0.6323 0.4949159      0.2678275
-#' #3 0.01468262  0.2787054    0.4078    0.7039 0.8062407      0.4211512
-#' #  PHatExpected StdESExpected CliffdPower PHatPower StdESPower
-#' #1    0.5515327     0.1870328        0.09      0.12       0.10
-#' #2    0.6339138     0.4869850        0.18      0.22       0.24
-#' #3    0.7105756     0.7869372        0.44      0.52       0.56
-#'
-calculate2GMdMRE = function(mean = 0,
-                            sd = 1,
-                            N,
-                            reps,
-                            diff = c(0.2, 0.5, 0.8),
-                            type = "n",
-                            seed = 123,
-                            StdAdj = 0,
-                            AlwaysTwoSidedTests = FALSE,
-                            LargeSampleSize = 5e+06)
-{
-  MdMRETable <- NULL
-  NumESizes <- length(diff)
-  Design <- "2G"
-  Design <- paste(Design, type, sep = "_")
-  for (i in 1:NumESizes) {
-    Expected <-
-      calculateLargeSampleRandomizedDesignEffectSizes(
-        meanC = mean,
-        sdC = sd,
-        diff = diff[i],
-        N = LargeSampleSize,
-        type = type,
-        StdAdj = 0
-      )
-    Out1 <- RandomExperimentSimulations(
-      mean,
-      sd,
-      diff[i],
-      N,
-      reps,
-      type,
-      seed,
-      StdAdj,
-      returnData = TRUE,
-      AlwaysTwoSidedTests = AlwaysTwoSidedTests
-    )
-
-    CliffdMdMRE <-
-      median(abs((Out1$Cliffd - Expected$Cliffd) / Expected$Cliffd))
-
-    PHatMdMRE <-
-      median(abs((Out1$PHat - Expected$Phat) / Expected$Phat))
-
-
-    #       CentralPHatMdMRE <- PHatMdMRE - 0.5
-
-    CentralPHatMdMRE <-
-      median(abs((Out1$PHat - Expected$Phat) / (Expected$Phat - 0.5)))
-
-    StdESMdMRE <-
-      median(abs((Out1$StdES - Expected$StdES) / Expected$StdES))
-
-    MdMRETable <- tibble::tibble(dplyr::bind_rows(
-      MdMRETable,
-      dplyr::bind_cols(
-        Design = Design,
-        Obs = as.character(2 *
-                             N),
-        Diff = diff[i],
-        CliffdMdMRE = CliffdMdMRE,
-        CentralPHatMdMRE = CentralPHatMdMRE,
-        StdESMdMRE = StdESMdMRE,
-        varCliffd = var(Out1$Cliffd),
-        varPHat = var(Out1$PHat),
-        StdESVar = var(Out1$StdES),
-        ObsCliffd = mean(Out1$Cliffd),
-        ObsPHat = mean(Out1$PHat),
-        ObsStdES = mean(Out1$StdES),
-        CliffdExpected = Expected$Cliffd,
-        PHatExpected = Expected$Phat,
-        StdESExpected = Expected$StdES,
-        CliffdPower = mean(Out1$CliffdSig),
-        PHatPower = mean(Out1$PHatSig),
-        StdESPower = mean(Out1$ESSig)
-      )
-    ))
-  }
-  return(MdMRETable)
-}
 
 #' @title simulate4GExperimentData
 #' @description The function returns a four group data set based on one of four different distributions.
@@ -1515,7 +1770,7 @@ calculate2GMdMRE = function(mean = 0,
 #' @param sd The standard deviation (or shape for gamma data) of the baseline distribution
 #' @param diff The adjustment to the baseline mean for the alternative distribution.
 #' @param GroupSize An integer defining the number of data items in each group.
-#' @param type A string dentifying the distrubtion used to simulate the data: 'n' for normal, 'l' for log-normal, 'g' for gamma, 'lap' for Laplace.
+#' @param type A string identifying the distrubtion used to simulate the data: 'n' for normal, 'l' for log-normal, 'g' for gamma, 'lap' for Laplace.
 #' @param ExpAdj An additional adjument factor that is added to both the mean values. Defaults to zero.
 #' @param StdAdj An aditional adjustment factor that is added to the second group variance (or rate for gamma data). Defaults to zero.
 #' @param BlockEffect An additional factor that is added to the mean of the second group groups (shape for the gamma distribution). Defaults to zero.
@@ -1552,39 +1807,84 @@ calculate2GMdMRE = function(mean = 0,
 #' #5       0.4507284          5.4987830           -0.7968903               1.7045268
 
 
-simulate4GExperimentData <- function(mean, sd, diff, GroupSize, type = "n", ExpAdj = 0, StdAdj = 0, BlockEffect = 0, BlockStdAdj = 0) {
-  Output1 <- simulate2GExperimentData(
-    mean = mean, sd = sd, diff = diff, GroupSize = GroupSize, type = type, ExpAdj = ExpAdj, StdAdj = StdAdj, BlockEffect = 0,
-    BlockStdAdj = 0
-  )
+simulate4GExperimentData <-
+  function(mean,
+           sd,
+           diff,
+           GroupSize,
+           type = "n",
+           ExpAdj = 0,
+           StdAdj = 0,
+           BlockEffect = 0,
+           BlockStdAdj = 0) {
+    Output1 <- simulate2GExperimentData(
+      mean = mean,
+      sd = sd,
+      diff = diff,
+      GroupSize = GroupSize,
+      type = type,
+      ExpAdj = ExpAdj,
+      StdAdj = StdAdj,
+      BlockEffect = 0,
+      BlockStdAdj = 0
+    )
 
-  Output1 <- reshape::rename(Output1, c(BaselineData = "BaselineData.B1", AlternativeData = "AlternativeData.B1"))
+    Output1 <-
+      reshape::rename(
+        Output1,
+        c(BaselineData = "BaselineData.B1", AlternativeData = "AlternativeData.B1")
+      )
 
-  if (type == "l") {
-    Output1 <- reshape::rename(Output1, c(transBaselineData = "transBaselineData.B1", transAlternativeData = "transAlternativeData.B1"))
+    if (type == "l") {
+      Output1 <-
+        reshape::rename(
+          Output1,
+          c(
+            transBaselineData = "transBaselineData.B1",
+            transAlternativeData = "transAlternativeData.B1"
+          )
+        )
+    }
+
+    Output2 <- simulate2GExperimentData(
+      mean = mean,
+      sd = sd,
+      diff = diff,
+      GroupSize = GroupSize,
+      type = type,
+      ExpAdj = ExpAdj,
+      StdAdj = StdAdj,
+      BlockEffect = BlockEffect,
+      BlockStdAdj = BlockStdAdj
+    )
+
+    Output2 <-
+      reshape::rename(
+        Output2,
+        c(BaselineData = "BaselineData.B2", AlternativeData = "AlternativeData.B2")
+      )
+
+    if (type == "l") {
+      Output2 <-
+        reshape::rename(
+          Output2,
+          c(
+            transBaselineData = "transBaselineData.B2",
+            transAlternativeData = "transAlternativeData.B2"
+          )
+        )
+    }
+
+
+    OutputData <- dplyr::bind_cols(Output1, Output2)
+
+    return(OutputData)
   }
-
-  Output2 <- simulate2GExperimentData(
-    mean = mean, sd = sd, diff = diff, GroupSize = GroupSize, type = type, ExpAdj = ExpAdj, StdAdj = StdAdj, BlockEffect = BlockEffect,
-    BlockStdAdj = BlockStdAdj
-  )
-
-  Output2 <- reshape::rename(Output2, c(BaselineData = "BaselineData.B2", AlternativeData = "AlternativeData.B2"))
-
-  if (type == "l") {
-    Output2 <- reshape::rename(Output2, c(transBaselineData = "transBaselineData.B2", transAlternativeData = "transAlternativeData.B2"))
-  }
-
-
-  OutputData <- dplyr::bind_cols(Output1, Output2)
-
-  return(OutputData)
-}
 
 
 
 #' @title calculateLargeSampleRandomizedBlockDesignEffectSizes
-#' @description The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a four group randomized blocks experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. tyep='g') and Laplace (i.e., type='lap').
+#' @description The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a four group randomized blocks experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. type='g') and Laplace (i.e., type='lap').
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export calculateLargeSampleRandomizedBlockDesignEffectSizes
 #' @param meanC to act as the mean of the distribution (default 0) used to
@@ -1600,7 +1900,7 @@ simulate4GExperimentData <- function(mean, sd, diff, GroupSize, type = "n", ExpA
 #' @param Blockmean, a value that can be added one of the blocks to represent
 #' a fixed block effect (default 0).
 #' @param StdAdj a value that can be added to sdC to introduce heterogeneity
-#' into the tretament group (default 0).
+#' into the treatment group (default 0).
 #' @return A tibble identifying the sample statistics and the values of the
 #' probability of superiority, Cliff's d and StdMD (labelled StdES)
 #' @examples
@@ -1611,39 +1911,71 @@ simulate4GExperimentData <- function(mean, sd, diff, GroupSize, type = "n", ExpA
 #' #  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
 #' #1     0     1   0.5     1   0.5 0.638  0.277 0.501 0.998 0.502
 #'
-calculateLargeSampleRandomizedBlockDesignEffectSizes <- function(meanC = 0, sdC = 1, diff, N = 5e+06, type = "n", Blockmean = 0, StdAdj = 0) {
-  MeanT <- meanC + diff
-  sdT <- sdC + StdAdj
+calculateLargeSampleRandomizedBlockDesignEffectSizes <-
+  function(meanC = 0,
+           sdC = 1,
+           diff,
+           N = 5e+06,
+           type = "n",
+           Blockmean = 0,
+           StdAdj = 0) {
+    MeanT <- meanC + diff
+    sdT <- sdC + StdAdj
 
-  if (type == "g") {
-    MeanT <- meanC + diff + StdAdj
-    sdT <- sdC + Blockmean
+    if (type == "g") {
+      MeanT <- meanC + diff + StdAdj
+      sdT <- sdC + Blockmean
+    }
+    DataSet <- simulate4GExperimentData(
+      mean = meanC,
+      sd = sdC,
+      diff = diff,
+      GroupSize = N,
+      type = type,
+      ExpAdj = 0,
+      StdAdj = StdAdj,
+      BlockEffect = Blockmean,
+      BlockStdAdj = 0
+    )
+
+
+    UES <-
+      (
+        base::mean(DataSet$AlternativeData.B1) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$BaselineData.B2)
+      ) / 2
+
+    Var <-
+      (
+        stats::var(DataSet$AlternativeData.B1) + stats::var(DataSet$AlternativeData.B2) + stats::var(DataSet$BaselineData.B1) + stats::var(DataSet$BaselineData.B2)
+      ) / 4
+    StdES <- UES / sqrt(Var)
+
+    B1res <-
+      calculatePhat(DataSet$BaselineData.B1, DataSet$AlternativeData.B1)
+    B2res <-
+      calculatePhat(DataSet$BaselineData.B2, DataSet$AlternativeData.B2)
+
+    Phat <- (B1res$phat + B2res$phat) / 2
+
+    Cliffd <- (B1res$dhat + B2res$dhat) / 2
+
+    res <- as.data.frame(
+      cbind(
+        MeanC = meanC,
+        SdC = sdC,
+        MeanT = MeanT,
+        SdT = sdT,
+        BE = Blockmean,
+        Phat = Phat,
+        Cliffd = Cliffd,
+        UES = UES,
+        Var = Var,
+        StdES = StdES
+      )
+    )
+    res <- tibble::as_tibble(res)
+    return(res)
   }
-  DataSet <- simulate4GExperimentData(
-    mean = meanC, sd = sdC, diff = diff, GroupSize = N, type = type, ExpAdj = 0, StdAdj = StdAdj, BlockEffect = Blockmean,
-    BlockStdAdj = 0
-  )
-
-
-  UES <- (base::mean(DataSet$AlternativeData.B1) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$BaselineData.B2)) / 2
-
-  Var <- (stats::var(DataSet$AlternativeData.B1) + stats::var(DataSet$AlternativeData.B2) + stats::var(DataSet$BaselineData.B1) + stats::var(DataSet$BaselineData.B2)) / 4
-  StdES <- UES / sqrt(Var)
-
-  B1res <- calculatePhat(DataSet$BaselineData.B1, DataSet$AlternativeData.B1)
-  B2res <- calculatePhat(DataSet$BaselineData.B2, DataSet$AlternativeData.B2)
-
-  Phat <- (B1res$phat + B2res$phat) / 2
-
-  Cliffd <- (B1res$dhat + B2res$dhat) / 2
-
-  res <- as.data.frame(cbind(
-    MeanC = meanC, SdC = sdC, MeanT = MeanT, SdT = sdT, BE = Blockmean, Phat = Phat, Cliffd = Cliffd, UES = UES, Var = Var,
-    StdES = StdES
-  ))
-  res <- tibble::as_tibble(res)
-  return(res)
-}
 
 #' @title  Calc4GroupNPStats
 #' @description This function does a non-parametric analysis of a randomized
@@ -1651,7 +1983,7 @@ calculateLargeSampleRandomizedBlockDesignEffectSizes <- function(meanC = 0, sdC 
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export Calc4GroupNPStats
 #' @param x1 is the data associated with  treatment A in one block 1
-#' @param x2 is the data associated with treatement B in block 1
+#' @param x2 is the data associated with treatment B in block 1
 #' @param x3 is the data associated with treatment A in block 2
 #' @param x4  is the data associated with treatment B in block 2
 #' @param sigfig is the number of significant digits in the data. If >0
@@ -1703,83 +2035,133 @@ calculateLargeSampleRandomizedBlockDesignEffectSizes <- function(meanC = 0, sdC 
 #' #Error in testfunctionParameterChecks(alternative = alternative, alpha = alpha,  :
 #' #  Invalid alpha parameter, select alpha in range (0.0001,0.2)
 #'
-Calc4GroupNPStats <- function(x1, x2, x3, x4, sigfig = -1, alpha = 0.05, alternative = "two.sided") {
-  # Check the significant digits to ensure that equal values are properly detected
-  if (sigfig > 0) {
-    x1 <- signif(x1, sigfig)
-    x2 <- signif(x2, sigfig)
-    x3 <- signif(x3, sigfig)
-    x4 <- signif(x4, sigfig)
+Calc4GroupNPStats <-
+  function(x1,
+           x2,
+           x3,
+           x4,
+           sigfig = -1,
+           alpha = 0.05,
+           alternative = "two.sided") {
+    # Check the significant digits to ensure that equal values are properly detected
+    if (sigfig > 0) {
+      x1 <- signif(x1, sigfig)
+      x2 <- signif(x2, sigfig)
+      x3 <- signif(x3, sigfig)
+      x4 <- signif(x4, sigfig)
+    }
+    # Set up a dummy variable such that the observations using treatment A in block 1 are associated with the value 1 and observations using
+    # treatment B in block 1 are associated with the value 0
+    dummy1 <- c(rep(1, length(x1)), rep(0, length(x2)))
+    # Concatenate the observations in block 1
+    xCO1 <- c(x1, x2)
+    # Use Wilcox's function to find tau and its two variances for block 1
+    tau1 <- calculateKendalltaupb(xCO1, dummy1)
+    n1 <- length(x1) + length(x2)
+    # Set up a dummy variable such that the observations using treatment A in block 2 are associated with the value 1 and observations using
+    # treatment B in block 2 are associated with the value 0
+
+    dummy2 <- c(rep(1, length(x3)), rep(0, length(x4)))
+    # Concatenate the observations in block 2
+    xCO2 <- c(x3, x4)
+
+    # Use Wilcox's function to find tau and its two variances for block 2
+
+    tau2 <- calculateKendalltaupb(xCO2, dummy2)
+    n2 <- length(x3) + length(x4)
+    N <- n1 + n2
+
+    average.tau <- (tau1$cor + tau2$cor) / 2
+
+    ctvar <- (tau1$consistentvar + tau2$consistentvar) / 4
+
+    # Find the confidence limits on the combined tau using t-distribution
+    testfunctionParameterChecks(alternative = alternative,
+                                alpha = alpha,
+                                stderr = sqrt(ctvar))
+    taupb.Analysis <- calcEffectSizeConfidenceIntervals(
+      effectsize = average.tau,
+      effectsize.variance = ctvar,
+      effectsize.df = N - 6,
+      alpha = 0.05,
+      alternative = alternative,
+      UpperValue = n1 / (2 * (n1 - 1)),
+      LowerValue = -n1 / (2 * (n1 - 1))
+    )
+
+    # Find the average d and the combined variances for the full experiment
+
+    d <- (calculateCliffd(x1, x2)$d + calculateCliffd(x3, x4)$d) / 2
+    vard <-
+      (calculateCliffd(x1, x2)$sqse.d + calculateCliffd(x3, x4)$sqse.d) / 4
+
+    testfunctionParameterChecks(alternative = alternative,
+                                alpha = alpha,
+                                stderr = sqrt(vard))
+
+    Cliffd.Analysis <-
+      calcCliffdConfidenceIntervals(
+        d.value = d,
+        d.variance = vard,
+        d.df = N - 4,
+        alpha = alpha,
+        alternative = alternative
+      )
+
+
+    # Find the average phat and the combined variances for the full experiment
+
+    B1.BMP <- calculatePhat(x2, x1)
+    B2.BMP <- calculatePhat(x4, x3)
+    phat1 <- B1.BMP$phat
+    phat2 <- B2.BMP$phat
+    phat <- (phat1 + phat2) / 2
+    se1 <- B1.BMP$s.e.
+    se2 <- B2.BMP$s.e.
+
+    phat.se <- sqrt((B1.BMP$s.e ^ 2 + B2.BMP$s.e. ^ 2) / 4)
+    phat.var <- phat.se ^ 2
+    phat.df <- B1.BMP$df + B2.BMP$df
+
+    testfunctionParameterChecks(
+      alternative = alternative,
+      alpha = alpha,
+      stderr = sqrt(phat.var)
+    )
+    phat.Analysis <-
+      calcPHatConfidenceIntervals(
+        phat = phat,
+        phat.variance = phat.var,
+        phat.df = phat.df,
+        alpha = alpha,
+        alternative = alternative
+      )
+
+
+    output <- tibble::tibble(
+      N = N,
+      phat = phat,
+      phat.var = phat.var,
+      phat.df = phat.df,
+      phat.test = phat.Analysis$phat.test,
+      phat.pvalue = phat.Analysis$pvalue,
+      phat.sig = phat.Analysis$phat.sig,
+      phat.ci.upper = phat.Analysis$phat.ci.upper,
+      phat.ci.lower = phat.Analysis$phat.ci.lower,
+      d = d,
+      vard = vard,
+      d.sig = Cliffd.Analysis$d.sig,
+      d.ci.lower = Cliffd.Analysis$d.ci.lower,
+      d.ci.upper = Cliffd.Analysis$d.ci.upper,
+      cor = average.tau,
+      ctvar = ctvar,
+      n1 = n1,
+      n2 = n2,
+      sigCVt = taupb.Analysis$ES.sig
+    )
+
+    return(output)
   }
-  # Set up a dummy variable such that the observations using treatment A in block 1 are associated with the value 1 and observations using
-  # treatment B in block 1 are associated with the value 0
-  dummy1 <- c(rep(1, length(x1)), rep(0, length(x2)))
-  # Concatenate the observations in block 1
-  xCO1 <- c(x1, x2)
-  # Use Wilcox's function to find tau and its two variances for block 1
-  tau1 <- calculateKendalltaupb(xCO1, dummy1)
-  n1 <- length(x1) + length(x2)
-  # Set up a dummy variable such that the observations using treatment A in block 2 are associated with the value 1 and observations using
-  # treatment B in block 2 are associated with the value 0
-
-  dummy2 <- c(rep(1, length(x3)), rep(0, length(x4)))
-  # Concatenate the observations in block 2
-  xCO2 <- c(x3, x4)
-
-  # Use Wilcox's function to find tau and its two variances for block 2
-
-  tau2 <- calculateKendalltaupb(xCO2, dummy2)
-  n2 <- length(x3) + length(x4)
-  N <- n1 + n2
-
-  average.tau <- (tau1$cor + tau2$cor) / 2
-
-  ctvar <- (tau1$consistentvar + tau2$consistentvar) / 4
-
-  # Find the confidence limits on the combined tau using t-distribution
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(ctvar))
-  taupb.Analysis <- calcEffectSizeConfidenceIntervals(
-    effectsize = average.tau, effectsize.variance = ctvar, effectsize.df = N - 6, alpha = 0.05,
-    alternative = alternative, UpperValue = n1 / (2 * (n1 - 1)), LowerValue = -n1 / (2 * (n1 - 1))
-  )
-
-  # Find the average d and the combined variances for the full experiment
-
-  d <- (calculateCliffd(x1, x2)$d + calculateCliffd(x3, x4)$d) / 2
-  vard <- (calculateCliffd(x1, x2)$sqse.d + calculateCliffd(x3, x4)$sqse.d) / 4
-
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(vard))
-
-  Cliffd.Analysis <- calcCliffdConfidenceIntervals(d.value = d, d.variance = vard, d.df = N - 4, alpha = alpha, alternative = alternative)
-
-
-  # Find the average phat and the combined variances for the full experiment
-
-  B1.BMP <- calculatePhat(x2, x1)
-  B2.BMP <- calculatePhat(x4, x3)
-  phat1 <- B1.BMP$phat
-  phat2 <- B2.BMP$phat
-  phat <- (phat1 + phat2) / 2
-  se1 <- B1.BMP$s.e.
-  se2 <- B2.BMP$s.e.
-
-  phat.se <- sqrt((B1.BMP$s.e^2 + B2.BMP$s.e.^2) / 4)
-  phat.var <- phat.se^2
-  phat.df <- B1.BMP$df + B2.BMP$df
-
-  testfunctionParameterChecks(alternative = alternative, alpha = alpha, stderr = sqrt(phat.var))
-  phat.Analysis <- calcPHatConfidenceIntervals(phat = phat, phat.variance = phat.var, phat.df = phat.df, alpha = alpha, alternative = alternative)
-
-
-  output <- tibble::tibble(
-    N = N, phat = phat, phat.var = phat.var, phat.df = phat.df, phat.test = phat.Analysis$phat.test, phat.pvalue = phat.Analysis$pvalue,
-    phat.sig = phat.Analysis$phat.sig, phat.ci.upper = phat.Analysis$phat.ci.upper, phat.ci.lower = phat.Analysis$phat.ci.lower, d = d, vard = vard,
-    d.sig = Cliffd.Analysis$d.sig, d.ci.lower = Cliffd.Analysis$d.ci.lower, d.ci.upper = Cliffd.Analysis$d.ci.upper, cor = average.tau, ctvar = ctvar,
-    n1 = n1, n2 = n2, sigCVt = taupb.Analysis$ES.sig
-  )
-
-  return(output)
-}
 
 
 #' @title RandomizedBlocksAnalysis
@@ -1862,85 +2244,100 @@ Calc4GroupNPStats <- function(x1, x2, x3, x4, sigfig = -1, alpha = 0.05, alterna
 #' #$sig
 #' #[1] TRUE
 
-RandomizedBlocksAnalysis <- function(x, con = c(-0.5, 0.5, -0.5, 0.5), alpha = 0.05, alternative = "two.sided") {
-  if (!base::is.list(x)) {
-    stop("Data must be stored list mode.")
-  }
-  con <- base::as.matrix(con)
-
-  if (ncol(con) > 1) {
-    stop("Only one linear contrast permitted")
-  }
-  J <- length(x)
-  sam <- NA
-  h <- base::vector("numeric", J)
-  w <- base::vector("numeric", J)
-  xbar <- base::vector("numeric", J)
-  for (j in 1:J) {
-    if (sum(as.numeric(is.na(x[[j]]))) > 0) {
-      stop("Missing values are not permitted")
+RandomizedBlocksAnalysis <-
+  function(x,
+           con = c(-0.5, 0.5, -0.5, 0.5),
+           alpha = 0.05,
+           alternative = "two.sided") {
+    if (!base::is.list(x)) {
+      stop("Data must be stored list mode.")
     }
-    sam[j] <- length(x[[j]])
-    h[j] <- length(x[[j]])
-    # h is the number of observations in the jth group.
-    w[j] <- ((length(x[[j]]) - 1) * stats::var(x[[j]])) / (h[j] * (h[j] - 1)) # The variance of the jth group
-    xbar[j] <- base::mean(x[[j]]) # The mean of the jth group
-  }
+    con <- base::as.matrix(con)
 
-  if (nrow(con) != length(x)) {
-    stop("The number of groups does not match the number of contrast coefficients.")
-  }
-  psihat <- base::matrix(0, 1, 4)
-  dimnames(psihat) <- list(NULL, c("psihat", "ci.lower", "ci.upper", "p.value"))
-  test <- matrix(0, 1, 4)
-  dimnames(test) <- list(NULL, c("test", "crit", "se", "df"))
-  df <- 0
+    if (ncol(con) > 1) {
+      stop("Only one linear contrast permitted")
+    }
+    J <- length(x)
+    sam <- NA
+    h <- base::vector("numeric", J)
+    w <- base::vector("numeric", J)
+    xbar <- base::vector("numeric", J)
+    for (j in 1:J) {
+      if (sum(as.numeric(is.na(x[[j]]))) > 0) {
+        stop("Missing values are not permitted")
+      }
+      sam[j] <- length(x[[j]])
+      h[j] <- length(x[[j]])
+      # h is the number of observations in the jth group.
+      w[j] <-
+        ((length(x[[j]]) - 1) * stats::var(x[[j]])) / (h[j] * (h[j] - 1)) # The variance of the jth group
+      xbar[j] <- base::mean(x[[j]]) # The mean of the jth group
+    }
+
+    if (nrow(con) != length(x)) {
+      stop("The number of groups does not match the number of contrast coefficients.")
+    }
+    psihat <- base::matrix(0, 1, 4)
+    dimnames(psihat) <-
+      list(NULL, c("psihat", "ci.lower", "ci.upper", "p.value"))
+    test <- matrix(0, 1, 4)
+    dimnames(test) <- list(NULL, c("test", "crit", "se", "df"))
+    df <- 0
 
 
-  psihat[1, 1] <- sum(con[, 1] * xbar)
-  sejk <- sqrt(sum(con[, 1]^2 * w)) # The pooled standard error of the contrast
+    psihat[1, 1] <- sum(con[, 1] * xbar)
+    sejk <-
+      sqrt(sum(con[, 1] ^ 2 * w)) # The pooled standard error of the contrast
 
-  test[1, 1] <- sum(con[, 1] * xbar) / sejk # The value of the t-test
-  df <- (sum(con[, 1]^2 * w))^2 / sum(con[, 1]^4 * w^2 / (h - 1)) # Degrees of freedom allowing for heterogeneity
-  test[1, 3] <- sejk
-  test[1, 4] <- df
+    test[1, 1] <-
+      sum(con[, 1] * xbar) / sejk # The value of the t-test
+    df <-
+      (sum(con[, 1] ^ 2 * w)) ^ 2 / sum(con[, 1] ^ 4 * w ^ 2 / (h - 1)) # Degrees of freedom allowing for heterogeneity
+    test[1, 3] <- sejk
+    test[1, 4] <- df
 
-  if (alternative == "two.sided") {
-    vv <- (1 - alpha / 2)
-    crit <- stats::qt(vv, df) # The critical value of the t-test for the degrees of freedom
-    test[1, 2] <- crit
+    if (alternative == "two.sided") {
+      vv <- (1 - alpha / 2)
+      crit <-
+        stats::qt(vv, df) # The critical value of the t-test for the degrees of freedom
+      test[1, 2] <- crit
 
-    psihat[1, 2] <- psihat[1, 1] - crit * sejk
-    psihat[1, 3] <- psihat[1, 1] + crit * sejk
-    psihat[1, 4] <- 2 * (1 - stats::pt(abs(test[1, 1]), df))
+      psihat[1, 2] <- psihat[1, 1] - crit * sejk
+      psihat[1, 3] <- psihat[1, 1] + crit * sejk
+      psihat[1, 4] <- 2 * (1 - stats::pt(abs(test[1, 1]), df))
 
-    sig <- psihat[1, 2] > 0 | psihat[1, 3] < 0
-  } else {
-    vv <- (1 - alpha)
-    crit <- stats::qt(vv, df)
-    test[1, 2] <- crit
-    stats::qt(vv, df)
-    lowerbound <- psihat[1, 1] - crit * sejk
-    upperbound <- psihat[1, 1] + crit * sejk
-
-    if (alternative == "greater") {
-      # The upper bound is irrelevant
-      upperbound <- Inf
-      sig <- lowerbound > 0
-      psihat[1, 4] <- (1 - stats::pt((test[1, 1]), df))
+      sig <- psihat[1, 2] > 0 | psihat[1, 3] < 0
     } else {
-      # The lower bound is irrelevant
-      lowerbound <- -Inf
-      sig <- upperbound < 0
-      psihat[1, 4] <- (stats::pt((test[1, 1]), df))
+      vv <- (1 - alpha)
+      crit <- stats::qt(vv, df)
+      test[1, 2] <- crit
+      stats::qt(vv, df)
+      lowerbound <- psihat[1, 1] - crit * sejk
+      upperbound <- psihat[1, 1] + crit * sejk
+
+      if (alternative == "greater") {
+        # The upper bound is irrelevant
+        upperbound <- Inf
+        sig <- lowerbound > 0
+        psihat[1, 4] <- (1 - stats::pt((test[1, 1]), df))
+      } else {
+        # The lower bound is irrelevant
+        lowerbound <- -Inf
+        sig <- upperbound < 0
+        psihat[1, 4] <- (stats::pt((test[1, 1]), df))
+      }
+      psihat[1, 2] <- lowerbound
+      psihat[1, 3] <- upperbound
     }
-    psihat[1, 2] <- lowerbound
-    psihat[1, 3] <- upperbound
+
+
+    list(
+      n = sam,
+      sig = sig,
+      test = test,
+      psihat = psihat
+    )
   }
-
-
-  list(n = sam, sig = sig, test = test, psihat = psihat)
-}
 
 
 
@@ -2018,112 +2415,173 @@ RandomizedBlocksAnalysis <- function(x, con = c(-0.5, 0.5, -0.5, 0.5), alpha = 0
 #' # 8        1.9220131           2.555092            0.6533731               0.9380883
 #' # 9        0.5282757           2.001781           -0.6381369               0.6940373
 #' # 10       5.7765980           1.858053            1.7538149               0.6195290
-simulateRandomizedBlockDesignEffectSizes <- function(mean, sd, diff, N, type = "n", alpha = 0.05, Blockmean = 0, BlockStdAdj = 0, StdAdj = 0, AlwaysTwoSidedTests = FALSE, ReturnData = FALSE) {
-  # 29-06-2022 Changed to support one-sided tests 14-03-2022 BlockStdadj parameter changed to BlockStdAdj for consistency with other functions.
-  # Changes to calls to generate data chnaged to cater for new label.  Generate data. x and x2 hold control data, y and y2 to hold treatment
-  # data.  x and y are ib block 1 and x2 and y2 are in block 2
+simulateRandomizedBlockDesignEffectSizes <-
+  function(mean,
+           sd,
+           diff,
+           N,
+           type = "n",
+           alpha = 0.05,
+           Blockmean = 0,
+           BlockStdAdj = 0,
+           StdAdj = 0,
+           AlwaysTwoSidedTests = FALSE,
+           ReturnData = FALSE) {
+    # 29-06-2022 Changed to support one-sided tests 14-03-2022 BlockStdadj parameter changed to BlockStdAdj for consistency with other functions.
+    # Changes to calls to generate data chnaged to cater for new label.  Generate data. x and x2 hold control data, y and y2 to hold treatment
+    # data.  x and y are ib block 1 and x2 and y2 are in block 2
 
-  alpha.set <- alpha
+    alpha.set <- alpha
 
-  # Allowed for one-sided tests
-  if (AlwaysTwoSidedTests | (diff == 0)) {
-    alternative <- "two.sided"
-  } else {
-    # Find direction of MD
-
-    if (type == "g") {
-      # A negative value for diff decreases the rate & the MD is positive
-      Positive.MD <- (diff < 0)
+    # Allowed for one-sided tests
+    if (AlwaysTwoSidedTests | (diff == 0)) {
+      alternative <- "two.sided"
     } else {
-      Positive.MD <- (diff > 0)
+      # Find direction of MD
+
+      if (type == "g") {
+        # A negative value for diff decreases the rate & the MD is positive
+        Positive.MD <- (diff < 0)
+      } else {
+        Positive.MD <- (diff > 0)
+      }
+
+      if (Positive.MD) {
+        alternative <- "greater"
+      } else {
+        alternative <- "less"
+      }
     }
 
-    if (Positive.MD) {
-      alternative <- "greater"
+    DataSet <- simulate4GExperimentData(
+      mean = mean,
+      sd = sd,
+      diff = diff,
+      GroupSize = N,
+      type = type,
+      ExpAdj = 0,
+      StdAdj = StdAdj,
+      BlockEffect = Blockmean,
+      BlockStdAdj = 0
+    )
+
+    if (ReturnData) {
+      res <- DataSet
     } else {
-      alternative <- "less"
-    }
-  }
+      res <-
+        Calc4GroupNPStats(
+          DataSet$AlternativeData.B1,
+          DataSet$BaselineData.B1,
+          DataSet$AlternativeData.B2,
+          DataSet$BaselineData.B2,
+          alpha = alpha.set,
+          alternative = alternative
+        )
 
-  DataSet <- simulate4GExperimentData(
-    mean = mean, sd = sd, diff = diff, GroupSize = N, type = type, ExpAdj = 0, StdAdj = StdAdj, BlockEffect = Blockmean,
-    BlockStdAdj = 0
-  )
+      StandardMetrics <- as.data.frame(res)
 
-  if (ReturnData) {
-    res <- DataSet
-  } else {
-    res <- Calc4GroupNPStats(DataSet$AlternativeData.B1, DataSet$BaselineData.B1, DataSet$AlternativeData.B2, DataSet$BaselineData.B2,
-      alpha = alpha.set,
-      alternative = alternative
-    )
+      # Add the results of a t-test as a baseline
+      UES <-
+        (
+          base::mean(DataSet$AlternativeData.B1) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$BaselineData.B2)
+        ) / 2
 
-    StandardMetrics <- as.data.frame(res)
+      BlockEffect <-
+        (
+          base::mean(DataSet$BaselineData.B2) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$AlternativeData.B1)
+        ) / 2
 
-    # Add the results of a t-test as a baseline
-    UES <- (base::mean(DataSet$AlternativeData.B1) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$BaselineData.B2)) / 2
-
-    BlockEffect <- (base::mean(DataSet$BaselineData.B2) + base::mean(DataSet$AlternativeData.B2) - base::mean(DataSet$BaselineData.B1) - base::mean(DataSet$AlternativeData.B1)) / 2
-
-    MedDiff <- (stats::median(DataSet$AlternativeData.B1) + stats::median(DataSet$AlternativeData.B2) - stats::median(DataSet$BaselineData.B1) -
-      stats::median(DataSet$BaselineData.B2)) / 2
-
-
-
-    Var <- (stats::var(DataSet$AlternativeData.B1) + stats::var(DataSet$AlternativeData.B2) + stats::var(DataSet$BaselineData.B1) + stats::var(DataSet$BaselineData.B2)) / 4
-    # Estimate of Cohen's d
-    StdES <- UES / sqrt(Var)
+      MedDiff <-
+        (
+          stats::median(DataSet$AlternativeData.B1) + stats::median(DataSet$AlternativeData.B2) - stats::median(DataSet$BaselineData.B1) -
+            stats::median(DataSet$BaselineData.B2)
+        ) / 2
 
 
-    # Need to use the linear contrast method for the significance test of randomized blocks data that allows for variance heterogeneity.
-    newlist <- list()
-    newlist[[1]] <- DataSet$BaselineData.B1
-    newlist[[2]] <- DataSet$AlternativeData.B1
-    newlist[[3]] <- DataSet$BaselineData.B2
-    newlist[[4]] <- DataSet$AlternativeData.B2
-    vec <- c(-1, 1, -1, 1) / 2
+
+      Var <-
+        (
+          stats::var(DataSet$AlternativeData.B1) + stats::var(DataSet$AlternativeData.B2) + stats::var(DataSet$BaselineData.B1) + stats::var(DataSet$BaselineData.B2)
+        ) / 4
+      # Estimate of Cohen's d
+      StdES <- UES / sqrt(Var)
 
 
-    res.t <- RandomizedBlocksAnalysis(newlist, con = vec, alpha = alpha.set, alternative = alternative)
-
-    ttest.sig <- as.logical(res.t$sig)
-
-
-    StandardMetrics <- dplyr::bind_cols(StandardMetrics,
-      ttest.sig = ttest.sig, ES = UES, Variance = Var, StdES = StdES, BlockEffect = BlockEffect,
-      MedianDiff = MedDiff
-    )
-
-
-    if (type == "l") {
-      loglist <- list()
-
-      loglist[[1]] <- DataSet$transBaselineData.B1
-      loglist[[2]] <- DataSet$transAlternativeData.B1
-      loglist[[3]] <- DataSet$transBaselineData.B2
-      loglist[[4]] <- DataSet$transAlternativeData.B2
-
+      # Need to use the linear contrast method for the significance test of randomized blocks data that allows for variance heterogeneity.
+      newlist <- list()
+      newlist[[1]] <- DataSet$BaselineData.B1
+      newlist[[2]] <- DataSet$AlternativeData.B1
+      newlist[[3]] <- DataSet$BaselineData.B2
+      newlist[[4]] <- DataSet$AlternativeData.B2
       vec <- c(-1, 1, -1, 1) / 2
-      logres.t <- RandomizedBlocksAnalysis(loglist, con = vec, alpha = alpha.set, alternative = alternative)
-      Log.sig <- as.logical(logres.t$sig)
 
-      ES.trans <- (base::mean(DataSet$transAlternativeData.B1) + base::mean(DataSet$transAlternativeData.B2) - base::mean(DataSet$transBaselineData.B1) -
-        base::mean(DataSet$transBaselineData.B2)) / 2
 
-      VarTrans <- (stats::var(DataSet$transBaselineData.B1) + stats::var(DataSet$transBaselineData.B2) + stats::var(DataSet$transAlternativeData.B1) +
-        stats::var(DataSet$transAlternativeData.B2)) / 4
+      res.t <-
+        RandomizedBlocksAnalysis(newlist,
+                                 con = vec,
+                                 alpha = alpha.set,
+                                 alternative = alternative)
 
-      StdES.trans <- ES.trans / sqrt(VarTrans)
+      ttest.sig <- as.logical(res.t$sig)
 
-      AdditionalMetrics <- list(Log.sig = Log.sig, ES.Trans = ES.trans, StdES.Trans = StdES.trans, VarTrans = VarTrans)
 
-      AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
-      StandardMetrics <- dplyr::bind_cols(StandardMetrics, AdditionalMetrics)
+      StandardMetrics <- dplyr::bind_cols(
+        StandardMetrics,
+        ttest.sig = ttest.sig,
+        ES = UES,
+        Variance = Var,
+        StdES = StdES,
+        BlockEffect = BlockEffect,
+        MedianDiff = MedDiff
+      )
+
+
+      if (type == "l") {
+        loglist <- list()
+
+        loglist[[1]] <- DataSet$transBaselineData.B1
+        loglist[[2]] <- DataSet$transAlternativeData.B1
+        loglist[[3]] <- DataSet$transBaselineData.B2
+        loglist[[4]] <- DataSet$transAlternativeData.B2
+
+        vec <- c(-1, 1, -1, 1) / 2
+        logres.t <-
+          RandomizedBlocksAnalysis(loglist,
+                                   con = vec,
+                                   alpha = alpha.set,
+                                   alternative = alternative)
+        Log.sig <- as.logical(logres.t$sig)
+
+        ES.trans <-
+          (
+            base::mean(DataSet$transAlternativeData.B1) + base::mean(DataSet$transAlternativeData.B2) - base::mean(DataSet$transBaselineData.B1) -
+              base::mean(DataSet$transBaselineData.B2)
+          ) / 2
+
+        VarTrans <-
+          (
+            stats::var(DataSet$transBaselineData.B1) + stats::var(DataSet$transBaselineData.B2) + stats::var(DataSet$transAlternativeData.B1) +
+              stats::var(DataSet$transAlternativeData.B2)
+          ) / 4
+
+        StdES.trans <- ES.trans / sqrt(VarTrans)
+
+        AdditionalMetrics <-
+          list(
+            Log.sig = Log.sig,
+            ES.Trans = ES.trans,
+            StdES.Trans = StdES.trans,
+            VarTrans = VarTrans
+          )
+
+        AdditionalMetrics <- tibble::as_tibble(AdditionalMetrics)
+        StandardMetrics <-
+          dplyr::bind_cols(StandardMetrics, AdditionalMetrics)
+      }
+      res <- StandardMetrics
     }
-    res <- StandardMetrics
+    return(res)
   }
-  return(res)
-}
 
 
 
@@ -2197,248 +2655,211 @@ simulateRandomizedBlockDesignEffectSizes <- function(mean, sd, diff, N, type = "
 #' # 9   0.11 0.555 0.181         0       0     0
 #' # 10  -0.03 0.485 0.124        0       0     0
 #'
-RandomizedBlocksExperimentSimulations <- function(mean, sd, diff, N, reps, type = "n", alpha = 0.05, Blockmean = 0, BlockStdAdj = 0, StdAdj = 0, seed = 123,
-                                                  returnData = FALSE, AlwaysTwoSidedTests = FALSE) {
-  # 20-06-2022 Changed to cater for one-sided tests 14-03-2022 Changed the parameter name BlockStdadj to BlockStdAdj for consistency
+RandomizedBlocksExperimentSimulations <-
+  function(mean,
+           sd,
+           diff,
+           N,
+           reps,
+           type = "n",
+           alpha = 0.05,
+           Blockmean = 0,
+           BlockStdAdj = 0,
+           StdAdj = 0,
+           seed = 123,
+           returnData = FALSE,
+           AlwaysTwoSidedTests = FALSE) {
+    # 20-06-2022 Changed to cater for one-sided tests 14-03-2022 Changed the parameter name BlockStdadj to BlockStdAdj for consistency
 
-  dsum <- 0 # This is used to sum the value of Cliff's d across the replications
-  dvarsum <- 0 # This is used to aggregate the variance of d across the replications
-  d.sig <- 0 # This is used to sum the number of significant d values  across the replications
-  d.ss <- 0 # This is used to sum the squared value of Cliff's d across the replications. It can be used to calculate the empirical variance of the average d.
+    dsum <-
+      0 # This is used to sum the value of Cliff's d across the replications
+    dvarsum <-
+      0 # This is used to aggregate the variance of d across the replications
+    d.sig <-
+      0 # This is used to sum the number of significant d values  across the replications
+    d.ss <-
+      0 # This is used to sum the squared value of Cliff's d across the replications. It can be used to calculate the empirical variance of the average d.
 
-  phatsum <- 0 # This is used to sum the value of phat across the replications
-  phatvarsum <- 0 # This is used to aggregate the variance of phat across the replications
-  phat.sig <- 0 # This is used to sum the number of significant phat values  across the replications
-  phat.ss <- 0 # This is used to sum the squared value of phat across the replications. It can be used to calculate the empirical variance of the average phat.
+    phatsum <-
+      0 # This is used to sum the value of phat across the replications
+    phatvarsum <-
+      0 # This is used to aggregate the variance of phat across the replications
+    phat.sig <-
+      0 # This is used to sum the number of significant phat values  across the replications
+    phat.ss <-
+      0 # This is used to sum the squared value of phat across the replications. It can be used to calculate the empirical variance of the average phat.
 
-  tsig <- 0 # This is used to count the number of significant t values across the replications
-  ES <- 0 # This is used to sum the value of the parametric effect size (unstandardized) across the replications
-  StdES <- 0 # This is used to sum the value of the parametric effect size (standardized) across the replications
-  StdES.ss <- 0 # This is used to sum the squared value of the parametric effect size (standardized) across the replications. It can be used to calculate the empirical variance of the overall mean value
+    tsig <-
+      0 # This is used to count the number of significant t values across the replications
+    ES <-
+      0 # This is used to sum the value of the parametric effect size (unstandardized) across the replications
+    StdES <-
+      0 # This is used to sum the value of the parametric effect size (standardized) across the replications
+    StdES.ss <-
+      0 # This is used to sum the squared value of the parametric effect size (standardized) across the replications. It can be used to calculate the empirical variance of the overall mean value
 
-  Var <- 0 # This is used to sum the estimate of the pooled variance across replications
-  MedDiff <- 0 # This is used to sum the median across replications
+    Var <-
+      0 # This is used to sum the estimate of the pooled variance across replications
+    MedDiff <- 0 # This is used to sum the median across replications
 
-  ES.l.trans <- 0 # This is used to sum the unstandardized effect size of the log-normal data after being transformed
-  StdES.l.trans <- 0 # This is used to sum the standardized effect size of the log-normal data after being transformed
-  Var.l.trans <- 0 # This is used to sum the variance of the log-normal data after being transformed
+    ES.l.trans <-
+      0 # This is used to sum the unstandardized effect size of the log-normal data after being transformed
+    StdES.l.trans <-
+      0 # This is used to sum the standardized effect size of the log-normal data after being transformed
+    Var.l.trans <-
+      0 # This is used to sum the variance of the log-normal data after being transformed
 
-  trans.sig <- 0 # This is used to sum the number of signficant t-tests of the transformed lognormal data
+    trans.sig <-
+      0 # This is used to sum the number of signficant t-tests of the transformed lognormal data
 
-  base::set.seed(seed)
+    base::set.seed(seed)
 
-  DataTable <- NULL
+    DataTable <- NULL
 
-  for (i in 1:reps) {
-    # Call the program than generates the randomized block experiment data sets and calculates the sample statistics
-    res <- simulateRandomizedBlockDesignEffectSizes(
-      mean = mean, sd = sd, diff = diff, N = N, type = type, alpha = alpha, Blockmean = Blockmean,
-      BlockStdAdj = BlockStdAdj, StdAdj = StdAdj, AlwaysTwoSidedTests = AlwaysTwoSidedTests
-    )
+    for (i in 1:reps) {
+      # Call the program than generates the randomized block experiment data sets and calculates the sample statistics
+      res <- simulateRandomizedBlockDesignEffectSizes(
+        mean = mean,
+        sd = sd,
+        diff = diff,
+        N = N,
+        type = type,
+        alpha = alpha,
+        Blockmean = Blockmean,
+        BlockStdAdj = BlockStdAdj,
+        StdAdj = StdAdj,
+        AlwaysTwoSidedTests = AlwaysTwoSidedTests
+      )
 
-    if (!returnData) {
-      # Calculate the averages of the effect sizes across the replications Cliff's d
-      dsum <- dsum + res$d
-      dvarsum <- dvarsum + res$vard
-      if (res$d.sig) {
-        d.sig <- d.sig + 1
-      }
-      d.ss <- d.ss + res$d^2
+      if (!returnData) {
+        # Calculate the averages of the effect sizes across the replications Cliff's d
+        dsum <- dsum + res$d
+        dvarsum <- dvarsum + res$vard
+        if (res$d.sig) {
+          d.sig <- d.sig + 1
+        }
+        d.ss <- d.ss + res$d ^ 2
 
-      # Probability of Speriority (phat)
-      phatsum <- phatsum + res$phat
-      if (res$phat.sig) {
-        phat.sig <- phat.sig + 1
-      }
-      phat.ss <- phat.ss + res$phat^2
-      phatvarsum <- phatvarsum + res$phat.var
+        # Probability of Speriority (phat)
+        phatsum <- phatsum + res$phat
+        if (res$phat.sig) {
+          phat.sig <- phat.sig + 1
+        }
+        phat.ss <- phat.ss + res$phat ^ 2
+        phatvarsum <- phatvarsum + res$phat.var
 
-      # Standard parametric effect sizes
-      ES <- ES + res$ES
-      StdES <- StdES + res$StdES
-      StdES.ss <- StdES.ss + res$StdES^2
-      Var <- Var + res$Variance
-      MedDiff <- MedDiff + res$MedianDiff
-      tsig <- tsig + if (res$ttest.sig) {
-        1
-      } else {
-        0
-      }
-
-      if (type == "l") {
-        trans.sig <- trans.sig + if (res$Log.sig) {
+        # Standard parametric effect sizes
+        ES <- ES + res$ES
+        StdES <- StdES + res$StdES
+        StdES.ss <- StdES.ss + res$StdES ^ 2
+        Var <- Var + res$Variance
+        MedDiff <- MedDiff + res$MedianDiff
+        tsig <- tsig + if (res$ttest.sig) {
           1
         } else {
           0
         }
 
-        ES.l.trans <- ES.l.trans + res$ES.Trans
-        StdES.l.trans <- StdES.l.trans + res$StdES.Trans
-        Var.l.trans <- Var.l.trans + res$VarTrans
+        if (type == "l") {
+          trans.sig <- trans.sig + if (res$Log.sig) {
+            1
+          } else {
+            0
+          }
+
+          ES.l.trans <- ES.l.trans + res$ES.Trans
+          StdES.l.trans <- StdES.l.trans + res$StdES.Trans
+          Var.l.trans <- Var.l.trans + res$VarTrans
+        }
+      } else {
+        # Store the outcome from each replication 18-5-2022 Included significance in output
+        DataTable <-
+          tibble::tibble(dplyr::bind_rows(
+            DataTable,
+            dplyr::bind_cols(
+              Cliffd = res$d,
+              PHat = res$phat,
+              StdES = res$StdES,
+              CliffdSig = as.numeric(res$d.sig),
+              PHatSig = as.numeric(res$phat.sig),
+              ESSig = as.numeric(res$ttest.sig)
+            )
+          ))
+      }
+    }
+    if (!returnData) {
+      # Calculate averages.
+      d <- dsum / reps
+      vard <- dvarsum / reps
+      sigd <- d.sig / reps
+      emp.d.var <- (d.ss - reps * d ^ 2) / (reps - 1)
+
+      phat <- phatsum / reps
+      varphat <- phatvarsum / reps
+      sigphat <- phat.sig / reps
+      emp.phat.var <- (phat.ss - reps * phat ^ 2) / (reps - 1)
+
+      ES <- ES / reps
+      StdES <- StdES / reps
+      emp.StdESvar <- (StdES.ss - reps * StdES ^ 2) / (reps - 1)
+      Var <- Var / reps
+      tpower <- tsig / reps
+      MedDiff <- MedDiff / reps
+
+      if (type == "l") {
+        ESLog <- ES.l.trans / reps
+        StdESLog <- StdES.l.trans / reps
+        VarLog <- Var.l.trans / reps
+        Log.sig <- trans.sig / reps
+      }
+    }
+    if (!returnData) {
+      if (type == "l") {
+        outcome <- tibble::tibble(
+          phat,
+          varphat,
+          sigphat,
+          emp.phat.var,
+          d,
+          vard,
+          sigd,
+          emp.d.var,
+          StdES,
+          ES,
+          Var,
+          emp.StdESvar,
+          MedDiff,
+          tpower,
+          ESLog,
+          StdESLog,
+          VarLog,
+          Log.sig
+        )
+      } else {
+        outcome <-
+          tibble::tibble(
+            phat,
+            varphat,
+            sigphat,
+            emp.phat.var,
+            d,
+            vard,
+            sigd,
+            emp.d.var,
+            StdES,
+            ES,
+            Var,
+            emp.StdESvar,
+            MedDiff,
+            tpower
+          )
       }
     } else {
-      # Store the outcome from each replication 18-5-2022 Included significance in output
-      DataTable <- tibble::tibble(dplyr::bind_rows(DataTable, dplyr::bind_cols(
-        Cliffd = res$d, PHat = res$phat, StdES = res$StdES, CliffdSig = as.numeric(res$d.sig),
-        PHatSig = as.numeric(res$phat.sig), ESSig = as.numeric(res$ttest.sig)
-      )))
+      outcome <- DataTable
     }
+
+    return(outcome)
   }
-  if (!returnData) {
-    # Calculate averages.
-    d <- dsum / reps
-    vard <- dvarsum / reps
-    sigd <- d.sig / reps
-    emp.d.var <- (d.ss - reps * d^2) / (reps - 1)
-
-    phat <- phatsum / reps
-    varphat <- phatvarsum / reps
-    sigphat <- phat.sig / reps
-    emp.phat.var <- (phat.ss - reps * phat^2) / (reps - 1)
-
-    ES <- ES / reps
-    StdES <- StdES / reps
-    emp.StdESvar <- (StdES.ss - reps * StdES^2) / (reps - 1)
-    Var <- Var / reps
-    tpower <- tsig / reps
-    MedDiff <- MedDiff / reps
-
-    if (type == "l") {
-      ESLog <- ES.l.trans / reps
-      StdESLog <- StdES.l.trans / reps
-      VarLog <- Var.l.trans / reps
-      Log.sig <- trans.sig / reps
-    }
-  }
-  if (!returnData) {
-    if (type == "l") {
-      outcome <- tibble::tibble(
-        phat, varphat, sigphat, emp.phat.var, d, vard, sigd, emp.d.var, StdES, ES, Var, emp.StdESvar, MedDiff, tpower,
-        ESLog, StdESLog, VarLog, Log.sig
-      )
-    } else {
-      outcome <- tibble::tibble(phat, varphat, sigphat, emp.phat.var, d, vard, sigd, emp.d.var, StdES, ES, Var, emp.StdESvar, MedDiff, tpower)
-    }
-  } else {
-    outcome <- DataTable
-  }
-
-  return(outcome)
-}
-
-#' @title calculate4GMdMRE
-#' @description The function uses simulation to assess the accuracy and power of parametric and non-parametric effect sizes for four group randomized block ddesigns and four different distributions.
-#' @author Barbara Kitchenham and Lech Madeyski
-#' @export calculate4GMdMRE
-#' @param mean The mean (or rate for gamma data) of the baseline distribution
-#' @param sd The standard deviation or shape of the baseline distribution
-#' @param N The number of obervations per group
-#' @param reps The number of replications (i.e. two-group datasets) to be simulated
-#' @param diff A list identifying the mean group differences being assessed
-#' @param type A string parameter defining the distribution being simulated i.e. 'n' for normal data, 'l' for log-normal data, 'g' for gamma data and 'lap' for LaPlace data.
-#' @param seed A starting value for the simulations
-#' @param StdAdj A numerical parameter that can be used to add additional variance for normal, lognormal and Laplce data and to change the shape parameter for gamma data.
-#' @param Blockmean A numerical parameter used to introduce a fixed Block effect
-#' @param AlwaysTwoSidedTests A boolean variable. If TRUE the simulations always used two-sided tests otherwise the simulations use one-sided tests.
-#' @param LargeSampleSize Size of the large sample (default 2500000) in each of
-#' the four groups used to obtain expected values of the non-parametric effect
-#' sizes for four group experiments (the expected value of the standardized
-#' mean difference is always known)
-#' return Tibble identifying the accuracy i.e. MdMRE of three effect sizes Cliff's d, CentralPHat, and StdMD estimates found in each simulation, the variance of each of effect sizes, the mean of the observed values, the expected values of the effect sizes based on a single large sample and the power of each effect size based on the proportion of samples for which the effect sizes were significant.
-#' example
-#' as.data.frame(calculate4GMdMRE(mean=0,sd=1,N=10,reps=100,diff=c(0.2,0.5,0.8),type='n',seed=123,StdAdj = 0,Blockmean = 0.5,AlwaysTwoSidedTests=FALSE,LargeSampleSize=5000))
-#' #   Design Obs Diff CliffdMdMRE  CentralPHatMdMRE StdESMdMRE  varCliffd
-#' # 1   4G_n  40  0.2   0.9233922        -0.4057206  0.9363782 0.02596173
-#' # 2   4G_n  40  0.5   0.3707537        -0.4195281  0.4064130 0.02355567
-#' # 3   4G_n  40  0.8   0.2184928        -0.4344428  0.2724099 0.02044181
-#' # varPHat   varStdES ObsCliffd ObsPHat  ObsStdES CliffdExpected PHatExpected
-#' # 1 0.006490432 0.08449443    0.1317 0.56585 0.2324695      0.1137112    0.5568556
-#' # 2 0.005888917 0.08811262    0.2883 0.64415 0.5413961      0.2772198    0.6386099
-#' # 3 0.005110452 0.09511715    0.4381 0.71905 0.8503227      0.4286589    0.7143294
-#' # StdESExpected CliffdPower PHatPower StdESPower
-#' # 1     0.1994634        0.12      0.13       0.15
-#' # 2     0.4990205        0.41      0.45       0.46
-#' # 3     0.7985776        0.80      0.84       0.84
-calculate4GMdMRE = function (mean = 0,
-                             sd = 1,
-                             N = 10,
-                             reps = 10,
-                             diff = c(0.2,
-                                      0.5, 0.8),
-                             type = "n",
-                             seed = 123,
-                             StdAdj = 0,
-                             Blockmean = 0.5,
-                             AlwaysTwoSidedTests = FALSE,
-                             LargeSampleSize = 2500000)
-{
-  MdMRETable <- NULL
-  NumESizes <- length(diff)
-  Design <- "4G"
-  Design <- paste(Design, type, sep = "_")
-  for (i in 1:NumESizes) {
-    Expected <-
-      calculateLargeSampleRandomizedBlockDesignEffectSizes(
-        meanC = mean,
-        sdC = sd,
-        diff = diff[i],
-        N = LargeSampleSize,
-        type = type,
-        Blockmean = Blockmean,
-        StdAdj = StdAdj
-      )
-    Out1 <- RandomizedBlocksExperimentSimulations(
-      mean = mean,
-      sd = sd,
-      diff = diff[i],
-      N = N,
-      reps = reps,
-      type = type,
-      alpha = 0.05,
-      Blockmean = Blockmean,
-      BlockStdAdj = 0,
-      StdAdj = StdAdj,
-      seed = 123,
-      returnData = TRUE,
-      AlwaysTwoSidedTests = FALSE
-    )
-    CliffdMdMRE <-
-      median(abs((Out1$Cliffd - Expected$Cliffd) / Expected$Cliffd))
-    PHatMdMRE <-
-      median(abs((Out1$PHat - Expected$Phat) / Expected$Phat))
-    #       CentralPHatMdMRE <- PHatMdMRE - 0.5
-    CentralPHatMdMRE <-
-      median(abs((Out1$PHat - Expected$Phat) / (Expected$Phat - 0.5)))
-
-    StdESMdMRE <-
-      median(abs((Out1$StdES - Expected$StdES) / Expected$StdES))
-    MdMRETable <- tibble::tibble(dplyr::bind_rows(
-      MdMRETable,
-      dplyr::bind_cols(
-        Design = Design,
-        Obs = as.character(4 *
-                             N),
-        Diff = diff[i],
-        CliffdMdMRE = CliffdMdMRE,
-        CentralPHatMdMRE = CentralPHatMdMRE,
-        StdESMdMRE = StdESMdMRE,
-        varCliffd = var(Out1$Cliffd),
-        varPHat = var(Out1$PHat),
-        varStdES = var(Out1$StdES),
-        ObsCliffd = mean(Out1$Cliffd),
-        ObsPHat = mean(Out1$PHat),
-        ObsStdES = mean(Out1$StdES),
-        CliffdExpected = Expected$Cliffd,
-        PHatExpected = Expected$Phat,
-        StdESExpected = Expected$StdES,
-        CliffdPower = mean(Out1$CliffdSig),
-        PHatPower = mean(Out1$PHatSig),
-        StdESPower = mean(Out1$ESSig)
-      )
-    ))
-  }
-  return(MdMRETable)
-}
 
 
 #' @title calculateNullESAccuracy
@@ -2447,7 +2868,7 @@ calculate4GMdMRE = function (mean = 0,
 #' @export calculateNullESAccuracy
 #' @param mean The mean of the baseline distribution.
 #' @param sd The standard deviation or shape of the baseline distribution
-#' @param N The number of obervations per group for two group experiments and N/2 the sample sizes for four group experiments. N must be even to ensure equal N/2 defines appropriate sample sizes per group for 4 group experiments
+#' @param N The number of observations per group for two group experiments and N/2 the sample sizes for four group experiments. N must be even to ensure equal N/2 defines appropriate sample sizes per group for 4 group experiments
 #' @param reps The number of replications (i.e. two-group and four group experiments) to be simulated
 #' @param type A string parameter defining the distribution being simulated i.e. 'n' for normal data, 'l' for log-normal data, 'g' for gamma data and 'lap' for LaPlace data.
 #' @param seed A starting value for the simulations
@@ -2477,52 +2898,111 @@ calculate4GMdMRE = function (mean = 0,
 #' #1  0.4995 -0.02395895          0.07        0.08         0.08
 #' #2  0.5026  0.03769940          0.01        0.01         0.02
 
-calculateNullESAccuracy <- function(mean = 0, sd = 1, N = 10, reps = 10, type = "n", seed = 123, StdAdj = 0, Blockmean = 0.5) {
-  NullESAccuracyTable <- NULL
+calculateNullESAccuracy <-
+  function(mean = 0,
+           sd = 1,
+           N = 10,
+           reps = 10,
+           type = "n",
+           seed = 123,
+           StdAdj = 0,
+           Blockmean = 0.5) {
+    NullESAccuracyTable <- NULL
 
-  Out1 <- RandomExperimentSimulations(mean = mean, sd = sd, diff = 0, N = N, reps = reps, type = type, seed = seed, StdAdj = StdAdj, returnData = TRUE)
+    Out1 <-
+      RandomExperimentSimulations(
+        mean = mean,
+        sd = sd,
+        diff = 0,
+        N = N,
+        reps = reps,
+        type = type,
+        seed = seed,
+        StdAdj = StdAdj,
+        returnData = TRUE
+      )
 
-  CliffdMdMRE <- median(abs(Out1$Cliffd))
+    CliffdMdMRE <- median(abs(Out1$Cliffd))
 
-  PHatMdMRE <- median(abs(Out1$PHat - 0.5))
-
-
-  StdESMdMRE <- median(abs(Out1$StdES))
-
-  Design <- "2G"
-  Design <- paste(Design, type, sep = "_")
-
-
-  NullESAccuracyTable <- tibble::tibble(dplyr::bind_rows(NullESAccuracyTable, dplyr::bind_cols(
-    Design = Design, Obs = as.character(2 * N), CliffdAbsError = CliffdMdMRE,
-    PHatAbsError = PHatMdMRE, StdESdAbsError = StdESMdMRE, varCliffd = var(Out1$Cliffd), varPHat = var(Out1$PHat), varStdES = var(Out1$StdES), ObsCliffd = mean(Out1$Cliffd),
-    ObsPHat = mean(Out1$PHat), ObsStdES = mean(Out1$StdES), CliffdType1ER = mean(Out1$CliffdSig), PHatType1ER = mean(Out1$PHatSig), StdESType1ER = mean(Out1$ESSig)
-  )))
-
-
-  Design <- "4G"
-  Design <- paste(Design, type, sep = "_")
-
-  Out1 <- RandomizedBlocksExperimentSimulations(
-    mean = mean, sd = sd, diff = 0, N = N / 2, reps = reps, type = type, alpha = 0.05, Blockmean = Blockmean,
-    BlockStdAdj = 0, StdAdj = StdAdj, seed = seed + 50, returnData = TRUE
-  )
-
-  CliffdMdMRE <- median(abs(Out1$Cliffd))
+    PHatMdMRE <- median(abs(Out1$PHat - 0.5))
 
 
-  PHatMdMRE <- median(abs(Out1$PHat - 0.5))
+    StdESMdMRE <- median(abs(Out1$StdES))
 
-  StdESMdMRE <- median(abs(Out1$StdES))
+    Design <- "2G"
+    Design <- paste(Design, type, sep = "_")
 
-  NullESAccuracyTable <- tibble::tibble(dplyr::bind_rows(NullESAccuracyTable, dplyr::bind_cols(
-    Design = Design, Obs = as.character(2 * N), CliffdAbsError = CliffdMdMRE,
-    PHatAbsError = PHatMdMRE, StdESdAbsError = StdESMdMRE, varCliffd = var(Out1$Cliffd), varPHat = var(Out1$PHat), varStdES = var(Out1$StdES), ObsCliffd = mean(Out1$Cliffd),
-    ObsPHat = mean(Out1$PHat), ObsStdES = mean(Out1$StdES), CliffdType1ER = mean(Out1$CliffdSig), PHatType1ER = mean(Out1$PHatSig), StdESType1ER = mean(Out1$ESSig)
-  )))
 
-  return(NullESAccuracyTable)
-}
+    NullESAccuracyTable <-
+      tibble::tibble(dplyr::bind_rows(
+        NullESAccuracyTable,
+        dplyr::bind_cols(
+          Design = Design,
+          Obs = as.character(2 * N),
+          CliffdAbsError = CliffdMdMRE,
+          PHatAbsError = PHatMdMRE,
+          StdESdAbsError = StdESMdMRE,
+          varCliffd = var(Out1$Cliffd),
+          varPHat = var(Out1$PHat),
+          varStdES = var(Out1$StdES),
+          ObsCliffd = mean(Out1$Cliffd),
+          ObsPHat = mean(Out1$PHat),
+          ObsStdES = mean(Out1$StdES),
+          CliffdType1ER = mean(Out1$CliffdSig),
+          PHatType1ER = mean(Out1$PHatSig),
+          StdESType1ER = mean(Out1$ESSig)
+        )
+      ))
+
+
+    Design <- "4G"
+    Design <- paste(Design, type, sep = "_")
+
+    Out1 <- RandomizedBlocksExperimentSimulations(
+      mean = mean,
+      sd = sd,
+      diff = 0,
+      N = N / 2,
+      reps = reps,
+      type = type,
+      alpha = 0.05,
+      Blockmean = Blockmean,
+      BlockStdAdj = 0,
+      StdAdj = StdAdj,
+      seed = seed + 50,
+      returnData = TRUE
+    )
+
+    CliffdMdMRE <- median(abs(Out1$Cliffd))
+
+
+    PHatMdMRE <- median(abs(Out1$PHat - 0.5))
+
+    StdESMdMRE <- median(abs(Out1$StdES))
+
+    NullESAccuracyTable <-
+      tibble::tibble(dplyr::bind_rows(
+        NullESAccuracyTable,
+        dplyr::bind_cols(
+          Design = Design,
+          Obs = as.character(2 * N),
+          CliffdAbsError = CliffdMdMRE,
+          PHatAbsError = PHatMdMRE,
+          StdESdAbsError = StdESMdMRE,
+          varCliffd = var(Out1$Cliffd),
+          varPHat = var(Out1$PHat),
+          varStdES = var(Out1$StdES),
+          ObsCliffd = mean(Out1$Cliffd),
+          ObsPHat = mean(Out1$PHat),
+          ObsStdES = mean(Out1$StdES),
+          CliffdType1ER = mean(Out1$CliffdSig),
+          PHatType1ER = mean(Out1$PHatSig),
+          StdESType1ER = mean(Out1$ESSig)
+        )
+      ))
+
+    return(NullESAccuracyTable)
+  }
 
 
 
@@ -2560,7 +3040,11 @@ calculateNullESAccuracy <- function(mean = 0, sd = 1, N = 10, reps = 10, type = 
 calculateSmallSampleSizeAdjustment <- function(df, exact = TRUE) {
   exactvec <- c(rep(exact, length(df)))
   # If exact is TRUE but the df is too large gamma cannot be calculated and the approximate value is used
-  c <- ifelse(exactvec & df < 340, sqrt(2 / df) * gamma(df / 2) / gamma((df - 1) / 2), (1 - 3 / (4 * df - 1)))
+  c <-
+    ifelse(exactvec &
+             df < 340,
+           sqrt(2 / df) * gamma(df / 2) / gamma((df - 1) / 2),
+           (1 - 3 / (4 * df - 1)))
   return(c)
 }
 
@@ -2582,10 +3066,11 @@ calculateSmallSampleSizeAdjustment <- function(df, exact = TRUE) {
 #' # [1] 0.1090516
 varStandardizedEffectSize <- function(d, A, f, returnVarg = TRUE) {
   c <- reproducer::calculateSmallSampleSizeAdjustment(f)
-  g <- d * c # g is a better estimate of the population standardized effect size delta than d
-  var <- (f / (f - 2)) * (A + g^2) - d^2
+  g <-
+    d * c # g is a better estimate of the population standardized effect size delta than d
+  var <- (f / (f - 2)) * (A + g ^ 2) - d ^ 2
   if (returnVarg) {
-    var <- c^2 * var
+    var <- c ^ 2 * var
   } # best estimate of the variance of g
   return(var)
 }
@@ -2626,49 +3111,56 @@ varStandardizedEffectSize <- function(d, A, f, returnVarg = TRUE) {
 #' #  <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>
 #' # 1 0.327 0.00207 0.535 0.119     4  0.41
 #'
-ExtractMAStatistics <- function(maresults, Nc, Nt, Transform = TRUE, type = "d", sig = 4, returnse = FALSE) {
-  pvalue <- as.numeric(maresults$pval)
+ExtractMAStatistics <-
+  function(maresults,
+           Nc,
+           Nt,
+           Transform = TRUE,
+           type = "d",
+           sig = 4,
+           returnse = FALSE) {
+    pvalue <- as.numeric(maresults$pval)
 
-  se <- as.numeric(maresults$se)
+    se <- as.numeric(maresults$se)
 
-  QE <- as.numeric(maresults$QE)
-  QEp <- as.numeric(maresults$QEp)
-  mean <- as.numeric(maresults$beta)
-  UB <- as.numeric(maresults$ci.ub)
-  LB <- as.numeric(maresults$ci.lb)
+    QE <- as.numeric(maresults$QE)
+    QEp <- as.numeric(maresults$QEp)
+    mean <- as.numeric(maresults$beta)
+    UB <- as.numeric(maresults$ci.ub)
+    LB <- as.numeric(maresults$ci.lb)
 
-  if (Transform & type == "d") {
-    mean <- reproducer::transformZrtoHg(mean, Nc, Nt)
-    se <- reproducer::transformZrtoHg(se, Nc, Nt)
-    UB <- reproducer::transformZrtoHg(UB, Nc, Nt)
-    LB <- reproducer::transformZrtoHg(LB, Nc, Nt)
+    if (Transform & type == "d") {
+      mean <- reproducer::transformZrtoHg(mean, Nc, Nt)
+      se <- reproducer::transformZrtoHg(se, Nc, Nt)
+      UB <- reproducer::transformZrtoHg(UB, Nc, Nt)
+      LB <- reproducer::transformZrtoHg(LB, Nc, Nt)
+    }
+    if (Transform & type == "r") {
+      mean <- reproducer::transformZrtoR(mean)
+      se <- reproducer::transformZrtoR(se)
+
+      UB <- reproducer::transformZrtoR(UB)
+      LB <- reproducer::transformZrtoR(LB)
+    }
+    mean <- signif(mean, sig)
+    pvalue <- signif(pvalue, sig)
+    se <- signif(se, sig)
+
+    UB <- signif(UB, sig)
+    LB <- signif(LB, sig)
+    QE <- signif(QE, 2)
+    QEp <- signif(QEp, 2)
+    if (returnse) {
+      metaanalysisresults <-
+        tibble::tibble(mean, pvalue, se, UB, LB, QE, QEp)
+    } else {
+      metaanalysisresults <- tibble::tibble(mean, pvalue, UB, LB, QE, QEp)
+    }
+    return(metaanalysisresults)
   }
-  if (Transform & type == "r") {
-    mean <- reproducer::transformZrtoR(mean)
-    se <- reproducer::transformZrtoR(se)
-
-    UB <- reproducer::transformZrtoR(UB)
-    LB <- reproducer::transformZrtoR(LB)
-  }
-  mean <- signif(mean, sig)
-  pvalue <- signif(pvalue, sig)
-  se <- signif(se, sig)
-
-  UB <- signif(UB, sig)
-  LB <- signif(LB, sig)
-  QE <- signif(QE, 2)
-  QEp <- signif(QEp, 2)
-  if (returnse) {
-    metaanalysisresults <- tibble::tibble(mean, pvalue, se, UB, LB, QE, QEp)
-  } else {
-    metaanalysisresults <- tibble::tibble(mean, pvalue, UB, LB, QE, QEp)
-  }
-  return(metaanalysisresults)
-}
-
 
 #' @title NP2GMetaAnalysisSimulation
-#' @description This function simulates data from a family of experiments. The parameter Exp determines the number of experiments in the family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The distribution for one  of the groups corresponds to the control and is based on the given mean and spread, the distribution for the other group corresponds to the treatment group and  is based on the mean+diff and the spread plus any variance adjustment requested (determined by the parameter StdAdj). The data from each experiment is analysed separately to estimate three non-parametric effect sizes: the Cliff's d and the probability of superiority referred to as phat and their variances. Parametric effect sizes Cohen's d (also known as the standardized means difference, SMD) and the small sample size adjusted standardized mean difference g are also calculated together with their variances. The effect sizes are then meta-analysed using various methods: the simple average of the effect size and the variance weighted averages (using the exact and approximate normal variance and the weighted and unweighted standardized mean difference). The function uses the metafor package for formal meta-analysis, and the specific method of formal meta-analysis used is determined by the MAMethod. All tests of significance are done at the 0.05 level. If the parameter returnES is TRUE, the function returns the effect sizes for each experiment in the family, otherwise it returns the meta-analysis results.
+#' @description This function simulates data from a family of experiments. The parameter Exp determines the number of experiments in the family. The function simulates data from one of four distributions and uses the data to construct two of groups of equal size (GroupSize). The distribution for one  of the groups corresponds to the control and is based on the given mean and spread, the distribution for the other group corresponds to the treatment group and  is based on the mean+diff and the spread plus any variance adjustment requested (determined by the parameter StdAdj). The data from each experiment is analysed separately to estimate three non-parametric effect sizes: the Cliff's d and the probability of superiority referred to as phat and their variances. Parametric effect sizes Cohen's d (also known as the standarized means difference, SMD) and the small sample size adjusted standardized mean difference g are also calculated together with their variances. The effect sizes are then meta-analysed using various methods: the simple average of the effect size and the variance weighted averages (using the exact and approximate normal variance and the weighted and unweighted standardized mean difference). The function uses the metafor package for formal meta-analysis, and the specific method of formal meta-analysis used is determined by the MAMethod. All tests of significance are done at the 0.05 level. If the parameter returnES is TRUE, the function returns the effect sizes for each experiment in the family, otherwise it returns the meta-analysis results.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export NP2GMetaAnalysisSimulation
 #' @param mean the value used for the mean of control group in the simulated data. It can be any real number including zero.
@@ -2676,405 +3168,663 @@ ExtractMAStatistics <- function(maresults, Nc, Nt, Transform = TRUE, type = "d",
 #' @param diff mean+diff is the value used for the mean of the treatment group. It can be zero.
 #' @param GroupSize is the size of each of the 2 groups comprising one experiment. Groupsize should be an integer of 4 or more
 #' @param Exp is the number of experiments being simulated. Exp should be an integer of 2 or more. It defaults to 5.
-#' @param type specifies the distribution being simulated. The permitted values are 'n' for the normal distribution,  'l' for the lognormal distribution, 'g' for the gamma distribution and 'lap' for the Laplace distribution. The parameter defaults to 'n'.
+#' @param type specifies the distribution being simulated. The permitted values are "n" for the normal distribution,  "l" for the lognormal distribution, "g" for the gamma distribution and "lap" for the Laplace distribution. The parameter defaults to "n".
 #' @param StdAdj specifies a level used to adjust the treatment variance. It allows heterogeneity to be modelled. It defaults to zero meaning no variance heterogeneity is introduced.
-#' @param alpha the Type 1 error rate level use for statistical tests (default 0.05).
-#' @param seed specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defaults to 123.
-#' @param StdExp if non-zero it simulates a random effect between experiments
-#' in the same family (default 0).
+#' @param seed specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defauls to 123.
+#' @param StdExp defines whether any additional heterogeneity is introduced between families. The value (set to 0 or 0.5 for our simulations) is used when we generate a deviation to be added to the control mean (control rate for gamma data) for each family. The deviation is generated from a Normal distribution with mean 0 and standard deviation=0.5. If StdExp=0 we do not add any deviations to the mean.
+#' @param alpha the Type 1 error rate level use for statistical tests.
 #' @param MAMethod the meta-analysis method needed for the call to the metafor package rma algorithm
 #' @param returnES Determines the format of the output. It defaults to FALSE which causes the function to output the meta-analysis results for the family of experiments. If set to TRUE it returns the effect sizes for each experiment.
-#' @param AlwaysTwoSidedTests If FALSE the function performs one-sided tests if diff!=0, and two-sided tests if diff=0. If set to TRUE the function always does two-sided tests (default: AlwaysTwoSidedTests=FALSE).
+#' @param AlwaysTwoSidedTests If FALSE the function performs one-sided tests if diff!=0, and two-sided tests if diff=0. If set to TRUE the function alsways does two-sided tests.
 #' @return Depending on the value of the returnES parameter, the function either returns the effect sizes for each experiment or the aggregated results for the family
 #' @examples
-#' as.data.frame(
-#'   NP2GMetaAnalysisSimulation(
-#'     mean = 0, sd = 1, diff = 0.5, GroupSize = 10, Exp = 5, type = "n",
-#'     StdAdj = 0, alpha = 0.05, seed = 457, StdExp = 1, MAMethod = "PM",
-#'     returnES = FALSE))
-#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar..
-#' #      5        10     0.252   0.01499003         TRUE   0.626 0.003645333..
+#' as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.5,GroupSize=10,
+#'   Exp=5,type="n",StdAdj=0,alpha=0.05,seed=457,StdExp=1,MAMethod="PM",
+#'   returnES=FALSE))
+#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar Avephatsig AveMDStd..
+#' #      5        10     0.252   0.01499003         TRUE   0.626 0.003645333       TRUE 0.4883188..
+#' #  AveMDStdsig MAphat   MAphatvar MAphatsig MACliffd MACliffdvar MACliffdsig StdMDAdjUnweighted..
+#' #1        TRUE 0.6288 0.003620188      TRUE   0.2575  0.01490134        TRUE          0.4748065..
+#' #  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#' #1            0.04065614                  TRUE       0.4980148         0.04157691            TRUE
+#' #  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#' #1         0.4755316           0.04307274                 TRUE       0.4725834         0.04315211
+#' #  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox St..
+#' #1               TRUE           0.4716          0.03762363                TRUE     0.4955783 ..
+#' #  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#' #1             TRUE    0.4966121      0.04756193            TRUE
 
-#' as.data.frame(
-#'   NP2GMetaAnalysisSimulation(
-#'     mean=0, sd=1, diff=0.5, GroupSize=10, Exp=5, type='n', StdAdj=0,
-#'     alpha=0.05, seed=457, StdExp=1, MAMethod='PM', returnES=TRUE))
-#' #    MeanExp   VarExp     StdMD       df      tval t.sig Cliffd  Cliffdvar...
+#' as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.5,GroupSize=10,Exp=5,type="n",
+#'   StdAdj=0,alpha=0.05,seed=457,StdExp=1,MAMethod="PM",returnES=TRUE))
+#' #    MeanExp   VarExp     StdMD       df      tval t.sig Cliffd  Cliffdvar Cliffd.sig PHat PHat..
+#' #1 0.5641594 1.437447 0.4705502 17.77980 1.0521822 FALSE   0.26 0.08149818      FALSE 0.63 0.02..
+#' #2 0.6400936 1.081352 0.6155452 17.23411 1.3764009 FALSE   0.36 0.06527192      FALSE 0.68 0.01..
+#' #3 0.8199650 1.698610 0.6291418 15.42141 1.4068038 FALSE   0.28 0.07362909      FALSE 0.64 0.01..
+#' #4 0.2970819 1.709441 0.2272214 13.87833 0.5080824 FALSE   0.04 0.07936485      FALSE 0.52 0.01..
+#' #5 0.5688567 1.079082 0.5476154 16.79899 1.2245053 FALSE   0.32 0.07498667      FALSE 0.66 0.01..
+#' #  Phat.sig  StdMDAdj StdMDAdjvar.exact StdMDAdjvar.approx StdMDvar.exact StdMDvar.approx
+#' #1    FALSE 0.4503698         0.2129598          0.1884384      0.2324722       0.2057040
+#' #2    FALSE 0.5882961         0.2182075          0.1918563      0.2388898       0.2100409
+#' #3    FALSE 0.5979539         0.2211428          0.1911344      0.2448130       0.2115926
+#' #4    FALSE 0.2146782         0.2105671          0.1800107      0.2358918       0.2016604
+#' #5    FALSE 0.5227345         0.2162500          0.1896495      0.2373259       0.2081330
 
-#' as.data.frame(
-#'   NP2GMetaAnalysisSimulation(
-#'     mean=0, sd=1, diff=0.724, GroupSize=10, Exp=5, type='l', StdAdj=0,
-#'     alpha=0.05, seed=123, StdExp=1, MAMethod='PM', returnES=FALSE))
-#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar..
-#' #1      5        10     0.344   0.01288023         TRUE   0.672 0.003118222..
+#' as.data.frame(NP2GMetaAnalysisSimulation(mean=0,sd=1,diff=0.724,GroupSize=10,Exp=5,type="l",
+#'   StdAdj=0,alpha=0.05,seed=123,StdExp=1,MAMethod="PM",returnES=FALSE))
+#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat  Avephatvar Avephatsig  AveMDSt..
+#' #1      5        10     0.344   0.01288023         TRUE   0.672 0.003118222       TRUE 0.483665..
+#' #  AveMDStdsig MAphat   MAphatvar MAphatsig MACliffd MACliffdvar MACliffdsig StdMDAdjUnweighted
+#' #1        TRUE 0.7014 0.004229764      TRUE    0.403  0.01690867        TRUE          0.5722448
+#' #  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#' #1            0.04146189                  TRUE       0.6046947         0.04260837            TRUE
+#' #  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#' #1         0.5742311           0.04453436                 TRUE       0.5405307          0.0450343
+#' #  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox S..
+#' #1               TRUE           0.5411          0.03819079                TRUE     0.5737401 0...
+#' #  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#' #1             TRUE    0.5727409      0.05042801            TRUE
 
-NP2GMetaAnalysisSimulation <- function(mean, sd, diff, GroupSize, Exp = 5, type = "n", StdAdj = 0, alpha = 0.05, seed = 123, StdExp = 0, MAMethod, returnES = FALSE, AlwaysTwoSidedTests = FALSE) {
+NP2GMetaAnalysisSimulation = function(mean,
+                                      sd,
+                                      diff,
+                                      GroupSize,
+                                      Exp = 5,
+                                      type = "n",
+                                      StdAdj = 0,
+                                      alpha = 0.05,
+                                      seed = 123,
+                                      StdExp = 0,
+                                      MAMethod,
+                                      returnES = FALSE,
+                                      AlwaysTwoSidedTests = FALSE) {
   # 4-07-2022 Allow for one-sided tests
   base::set.seed(seed)
-  N <- GroupSize
+  N = GroupSize
 
-  if (AlwaysTwoSidedTests | (diff == 0)) {
-    alternative <- "two.sided"
-    PositiveMD <- FALSE
-  } else {
+  if (AlwaysTwoSidedTests | (diff == 0))
+  {
+    alternative = "two.sided"
+    PositiveMD = FALSE
+  }
+  else
+  {
     # Find direction of MD
 
-    if (type == "g") {
+    if (type == "g")
+    {
       # A negative value for diff decreases the rate & the MD is positive
-      Positive.MD <- (diff < 0)
-    } else {
-      Positive.MD <- (diff > 0)
+      Positive.MD = (diff < 0)
+    }
+    else {
+      Positive.MD = (diff > 0)
     }
     if (Positive.MD) {
-      alternative <- "greater"
-    } else {
-      alternative <- "less"
+      alternative = "greater"
+    }
+    else {
+      alternative  = "less"
     }
   }
 
-  Family.Ktau <- rep(NA, Exp) # This will hold the Kendall's tau for each experiment
-  Family.Ktauvar <- rep(NA, Exp) # This will hold the estimated consistent variance of tau for each experiment
-  Family.PBScor <- rep(NA, Exp) # This holds the Pearson point bi-serial correlation
-  Family.PBScorvar <- rep(NA, Exp) # This holds the variance of normal transformation of the Pearson correlation
+  Family.Ktau = rep(NA, Exp) # This will hold the Kendall's tau for each experiment
+  Family.Ktauvar = rep(NA, Exp) # This will hold the estimated consistent variance of tau for each experiment
+  Family.PBScor = rep(NA, Exp) # This holds the Pearson point bi-serial correlation
+  Family.PBScorvar = rep(NA, Exp) # This holds the variance of normal transformation of the Pearson correlation
 
-  Family.Var <- rep(NA, Exp) # This holds the pooled variance for each experiment
-  Family.MD <- rep(NA, Exp) # This holds the mean difference for each experiment
+  Family.Var = rep(NA, Exp) # This holds the pooled variance for each experiment
+  Family.MD = rep(NA, Exp) # This holds the mean difference for each experiment
 
-  Family.StdMD <- rep(NA, Exp) # This holds the standardized mean difference for each experiment
-  Cliffd <- rep(NA, Exp) # This holds Cliff's d
-  Cliffdvar <- rep(NA, Exp) # This holds the variance of Clff's d
-  Cliffd.sig <- rep(NA, Exp) # This holds significance of Cliff's d based on the Cliff d confidence interval
+  Family.StdMD = rep(NA, Exp) # This holds the standardized mean difference for each experiment
+  Cliffd = rep(NA, Exp) #This holds Cliff's d
+  Cliffdvar = rep(NA, Exp) # This holds the variance of Clff's d
+  Cliffd.sig = rep(NA, Exp) #This holds significance of Cliff's d based on the Cliff d confidence interval
 
-  PHat <- rep(NA, Exp) # This holds the probability of superiority phat
-  PHatvar <- rep(NA, Exp) # This holds the variance of phat
-  PHatdf <- rep(NA, Exp) # This holds the degrees of freedom of the t-test for phat
-  PHat.sig <- rep(NA, Exp) # This holds the significance of the t-test for phat
+  PHat = rep(NA, Exp) #This holds the probability of superiority phat
+  PHatvar = rep(NA, Exp) #This holds the variance of phat
+  PHatdf = rep(NA, Exp) # This holds the degrees of freedom of the t-test for phat
+  PHat.sig = rep(NA, Exp) # This holds the significance of the t-test for phat
 
-  Family.StdMDAdj <- rep(NA, Exp) # This holds the small sample size adjusted standardized mean difference
-  Family.StdMDAdjvar.exact <- rep(NA, Exp) # This holds the exact variance of the small sample size adjusted standardized mean difference
-  Family.StdMDAdjvar.approx <- rep(NA, Exp) # This holds the approximate variance of the small sample size adjusted standardized mean difference.
-  df <- rep(NA, Exp) # This holds the degrees of freedom of the t-test of the mean difference
-  c <- rep(NA, Exp) # This holds the small sample size adjustment factor for the standardized mean difference
-  tval <- rep(NA, Exp) # This holds the t-test value for each experiment
-  t.sig <- rep(NA, Exp) # This holds the significance of the t-test for each experiment
-  Family.StdMDvar.exact <- rep(NA, Exp) # This holds the exact variance of the standardized mean difference for each experiment
-  Family.StdMDvar.approx <- rep(NA, Exp) # This holds the large sample size approximate variance of the standardized mean difference for each experiment
-
-
-  # For the point-biserial tau we need a dummy variable that takes the value zero for control group data points and 1 for treatment group data
-  # points
-  dummy <- c(rep(0, N), rep(1, N))
+  Family.StdMDAdj = rep(NA, Exp) # This holds the small sample size adjusted standardized mean difference
+  Family.StdMDAdjvar.exact = rep(NA, Exp) # This holds the exact variance of the small sample size adjusted standardized mean difference
+  Family.StdMDAdjvar.approx = rep(NA, Exp) # This holds the approximate variance of the small sample size adjusted standardized mean difference.
+  df = rep(NA, Exp) # This holds the degrees of freedom of the t-test of the mean difference
+  c = rep(NA, Exp) # This holds the small sample size adjustment factor for the standardized mean difference
+  tval = rep(NA, Exp) # This holds the t-test value for each experiment
+  t.sig = rep(NA, Exp)  # This holds the significance of the t-test for each experiment
+  Family.StdMDvar.exact = rep(NA, Exp) # This holds the exact variance of the standardized mean difference for each experiment
+  Family.StdMDvar.approx = rep(NA, Exp) # This holds the large sample size approximate variance of the standardized mean difference for each experiment
 
 
-  for (i in 1:Exp) {
-    DataError <- TRUE
-    Numerrs <- 0
+  # For  the point-biserial tau we need a dummy variable that takes the value zero for control group data points and 1 for treatment group data points
+  dummy = c(rep(0, N), rep(1, N))
+
+
+  for (i in 1:Exp)
+  {
+    DataError = TRUE
+    Numerrs = 0
 
     while (DataError) {
-      if (StdExp == 0) {
-        ExpAdj <- 0
-      } else {
-        ExpAdj <- rnorm(1, 0, StdExp)
+      if (StdExp == 0)
+        ExpAdj = 0
+      else {
+        ExpAdj = rnorm(1, 0, StdExp)
 
-        if ((type == "g") & ((mean + ExpAdj + diff) <= 0)) {
-          while ((mean + ExpAdj + diff) <= 0) {
-            ExpAdj <- rnorm(1, 0, StdExp)
+        if ((type == "g") & ((mean + ExpAdj + diff) <= 0))
+        {
+          while ((mean + ExpAdj + diff) <= 0)
+          {
+            ExpAdj = rnorm(1, 0, StdExp)
           }
         }
       }
 
-      DataSet <- simulate2GExperimentData(
-        mean = mean, sd = sd, diff = diff, GroupSize = GroupSize, type = type, ExpAdj = ExpAdj, StdAdj = StdAdj,
-        BlockEffect = 0, BlockStdAdj = 0
+      DataSet = simulate2GExperimentData(
+        mean = mean,
+        sd = sd,
+        diff = diff,
+        GroupSize = GroupSize,
+        type = type,
+        ExpAdj = ExpAdj,
+        StdAdj = StdAdj,
+        BlockEffect = 0,
+        BlockStdAdj = 0
       )
 
-      NumNAsBD <- sum(as.numeric(is.na(DataSet$BaselineData)))
-      NumNAsAD <- sum(as.numeric(is.na(DataSet$AlternativeData)))
+      NumNAsBD = sum(as.numeric(is.na(DataSet$BaselineData)))
+      NumNAsAD = sum(as.numeric(is.na(DataSet$AlternativeData)))
 
-      if (NumNAsBD == 0 & NumNAsAD == 0) {
-        DataError <- FALSE
-      } else {
-        Numerrs <- Numerrs + 1
+      if (NumNAsBD == 0 & NumNAsAD == 0)  {
+        DataError = FALSE
+      }
+
+      else {
+        Numerrs = Numerrs + 1
         if (Numerrs > 50) {
           stop()
         }
-        seed <- seed + 1
+        seed = seed + 1
         set.seed(seed)
       }
+
     }
 
 
     # Dataset holds the simulated data set with each observation assigned to a group in an experiment
 
-    # The data in each experiment is analysed to obtain the value of Kendall's tau, its consistent variance and its hypothesis testing
-    # variance
+    # The data in each experiment is analysed to obtain the value of Kendall's tau, its consistent variance and its hypothesis testing variance
 
-    xy <- c(DataSet$BaselineData, DataSet$AlternativeData)
-
-
-    expdata <- base::data.frame(xy, dummy)
-
-    ktau <- calculateKendalltaupb(expdata$xy, expdata$dummy)
-    Family.Ktau[i] <- ktau$cor
-    Family.Ktauvar[i] <- ktau$consistentvar
-
-    # Analyse the generated data for each member of the family using the cid function to obtain Cliff's d and its variance
-    Cliff <- Cliffd.test(DataSet$AlternativeData, DataSet$BaselineData, alpha = alpha, alternative = alternative, sigfig = -1)
-    Cliffd[i] <- Cliff$d
-    Cliffdvar[i] <- Cliff$sqse.d
-    Cliffd.sig[i] <- Cliff$d.sig
+    xy = c(DataSet$BaselineData, DataSet$AlternativeData)
 
 
-    # Analyse the generated data for each member of the family using the bmp function to obtain phat and its variance
+    expdata = base::data.frame(xy, dummy)
 
-    PHat.res <- PHat.test(DataSet$BaselineData, DataSet$AlternativeData, alpha = alpha, alternative = alternative, sigfig = -1)
-    PHat[i] <- PHat.res$phat
-    PHatvar[i] <- PHat.res$sqse.phat
-    PHatdf[i] <- PHat.res$phat.df
-    PHat.sig[i] <- PHat.res$phat.sig
+    ktau = calculateKendalltaupb(expdata$xy, expdata$dummy)
+    Family.Ktau[i] = ktau$cor
+    Family.Ktauvar[i] = ktau$consistentvar
 
-    # Prepare to do a standard analysis for comparison We can do both a standardized effect size or correlation. For the paper we use the
-    # standardized mean difference effect size
+    #Analyse the generated data for each member of the family using the cid function to obtain Cliff's d and its variance
+    Cliff = Cliffd.test(
+      DataSet$AlternativeData,
+      DataSet$BaselineData,
+      alpha = alpha,
+      alternative = alternative,
+      sigfig = -1
+    )
+    Cliffd[i] = Cliff$d
+    Cliffdvar[i] = Cliff$sqse.d
+    Cliffd.sig[i] = Cliff$d.sig
 
-    Family.Var[i] <- (stats::var(DataSet$BaselineData) + stats::var(DataSet$AlternativeData)) / 2
-    Family.MD[i] <- base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
-    Family.StdMD[i] <- (Family.MD[i]) / sqrt(Family.Var[i])
+
+    #Analyse the generated data for each member of the family using the bmp function to obtain phat and its variance
+
+    PHat.res = PHat.test(
+      DataSet$BaselineData,
+      DataSet$AlternativeData,
+      alpha = alpha,
+      alternative = alternative,
+      sigfig = -1
+    )
+    PHat[i] = PHat.res$phat
+    PHatvar[i] = PHat.res$sqse.phat
+    PHatdf[i] = PHat.res$phat.df
+    PHat.sig[i] = PHat.res$phat.sig
+
+    # Prepare to do a standard analysis for comparison
+    # We can do both a standardized effect size or correlation. For the paper we use the standardized mean difference effect size
+
+    Family.Var[i] = (stats::var(DataSet$BaselineData) + stats::var(DataSet$AlternativeData)) / 2
+    Family.MD[i] = base::mean(DataSet$AlternativeData) - base::mean(DataSet$BaselineData)
+    Family.StdMD[i] = (Family.MD[i]) / sqrt(Family.Var[i])
 
 
-    tempttest <- t.test(DataSet$AlternativeData, DataSet$BaselineData, alternative = alternative)
-    df[i] <- as.numeric(tempttest$parameter)
-    tval[i] <- tempttest$statistic
+    tempttest = t.test(DataSet$AlternativeData,
+                       DataSet$BaselineData,
+                       alternative = alternative)
+    df[i] = as.numeric(tempttest$parameter)
+    tval[i] = tempttest$statistic
 
-    t.sig[i] <- tempttest$p.value < 0.05
+    t.sig[i] = tempttest$p.value < 0.05
 
-    c[i] <- reproducer::calculateSmallSampleSizeAdjustment(df[i])
-    Family.StdMDAdj[i] <- Family.StdMD[i] * c[i]
+    c[i] = reproducer::calculateSmallSampleSizeAdjustment(df[i])
+    Family.StdMDAdj[i] = Family.StdMD[i] * c[i]
 
     # N in each group
 
-    Family.StdMDvar.approx[i] <- 2 / N + Family.StdMDAdj[i]^2 / (2 * df[i])
+    Family.StdMDvar.approx[i] = 2  / N + Family.StdMDAdj[i] ^ 2 / (2 * df[i])
 
-    Family.StdMDAdjvar.approx[i] <- c[i]^2 * Family.StdMDvar.approx[i]
+    Family.StdMDAdjvar.approx[i] = c[i] ^ 2 * Family.StdMDvar.approx[i]
 
-    Family.StdMDAdjvar.exact[i] <- varStandardizedEffectSize(Family.StdMD[i], 2 / N, df[i], returnVarg = TRUE)
+    Family.StdMDAdjvar.exact[i] = varStandardizedEffectSize(Family.StdMD[i], 2 / N, df[i], returnVarg =
+                                                              TRUE)
 
 
-    Family.StdMDvar.exact[i] <- varStandardizedEffectSize(Family.StdMD[i], 2 / N, df[i], returnVarg = FALSE)
-    Pearsonr <- Family.StdMDAdj[i] / sqrt(Family.StdMDAdj[i]^2 + 4)
-    TempP <- as.numeric(Pearsonr)
-    TempP <- reproducer::transformRtoZr(TempP)
-    Family.PBScor[i] <- TempP
-    Family.PBScorvar[i] <- 1 / (2 * N - 3)
+    Family.StdMDvar.exact[i] =  varStandardizedEffectSize(Family.StdMD[i], 2 / N, df[i], returnVarg =
+                                                            FALSE)
+    Pearsonr = Family.StdMDAdj[i] / sqrt(Family.StdMDAdj[i] ^ 2 + 4)
+    TempP = as.numeric(Pearsonr)
+    TempP = reproducer::transformRtoZr(TempP)
+    Family.PBScor[i] = TempP
+    Family.PBScorvar[i] = 1 / (2 * N - 3)
+
   }
 
-  if (!returnES) {
-    NumExp <- Exp
+  if (!returnES)
+  {
+    NumExp = Exp
 
-    # First aggregate as if the family is a planned distributed experiment, i.e. the 'experiment' is a blocking factor
+    # First aggregate as if the family is a planned distributed experiment, i.e. the "experiment" is a blocking factor
 
     # Aggregate tau_pb values
 
 
-    AveKtau <- base::mean(Family.Ktau)
-    AveKtauctvar <- sum(Family.Ktauvar) / NumExp^2
+    AveKtau = base::mean(Family.Ktau)
+    AveKtauctvar = sum(Family.Ktauvar) / NumExp ^ 2
 
-    # Obtain confidence intervals using t-distribtion with 2*N-3*NumExp degrees of freedom
+    #Obtain confidence intervals using t-distribtion with 2*N-3*NumExp degrees of freedom
 
-    AveKtausig <- (calcEffectSizeConfidenceIntervals(effectsize = AveKtau, effectsize.variance = AveKtauctvar, effectsize.df = (2 * N - 3) * (NumExp -
-      1), alpha = 0.05, alternative = alternative, UpperValue = 2 * N / (2 * (2 * N - 1)), LowerValue = -2 * N / (2 * (2 * N - 1))))$ES.sig
-
-
-
-    # Aggregate the Cliff's d values
-
-    AveCliffd <- base::mean(Cliffd)
-    AveCliffdvar <- sum(Cliffdvar) / NumExp^2
-
-    AveCliffdsig <- (calcCliffdConfidenceIntervals(
-      d.value = AveCliffd, d.variance = AveCliffdvar, d.df = (2 * N - 2) * (NumExp - 1), alpha = alpha,
-      alternative = alternative
-    ))$d.sig
+    AveKtausig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = AveKtau,
+        effectsize.variance = AveKtauctvar,
+        #effectsize.df = (2 * N - 3) * (NumExp - 1), ERROR
+        effectsize.df = (2 * N - 3) * NumExp,
+        alpha = 0.05,
+        alternative = alternative,
+        UpperValue = 2 * N / (2 * (2 * N - 1)),
+        LowerValue = -2 * N / (2 * (2 * N - 1))
+      )
+    )$ES.sig
 
 
-    # Aggregate the phat values
 
-    Avephat <- base::mean(PHat)
-    Avephatadj <- Avephat - 0.5 # The null effect for phat is 0.5
-    Avephatvar <- sum(PHatvar) / NumExp^2
-    pdf <- sum(PHatdf - NumExp + 1)
+    #Aggregate the Cliff's d values
 
-    Avephatsig <- (calcPHatConfidenceIntervals(phat = Avephat, phat.variance = Avephatvar, phat.df = pdf, alpha = alpha, alternative = alternative))$phat.sig
+    AveCliffd = base::mean(Cliffd)
+    AveCliffdvar = sum(Cliffdvar) / NumExp ^ 2
+
+    d.df = (2 * N - 2) * NumExp
+
+    AveCliffdsig = (
+      calcCliffdConfidenceIntervals(
+        d.value = AveCliffd,
+        d.variance = AveCliffdvar,
+        # d.df = (2 * N - 2) * (NumExp - 1), ERROR
+        d.df = d.df,
+        alpha = alpha,
+        alternative = alternative
+      )
+    )$d.sig
 
 
-    # Perform a standard meta-analysis of the non-parametric statistics for the family of simulated experiments
+    #Aggregate the phat values
+
+    Avephat = base::mean(PHat)
+    Avephatadj = Avephat - 0.5 # The null effect for phat is 0.5
+    Avephatvar = sum(PHatvar) / NumExp ^ 2
+    # pdf = sum(PHatdf - NumExp + 1)  ERROR
+    pdf = sum(PHatdf)
+
+    Avephatsig = (
+      calcPHatConfidenceIntervals(
+        phat = Avephat,
+        phat.variance = Avephatvar,
+        phat.df = pdf,
+        alpha = alpha,
+        alternative = alternative
+      )
+    )$phat.sig
+
 
 
     # tau_pb meta-analysis
 
-    meth <- MAMethod
+    meth = MAMethod
 
-    KtauMA.res <- metafor::rma(Family.Ktau, Family.Ktauvar, method = meth)
+    KtauMA.res = metafor::rma(Family.Ktau, Family.Ktauvar, method = meth)
 
     # Extract the data from the analysis
 
-    KtauMAResults <- ExtractMAStatistics(KtauMA.res, N, N, Transform = FALSE, returnse = TRUE)
-    KtauMA <- KtauMAResults$mean
+    KtauMAResults = ExtractMAStatistics(KtauMA.res,
+                                        N,
+                                        N,
+                                        Transform = FALSE,
+                                        returnse = TRUE)
+    KtauMA = KtauMAResults$mean
 
-    KtauMAvar <- KtauMAResults$se^2
+    KtauMAvar = KtauMAResults$se ^ 2
 
-    KtauMAsig <- (calcEffectSizeConfidenceIntervals(effectsize = KtauMA, effectsize.variance = KtauMAvar, effectsize.df = (2 * N - 3) * (NumExp -
-      1), alpha = 0.05, alternative = alternative, UpperValue = 2 * N / (2 * (2 * N - 1)), LowerValue = -2 * N / (2 * (2 * N - 1))))$ES.sig
+    KtauMAsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = KtauMA,
+        effectsize.variance = KtauMAvar,
+        # effectsize.df = (2 * N - 3) * (NumExp - 1), ERROR
+        effectsize.df = (2 * N - 3) * NumExp,
+        alpha = 0.05,
+        alternative = alternative,
+        UpperValue = 2 * N / (2 * (2 * N - 1)),
+        LowerValue = -2 * N / (2 * (2 * N - 1))
+      )
+    )$ES.sig
 
-    KtauMAQE <- KtauMAResults$QE
-    KtauMAQEp <- KtauMAResults$QEp
-    KtauMAHetsig <- KtauMAQEp < 0.05
+    KtauMAQE = KtauMAResults$QE
+    KtauMAQEp = KtauMAResults$QEp
+    KtauMAHetsig = KtauMAQEp < 0.05
+
 
     # Cliff's d meta-analysis
-    MAd.res <- metafor::rma(Cliffd, Cliffdvar, method = meth)
-    MAd.Results <- ExtractMAStatistics(MAd.res, N, N, Transform = FALSE)
-    Mean.d <- MAd.Results$mean
-    MAvar.d <- as.numeric(MAd.res$se)^2
-    d.sig <- (calcCliffdConfidenceIntervals(d.value = Mean.d, d.variance = MAvar.d, d.df = (2 * N - 2) * (NumExp - 1), alpha = alpha, alternative = alternative))$d.sig
+    MAd.res = metafor::rma(Cliffd, Cliffdvar, method = meth)
+    MAd.Results = ExtractMAStatistics(MAd.res, N, N, Transform = FALSE)
+    Mean.d = MAd.Results$mean
+    MAvar.d = as.numeric(MAd.res$se) ^ 2
+
+    d.sig = (
+      calcCliffdConfidenceIntervals(
+        d.value = Mean.d,
+        d.variance = MAvar.d,
+        #d.df = (2 * N - 2) * (NumExp - 1), ERROR
+        d.df = d.df,
+        alpha = alpha,
+        alternative = alternative
+      )
+    )$d.sig
 
 
     # Probability of Superiority phat meta-analysis
-    PHatAdj <- PHat - 0.5
-    MAphat.res <- metafor::rma(PHatAdj, PHatvar, method = meth) # meta-analyse phat-0.5
-    MAphat.Results <- ExtractMAStatistics(MAphat.res, N, N, Transform = FALSE)
-    Mean.phat <- MAphat.Results$mean + 0.5 # Add back the 0.5 value
-    MAvar.phat <- as.numeric(MAphat.res$se)^2
-    phat.sig <- (calcPHatConfidenceIntervals(phat = Mean.phat, phat.variance = MAvar.phat, phat.df = pdf, alpha = alpha, alternative = alternative))$phat.sig
+    PHatAdj = PHat - 0.5
+    MAphat.res = metafor::rma(PHatAdj, PHatvar, method = meth) # meta-analyse phat-0.5
+    MAphat.Results = ExtractMAStatistics(MAphat.res, N, N, Transform =
+                                           FALSE)
+    Mean.phat = MAphat.Results$mean + 0.5 # Add back the 0.5 value
+    MAvar.phat = as.numeric(MAphat.res$se) ^ 2
+    phat.sig = (
+      calcPHatConfidenceIntervals(
+        phat = Mean.phat,
+        phat.variance = MAvar.phat,
+        phat.df = pdf,
+        alpha = alpha,
+        alternative = alternative
+      )
+    )$phat.sig
 
     # Do a Pearson correlation analysis as a comparison with tau_pb
 
-    MAPBScor.res <- metafor::rma(Family.PBScor, Family.PBScorvar, method = meth)
+    MAPBScor.res = metafor::rma(Family.PBScor, Family.PBScorvar, method = meth)
 
-    MAPBScorResults <- ExtractMAStatistics(MAPBScor.res, N, N, Transform = TRUE, type = "r", returnse = TRUE)
-    PBScorMA <- MAPBScorResults$mean
-    PBScorMAvar <- MAPBScorResults$se^2
-    PBScorMAsig <- (calcEffectSizeConfidenceIntervals(effectsize = PBScorMA, effectsize.variance = PBScorMAvar, effectsize.df = (2 * N - 3) * (NumExp -
-      1), alpha = 0.05, alternative = alternative, UpperValue = 2 * N / (2 * N - 1), LowerValue = -2 * N / (2 * N - 1)))$ES.sig
-    PBScorMAhetsig <- MAPBScorResults$QEp <= 0.05
+    MAPBScorResults = ExtractMAStatistics(
+      MAPBScor.res,
+      N,
+      N,
+      Transform = TRUE,
+      type = "r",
+      returnse = TRUE
+    )
+    PBScorMA = MAPBScorResults$mean
+    PBScorMAvar = MAPBScorResults$se ^ 2
+    PBScorMAsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = PBScorMA,
+        effectsize.variance = PBScorMAvar,
+        #effectsize.df = (2 * N - 3) * (NumExp - 1), ERROR
+        effectsize.df = (2 * N - 3) * NumExp,
+        alpha = 0.05,
+        alternative = alternative,
+        UpperValue = 2 * N / (2 * N - 1),
+        LowerValue = -2 * N / (2 * N - 1)
+      )
+    )$ES.sig
+    PBScorMAhetsig = MAPBScorResults$QEp <= 0.05
 
 
     # Do an analysis of the small sample size standardized effect size as a comparison with Cliff's d
 
-    MAgres.approx <- metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.approx, method = meth)
-    MAgresults.approx <- ExtractMAStatistics(MAgres.approx, N, N, Transform = FALSE)
-    StdMDAdjMAapprox <- MAgresults.approx$mean
-    StdMDAdjMAapproxvar <- as.numeric(MAgres.approx$se)^2
-    StdMDAdjMAapproxsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDAdjMAapprox, effectsize.variance = StdMDAdjMAapproxvar, effectsize.df = 0,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
+    MAgres.approx = metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.approx, method = meth)
+    MAgresults.approx = ExtractMAStatistics(MAgres.approx, N, N, Transform =
+                                              FALSE)
+    StdMDAdjMAapprox =	MAgresults.approx$mean
+    StdMDAdjMAapproxvar = as.numeric(MAgres.approx$se) ^ 2
+    StdMDAdjMAapproxsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDAdjMAapprox,
+        effectsize.variance = StdMDAdjMAapproxvar,
+        effectsize.df = 0,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
 
 
-    # Note when N is the same for each study, the variance for the study based on the average of d is the same for each study. The variance of
-    # g is affected by the degrees of freedom which based on a Welch style analysis may be less than a simple ANOVA
+    # Note when N is the same for each study, the variance for the study based on the average of d is the same for each study. The variance of g is affected by the degrees of freedom which based on a Welch style analysis may be less than a simple ANOVA
 
     # Cohen d unweighted analysis
 
 
-    Family.df <- sum(df) - NumExp + 1
+    #Family.df = sum(df) - NumExp + 1 ERROR
+    Family.df = sum(df)
 
-    AveMD <- mean(Family.MD)
-    AveVar <- mean(Family.Var)
+    AveMD = mean(Family.MD)
+    AveVar = mean(Family.Var)
 
-    AveMDVar <- 2 * AveVar / (NumExp * GroupSize) # Estimate of variance for each MD
+    AveMDVar = 2 * AveVar / (NumExp * GroupSize) # Estimate of variance for each MD
 
-    Ave.Family.StdMD <- AveMD / sqrt(AveVar)
-    Family.tvalue <- AveMD / sqrt(AveMDVar)
+    Ave.Family.StdMD = AveMD / sqrt(AveVar)
+    Family.tvalue = AveMD / sqrt(AveMDVar)
 
-    Family.J <- calculateSmallSampleSizeAdjustment(Family.df, exact = TRUE)
-    varFamily.StdMD <- 2 / (GroupSize * NumExp) + Family.J^2 * Ave.Family.StdMD^2 / (2 * Family.df)
-
-
-    FamilyMDsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = Ave.Family.StdMD, effectsize.variance = varFamily.StdMD, effectsize.df = Family.df,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
-
-    SmallSampleAnalysis <- metaanalyseSmallSampleSizeExperiments(Family.StdMD, df, 2 / N)
+    Family.J = calculateSmallSampleSizeAdjustment(Family.df, exact = TRUE)
+    varFamily.StdMD = 2 / (GroupSize * NumExp) + Family.J ^ 2 * Ave.Family.StdMD ^
+      2 / (2 * Family.df)
 
 
-    StdMDAdjUnweighted <- SmallSampleAnalysis$UnweightedMean
+    FamilyMDsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = Ave.Family.StdMD,
+        effectsize.variance = varFamily.StdMD,
+        effectsize.df = Family.df,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
+
+    SmallSampleAnalysis = metaanalyseSmallSampleSizeExperiments(Family.StdMD, df, 2 /
+                                                                  N)
 
 
-    StdMDAdjUnweightedvar <- Family.J^2 * (2 / (NumExp * N) + StdMDAdjUnweighted^2 / (2 * Family.df))
-
-    StdMDAdjUnweightedsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDAdjUnweighted, effectsize.variance = StdMDAdjUnweightedvar, effectsize.df = Family.df,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
-
-    StdMDUnweighted <- mean(Family.StdMD)
-
-    StdMDUnweightedvar <- 2 / (NumExp * N) + Family.J^2 * StdMDUnweighted^2 / (2 * Family.df)
-    StdMDUnweightedsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDUnweighted, effectsize.variance = StdMDUnweightedvar, effectsize.df = Family.df,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
-
-    HedgesMA.Weighted <- SmallSampleAnalysis$WeightedMean
-    HedgesMA.Weightedvar <- SmallSampleAnalysis$VarWeightedMean
-
-    HedgesMA.Weightedsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = HedgesMA.Weighted, effectsize.variance = HedgesMA.Weightedvar, effectsize.df = Family.df,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
+    StdMDAdjUnweighted = SmallSampleAnalysis$UnweightedMean
 
 
-    MA.g.exact <- metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.exact, method = meth)
-    StdMDAdjMAexact <- as.numeric(MA.g.exact$beta)
-    StdMDAdjMAexactvar <- as.numeric(MA.g.exact$se)^2
-    # Although exact variance used, metafor analysis produces CIs based on normal distribution, so for consistency with metafor we have also
-    # ued the normal CIs
+    StdMDAdjUnweightedvar = Family.J ^ 2 * (2 / (NumExp * N) + StdMDAdjUnweighted ^
+                                              2 / (2 * Family.df))
 
-    StdMDAdjMAexactsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDAdjMAexact, effectsize.variance = StdMDAdjMAexactvar, effectsize.df = 0,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
+    StdMDAdjUnweightedsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDAdjUnweighted,
+        effectsize.variance = StdMDAdjUnweightedvar,
+        effectsize.df = Family.df,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
+
+    StdMDUnweighted = mean(Family.StdMD)
+
+    StdMDUnweightedvar = 2 / (NumExp * N) + Family.J ^ 2 * StdMDUnweighted ^
+      2 / (2 * Family.df)
+    StdMDUnweightedsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDUnweighted,
+        effectsize.variance = StdMDUnweightedvar,
+        effectsize.df = Family.df,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
+
+    HedgesMA.Weighted = SmallSampleAnalysis$WeightedMean
+    HedgesMA.Weightedvar = SmallSampleAnalysis$VarWeightedMean
+
+    HedgesMA.Weightedsig = (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = HedgesMA.Weighted,
+        effectsize.variance = HedgesMA.Weightedvar,
+        effectsize.df = Family.df,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
+
+
+    MA.g.exact = metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.exact, method = meth)
+    StdMDAdjMAexact = as.numeric(MA.g.exact$beta)
+    StdMDAdjMAexactvar = as.numeric(MA.g.exact$se) ^ 2
+    # Although exact variance used, metafor analysis produces CIs based on normal distribution, so for consistency with metafor we have also used the normal CIs
+
+    StdMDAdjMAexactsig =  (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDAdjMAexact,
+        effectsize.variance = StdMDAdjMAexactvar,
+        effectsize.df = 0,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
+
 
     # Cohen's d metaanalysis
-    StdMDUnweighted <- mean(Family.StdMD)
-    Cohend.res <- metafor::rma(Family.StdMD, Family.StdMDvar.exact, method = meth)
-    StdMDMAexact <- as.numeric(Cohend.res$beta)
-    StdMDMAexactvar <- as.numeric(Cohend.res$se)^2
-    StdMDMAexactsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDMAexact, effectsize.variance = StdMDMAexactvar, effectsize.df = 0, alpha = 0.05,
-      alternative = alternative
-    ))$ES.sig
+    StdMDUnweighted = mean(Family.StdMD)
+    Cohend.res = metafor::rma(Family.StdMD, Family.StdMDvar.exact, method = meth)
+    StdMDMAexact = as.numeric(Cohend.res$beta)
+    StdMDMAexactvar = as.numeric(Cohend.res$se) ^ 2
+    StdMDMAexactsig =  (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDMAexact,
+        effectsize.variance = StdMDMAexactvar,
+        effectsize.df = 0,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
 
 
-    Cohend.approx.res <- metafor::rma(Family.StdMD, Family.StdMDvar.approx, method = meth)
-    StdMDMAapprox <- as.numeric(Cohend.approx.res$beta)
-    StdMDMAapproxvar <- as.numeric(Cohend.approx.res$se)^2
+    Cohend.approx.res = metafor::rma(Family.StdMD, Family.StdMDvar.approx, method = meth)
+    StdMDMAapprox = as.numeric(Cohend.approx.res$beta)
+    StdMDMAapproxvar = as.numeric(Cohend.approx.res$se) ^ 2
 
-    StdMDMAapproxsig <- (calcEffectSizeConfidenceIntervals(
-      effectsize = StdMDMAapprox, effectsize.variance = StdMDMAapproxvar, effectsize.df = 0,
-      alpha = 0.05, alternative = alternative
-    ))$ES.sig
+    StdMDMAapproxsig =  (
+      calcEffectSizeConfidenceIntervals(
+        effectsize = StdMDMAapprox,
+        effectsize.variance = StdMDMAapproxvar,
+        effectsize.df = 0,
+        alpha = 0.05,
+        alternative = alternative
+      )
+    )$ES.sig
 
-    output <- tibble::tibble(NumExp, GroupSize, AveCliffd, AveCliffdvar, AveCliffdsig, Avephat, Avephatvar, Avephatsig,
+    output = tibble::tibble(
+      NumExp,
+      GroupSize,
+      #           AveKtau,
+      #           AveKtauctvar,
+      #           AveKtausig,
+      AveCliffd,
+      AveCliffdvar,
+      AveCliffdsig,
+      Avephat,
+      Avephatvar,
+      Avephatsig,
       AveMDStd = Ave.Family.StdMD,
-      AveMDStdvar = varFamily.StdMD, AveMDStdsig = FamilyMDsig, MAphat = Mean.phat, MAphatvar = MAvar.phat, MAphatsig = phat.sig, MACliffd = Mean.d,
-      MACliffdvar = MAvar.d, MACliffdsig = d.sig, StdMDAdjUnweighted, StdMDAdjUnweightedvar, StdMDAdjUnweightedsig, StdMDUnweighted, StdMDUnweightedvar,
-      StdMDUnweightedsig, HedgesMA.Weighted, HedgesMA.Weightedvar, HedgesMA.Weightedsig, StdMDAdjMAexact, StdMDAdjMAexactvar, StdMDAdjMAexactsig,
-      StdMDAdjMAapprox, StdMDAdjMAapproxvar, StdMDAdjMAapproxsig, StdMDMAapprox, StdMDMAapproxvar, StdMDMAapproxsig, StdMDMAexact, StdMDMAexactvar,
+      AveMDStdvar = varFamily.StdMD,
+      AveMDStdsig = FamilyMDsig,
+      #           KtauMA,
+      #            KtauMAvar,
+      #            KtauMAsig,
+      #            KtauMAQE,
+      #            KtauMAQEp,
+      #            KtauMAHetsig,
+      #            PBScorMA,
+      #            PBScorMAvar,
+      #            PBScorMAsig,
+      #            PBScorMAhetsig,
+      MAphat = Mean.phat,
+      MAphatvar = MAvar.phat,
+      MAphatsig = phat.sig,
+      MACliffd = Mean.d,
+      MACliffdvar = MAvar.d,
+      MACliffdsig = d.sig,
+      StdMDAdjUnweighted,
+      StdMDAdjUnweightedvar,
+      StdMDAdjUnweightedsig,
+      StdMDUnweighted,
+      StdMDUnweightedvar,
+      StdMDUnweightedsig,
+      HedgesMA.Weighted,
+      HedgesMA.Weightedvar,
+      HedgesMA.Weightedsig,
+      StdMDAdjMAexact,
+      StdMDAdjMAexactvar,
+      StdMDAdjMAexactsig,
+      StdMDAdjMAapprox,
+      StdMDAdjMAapproxvar,
+      StdMDAdjMAapproxsig,
+      StdMDMAapprox,
+      StdMDMAapproxvar,
+      StdMDMAapproxsig,
+      StdMDMAexact,
+      StdMDMAexactvar,
       StdMDMAexactsig
     )
-  } else {
-    output <- tibble::as_tibble(dplyr::bind_cols(
-      MeanExp = Family.MD, VarExp = Family.Var, StdMD = Family.StdMD, df = df, tval = tval, t.sig = t.sig,
-      Cliffd = Cliffd, Cliffdvar = Cliffdvar, Cliffd.sig = Cliffd.sig, PHat = PHat, PHatvar = PHatvar, PHatdf = PHatdf, Phat.sig = PHat.sig, StdMDAdj = Family.StdMDAdj,
-      StdMDAdjvar.exact = Family.StdMDAdjvar.exact, StdMDAdjvar.approx = Family.StdMDAdjvar.approx, StdMDvar.exact = Family.StdMDvar.exact, StdMDvar.approx = Family.StdMDvar.approx
-    ))
+  }
+
+  else  {
+    output = tibble::as_tibble(
+      dplyr::bind_cols(
+        MeanExp = Family.MD,
+        VarExp = Family.Var,
+        StdMD = Family.StdMD,
+        df = df,
+        tval = tval,
+        t.sig = t.sig,
+        Cliffd = Cliffd,
+        Cliffdvar = Cliffdvar,
+        Cliffd.sig = Cliffd.sig,
+        PHat = PHat,
+        PHatvar = PHatvar,
+        PHatdf = PHatdf,
+        Phat.sig = PHat.sig,
+        StdMDAdj = Family.StdMDAdj,
+        StdMDAdjvar.exact =  Family.StdMDAdjvar.exact,
+        StdMDAdjvar.approx = Family.StdMDAdjvar.approx,
+        StdMDvar.exact = Family.StdMDvar.exact,
+        StdMDvar.approx = Family.StdMDvar.approx
+
+      )
+    )
   }
   return(output)
 }
 
+
 #' @title NP4GMetaAnalysisSimulation
-#' @description This function simulates data from a family of experiments, where the number of experiments in a family is defined by the parameter Exp. It simulates data from one of four distributions and uses the data to construct four of groups of equal size (GroupSize). Two groups are assigned as control groups and their distribution is based on the parameter, mean, and the parameter, spread. However, the mean and spread for the control group in Block 2 can be adjusted using the parameters BlockEffect and BlockStdAdj respectively. The other two groups are treatment groups and their distribution is based on the mean+diff and the spread parameter, but the distributions can be adjusted using the StdAdj, BlockEffect and BlockStdAdj parameters. The data from each experiment is analysed separately to estimate the non-parametric statistics P-hat, Cliff's d and their variances. In addition, the estimates of the standardized mean difference and the small sample size adjusted standardized mean difference are calculated. The effect size statistics are then meta-analysed using the method specified by the MAMethod parameter. We output both the average non-parametric effect statistics across the Exp experimet analysed as if they arose from a single large experiment and also the results of meta-analysing each non-parametric effect size. We use the standard parametric effect sizes and their meta-analysis as baselines.Tests of significance are one-sided if the mean difference is non-zero. If the mean difference is zero, two-sided tests are used. In addition, the user can force the use of two-sided tests using the parameter AlwaysTwoSidedTests. This should only be used for comparison with results reported in other simulation studies. The alpha parameter determines the significance level used in the tests.
+#' @description This function simulates data from a family of experiments, where the number of experiments in a family is defined by the parameter Exp. It simulates data from one of four distributions and uses the data to construct four of groups of equal size (GroupSize). Two groups are assigned as control groups and their distribution is based on the parameter, mean, and the parameter, spread. However, the mean and spread for the control group in Block 2 can be adjusted using the parameters BlockEffect and BlockStdAdj respectively. The other two groups are treatment groups and their distribution is based on the mean+diff and the spread parameter, but the distributions can be adjusted using the StdAdj, BlockEffect and BlockStdAdj parameters. The data from each experiment is analysed separately to estimate the non-parametric statistics P-hat, Cliff's d and their variances. In addition, the estimates of the standardized mean difference and the small sample size adjusted standardized mean difference are calculated. The effect size statistics are then meta-analysed using the method specified by the MAMethod parameter. We output both the average non-parametric effect statistics across the Exp experimet analysed as if they arose from a single large experiment and also the results of meta-analysising each non-parametric effect size. We use the standard parametric effect sizes and their meta-analysis as baselines.Tests of significance are one-sided if the mean difference is non-zero. If the mean difference is zero, two-sided tests are used. In addition, the user can force the use of two-sided tests using the parameter AlwaysTwoSidedTests. This should only be used for comparison with results reported in other simulation studies. The alpha parameter determines the significance level used in the tests.
 #' @author Barbara Kitchenham and Lech Madeyski
 #' @export NP4GMetaAnalysisSimulation
 #' @param mean The default value used for the group means in the simulated data. It can be any real number including zero.
@@ -3082,468 +3832,746 @@ NP2GMetaAnalysisSimulation <- function(mean, sd, diff, GroupSize, Exp = 5, type 
 #' @param diff mean+diff is the value used for the mean of the treatment group. It can be zero.
 #' @param GroupSize is the size of each of the 4 groups comprising one experiment. Groupsize should be an integer of 4 or more
 #' @param Exp is the number of experiments being simulated. Exp should be an integer of 2 or more. It defaults to 5.
-#' @param type specifies the distribution being simulated. The permitted values are 'n' for the normal distribution,  'l' for the lognormal distribution, 'g' for the gamma distribution and 'lap' for the Laplace distribution. The parameter defaults to 'n'.
-#' @param alpha The Type 1 error rate level use for statistical tests (default 0.05).
+#' @param type specifies the distribution being simulated. The permitted values are "n" for the normal distribution,  "l" for the lognormal distribution, "g" for the gamma distribution and "lap" for the Laplace dsitribution. The parameter defaults to "n".
+#' @param alpha the Type 1 error rate level use for statistical tests.
 #' @param seed specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defaults to 123.
+#' @param StdExp defines whether any additional heterogeneity is introduced between families. The value (set to 0 or 0.5 for our simulations) is used when we generate a deviation to be added to the control mean (control rate for gamma data) for each family. The deviation is generated from a Normal distribution with mean 0 and standard deviation=0.5. If StdExp=0 we do not add any deviations to the mean.
 #' @param BlockEffect is the effect of having two different blocks
 #' @param BlockStdAdj is the variance associated with the Block. If BlockStdAdj is zero it means we are treating the block effect as a fixed effect. If BlockStdAdj>0, we treat the block effect as a random effect and increase the variance of Block 2 data.
 #' @param StdAdj The value used to introduce heterogeneity into the treatment groups variance if required.
-#' @param StdExp if non-zero it simulates a random effect between experiments
-#' in the same family (default 0).
 #' @param MAMethod defines the method used for meta-analysis
 #' @param returnES This determines the format of the output. If returnES=FALSE it returns the summary meta-analysis statistics otherwise it returns the effect sizes and their variances for each experiment in the family
-#' @param AlwaysTwoSidedTests If this parameter is TRUE, the function always does two-sided tests. IF the parameter is FALSE (i.e., default), the function does two-sided statistical tests if the difference between treatment groups is 0, if the difference is not 0, it does one-sided tests
+#' @param AlwaysTwoSidedTests If this parameter is TRUE, the function always does two-sided tests. IF the parameter is FALSE, the function does two-sided statistical tests if the difference between treatment groups is 0, if the difference is not 0, it does one-sided tests
 #' @return If returnES is FALSE, the function returns the summary meta-analysis summary statistics otherwise the function returns the effect sizes for each experiment
 #' @examples
-#' as.data.frame(
-#'   NP4GMetaAnalysisSimulation(
-#'     mean = 0, sd = 1, diff = 0.8, GroupSize = 5, Exp = 5, type = "n",
-#'     alpha = 0.05, seed = 457, StdAdj = 0, BlockEffect = 0.5,
-#'     BlockStdAdj = 0, StdExp = 0, MAMethod = "FE", returnES = TRUE))
-#' #     MeanExp    VarExp       StdMD       df       tval t.sig Cliffd  ...
-#' # 1  1.0761565 1.3874542  0.91362108 14.42773  2.0429188  TRUE   0.52 ...
-#'
-#' as.data.frame(
-#'   NP4GMetaAnalysisSimulation(
-#'     mean = 0, sd = 1, diff = 0.8, GroupSize = 5, Exp = 5, type = "n",
-#'     alpha = 0.05, seed = 457, StdAdj = 0, BlockEffect = 0.5,
-#'     BlockStdAdj = 0, StdExp = 0, MAMethod = "FE", returnES = FALSE))
-#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat Avephatvar...
-#' # 1     5         5     0.384   0.01369387         TRUE   0.692   0.003336...
-NP4GMetaAnalysisSimulation <- function(mean, sd, diff, GroupSize, Exp = 5, type = "n", alpha = 0.05, seed = 123, StdAdj = 0, BlockEffect = 0, BlockStdAdj = 0, StdExp = 0, MAMethod, returnES = FALSE, AlwaysTwoSidedTests = FALSE) {
-  # 14-03-2022 Parameter name BlockStdadj changed to BlockStdAdj for consisncy with other functions 1-07-2022 Allow for one-sided tests
-  # 3-07-2022 Restructured to improve modularization 26-10-2022 Changed after finalizing the equations for var(SMD) and var(SMDAdj)
-  N <- GroupSize
 
-  alpha.set <- alpha
+#' as.data.frame(NP4GMetaAnalysisSimulation(mean=0,sd=1,diff=0.8,GroupSize=5,Exp=5,type="n",
+#' alpha=0.05,seed=457,StdAdj=0,BlockEffect=0.5,BlockStdAdj=0,StdExp=0,MAMethod="FE",returnES=TRUE))
+#' #     MeanExp    VarExp       StdMD       df       tval t.sig Cliffd  Cliffdvar PHat PHatvar PH..
+#' #1  1.0761565 1.3874542  0.91362108 14.42773  2.0429188  TRUE   0.52 0.05530667 0.76  0.0132 13..
+#' #2  0.1012680 0.9779431  0.10240368 12.74930  0.2289816 FALSE   0.20 0.09048000 0.60  0.0224 10..
+#' #3  1.2100986 0.9909894  1.21558760 11.16850  2.7181365  TRUE   0.64 0.04720000 0.82  0.0110 13..
+#' #4 -0.1452027 2.3106703 -0.09552252 11.93764 -0.2135949 FALSE   0.04 0.09888000 0.52  0.0244 10..
+#' #5  1.1701075 0.9623530  1.19277505 12.72802  2.6671261  TRUE   0.52 0.05048000 0.76  0.0124 15..
+#' #     StdMDAdj StdMDAdjvar.exact StdMDAdjvar.approx StdMDvar.exact StdMDvar.approx
+#' #1  0.86514731         0.2357247          0.2025998      0.2664156       0.2259389
+#' #2  0.09623845         0.2098977          0.1769637      0.2377103       0.2003632
+#' #3  1.13176658         0.2732955          0.2230773      0.3262821       0.2573441
+#' #4 -0.08937076         0.2106627          0.1753619      0.2407210       0.2003345
+#' #5  1.12084087         0.2623764          0.2201822      0.3050637       0.2493511
+
+#' as.data.frame(NP4GMetaAnalysisSimulation(mean=0,sd=1,diff=0.8,GroupSize=5,Exp=5,type="n",
+#'alpha=0.05,seed=457,StdAdj=0,BlockEffect=0.5,BlockStdAdj=0,StdExp=0,MAMethod="FE",returnES=FALSE))
+#' #  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat Avephatvar Avephatsig  AveMDStd..
+#' #1      5         5     0.384   0.01369387         TRUE   0.692   0.003336       TRUE 0.5927084..
+#' #  AveMDStdsig    MAphat  MAphatvar MAphatsig  MACliffd MACliffdvar MACliffdsig StdMDAdjUnweigh..
+#' #1        TRUE 0.7253858 0.00300356      TRUE 0.4471125  0.01246219        TRUE          0.6249..
+#' #  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#' #1            0.04220968                  TRUE        0.665773         0.04366035            TRUE
+#' #  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#' #1         0.6250243           0.04574766                 TRUE       0.5709401         0.04711703
+#' #  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox St..
+#' #1               TRUE        0.5715637          0.03950437                TRUE     0.6090632 0...
+#' #  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#' #1             TRUE    0.6013198      0.05417894            TRUE
+
+NP4GMetaAnalysisSimulation = function(mean,
+                                      sd,
+                                      diff,
+                                      GroupSize,
+                                      Exp = 5,
+                                      type = "n",
+                                      alpha = 0.05,
+                                      seed = 123,
+                                      StdAdj = 0,
+                                      BlockEffect = 0,
+                                      BlockStdAdj = 0,
+                                      StdExp = 0,
+                                      MAMethod,
+                                      returnES = FALSE,
+                                      AlwaysTwoSidedTests = FALSE) {
+  # 14-03-2022  Parameter name BlockStdadj changed to BlockStdAdj for consisncy with other functions
+  # 1-07-2022 Allow for one-sided tests
+  # 3-07-2022 Restructured to improve modularization
+  # 26-10-2022 Changed after finalizing the equations for var(SMD) and var(SMDAdj)
+
+  N = GroupSize
+
+  alpha.set = alpha
 
   if (AlwaysTwoSidedTests | (diff == 0)) {
-    alternative <- "two.sided"
-  } else {
+    alternative = "two.sided"
+  }
+  else{
     # Find direction of MD
 
-    if (type == "g") {
+    if (type == "g")
+    {
       # A negative value for diff decreases the rate & the MD is positive
-      Positive.MD <- (diff < 0)
-    } else {
-      Positive.MD <- (diff > 0)
+      Positive.MD = (diff < 0)
     }
-    if (Positive.MD) {
-      alternative <- "greater"
-    } else {
-      alternative <- "less"
+    else {
+      Positive.MD = (diff > 0)
+    }
+    if (Positive.MD)
+    {
+      alternative = "greater"
+    }
+    else
+    {
+      alternative = "less"
     }
   }
 
   set.seed(seed)
-  Family.Ktau <- rep(NA, Exp) # Used to hold Kendall's tau for each experiment
-  Family.Ktauvar <- rep(NA, Exp) # Used to hold the consistent variance of Kendall's tau for each experiment
-  Cliffd <- rep(NA, Exp) # Used to hold Cliff's d for each experiment
-  Cliffdvar <- rep(NA, Exp) # Used to hold the variance Cliff's d for each experiment
-  Cliffd.sig <- rep(NA, Exp) # This holds significance of Cliff's d based on the Cliff d confidence interval
+  Family.Ktau = rep(NA, Exp) # Used to hold Kendall's tau for each experiment
+  Family.Ktauvar = rep(NA, Exp) # Used to hold the consistent variance of Kendall's tau for each experiment
+  Cliffd = rep(NA, Exp) # Used to hold Cliff's d for each experiment
+  Cliffdvar = rep(NA, Exp) # Used to hold the variance Cliff's d for each experiment
+  Cliffd.sig = rep(NA, Exp) #This holds significance of Cliff's d based on the Cliff d confidence interval
 
 
-  PHat <- rep(NA, Exp) # This holds the probability of superiority phat
-  PHatvar <- rep(NA, Exp) # This holds the variance of phat
-  PHatdf <- rep(NA, Exp) # This holds the degrees of freedom of the t-test for phat
-  PHat.sig <- rep(NA, Exp) # This holds the significance of the t-test for phat
+  PHat = rep(NA, Exp) #This holds the probability of superiority phat
+  PHatvar = rep(NA, Exp) #This holds the variance of phat
+  PHatdf = rep(NA, Exp) # This holds the degrees of freedom of the t-test for phat
+  PHat.sig = rep(NA, Exp) # This holds the significance of the t-test for phat
 
-  Family.StdMDAdj <- rep(NA, Exp) # Used to hold the small sample size adjusted standardized effect size
-  Family.StdMDAdjvar.approx <- rep(NA, Exp) # Used to hold the large sample size approximate variance of the small sample size adjusted standardized effect size
-  Family.StdMDAdjvar.exact <- rep(NA, Exp) # Used to hold the exact variance of the small sample size adjusted standardized effect size
-  Family.PBScor <- rep(NA, Exp) # This holds the estimate of the point bi-serial correlation effect size
-  Family.PBScorvar <- rep(NA, Exp) # This holds the variance of normal transformation of the correlation effect size
-  c <- rep(NA, Exp) # This holds the small sample size adjustment factor for each experiment
-  df <- rep(NA, Exp) # This holds the degrees of freedom of the t test of the unstandardized effect size for each for each experiment
+  Family.StdMDAdj = rep(NA, Exp) # Used to hold the small sample size adjusted standardized effect size
+  Family.StdMDAdjvar.approx = rep(NA, Exp) # Used to hold the large sample size approximate variance of the small sample size adjusted standardized effect size
+  Family.StdMDAdjvar.exact = rep(NA, Exp) # Used to hold the exact variance of the small sample size adjusted standardized effect size
+  Family.PBScor = rep(NA, Exp) # This holds the estimate of the point bi-serial correlation effect size
+  Family.PBScorvar = rep(NA, Exp) # This holds the variance of normal transformation of the correlation effect size
+  c = rep(NA, Exp) # This holds the small sample size adjustment factor for each experiment
+  df = rep(NA, Exp) # This holds the degrees of freedom of the t test of the unstandardized effect size for each for each experiment
 
-  Family.StdMD <- rep(NA, Exp) # This holds standardized mean difference effect size of each experiment
-  Family.StdMDvar.exact <- rep(NA, Exp) # This holds the variance of the standardized mean difference effect size of each experiment
-  Family.StdMDvar.approx <- rep(NA, Exp) # This holds the large sample size approximate variance of the standardized mean difference effect size of each experiment
-  tval <- rep(NA, Exp) # This holds t test value for each experiment
-  t.sig <- rep(NA, Exp) # This holds the significance of the t-test for each experiment
+  Family.StdMD = rep(NA, Exp) # This holds standardized mean difference effect size of each experiment
+  Family.StdMDvar.exact  = rep(NA, Exp)  # This holds the variance of the standardized mean difference effect size of each experiment
+  Family.StdMDvar.approx = rep(NA, Exp) # This holds the large sample size approximate variance of the standardized mean difference effect size of each experiment
+  tval = rep(NA, Exp) # This holds t test value for each experiment
+  t.sig = rep(NA, Exp)  # This holds the significance of the t-test for each experiment
 
-  Family.MD <- rep(NA, Exp) # This holds the unstandardized effect size
-  Family.Var <- rep(NA, Exp) # This holds the pooled within group variance
+  Family.MD = rep(NA, Exp) # This holds the unstandardized effect size
+  Family.Var = rep(NA, Exp) # This holds the pooled within group variance
 
-  retry <- 0
-  trySimulation <- TRUE
-  NumRetries <- 0
+  retry = 0
+  trySimulation = TRUE
+  NumRetries = 0
 
   while (trySimulation) {
-    # Generate 4-group experiments for a family of experiments (the number in the family defined by the 'Exp' parameter), with the underlying
-    # distribution defined by the 'type' parameter
+    # Generate 4-group experiments for a family of experiments (the number in the family defined by the "Exp" parameter), with the underlying distribution defined by the "type" parameter
 
     for (i in 1:Exp) {
-      DataError <- TRUE
-      Numerrs <- 0
+      DataError = TRUE
+      Numerrs = 0
 
       while (DataError) {
         # 17-03-2022 Revised to stop bias induced by using only a positive
-        if (StdExp == 0) {
-          ExpAdj <- 0
-        } else {
-          ExpAdj <- rnorm(1, 0, StdExp)
+        if (StdExp == 0)
+          ExpAdj = 0
+        else {
+          ExpAdj = rnorm(1, 0, StdExp)
 
-          if ((type == "g") & (mean + ExpAdj + diff <= 0)) {
-            while (mean + ExpAdj + diff <= 0) {
-              ExpAdj <- rnorm(1, 0, StdExp)
+          if ((type == "g") & (mean + ExpAdj + diff <= 0))
+          {
+            while (mean + ExpAdj + diff <= 0)
+            {
+              ExpAdj = rnorm(1, 0, StdExp)
             }
           }
         }
 
-        DataSet <- simulate4GExperimentData(
-          mean = mean, sd = sd, diff = diff, GroupSize = GroupSize, type = type, ExpAdj = ExpAdj, StdAdj = StdAdj,
-          BlockEffect = BlockEffect, BlockStdAdj = BlockStdAdj
+        DataSet = simulate4GExperimentData(
+          mean = mean,
+          sd = sd,
+          diff = diff,
+          GroupSize = GroupSize,
+          type = type,
+          ExpAdj = ExpAdj,
+          StdAdj = StdAdj,
+          BlockEffect = BlockEffect,
+          BlockStdAdj = BlockStdAdj
         )
 
 
-        NumNAsBD1 <- sum(as.numeric(is.na(DataSet$BaselineData.B1)))
-        NumNAsAD1 <- sum(as.numeric(is.na(DataSet$AlternativeData.B1)))
-        NumNAsBD2 <- sum(as.numeric(is.na(DataSet$BaselineData.B2)))
-        NumNAsAD2 <- sum(as.numeric(is.na(DataSet$AlternativeData.B2)))
+        NumNAsBD1 = sum(as.numeric(is.na(DataSet$BaselineData.B1)))
+        NumNAsAD1 = sum(as.numeric(is.na(DataSet$AlternativeData.B1)))
+        NumNAsBD2 = sum(as.numeric(is.na(DataSet$BaselineData.B2)))
+        NumNAsAD2 = sum(as.numeric(is.na(DataSet$AlternativeData.B2)))
 
 
-        if (NumNAsBD1 == 0 & NumNAsAD1 == 0 & NumNAsBD2 == 0 & NumNAsAD2 == 0) {
-          DataError <- FALSE
-        } else {
-          Numerrs <- Numerrs + 1
+        if (NumNAsBD1 == 0 &
+            NumNAsAD1 == 0 & NumNAsBD2 == 0 & NumNAsAD2 == 0)  {
+          DataError = FALSE
+        }
+        else {
+          Numerrs = Numerrs + 1
           if (Numerrs > 50) {
             stop()
           }
-          seed <- seed + 1
+          seed = seed + 1
           set.seed(seed)
         }
+
+
       }
 
-      newlist <- list()
-      newlist[[1]] <- DataSet$BaselineData.B1
-      newlist[[2]] <- DataSet$AlternativeData.B1
-      newlist[[3]] <- DataSet$BaselineData.B2
-      newlist[[4]] <- DataSet$AlternativeData.B2
 
-      # The data in each experiment is analysed to obtain the values of three non-parametric effect size: Kendall's tau, its consistent
-      # variance, Cliff's d with its consistent variance and phat with its variance plus t-test results based on the Welch method applied to
-      # a randomized blocks experiment.
+      newlist = list()
+      newlist[[1]] = DataSet$BaselineData.B1
+      newlist[[2]] = DataSet$AlternativeData.B1
+      newlist[[3]] = DataSet$BaselineData.B2
+      newlist[[4]] = DataSet$AlternativeData.B2
 
-      NPStats <- NULL
+      # The data in each experiment is analysed to obtain the values of three non-parametric effect size: Kendall's tau, its consistent variance, Cliff's d with its consistent variance and phat with its variance plus t-test results based on the Welch method applied to a randomized blocks experiment.
+
+      NPStats = NULL
 
       # Calc4GroupNPStats finds the average value of various non-parametric statistics for a randomised block experimental design
-      NPStats <- Calc4GroupNPStats(newlist[[2]], newlist[[1]], newlist[[4]], newlist[[3]], alternative = alternative, alpha = alpha)
-      Family.Ktau[i] <- as.numeric(NPStats$cor)
-      Family.Ktauvar[i] <- NPStats$ctvar
-      Cliffd[i] <- NPStats$d
-      Cliffdvar[i] <- NPStats$vard
-      PHat[i] <- NPStats$phat
-      PHatvar[i] <- NPStats$phat.var
-      PHatdf[i] <- NPStats$phat.df # Holds the degrees of freedom
+      NPStats = Calc4GroupNPStats(
+        newlist[[2]],
+        newlist[[1]],
+        newlist[[4]],
+        newlist[[3]],
+        alternative = alternative,
+        alpha = alpha
+      )
+      Family.Ktau[i] = as.numeric(NPStats$cor)
+      Family.Ktauvar[i] = NPStats$ctvar
+      Cliffd[i] = NPStats$d
+      Cliffdvar[i] = NPStats$vard
+      PHat[i] = NPStats$phat
+      PHatvar[i] = NPStats$phat.var
+      PHatdf[i] = NPStats$phat.df # Holds the degrees of freedom
+
+
 
       # Do a parametric analysis of the data
-      Family.MD[i] <- (base::mean(newlist[[2]]) + base::mean(newlist[[4]]) - base::mean(newlist[[1]]) - base::mean(newlist[[3]])) / 2
+      Family.MD[i] = (
+        base::mean(newlist[[2]]) + base::mean(newlist[[4]]) - base::mean(newlist[[1]]) - base::mean(newlist[[3]])
+      ) /
+        2
 
-      Family.Var[i] <- (stats::var(newlist[[2]]) + stats::var(newlist[[4]]) + stats::var(newlist[[1]]) + stats::var(newlist[[3]])) / 4
+      Family.Var[i] = (
+        stats::var(newlist[[2]]) + stats::var(newlist[[4]]) + stats::var(newlist[[1]]) + stats::var(newlist[[3]])
+      ) /
+        4
 
-      Family.StdMD[i] <- (Family.MD[i]) / sqrt(Family.Var[i])
+      Family.StdMD[i] = (Family.MD[i]) / sqrt(Family.Var[i])
 
-      vec <- c(-1, 1, -1, 1) / 2
+      vec = c(-1, 1, -1, 1) / 2
 
       # RandomizedBlocksAnalysis does a Welch-based linear contrast analysis
-      res.t <- RandomizedBlocksAnalysis(newlist, con = vec, alpha = alpha, alternative = alternative)
+      res.t = RandomizedBlocksAnalysis(newlist,
+                                       con = vec,
+                                       alpha = alpha,
+                                       alternative = alternative)
 
-      dataframe.ttest <- base::data.frame(res.t$psihat)
+      dataframe.ttest = base::data.frame(res.t$psihat)
 
-      testres <- base::data.frame(res.t$test)
+      testres = base::data.frame(res.t$test)
 
-      tval[i] <- testres$test
+      tval[i] = testres$test
 
-      tpval <- dataframe.ttest$p.value
-      df[i] <- testres$df
+      tpval = dataframe.ttest$p.value
+      df[i] = testres$df
 
-      t.sig[i] <- as.logical(res.t$sig)
+      t.sig[i] = as.logical(res.t$sig)
+
 
       # Find small sample-size adjusted standardized mean difference
 
-      c[i] <- reproducer::calculateSmallSampleSizeAdjustment(df[i])
-      Family.StdMDAdj[i] <- Family.StdMD[i] * c[i]
-
-      Family.StdMDAdjvar.exact[i] <- varStandardizedEffectSize(mean(Family.StdMDAdj[i]), 1 / N, df[i], returnVarg = TRUE)
+      c[i] = reproducer::calculateSmallSampleSizeAdjustment(df[i])
+      Family.StdMDAdj[i] = Family.StdMD[i] * c[i]
 
 
-      Family.StdMDvar.approx[i] <- 1 / N + Family.StdMDAdj[i]^2 / (2 * df[i])
 
-      Family.StdMDAdjvar.approx[i] <- c[i]^2 * Family.StdMDvar.approx[i]
+      Family.StdMDAdjvar.exact[i] = varStandardizedEffectSize(mean(Family.StdMDAdj[i]), 1 / N, df[i], returnVarg = TRUE)
 
-      Family.StdMDvar.exact[i] <- varStandardizedEffectSize(mean(Family.StdMD[i]), 1 / N, df[i], returnVarg = FALSE)
+
+      Family.StdMDvar.approx[i] = 1 / N + Family.StdMDAdj[i] ^ 2 / (2 * df[i])
+
+      Family.StdMDAdjvar.approx[i] = c[i] ^ 2 * Family.StdMDvar.approx[i]
+
+      Family.StdMDvar.exact[i] = varStandardizedEffectSize(mean(Family.StdMD[i]), 1 / N, df[i], returnVarg =
+                                                             FALSE)
 
       # Calculate r from d
 
-      Family.PBScor[i] <- Family.StdMDAdj[i] / sqrt(Family.StdMDAdj[i]^2 + 4)
-      Family.PBScor[i] <- reproducer::transformRtoZr(Family.PBScor[i])
-      Family.PBScorvar[i] <- 1 / (4 * N - 3)
+      Family.PBScor[i] = Family.StdMDAdj[i] / sqrt(Family.StdMDAdj[i] ^ 2 + 4)
+      Family.PBScor[i] = reproducer::transformRtoZr(Family.PBScor[i])
+      Family.PBScorvar[i] = 1 / (4 * N - 3)
+
     } # End of for statement. All data sets generated and effect sizes found
 
 
     if (returnES) {
       # Tabulate the basic experiment statistics for each experiment
-      trySimulation <- FALSE
+      trySimulation = FALSE
 
-      output <- tibble::tibble(dplyr::bind_cols(
-        MeanExp = Family.MD, VarExp = Family.Var, StdMD = Family.StdMD, df = df, tval = tval, t.sig = t.sig,
-        Cliffd = Cliffd, Cliffdvar = Cliffdvar, PHat = PHat, PHatvar = PHatvar, PHatdf = PHatdf, StdMDAdj = Family.StdMDAdj, StdMDAdjvar.exact = Family.StdMDAdjvar.exact,
-        StdMDAdjvar.approx = Family.StdMDAdjvar.approx, StdMDvar.exact = Family.StdMDvar.exact, StdMDvar.approx = Family.StdMDvar.approx
-      ))
-    } else {
+
+      output = tibble::tibble(
+        dplyr::bind_cols(
+          MeanExp = Family.MD,
+          VarExp = Family.Var,
+          StdMD = Family.StdMD,
+          df = df,
+          tval = tval,
+          t.sig = t.sig,
+          Cliffd = Cliffd,
+          Cliffdvar = Cliffdvar,
+          PHat = PHat,
+          PHatvar = PHatvar,
+          PHatdf = PHatdf,
+          StdMDAdj = Family.StdMDAdj,
+          StdMDAdjvar.exact =  Family.StdMDAdjvar.exact,
+          StdMDAdjvar.approx = Family.StdMDAdjvar.approx,
+          StdMDvar.exact = Family.StdMDvar.exact,
+          StdMDvar.approx = Family.StdMDvar.approx
+        )
+      )
+
+
+    }
+    else
+    {
       # Try to do a meta-analysis but cater for rma iterations failing to converge
-      NumExp <- Exp
+
+
+      NumExp = Exp
       # Analyse the data from the Exp experiments as a single distributed experiment
-      AveKtau <- base::mean(Family.Ktau)
-      AveKtauctvar <- sum(Family.Ktauvar) / NumExp^2
+      AveKtau = base::mean(Family.Ktau)
+      AveKtauctvar = sum(Family.Ktauvar) / NumExp ^ 2
 
       # Use t-based bounds
 
-      AveKtausig <- (calcEffectSizeConfidenceIntervals(effectsize = AveKtau, effectsize.variance = AveKtauctvar, effectsize.df = (4 * N - 3) *
-        (NumExp - 1), alpha = 0.05, alternative = alternative, UpperValue = 4 * N / (2 * 4 * (N - 1)), LowerValue = -4 * N / (2 * 4 * (N - 1))))$ES.sig
+      AveKtausig =      (
+        calcEffectSizeConfidenceIntervals(
+          effectsize = AveKtau,
+          effectsize.variance = AveKtauctvar,
+          #     effectsize.df = (4 * N - 3) * (NumExp - 1), ERROR
+          effectsize.df = (4 * N - 3) * NumExp	,
+          alpha = 0.05,
+          alternative = alternative,
+          UpperValue = 4 * N / (2 * 4 * (N - 1)),
+          LowerValue = -4 * N / (2 * 4 * (N - 1))
+        )
+      )$ES.sig
 
-      AveCliffd <- base::mean(Cliffd)
-      AveCliffdvar <- sum(Cliffdvar) / NumExp^2
-      AveCliffdsig <- (calcCliffdConfidenceIntervals(
-        d.value = AveCliffd, d.variance = AveCliffdvar, d.df = 4 * (N - 1) * (NumExp - 1), alpha = alpha,
-        alternative = alternative
-      ))$d.sig
+      AveCliffd = base::mean(Cliffd)
+      AveCliffdvar = sum(Cliffdvar) / NumExp ^ 2
+      Cliffd.df = 4 * (N - 1) * NumExp
 
-
-      Avephat <- base::mean(PHat)
-      Avephatadj <- Avephat - 0.5 # The null effect for phat is 0.5
-      Avephatvar <- sum(PHatvar) / NumExp^2
-      phatdf <- sum(PHatdf - NumExp + 1)
-
-      Avephatsig <- (calcPHatConfidenceIntervals(phat = Avephat, phat.variance = Avephatvar, phat.df = phatdf, alpha = alpha, alternative = alternative))$phat.sig
-
-
-      # Perform a standard meta-analysis for all effect sizes but allow for pathalogical simulated data
-
-      meth <- MAMethod
-
-      Ktau.res <- NULL
-      MA.dres <- NULL
-      MA.phat <- NULL
-      MA.g.exact <- NULL
-      MA.g.approx <- NULL
-      MAP.res <- NULL
-      Cohend.res <- NULL
-      Cohendapprox.res <- NULL
+      AveCliffdsig = (
+        calcCliffdConfidenceIntervals(
+          d.value = AveCliffd,
+          d.variance = AveCliffdvar,
+          # d.df = 4 * (N - 1) * (NumExp - 1), ERROR
+          d.df = Cliffd.df,
+          alpha = alpha,
+          alternative = alternative
+        )
+      )$d.sig
 
 
-      Ktau.res <- CatchError(metafor::rma(Family.Ktau, Family.Ktauvar, method = meth))
+      Avephat = base::mean(PHat)
+      Avephatadj = Avephat - 0.5 # The null effect for phat is 0.5
+      Avephatvar = sum(PHatvar) / NumExp ^ 2
+      #phatdf = sum(PHatdf - NumExp + 1) ERROR
+      phatdf = sum(PHatdf)
+
+      Avephatsig = (
+        calcPHatConfidenceIntervals(
+          phat = Avephat,
+          phat.variance = Avephatvar,
+          phat.df = phatdf,
+          alpha = alpha,
+          alternative = alternative
+        )
+      )$phat.sig
+
+
+      # Perform a standard meta-analysis for  all effect sizes but allow for pathalogical simulated data
+
+      meth = MAMethod
+
+      Ktau.res = NULL
+      MA.dres = NULL
+      MA.phat = NULL
+      MA.g.exact = NULL
+      MA.g.approx = NULL
+      MAP.res = NULL
+      Cohend.res = NULL
+      Cohendapprox.res = NULL
+
+
+      Ktau.res =  CatchError(metafor::rma(Family.Ktau, Family.Ktauvar, method = meth))
 
       if (is.character(Ktau.res)) {
-        problem <- "Ktau.res Problem"
+        problem = "Ktau.res Problem"
+
+
       }
-      MA.dres <- CatchError(metafor::rma(Cliffd, Cliffdvar, meth = meth))
+      MA.dres = CatchError(metafor::rma(Cliffd, Cliffdvar, meth =
+                                          meth))
 
       if (is.character(MA.dres)) {
-        problem <- "MA.dres Problem"
+        problem = "MA.dres Problem"
+
       }
 
-      PHatAdj <- PHat - 0.5
-      MA.phat <- CatchError(metafor::rma(PHatAdj, PHatvar, method = meth))
+      PHatAdj = PHat - 0.5
+      MA.phat =  CatchError(metafor::rma(PHatAdj, PHatvar, method = meth))
       if (is.character(MA.phat)) {
-        problem <- "MA.phat Problem"
+        problem = "MA.phat Problem"
+
       }
 
 
-      MA.g.exact <- CatchError(metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.exact, method = meth))
+      MA.g.exact = CatchError(metafor::rma(Family.StdMDAdj,
+                                           Family.StdMDAdjvar.exact,
+                                           method = meth))
       if (is.character(MA.g.exact)) {
-        problem <- "MA.g.exact Problem"
+        problem = "MA.g.exact Problem"
+
       }
 
-      MA.g.approx <- CatchError(metafor::rma(Family.StdMDAdj, Family.StdMDAdjvar.approx, method = meth))
+      MA.g.approx = CatchError(metafor::rma(Family.StdMDAdj,
+                                            Family.StdMDAdjvar.approx,
+                                            method = meth))
       if (is.character(MA.g.approx)) {
-        problem <- "MA.g.approx Problem"
+        problem = "MA.g.approx Problem"
+
       }
 
-      MAPBScor.res <- CatchError(metafor::rma(Family.PBScor, Family.PBScorvar, method = meth))
+      MAPBScor.res = CatchError(metafor::rma(Family.PBScor, Family.PBScorvar, method = meth))
       if (is.character(MAP.res)) {
-        problem <- "MAP.res Problem"
+        problem = "MAP.res Problem"
       }
 
 
-      Cohend.res <- CatchError(metafor::rma(Family.StdMD, Family.StdMDvar.exact, method = meth))
+      Cohend.res = CatchError(metafor::rma(Family.StdMD, Family.StdMDvar.exact, method = meth))
       if (is.character(Cohend.res)) {
-        problem <- "Cohend.res Problem"
+        problem = "Cohend.res Problem"
       }
 
-      Cohend.approx.res <- CatchError(metafor::rma(Family.StdMD, Family.StdMDvar.approx, method = meth))
+      Cohend.approx.res = CatchError(metafor::rma(Family.StdMD, Family.StdMDvar.approx, method = meth))
       if (is.character(Cohendapprox.res)) {
-        problem <- "Cohendapprox.res Problem"
+        problem = "Cohendapprox.res Problem"
       }
 
-      if (is.character(Ktau.res) | is.character(MA.dres) | is.character(MA.phat) | is.character(MA.g.exact) | is.character(MA.g.approx) | is.character(MAPBScor.res) |
-        is.character(Cohend.res) | is.character(Cohend.approx.res)) {
+      if (is.character(Ktau.res) |
+          is.character(MA.dres) |
+          is.character(MA.phat) |
+          is.character(MA.g.exact) |
+          is.character(MA.g.approx) |
+          is.character(MAPBScor.res) |
+          is.character(Cohend.res) |
+          is.character(Cohend.approx.res))  		{
         # Problem with meta-analyis try another simulation
-        retry <- retry + 1
-        NumRetries <- NumRetries + 1
-        trySimulation <- TRUE
+        retry = retry + 1
+        NumRetries = NumRetries + 1
+        trySimulation = TRUE
         if (retry == 100) {
-          # Give up
-          problem <- paste(problem, as.character(seed))
+          #Give up
+          problem = paste(problem, as.character(seed))
           stop(problem)
-        } else {
-          seed <- seed + 1
-          set.seed(seed)
         }
-      } else {
+
+        else {
+          seed = seed + 1
+          set.seed(seed)
+
+        }
+
+      }
+      else
+      {
         # Meta-analysis successful. No need to try a different dataset
 
-        trySimulation <- FALSE
+        trySimulation = FALSE
         # Extract the data from the meta-analysis for ktau
 
-        KtauMA <- as.numeric(Ktau.res$beta)
-        KtauMAvar <- as.numeric(Ktau.res$se^2)
-        KtauMAQE <- as.numeric(Ktau.res$QE)
-        KtauMAQEp <- as.numeric(Ktau.res$QEp)
+        KtauMA = as.numeric(Ktau.res$beta)
+        KtauMAvar = as.numeric(Ktau.res$se ^ 2)
+        KtauMAQE = as.numeric(Ktau.res$QE)
+        KtauMAQEp = as.numeric(Ktau.res$QEp)
 
-        KtauMAsig <- (calcEffectSizeConfidenceIntervals(effectsize = KtauMA, effectsize.variance = KtauMAvar, effectsize.df = 4 * (N - 3) *
-          (NumExp - 1), alpha = 0.05, alternative = alternative, UpperValue = 2 * N / (4 * N - 1), LowerValue = -2 * N / (4 * N - 1)))$ES.sig
+        KtauMAsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = KtauMA,
+            effectsize.variance = KtauMAvar,
+            #effectsize.df = 4 * (N - 3) * (NumExp - 1),ERROR
+            effectsize.df = 4 * (N - 3) * NumExp,
+            alpha = 0.05,
+            alternative = alternative ,
+            UpperValue = 2 * N / (4 * N - 1),
+            LowerValue = -2 * N / (4 * N - 1)
+          )
+        )$ES.sig
 
-        KtauMAHetsig <- KtauMAQEp < 0.05
+        KtauMAHetsig = KtauMAQEp < 0.05
 
-        # Meta-analyse Cliff'd d result
+        #	Meta-analyse Cliff'd d result
 
-        Mean.d <- as.numeric(MA.dres$beta)
+        Mean.d = as.numeric(MA.dres$beta)
 
-        MAvar.d <- as.numeric(MA.dres$se)^2
+        MAvar.d = as.numeric(MA.dres$se) ^ 2
 
-        d.sig <- (calcCliffdConfidenceIntervals(d.value = Mean.d, d.variance = MAvar.d, d.df = 4 * (N - 1) * (NumExp - 1), alpha = alpha, alternative = alternative))$d.sig
+        d.sig = (
+          calcCliffdConfidenceIntervals(
+            d.value = Mean.d,
+            d.variance = MAvar.d,
+            # d.df = 4 * (N - 1) * (NumExp - 1), ERROR
+            d.df = Cliffd.df,
+            alpha = alpha,
+            alternative = alternative
+          )
+        )$d.sig
 
 
-        # Meta-analysis of phat
+        #	Meta-analysis of phat
 
-        Mean.phat <- as.numeric(MA.phat$beta) + 0.5 # Add the 0.5 back
+        Mean.phat = as.numeric(MA.phat$beta) + 0.5 # Add the 0.5 back
 
-        MAvar.phat <- as.numeric(MA.phat$se)^2
+        MAvar.phat = as.numeric(MA.phat$se) ^ 2
 
-        phat.sig <- (calcPHatConfidenceIntervals(phat = Mean.phat, phat.variance = MAvar.phat, phat.df = phatdf, alpha = alpha, alternative = alternative))$phat.sig
+        phat.sig = (
+          calcPHatConfidenceIntervals(
+            phat = Mean.phat,
+            phat.variance = MAvar.phat,
+            phat.df = phatdf,
+            alpha = alpha,
+            alternative = alternative
+          )
+        )$phat.sig
 
         # Meta-analysis of StdDMAdj values using both exact and approx variance.
 
-        # Note when N is the same for each study the variance for the study based on the average of d is the same for each study. The
-        # variance of g is affected by the degrees of freedom which based on a Welch style analysis may be less than a simple ANOVA
+        # Note when N is the same for each study the variance for the study based on the average of d is the same for each study. The variance of g is affected by the degrees of freedom which based on a Welch style analysis may be less than a simple ANOVA
 
-        StdMDAdjMAexact <- as.numeric(MA.g.exact$beta)
+        StdMDAdjMAexact = as.numeric(MA.g.exact$beta)
 
-        StdMDAdjMAexactvar <- as.numeric(MA.g.exact$se)^2
+        StdMDAdjMAexactvar = as.numeric(MA.g.exact$se) ^ 2
 
-        StdMDAdjMAexactsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDAdjMAexact, effectsize.variance = StdMDAdjMAexactvar, effectsize.df = 0,
-          alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        StdMDAdjMAexactsig =
+          (
+            calcEffectSizeConfidenceIntervals(
+              effectsize = StdMDAdjMAexact,
+              effectsize.variance = StdMDAdjMAexactvar,
+              effectsize.df = 0,
+              alpha = 0.05,
+              alternative = alternative
+            )
+          )$ES.sig
 
 
 
-        StdMDAdjMAapprox <- as.numeric(MA.g.approx$beta)
+        StdMDAdjMAapprox = as.numeric(MA.g.approx$beta)
 
-        StdMDAdjMAapproxvar <- as.numeric(MA.g.approx$se)^2
+        StdMDAdjMAapproxvar = as.numeric(MA.g.approx$se) ^ 2
 
-        StdMDAdjMAapproxsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDAdjMAapprox, effectsize.variance = StdMDAdjMAapproxvar,
-          effectsize.df = 0, alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        StdMDAdjMAapproxsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = StdMDAdjMAapprox,
+            effectsize.variance = StdMDAdjMAapproxvar,
+            effectsize.df = 0,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
 
         # Do a Pearson correlation analysis
 
 
-        MAPBScorResults <- ExtractMAStatistics(MAPBScor.res, N, N, Transform = TRUE, type = "r", returnse = TRUE)
-        PBScorMA <- MAPBScorResults$mean
-        PBScorMAvar <- MAPBScorResults$se^2
+        MAPBScorResults = ExtractMAStatistics(
+          MAPBScor.res,
+          N,
+          N,
+          Transform = TRUE,
+          type = "r",
+          returnse = TRUE
+        )
+        PBScorMA = MAPBScorResults$mean
+        PBScorMAvar = MAPBScorResults$se ^ 2
 
-        PBScorMAsig <- (calcEffectSizeConfidenceIntervals(effectsize = PBScorMA, effectsize.variance = PBScorMAvar, effectsize.df = (4 * N -
-          3) * (NumExp - 1), alpha = 0.05, alternative = alternative, UpperValue = 4 * N / (4 * N - 1), LowerValue = -4 * N / (4 * N - 1)))$ES.sig
+        PBScorMAsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = PBScorMA,
+            effectsize.variance = PBScorMAvar,
+            #effectsize.df = (4 * N - 3) * (NumExp - 1), ERROR
+            effectsize.df = (4 * N - 3) * NumExp,
+            alpha = 0.05,
+            alternative = alternative,
+            UpperValue = 4 * N / (4 * N - 1),
+            LowerValue = -4 * N / (4 * N - 1)
+          )
+        )$ES.sig
 
-        PBScorMAhetsig <- MAPBScorResults$QEp <= 0.05
+        PBScorMAhetsig = MAPBScorResults$QEp <= 0.05
 
         # Meta-analysis of Cohen's d
 
-        StdMDMAexact <- as.numeric(Cohend.res$beta)
-        StdMDMAexactvar <- as.numeric(Cohend.res$se)^2
-        StdMDMAexactsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDMAexact, effectsize.variance = StdMDMAexactvar, effectsize.df = 0,
-          alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        StdMDMAexact = as.numeric(Cohend.res$beta)
+        StdMDMAexactvar = as.numeric(Cohend.res$se) ^ 2
+        StdMDMAexactsig =  (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = StdMDMAexact,
+            effectsize.variance = StdMDMAexactvar,
+            effectsize.df = 0,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
-        StdMDMAapprox <- as.numeric(Cohend.approx.res$beta)
-        StdMDMAapproxvar <- as.numeric(Cohend.approx.res$se)^2
+        StdMDMAapprox = as.numeric(Cohend.approx.res$beta)
+        StdMDMAapproxvar = as.numeric(Cohend.approx.res$se) ^ 2
 
-        StdMDMAapproxsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDMAapprox, effectsize.variance = StdMDMAapproxvar, effectsize.df = 0,
-          alpha = 0.05, alternative = alternative
-        ))$ES.sig
-
-
-
-        Family.df <- sum(df) - NumExp + 1
-
-        AveMD <- mean(Family.MD)
-        AveVar <- mean(Family.Var)
-
-        AveMDVar <- AveVar / (NumExp * GroupSize) # Estimate of variance for each MD
-
-        Ave.Family.StdMD <- AveMD / sqrt(AveVar)
-
-        Family.J <- calculateSmallSampleSizeAdjustment(Family.df, exact = TRUE)
-        varFamily.StdMD <- 1 / (GroupSize * NumExp) + Family.J^2 * Ave.Family.StdMD^2 / (2 * Family.df)
+        StdMDMAapproxsig =  (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = StdMDMAapprox,
+            effectsize.variance = StdMDMAapproxvar,
+            effectsize.df = 0,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
 
-        FamilyMDsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = Ave.Family.StdMD, effectsize.variance = varFamily.StdMD, effectsize.df = Family.df,
-          alpha = 0.05, alternative = alternative
-        ))$ES.sig
+
+        # Family.df = sum(df) - NumExp + 1 ERROR
+        Family.df = sum(df)
+
+        AveMD = mean(Family.MD)
+        AveVar = mean(Family.Var)
+
+        AveMDVar = AveVar / (NumExp * GroupSize) # Estimate of variance for each MD
+
+        Ave.Family.StdMD = AveMD / sqrt(AveVar)
+
+        Family.J = calculateSmallSampleSizeAdjustment(Family.df, exact = TRUE)
+        varFamily.StdMD = 1 / (GroupSize * NumExp) + Family.J ^
+          2 * Ave.Family.StdMD ^ 2 / (2 * Family.df)
 
 
-        SmallSampleAnalysis <- metaanalyseSmallSampleSizeExperiments(Family.StdMD, df, 1 / N)
+        FamilyMDsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = Ave.Family.StdMD,
+            effectsize.variance = varFamily.StdMD,
+            effectsize.df = Family.df,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
-        StdMDAdjUnweighted <- SmallSampleAnalysis$UnweightedMean
 
-        StdMDAdjUnweightedvar <- Family.J^2 * (1 / (NumExp * N) + StdMDAdjUnweighted^2 / (2 * Family.df))
-        StdMDAdjUnweightedsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDAdjUnweighted, effectsize.variance = StdMDAdjUnweightedvar,
-          effectsize.df = Family.df, alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        SmallSampleAnalysis = metaanalyseSmallSampleSizeExperiments(Family.StdMD, df, 1 /
+                                                                      N)
 
-        StdMDUnweighted <- mean(Family.StdMD)
+        StdMDAdjUnweighted = SmallSampleAnalysis$UnweightedMean
 
-        StdMDUnweightedvar <- 1 / (NumExp * N) + Family.J^2 * StdMDUnweighted^2 / (2 * Family.df)
+        StdMDAdjUnweightedvar = Family.J ^ 2 * (1 / (NumExp * N) +
+                                                  StdMDAdjUnweighted ^ 2 / (2 * Family.df))
+        StdMDAdjUnweightedsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = StdMDAdjUnweighted,
+            effectsize.variance = StdMDAdjUnweightedvar,
+            effectsize.df = Family.df,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
-        StdMDUnweightedsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = StdMDUnweighted, effectsize.variance = StdMDUnweightedvar, effectsize.df = Family.df,
-          alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        StdMDUnweighted = mean(Family.StdMD)
 
-        HedgesMA.Weighted <- SmallSampleAnalysis$WeightedMean
-        HedgesMA.Weightedvar <- SmallSampleAnalysis$VarWeightedMean
+        StdMDUnweightedvar = 1 / (NumExp * N) + Family.J ^ 2 * StdMDUnweighted ^
+          2 / (2 * Family.df)
 
-        HedgesMA.Weightedsig <- (calcEffectSizeConfidenceIntervals(
-          effectsize = HedgesMA.Weighted, effectsize.variance = HedgesMA.Weightedvar,
-          effectsize.df = Family.df, alpha = 0.05, alternative = alternative
-        ))$ES.sig
+        StdMDUnweightedsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = StdMDUnweighted,
+            effectsize.variance = StdMDUnweightedvar,
+            effectsize.df = Family.df,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
 
-        # Tabulate the results for output.
+        HedgesMA.Weighted = SmallSampleAnalysis$WeightedMean
+        HedgesMA.Weightedvar = SmallSampleAnalysis$VarWeightedMean
 
-        output <- tibble::tibble(NumExp, GroupSize, AveCliffd, AveCliffdvar, AveCliffdsig, Avephat, Avephatvar, Avephatsig,
+        HedgesMA.Weightedsig = (
+          calcEffectSizeConfidenceIntervals(
+            effectsize = HedgesMA.Weighted,
+            effectsize.variance = HedgesMA.Weightedvar,
+            effectsize.df = Family.df,
+            alpha = 0.05,
+            alternative = alternative
+          )
+        )$ES.sig
+
+        #Tabulate the results for output.
+
+        output = tibble::tibble(
+          NumExp,
+          GroupSize,
+          #           AveKtau,
+          #           AveKtauctvar,
+          #           AveKtausig,
+          AveCliffd,
+          AveCliffdvar,
+          AveCliffdsig,
+          Avephat,
+          Avephatvar,
+          Avephatsig,
           AveMDStd = Ave.Family.StdMD,
-          AveMDStdvar = varFamily.StdMD, AveMDStdsig = FamilyMDsig, MAphat = Mean.phat, MAphatvar = MAvar.phat, MAphatsig = phat.sig, MACliffd = Mean.d,
-          MACliffdvar = MAvar.d, MACliffdsig = d.sig, StdMDAdjUnweighted, StdMDAdjUnweightedvar, StdMDAdjUnweightedsig, StdMDUnweighted, StdMDUnweightedvar,
-          StdMDUnweightedsig, HedgesMA.Weighted, HedgesMA.Weightedvar, HedgesMA.Weightedsig, StdMDAdjMAexact, StdMDAdjMAexactvar, StdMDAdjMAexactsig,
-          StdMDAdjMAapprox, StdMDAdjMAapproxvar, StdMDAdjMAapproxsig, StdMDMAapprox, StdMDMAapproxvar, StdMDMAapproxsig, StdMDMAexact, StdMDMAexactvar,
+          AveMDStdvar = varFamily.StdMD,
+          AveMDStdsig = FamilyMDsig,
+          #           KtauMA,
+          #            KtauMAvar,
+          #            KtauMAsig,
+          #            KtauMAQE,
+          #            KtauMAQEp,
+          #            KtauMAHetsig,
+          #            PBScorMA,
+          #            PBScorMAvar,
+          #            PBScorMAsig,
+          #            PBScorMAhetsig,
+          MAphat = Mean.phat,
+          MAphatvar = MAvar.phat,
+          MAphatsig = phat.sig,
+          MACliffd = Mean.d,
+          MACliffdvar = MAvar.d,
+          MACliffdsig = d.sig,
+          StdMDAdjUnweighted,
+          StdMDAdjUnweightedvar,
+          StdMDAdjUnweightedsig,
+          StdMDUnweighted,
+          StdMDUnweightedvar,
+          StdMDUnweightedsig,
+          HedgesMA.Weighted,
+          HedgesMA.Weightedvar,
+          HedgesMA.Weightedsig,
+          StdMDAdjMAexact,
+          StdMDAdjMAexactvar,
+          StdMDAdjMAexactsig,
+          StdMDAdjMAapprox,
+          StdMDAdjMAapproxvar,
+          StdMDAdjMAapproxsig,
+          StdMDMAapprox,
+          StdMDMAapproxvar,
+          StdMDMAapproxsig,
+          StdMDMAexact,
+          StdMDMAexactvar,
           StdMDMAexactsig
         )
       }
+
     }
   }
   return(output)
+
 }
-
-
 
 
 
@@ -3650,229 +4678,334 @@ NP4GMetaAnalysisSimulation <- function(mean, sd, diff, GroupSize, Exp = 5, type 
 #' # Family NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat ...
 #' #1     1      5        10     0.252  0.007423693         TRUE   0.626 ...
 
-MetaAnalysisSimulations <- function(mean = 0, sd = 1, diff = 0.5, GroupSize = 10, type = "n", Replications = 50, Exp = 5, seed = 456, alpha = 0.05, FourGroup = FALSE, StdAdj = 0, BlockEffect = 0, BlockStdAdj = 0, StdExp = 0, MAMethod = "PM", returnES = FALSE, AlwaysTwoSidedTests = FALSE) {
-  # Set up variables to hold the outcome of the simulations
+MetaAnalysisSimulations <-
+  function(mean = 0,
+           sd = 1,
+           diff = 0.5,
+           GroupSize = 10,
+           type = "n",
+           Replications = 50,
+           Exp = 5,
+           seed = 456,
+           alpha = 0.05,
+           FourGroup = FALSE,
+           StdAdj = 0,
+           BlockEffect = 0,
+           BlockStdAdj = 0,
+           StdExp = 0,
+           MAMethod = "PM",
+           returnES = FALSE,
+           AlwaysTwoSidedTests = FALSE) {
+    # Set up variables to hold the outcome of the simulations
 
-  AverageCliffd <- 0 # Holds the average of Cliff's d
-  AverageCliffdvar <- 0 # Holds the average of the variance of Cliff's d
-  AverageCliffdsig <- 0 # Holds the average number of times the Cliff's d was assessed as significant using average hypothesis testing variance
-  Averagephat <- 0 # Holds the average of phat
-  Averagephatvar <- 0 # Holds the average of the variance of phat
-  Averagephatsig <- 0 # Holds the average number of times phat was assessed as signifciant using average hypothesis testing variance
-  AveMDStd <- 0 # Holds the mean of standardized effect sizes based in aggregating the MD
-  AveMDStdvar <- 0
-  AveMDStdsig <- 0
-
-
-  Mean.StdMDAdjMA.exact <- 0 # Holds the standardized effect size based on meta-analysis with the exact variance
-  StdMDAdjMA.exact.var <- 0
-  StdMDAdjMA.exact.sig <- 0 # Holds the number of times the standardized effect size was significant with a meta-analysis using the exact variance
-
-  Mean.StdMDAdjMA.approx <- 0 # Holds the standardized effect size based on meta-analysis with the approximate variance
-  StdMDAdjMA.approx.var <- 0
-  StdMDAdjMA.approx.sig <- 0 # Holds the number of times the standardized effect size was significant with a meta-analysis using the approximate variance
-
-  MAMean.phat <- 0 # Holds the mean phat effect size  based on a meta-analysis
-  MAphat.sig <- 0 # Holds the number of times the phat effect size was significant with a meta-analysis
-  MAphat.var <- 0
-
-  MAMean.Cliffd <- 0 # Holds the mean Cliff's d effect size based on meta-analysis
-  MACliffd.sig <- 0 # Holds the number of times the Cliff's d effect size was significant with a meta-analysis
-  MACliffd.var <- 0
-
-  Mean.StdMDUnweighted <- 0 # Holds the mean of the unweighted family level estimate of Cohen's d
-  StdMDUnweighted.sig <- 0 # Holds the proportion of significant unweighted family level estimates of Cohen's d
-  StdMDUnweighted.var <- 0
-
-  Mean.StdMDAdjUnweighted <- 0 # Holds the mean of the unweighted family level, small-sample size adjusted,  estimate of the Cohen's d
-  StdMDAdjUnweighted.sig <- 0 # Holds the proportion of significant unweighted family level, small-sample size adjusted,  estimate of the Cohen's d
-  StdMDAdjUnweighted.var <- 0
-
-  Mean.StdMDMA.exact <- 0 # Holds the mean SMD effect size based on meta-analysis
-  StdMDMA.exact.var <- 0 # Holds the mean variance of the StdMDMA.exact effect size
-  StdMDMA.exact.sig <- 0 # Holds the number of times the SMD effect size was significant with a meta-analysis
-
-  Mean.StdMDMA.approx <- 0 # Holds the mean SMD effect size based on meta-analysis
-  StdMDMA.approx.var <- 0 # Holds the nvariance of the StdMDMA.approx effect size
-  StdMDMA.approx.sig <- 0 # Holds the number of times the SMD effect size was significant with a meta-analysis
+    AverageCliffd <- 0 # Holds the average of Cliff's d
+    AverageCliffdvar <-
+      0 # Holds the average of the variance of Cliff's d
+    AverageCliffdsig <-
+      0 # Holds the average number of times the Cliff's d was assessed as significant using average hypothesis testing variance
+    Averagephat <- 0 # Holds the average of phat
+    Averagephatvar <- 0 # Holds the average of the variance of phat
+    Averagephatsig <-
+      0 # Holds the average number of times phat was assessed as signifciant using average hypothesis testing variance
+    AveMDStd <-
+      0 # Holds the mean of standardized effect sizes based in aggregating the MD
+    AveMDStdvar <- 0
+    AveMDStdsig <- 0
 
 
-  # HedgesMA.Mean.Unweighted=0 # Holds the average of the small sample size adjusted StdMD
-  Mean.HedgesMA <- 0 # Holds the weighted average of the small sample size adjusted StdMD based on Hedges spcial analysis process
-  Hedges.sig <- 0 # Holds the proportion of times the small sample size adjusted StdMD was significant
-  Hedges.var <- 0
+    Mean.StdMDAdjMA.exact <-
+      0 # Holds the standardized effect size based on meta-analysis with the exact variance
+    StdMDAdjMA.exact.var <- 0
+    StdMDAdjMA.exact.sig <-
+      0 # Holds the number of times the standardized effect size was significant with a meta-analysis using the exact variance
+
+    Mean.StdMDAdjMA.approx <-
+      0 # Holds the standardized effect size based on meta-analysis with the approximate variance
+    StdMDAdjMA.approx.var <- 0
+    StdMDAdjMA.approx.sig <-
+      0 # Holds the number of times the standardized effect size was significant with a meta-analysis using the approximate variance
+
+    MAMean.phat <-
+      0 # Holds the mean phat effect size  based on a meta-analysis
+    MAphat.sig <-
+      0 # Holds the number of times the phat effect size was significant with a meta-analysis
+    MAphat.var <- 0
+
+    MAMean.Cliffd <-
+      0 # Holds the mean Cliff's d effect size based on meta-analysis
+    MACliffd.sig <-
+      0 # Holds the number of times the Cliff's d effect size was significant with a meta-analysis
+    MACliffd.var <- 0
+
+    Mean.StdMDUnweighted <-
+      0 # Holds the mean of the unweighted family level estimate of Cohen's d
+    StdMDUnweighted.sig <-
+      0 # Holds the proportion of significant unweighted family level estimates of Cohen's d
+    StdMDUnweighted.var <- 0
+
+    Mean.StdMDAdjUnweighted <-
+      0 # Holds the mean of the unweighted family level, small-sample size adjusted,  estimate of the Cohen's d
+    StdMDAdjUnweighted.sig <-
+      0 # Holds the proportion of significant unweighted family level, small-sample size adjusted,  estimate of the Cohen's d
+    StdMDAdjUnweighted.var <- 0
+
+    Mean.StdMDMA.exact <-
+      0 # Holds the mean SMD effect size based on meta-analysis
+    StdMDMA.exact.var <-
+      0 # Holds the mean variance of the StdMDMA.exact effect size
+    StdMDMA.exact.sig <-
+      0 # Holds the number of times the SMD effect size was significant with a meta-analysis
+
+    Mean.StdMDMA.approx <-
+      0 # Holds the mean SMD effect size based on meta-analysis
+    StdMDMA.approx.var <-
+      0 # Holds the nvariance of the StdMDMA.approx effect size
+    StdMDMA.approx.sig <-
+      0 # Holds the number of times the SMD effect size was significant with a meta-analysis
 
 
-  DataTable <- NULL
+    # HedgesMA.Mean.Unweighted=0 # Holds the average of the small sample size adjusted StdMD
+    Mean.HedgesMA <-
+      0 # Holds the weighted average of the small sample size adjusted StdMD based on Hedges spcial analysis process
+    Hedges.sig <-
+      0 # Holds the proportion of times the small sample size adjusted StdMD was significant
+    Hedges.var <- 0
 
-  FourGroupExp <- c(rep(FourGroup, Replications))
+
+    DataTable <- NULL
+
+    FourGroupExp <- c(rep(FourGroup, Replications))
 
 
 
-  for (i in 1:Replications) {
-    if (!FourGroupExp[i]) {
-      # 14-03-2022 parameter BlockStdadj changed to BlockStdAdj for consistency
-      res <- NP2GMetaAnalysisSimulation(mean, sd, diff, GroupSize,
-        Exp = Exp, type = type, seed = seed + i, alpha = alpha, StdAdj = StdAdj, StdExp = StdExp,
-        MAMethod = MAMethod, AlwaysTwoSidedTests = AlwaysTwoSidedTests
-      )
+    for (i in 1:Replications) {
+      if (!FourGroupExp[i]) {
+        # 14-03-2022 parameter BlockStdadj changed to BlockStdAdj for consistency
+        res <- NP2GMetaAnalysisSimulation(
+          mean,
+          sd,
+          diff,
+          GroupSize,
+          Exp = Exp,
+          type = type,
+          seed = seed + i,
+          alpha = alpha,
+          StdAdj = StdAdj,
+          StdExp = StdExp,
+          MAMethod = MAMethod,
+          AlwaysTwoSidedTests = AlwaysTwoSidedTests
+        )
+      }
+      if (FourGroupExp[i]) {
+        res <- NP4GMetaAnalysisSimulation(
+          mean,
+          sd,
+          diff,
+          GroupSize,
+          Exp = Exp,
+          type = type,
+          seed = seed + i,
+          alpha = alpha,
+          StdAdj = StdAdj,
+          BlockEffect = BlockEffect,
+          BlockStdAdj = BlockStdAdj,
+          StdExp = StdExp,
+          MAMethod = MAMethod,
+          AlwaysTwoSidedTests = AlwaysTwoSidedTests
+        )
+      }
+
+
+      if (!returnES) {
+        AverageCliffd <- AverageCliffd + res$AveCliffd
+        AverageCliffdvar <- AverageCliffdvar + res$AveCliffdvar
+        if (res$AveCliffdsig) {
+          AverageCliffdsig <- AverageCliffdsig + 1
+        }
+
+        Averagephat <- Averagephat + res$Avephat
+        Averagephatvar <- Averagephatvar + res$Avephatvar
+        if (res$Avephatsig) {
+          Averagephatsig <- Averagephatsig + 1
+        }
+
+        AveMDStd <- AveMDStd + res$AveMDStd
+        AveMDStdvar <- AveMDStdvar + res$AveMDStdvar
+        if (res$AveMDStdsig) {
+          AveMDStdsig <- AveMDStdsig + 1
+        }
+
+
+        MAMean.phat <- MAMean.phat + res$MAphat
+        MAphat.var <- MAphat.var + res$MAphatvar
+        if (res$MAphatsig) {
+          MAphat.sig <- MAphat.sig + 1
+        }
+
+        MAMean.Cliffd <- MAMean.Cliffd + res$MACliffd
+        MACliffd.var <- MACliffd.var + res$MACliffdvar
+        if (res$MACliffdsig) {
+          MACliffd.sig <- MACliffd.sig + 1
+        }
+
+        Mean.StdMDUnweighted <-
+          res$StdMDUnweighted + Mean.StdMDUnweighted
+        StdMDUnweighted.var <-
+          StdMDUnweighted.var + res$StdMDUnweightedvar
+        if (res$StdMDUnweightedsig) {
+          StdMDUnweighted.sig <- StdMDUnweighted.sig + 1
+        }
+
+        Mean.StdMDAdjUnweighted <-
+          res$StdMDAdjUnweighted + Mean.StdMDAdjUnweighted
+        if (res$StdMDAdjUnweightedsig) {
+          StdMDAdjUnweighted.sig <- StdMDAdjUnweighted.sig + 1
+        }
+        StdMDAdjUnweighted.var <-
+          StdMDAdjUnweighted.var + res$StdMDAdjUnweightedvar
+
+        Mean.StdMDAdjMA.exact <-
+          Mean.StdMDAdjMA.exact + res$StdMDAdjMAexact
+        StdMDAdjMA.exact.var <-
+          StdMDAdjMA.exact.var + res$StdMDAdjMAexactvar
+        if (res$StdMDAdjMAexactsig) {
+          StdMDAdjMA.exact.sig <- StdMDAdjMA.exact.sig + 1
+        }
+
+        Mean.StdMDAdjMA.approx <-
+          Mean.StdMDAdjMA.approx + res$StdMDAdjMAapprox
+        StdMDAdjMA.approx.var <-
+          StdMDAdjMA.approx.var + res$StdMDAdjMAapproxvar
+        if (res$StdMDAdjMAapproxsig) {
+          StdMDAdjMA.approx.sig <- StdMDAdjMA.approx.sig + 1
+        }
+
+
+        Mean.StdMDMA.exact <- Mean.StdMDMA.exact + res$StdMDMAexact
+        StdMDMA.exact.var <- StdMDMA.exact.var + res$StdMDMAexactvar
+        if (res$StdMDMAexactsig) {
+          StdMDMA.exact.sig <- StdMDMA.exact.sig + 1
+        }
+
+
+        Mean.StdMDMA.approx <- Mean.StdMDMA.approx + res$StdMDMAapprox
+        StdMDMA.approx.var <-
+          StdMDMA.approx.var + res$StdMDMAapproxvar
+        if (res$StdMDMAapproxsig) {
+          StdMDMA.approx.sig <- StdMDMA.approx.sig + 1
+        }
+
+        Mean.HedgesMA <- Mean.HedgesMA + res$HedgesMA.Weighted
+        if (res$HedgesMA.Weightedsig) {
+          Hedges.sig <- Hedges.sig + 1
+        }
+        Hedges.var <- Hedges.var + res$HedgesMA.Weightedvar
+      } else {
+        # Store the outcome from each replication
+        DataTable <-
+          tibble::as_tibble(dplyr::bind_rows(DataTable, dplyr::bind_cols(Family = i, res)))
+      }
     }
-    if (FourGroupExp[i]) {
-      res <- NP4GMetaAnalysisSimulation(mean, sd, diff, GroupSize,
-        Exp = Exp, type = type, seed = seed + i, alpha = alpha, StdAdj = StdAdj, BlockEffect = BlockEffect,
-        BlockStdAdj = BlockStdAdj, StdExp = StdExp, MAMethod = MAMethod, AlwaysTwoSidedTests = AlwaysTwoSidedTests
-      )
-    }
+    if (!returnES) {
+      # Calculate averages.
 
+      AverageCliffd <- AverageCliffd / Replications
+      AverageCliffdvar <- AverageCliffdvar / Replications
+      AverageCliffdsig <- AverageCliffdsig / Replications
+
+      Averagephat <- Averagephat / Replications
+      Averagephatvar <- Averagephatvar / Replications
+      Averagephatsig <- Averagephatsig / Replications
+
+      AveMDStd <- AveMDStd / Replications
+      AveMDStdvar <- AveMDStdvar / Replications
+      AveMDStdsig <- AveMDStdsig / Replications
+
+      MAMean.phat <- MAMean.phat / Replications
+      MAphat.var <- MAphat.var / Replications
+      MAphat.sig <- MAphat.sig / Replications
+
+      MAMean.Cliffd <- MAMean.Cliffd / Replications
+      MACliffd.var <- MACliffd.var / Replications
+      MACliffd.sig <- MACliffd.sig / Replications
+
+      Mean.StdMDUnweighted <- Mean.StdMDUnweighted / Replications
+      StdMDUnweighted.var <- StdMDUnweighted.var / Replications
+      StdMDUnweighted.sig <- StdMDUnweighted.sig / Replications
+
+      Mean.StdMDAdjUnweighted <-
+        Mean.StdMDAdjUnweighted / Replications
+      StdMDAdjUnweighted.var <- StdMDAdjUnweighted.var / Replications
+      StdMDAdjUnweighted.sig <- StdMDAdjUnweighted.sig / Replications
+
+
+      Mean.StdMDAdjMA.exact <- Mean.StdMDAdjMA.exact / Replications
+      StdMDAdjMA.exact.var <- StdMDAdjMA.exact.var / Replications
+      StdMDAdjMA.exact.sig <- StdMDAdjMA.exact.sig / Replications
+
+
+      Mean.StdMDAdjMA.approx <- Mean.StdMDAdjMA.approx / Replications
+      StdMDAdjMA.approx.var <- StdMDAdjMA.approx.var / Replications
+      StdMDAdjMA.approx.sig <- StdMDAdjMA.approx.sig / Replications
+
+      Mean.StdMDMA.exact <- Mean.StdMDMA.exact / Replications
+      StdMDMA.exact.var <- StdMDMA.exact.var / Replications
+      StdMDMA.exact.sig <- StdMDMA.exact.sig / Replications
+
+      Mean.StdMDMA.approx <- Mean.StdMDMA.approx / Replications
+      StdMDMA.approx.var <- StdMDMA.approx.var / Replications
+      StdMDMA.approx.sig <- StdMDMA.approx.sig / Replications
+
+      Mean.HedgesMA <- Mean.HedgesMA / Replications
+      Hedges.var <- Hedges.var / Replications
+      Hedges.sig <- Hedges.sig / Replications
+    }
 
     if (!returnES) {
-      AverageCliffd <- AverageCliffd + res$AveCliffd
-      AverageCliffdvar <- AverageCliffdvar + res$AveCliffdvar
-      if (res$AveCliffdsig) {
-        AverageCliffdsig <- AverageCliffdsig + 1
-      }
-
-      Averagephat <- Averagephat + res$Avephat
-      Averagephatvar <- Averagephatvar + res$Avephatvar
-      if (res$Avephatsig) {
-        Averagephatsig <- Averagephatsig + 1
-      }
-
-      AveMDStd <- AveMDStd + res$AveMDStd
-      AveMDStdvar <- AveMDStdvar + res$AveMDStdvar
-      if (res$AveMDStdsig) {
-        AveMDStdsig <- AveMDStdsig + 1
-      }
-
-
-      MAMean.phat <- MAMean.phat + res$MAphat
-      MAphat.var <- MAphat.var + res$MAphatvar
-      if (res$MAphatsig) {
-        MAphat.sig <- MAphat.sig + 1
-      }
-
-      MAMean.Cliffd <- MAMean.Cliffd + res$MACliffd
-      MACliffd.var <- MACliffd.var + res$MACliffdvar
-      if (res$MACliffdsig) {
-        MACliffd.sig <- MACliffd.sig + 1
-      }
-
-      Mean.StdMDUnweighted <- res$StdMDUnweighted + Mean.StdMDUnweighted
-      StdMDUnweighted.var <- StdMDUnweighted.var + res$StdMDUnweightedvar
-      if (res$StdMDUnweightedsig) {
-        StdMDUnweighted.sig <- StdMDUnweighted.sig + 1
-      }
-
-      Mean.StdMDAdjUnweighted <- res$StdMDAdjUnweighted + Mean.StdMDAdjUnweighted
-      if (res$StdMDAdjUnweightedsig) {
-        StdMDAdjUnweighted.sig <- StdMDAdjUnweighted.sig + 1
-      }
-      StdMDAdjUnweighted.var <- StdMDAdjUnweighted.var + res$StdMDAdjUnweightedvar
-
-      Mean.StdMDAdjMA.exact <- Mean.StdMDAdjMA.exact + res$StdMDAdjMAexact
-      StdMDAdjMA.exact.var <- StdMDAdjMA.exact.var + res$StdMDAdjMAexactvar
-      if (res$StdMDAdjMAexactsig) {
-        StdMDAdjMA.exact.sig <- StdMDAdjMA.exact.sig + 1
-      }
-
-      Mean.StdMDAdjMA.approx <- Mean.StdMDAdjMA.approx + res$StdMDAdjMAapprox
-      StdMDAdjMA.approx.var <- StdMDAdjMA.approx.var + res$StdMDAdjMAapproxvar
-      if (res$StdMDAdjMAapproxsig) {
-        StdMDAdjMA.approx.sig <- StdMDAdjMA.approx.sig + 1
-      }
-
-
-      Mean.StdMDMA.exact <- Mean.StdMDMA.exact + res$StdMDMAexact
-      StdMDMA.exact.var <- StdMDMA.exact.var + res$StdMDMAexactvar
-      if (res$StdMDMAexactsig) {
-        StdMDMA.exact.sig <- StdMDMA.exact.sig + 1
-      }
-
-
-      Mean.StdMDMA.approx <- Mean.StdMDMA.approx + res$StdMDMAapprox
-      StdMDMA.approx.var <- StdMDMA.approx.var + res$StdMDMAapproxvar
-      if (res$StdMDMAapproxsig) {
-        StdMDMA.approx.sig <- StdMDMA.approx.sig + 1
-      }
-
-      Mean.HedgesMA <- Mean.HedgesMA + res$HedgesMA.Weighted
-      if (res$HedgesMA.Weightedsig) {
-        Hedges.sig <- Hedges.sig + 1
-      }
-      Hedges.var <- Hedges.var + res$HedgesMA.Weightedvar
+      outcome <- tibble::tibble(
+        AverageCliffd,
+        AverageCliffdvar,
+        AverageCliffdsig,
+        Averagephat,
+        Averagephatvar,
+        Averagephatsig,
+        AveMDStd,
+        AveMDStdvar,
+        AveMDStdsig,
+        MAMean.phat,
+        MAphat.var,
+        MAphat.sig,
+        MAMean.Cliffd,
+        MACliffd.var,
+        MACliffd.sig,
+        Mean.StdMDUnweighted,
+        StdMDUnweighted.var,
+        StdMDUnweighted.sig,
+        Mean.StdMDAdjUnweighted,
+        StdMDAdjUnweighted.var,
+        StdMDAdjUnweighted.sig,
+        Mean.HedgesMA,
+        Hedges.var,
+        Hedges.sig,
+        Mean.StdMDAdjMA.exact,
+        StdMDAdjMA.exact.var,
+        StdMDAdjMA.exact.sig,
+        Mean.StdMDAdjMA.approx,
+        StdMDAdjMA.approx.var,
+        StdMDAdjMA.approx.sig,
+        Mean.StdMDMA.exact,
+        StdMDMA.exact.var,
+        StdMDMA.exact.sig,
+        Mean.StdMDMA.approx,
+        StdMDMA.approx.var,
+        StdMDMA.approx.sig
+      )
     } else {
-      # Store the outcome from each replication
-      DataTable <- tibble::as_tibble(dplyr::bind_rows(DataTable, dplyr::bind_cols(Family = i, res)))
+      outcome <- DataTable
     }
+
+    return(outcome)
   }
-  if (!returnES) {
-    # Calculate averages.
-
-    AverageCliffd <- AverageCliffd / Replications
-    AverageCliffdvar <- AverageCliffdvar / Replications
-    AverageCliffdsig <- AverageCliffdsig / Replications
-
-    Averagephat <- Averagephat / Replications
-    Averagephatvar <- Averagephatvar / Replications
-    Averagephatsig <- Averagephatsig / Replications
-
-    AveMDStd <- AveMDStd / Replications
-    AveMDStdvar <- AveMDStdvar / Replications
-    AveMDStdsig <- AveMDStdsig / Replications
-
-    MAMean.phat <- MAMean.phat / Replications
-    MAphat.var <- MAphat.var / Replications
-    MAphat.sig <- MAphat.sig / Replications
-
-    MAMean.Cliffd <- MAMean.Cliffd / Replications
-    MACliffd.var <- MACliffd.var / Replications
-    MACliffd.sig <- MACliffd.sig / Replications
-
-    Mean.StdMDUnweighted <- Mean.StdMDUnweighted / Replications
-    StdMDUnweighted.var <- StdMDUnweighted.var / Replications
-    StdMDUnweighted.sig <- StdMDUnweighted.sig / Replications
-
-    Mean.StdMDAdjUnweighted <- Mean.StdMDAdjUnweighted / Replications
-    StdMDAdjUnweighted.var <- StdMDAdjUnweighted.var / Replications
-    StdMDAdjUnweighted.sig <- StdMDAdjUnweighted.sig / Replications
-
-
-    Mean.StdMDAdjMA.exact <- Mean.StdMDAdjMA.exact / Replications
-    StdMDAdjMA.exact.var <- StdMDAdjMA.exact.var / Replications
-    StdMDAdjMA.exact.sig <- StdMDAdjMA.exact.sig / Replications
-
-
-    Mean.StdMDAdjMA.approx <- Mean.StdMDAdjMA.approx / Replications
-    StdMDAdjMA.approx.var <- StdMDAdjMA.approx.var / Replications
-    StdMDAdjMA.approx.sig <- StdMDAdjMA.approx.sig / Replications
-
-    Mean.StdMDMA.exact <- Mean.StdMDMA.exact / Replications
-    StdMDMA.exact.var <- StdMDMA.exact.var / Replications
-    StdMDMA.exact.sig <- StdMDMA.exact.sig / Replications
-
-    Mean.StdMDMA.approx <- Mean.StdMDMA.approx / Replications
-    StdMDMA.approx.var <- StdMDMA.approx.var / Replications
-    StdMDMA.approx.sig <- StdMDMA.approx.sig / Replications
-
-    Mean.HedgesMA <- Mean.HedgesMA / Replications
-    Hedges.var <- Hedges.var / Replications
-    Hedges.sig <- Hedges.sig / Replications
-  }
-
-  if (!returnES) {
-    outcome <- tibble::tibble(
-      AverageCliffd, AverageCliffdvar, AverageCliffdsig, Averagephat, Averagephatvar, Averagephatsig, AveMDStd, AveMDStdvar,
-      AveMDStdsig, MAMean.phat, MAphat.var, MAphat.sig, MAMean.Cliffd, MACliffd.var, MACliffd.sig, Mean.StdMDUnweighted, StdMDUnweighted.var,
-      StdMDUnweighted.sig, Mean.StdMDAdjUnweighted, StdMDAdjUnweighted.var, StdMDAdjUnweighted.sig, Mean.HedgesMA, Hedges.var, Hedges.sig, Mean.StdMDAdjMA.exact,
-      StdMDAdjMA.exact.var, StdMDAdjMA.exact.sig, Mean.StdMDAdjMA.approx, StdMDAdjMA.approx.var, StdMDAdjMA.approx.sig, Mean.StdMDMA.exact, StdMDMA.exact.var,
-      StdMDMA.exact.sig, Mean.StdMDMA.approx, StdMDMA.approx.var, StdMDMA.approx.sig
-    )
-  } else {
-    outcome <- DataTable
-  }
-
-  return(outcome)
-}
 
 ####################################################################################################################################################
 
@@ -3897,23 +5030,24 @@ calculatePopulationStatistics <- function(mean, std, type = "n") {
   if (type == "n") {
     # The expected values of a sample from the normal distribution
     RawMean <- mean
-    RawVariance <- std^2
+    RawVariance <- std ^ 2
     RawSkewness <- 0
     RawKurtosis <- 3
   }
   if (type == "l") {
     # The expected values of a sample from the lognormal distribution
-    RawMean <- exp(mean + std^2 / 2)
-    RawVariance <- (exp(std^2) - 1) * exp(2 * mean + std^2)
-    RawSkewness <- (exp(std^2) + 2) * sqrt(exp(std^2) - 1)
-    RawKurtosis <- exp(4 * std^2) + 2 * exp(2 * std^2) + 3 * exp(2 * std^2) - 3
+    RawMean <- exp(mean + std ^ 2 / 2)
+    RawVariance <- (exp(std ^ 2) - 1) * exp(2 * mean + std ^ 2)
+    RawSkewness <- (exp(std ^ 2) + 2) * sqrt(exp(std ^ 2) - 1)
+    RawKurtosis <-
+      exp(4 * std ^ 2) + 2 * exp(2 * std ^ 2) + 3 * exp(2 * std ^ 2) - 3
   }
   if (type == "g") {
     # The expected values of a sample from the gamma distribution
     shape <- std
     rate <- mean
     RawMean <- shape / rate
-    RawVariance <- shape / rate^2
+    RawVariance <- shape / rate ^ 2
     RawSkewness <- 2 / sqrt(shape)
     RawKurtosis <- 6 / shape + 3
   }
@@ -3923,12 +5057,17 @@ calculatePopulationStatistics <- function(mean, std, type = "n") {
     location <- mean
     scale <- std
     RawMean <- location
-    RawVariance <- 2 * scale^2
+    RawVariance <- 2 * scale ^ 2
     RawSkewness <- 0
     RawKurtosis <- 6
   }
   RawEffectSize <- RawMean / sqrt(RawVariance)
-  output <- tibble::tibble(RawMean, RawVariance, RawEffectSize, RawSkewness, RawKurtosis)
+  output <-
+    tibble::tibble(RawMean,
+                   RawVariance,
+                   RawEffectSize,
+                   RawSkewness,
+                   RawKurtosis)
   return(output)
 }
 
@@ -3941,7 +5080,7 @@ calculatePopulationStatistics <- function(mean, std, type = "n") {
 #' @param m2 The theoretical mean for the treatment group
 #' @param std2 The theoretical variance for the treatment group
 #' @param type String identifying the distribution, 'n' for normal, 'ln' for lognormal, 'lap' for Laplace, 'g' for Gamma
-#' @return dataframe containing the expected values of the unstandardized mean difference effect size, the pooled witjin group variance, the standardized mean difference effect size and the point bi-serial correlation.
+#' @return dataframe containing the expected values of the unstandardized mean difference effect size, the pooled within group variance, the standardized mean difference effect size and the point bi-serial correlation.
 #' @examples
 #' RandomizedDesignEffectSizes(m1=0, std1=1, m2=1, std2=3, type = 'n')
 #' #  ES Var     StdES      rPBS
@@ -3952,16 +5091,17 @@ calculatePopulationStatistics <- function(mean, std, type = "n") {
 #'  RandomizedDesignEffectSizes(m1=0, std1=1, m2=0.266, std2=1, type = 'l')
 #' #          ES      Var     StdES       rPBS
 #' # 1 0.5024232 6.310995 0.1999957 0.09950162
-RandomizedDesignEffectSizes <- function(m1, std1, m2, std2, type = "n") {
-  G1.results <- calculatePopulationStatistics(m1, std1, type = type)
-  G2.results <- calculatePopulationStatistics(m2, std2, type = type)
-  ES <- G2.results$RawMean - G1.results$RawMean
-  Var <- (G2.results$RawVariance + G1.results$RawVariance) / 2
-  StdES <- ES / sqrt(Var)
-  rPBS <- StdES / sqrt(StdES^2 + 4)
-  output <- tibble::tibble(ES, Var, StdES, rPBS)
-  return(output)
-}
+RandomizedDesignEffectSizes <-
+  function(m1, std1, m2, std2, type = "n") {
+    G1.results <- calculatePopulationStatistics(m1, std1, type = type)
+    G2.results <- calculatePopulationStatistics(m2, std2, type = type)
+    ES <- G2.results$RawMean - G1.results$RawMean
+    Var <- (G2.results$RawVariance + G1.results$RawVariance) / 2
+    StdES <- ES / sqrt(Var)
+    rPBS <- StdES / sqrt(StdES ^ 2 + 4)
+    output <- tibble::tibble(ES, Var, StdES, rPBS)
+    return(output)
+  }
 
 #' @title RandomizedBlockDesignEffectSizes
 #' @description This function finds the theoretical effect sizes for a four-group randomized block experiments assuming one of four different underlying distributions specified by the type parameter. The design assumes two blocks each comprising a control and treatment group. If required a fixed Blocking effect is added to the mean for Block 2.
@@ -3991,33 +5131,51 @@ RandomizedDesignEffectSizes <- function(m1, std1, m2, std2, type = "n") {
 #'   m1=0,std1=1,m2=0.266,std2=1,m3=0,std3=1,m4=0.266,std4=1,BE = 0,type = 'l')
 #' #        ES      Var     StdES       rPBS
 #' #1 0.5024232 6.310995 0.1999957 0.09950162
-RandomizedBlockDesignEffectSizes <- function(m1, std1, m2, std2, m3, std3, m4, std4, BE = 0, type = "n") {
-  # Find the basic statistics for each group
-  G1.results <- calculatePopulationStatistics(m1, std1, type = type)
-  G2.results <- calculatePopulationStatistics(m2, std2, type = type)
+RandomizedBlockDesignEffectSizes <-
+  function(m1,
+           std1,
+           m2,
+           std2,
+           m3,
+           std3,
+           m4,
+           std4,
+           BE = 0,
+           type = "n") {
+    # Find the basic statistics for each group
+    G1.results <- calculatePopulationStatistics(m1, std1, type = type)
+    G2.results <- calculatePopulationStatistics(m2, std2, type = type)
 
-  # 12-03-2022 Block effect incorrectly handled for all types. Revised so that the block effect is added to the shape for Gamma variables and
-  # the mean for all other data types
+    # 12-03-2022 Block effect incorrectly handled for all types. Revised so that the block effect is added to the shape for Gamma variables and
+    # the mean for all other data types
 
-  if (type == "g") {
-    G3.results <- calculatePopulationStatistics(m3, std3 + BE, type = type)
-    G4.results <- calculatePopulationStatistics(m4, std4 + BE, type = type)
-  } else {
-    G3.results <- calculatePopulationStatistics(m3 + BE, std3, type = type)
-    G4.results <- calculatePopulationStatistics(m4 + BE, std4, type = type)
+    if (type == "g") {
+      G3.results <-
+        calculatePopulationStatistics(m3, std3 + BE, type = type)
+      G4.results <-
+        calculatePopulationStatistics(m4, std4 + BE, type = type)
+    } else {
+      G3.results <-
+        calculatePopulationStatistics(m3 + BE, std3, type = type)
+      G4.results <-
+        calculatePopulationStatistics(m4 + BE, std4, type = type)
+    }
+
+    # Calculate the expected unstandardized effect size allowing for the experimental design
+    ES <-
+      (G2.results$RawMean - G1.results$RawMean + G4.results$RawMean - G3.results$RawMean) / 2
+    # Calculate the within groups pooled variance
+    Var <-
+      (
+        G2.results$RawVariance + G1.results$RawVariance + G3.results$RawVariance + G4.results$RawVariance
+      ) / 4
+    # Calculate the standardized mean difference effect size
+    StdES <- ES / sqrt(Var)
+    # Calculate the point bi-serial effect size
+    rPBS <- StdES / sqrt(StdES ^ 2 + 4)
+    output <- tibble::tibble(ES, Var, StdES, rPBS)
+    return(output)
   }
-
-  # Calculate the expected unstandardized effect size allowing for the experimental design
-  ES <- (G2.results$RawMean - G1.results$RawMean + G4.results$RawMean - G3.results$RawMean) / 2
-  # Calculate the within groups pooled variance
-  Var <- (G2.results$RawVariance + G1.results$RawVariance + G3.results$RawVariance + G4.results$RawVariance) / 4
-  # Calculate the standardized mean difference effect size
-  StdES <- ES / sqrt(Var)
-  # Calculate the point bi-serial effect size
-  rPBS <- StdES / sqrt(StdES^2 + 4)
-  output <- tibble::tibble(ES, Var, StdES, rPBS)
-  return(output)
-}
 
 
 #' @title crossoverResidualAnalysis
@@ -4042,37 +5200,59 @@ RandomizedBlockDesignEffectSizes <- function(m1, std1, m2, std2, m3, std3, m4, s
 #' #2    S1 USB2        Time 24 0.0448      1
 #' #3    S1 USB2  Efficiency 24  0.365      4
 
-crossoverResidualAnalysis <- function(file, StudyID, ExperimentNames, Type, Metrics) {
-  NumMets <- length(Metrics)
-  NumExp <- length(ExperimentNames)
+crossoverResidualAnalysis <-
+  function(file,
+           StudyID,
+           ExperimentNames,
+           Type,
+           Metrics) {
+    NumMets <- length(Metrics)
+    NumExp <- length(ExperimentNames)
 
-  ExpData <- reproducer::ExtractExperimentData(file, ExperimentNames = ExperimentNames, idvar = "ParticipantID", timevar = "Period", ConvertToWide = FALSE)
+    ExpData <-
+      reproducer::ExtractExperimentData(
+        file,
+        ExperimentNames = ExperimentNames,
+        idvar = "ParticipantID",
+        timevar = "Period",
+        ConvertToWide = FALSE
+      )
 
-  table <- NULL
-  for (j in 1:NumMets) {
-    # Perform a linear mixed model analysis for each experiment and each metric
+    table <- NULL
+    for (j in 1:NumMets) {
+      # Perform a linear mixed model analysis for each experiment and each metric
 
-    for (i in 1:NumExp) {
-      # Construct a row for the outcome of the linear model analysis depending on the experiment type and analyse the residuals
+      for (i in 1:NumExp) {
+        # Construct a row for the outcome of the linear model analysis depending on the experiment type and analyse the residuals
 
-      LinearModel <- doLM(ExpData[[i]], Metrics[j], Type[i])
+        LinearModel <- doLM(ExpData[[i]], Metrics[j], Type[i])
 
-      Residuals <- summary(LinearModel)$residuals
+        Residuals <- summary(LinearModel)$residuals
 
-      N <- length(Residuals) / 2
+        N <- length(Residuals) / 2
 
-      row <- data.frame(AnalyseResiduals(Residuals, ExperimentNames[i]))
+        row <-
+          data.frame(AnalyseResiduals(Residuals, ExperimentNames[i]))
 
 
-      table <- data.frame(rbind(table, cbind(Study = StudyID, Exp = ExperimentNames[i], Metrics = Metrics[j], N, ADpval = signif(
-        row$AndersonDarling,
-        3
-      ), NumOut = row$NumOut)))
+        table <-
+          data.frame(rbind(
+            table,
+            cbind(
+              Study = StudyID,
+              Exp = ExperimentNames[i],
+              Metrics = Metrics[j],
+              N,
+              ADpval = signif(row$AndersonDarling,
+                              3),
+              NumOut = row$NumOut
+            )
+          ))
+      }
     }
-  }
 
-  return(table)
-}
+    return(table)
+  }
 
 #' @title doLM
 #' @description This helper function is called by the function 'crossoverResidualAnalysis' to perform either an AB/BA crossover analysis or a four-group crossover on the data set defined by the parameter DataSet depending on the value of the Type parameter.
@@ -4083,7 +5263,9 @@ crossoverResidualAnalysis <- function(file, StudyID, ExperimentNames, Type, Metr
 #' @return The data analysis results provided by the lmer function of the lme4 package
 
 doLM <- function(DataSet, Metric, Type) {
-  form1 <- paste(Metric, "~Period+Treatment+System+CrossOverID+(1|ParticipantID)")
+  form1 <-
+    paste(Metric,
+          "~Period+Treatment+System+CrossOverID+(1|ParticipantID)")
   form2 <- paste(Metric, "~Period+Treatment+(1|ParticipantID)")
 
   if (Type == "4G") {
@@ -4096,3 +5278,1376 @@ doLM <- function(DataSet, Metric, Type) {
 
   return(LinearModel)
 }
+
+
+#
+# 6 functions to generate results in our paper "Recommendations for Analyzing Software Engineering Experiments":
+#
+
+#' @title calculateMAType1Error
+#' @description The function simulates multiple five group families of either two-group or four-group experiments and estimates the Type1 Error rate obtained after synthesizing  the analysis results obtained from the experiments in each family. The Type1 Error is estimated as the percentage of families for which the overall mean of the five experiments was significantly different from zero. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The simulations can be repeated for different sample sizes depending on the parameter N. The output is a table of values identifying three observed effect size estimates (Cliff's d, PHat and StdMD) and their related type 1 error rates for each set of simulated families. The synthesis method for all three effect sizes is based on calculating the overall mean and variance for the family of experiments, and then using those values to calculate the effect size variance and its variance. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size Software Engineering Experiments" and its Supplementary Material.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calculateMAType1Error
+#' @param mean This is the mean value of the control and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 1).
+#' @param N This specifies the sample sizes per group that will be used in each set of simulations (default c(5,10,15,20,30,40)).
+#' @param reps The number of families simulated for each sample size.
+#' @param type This specifies the distribution of the data samples that will be simulated. Options ae "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param seed A seed for the simulations (default 123).
+#' @param Experiments The number of experiments in each family (default 5).
+#' @param FourG If FourG is FALSE the individual experiments in each family will be two-group experiments, otherwise the individual experiments will be four-group families (default FALSE).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples (default 0).
+#' @param Blockmean Used to set a fixed block effect for four-group experiments (default 0).
+#' @param BlockStdAdj Not used (default 0).
+#' @param StdExp Used to introduce heterogeneity among families of experiments (default 0).
+#' @param MAMethod Not used (default "PM").
+#' @param alpha The significance level for statistical tests (default 0.05).
+#' @return Design. Specifies the type of experiment 2G or 4G, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return BEIncluded. Specifies whether or not a block effect was introduced. Always set to "No" for two-group experiments.
+#' @return GrpSize. Specifies the size of each group in the individual experiments.
+#' @return ObsPHat. The average of the average Phat value found for each family in the set of simulations.
+#' @return ObsCliffd. The average of the average Cliffd value found for each family in the set of simulations.
+#' @return ObsStdES. The average of StdMD calculated for each family in the set of simulations.
+#' @return PHatType1ER. The percentage of the simulations, for a specific group size, for which the overall Phat estimate was significantly different from zero at the nominated alpha level.
+#' @return CliffdType1ER. The percentage of the simulations, for a specific group size, for which the overall Cliff's d estimate was significantly different from zero at the nominated alpha level.
+#' @return StdMDType1ER. The percentage of the simulations, for a specific group size, for which the overall StdMD estimate was significantly different from zero at the nominated alpha level.
+#' @examples
+#'# as.data.frame(calculateMAType1Error(mean=0,sd=1,N=c(5,10),reps=10,type="n",Experiments=5,
+#'#  FourG=FALSE,StdAdj=0,Blockmean=0,seed=123))
+#' #  Design BEIncluded GrpSize ObsPHat ObsCliffd     ObsStdES PHatType1ER CliffdType1ER StdMDType1ER
+#' #1   2G_n         No       5  0.4848   -0.0304 -0.054156883           0             0          0.0
+#' #2   2G_n         No      10  0.5036    0.0072  0.002888142           0             0          0.1
+#'
+#'#as.data.frame(calculateMAType1Error(mean=0,sd=1,N=c(5,10),reps=10,type="l",Experiments=5,
+#'#  FourG=FALSE,StdAdj=0,Blockmean=0,seed=123))
+#' #   Design BEIncluded GrpSize ObsPHat ObsCliffd    ObsStdES PHatType1ER CliffdType1ER StdMDType1ER
+#' #1   2G_l         No       5  0.4848   -0.0304 -0.02789656           0             0          0.0
+#' #2   2G_l         No      10  0.5036    0.0072  0.06473696           0             0          0.2
+#'
+#'#as.data.frame(calculateMAType1Error(mean=0,sd=1,N=c(5,10),reps=10,type="n",Experiments=5,
+#'#  FourG=TRUE,StdAdj=0.5,Blockmean=0.5,seed=123))
+#' #   Design BEIncluded GrpSize ObsPHat ObsCliffd   ObsStdES PHatType1ER CliffdType1ER StdMDType1ER
+#' #  1 4G_n_het        Yes       5  0.5108    0.0216 0.01361820           0             0          0.1
+#' #  2 4G_n_het        Yes      10  0.5069    0.0138 0.01700672           0             0          0.0
+#'
+#'as.data.frame(calculateMAType1Error(mean=0,sd=1,N=c(5,10),reps=5,type="l",Experiments=5,
+#'  FourG=TRUE,StdAdj=0,Blockmean=0.5,seed=123))
+#'  #Results for reps=10
+#' #   Design BEIncluded GrpSize ObsPHat ObsCliffd   ObsStdES PHatType1ER CliffdType1ER StdMDType1ER
+#' #1   4G_l        Yes       5  0.5108    0.0216 0.07578257           0             0          0.2
+#' #2   4G_l        Yes      10  0.5072    0.0144 0.04839936           0             0          0.0
+
+calculateMAType1Error = function(mean = 0,
+                                 sd = 1,
+                                 N = c(5, 10, 15, 20, 30, 40),
+                                 reps,
+                                 type = "n",
+                                 seed = 123,
+                                 Experiments = 5,
+                                 FourG = FALSE,
+                                 StdAdj = 0,
+                                 Blockmean = 0,
+                                 BlockStdAdj = 0,
+                                 StdExp = 0,
+                                 MAMethod = "PM",
+                                 alpha = 0.05) {
+  Type1ErrorTable = NULL
+
+  Design = "2G"
+
+  if (FourG) {
+    Design = "4G"
+  }
+
+  Design = paste(Design, type, sep = "_")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  BEIncluded = "No"
+  if (Blockmean > 0 & FourG) {
+    BEIncluded = "Yes"
+  }
+
+
+  NumSamples = length(N)
+
+  for (i in 1:NumSamples) {
+    Out = reproducer::MetaAnalysisSimulations(
+      mean = mean,
+      sd = sd,
+      diff = 0,
+      GroupSize = N[i],
+      type = type,
+      Replications = reps,
+      Exp = Experiments,
+      FourGroup = FourG,
+      StdAdj = StdAdj,
+      BlockEffect = Blockmean,
+      BlockStdAdj = BlockStdAdj,
+      StdExp = StdExp,
+      MAMethod = MAMethod,
+      returnES = TRUE,
+      seed = seed,
+      alpha = 0.05
+    )
+
+
+    PHatType1ER = mean(as.numeric(Out$Avephatsig))
+
+    CliffdType1ER = mean(as.numeric(Out$AveCliffdsig))
+
+    AveMDStdType1ER = mean(as.numeric(Out$AveMDStdsig))
+
+
+    temp = dplyr::bind_cols(
+      Design = Design,
+      BEIncluded = BEIncluded,
+      GrpSize = as.character(N[i]),
+      ObsPHat = mean(Out$Avephat),
+      ObsCliffd = mean(Out$AveCliffd),
+      ObsStdES = mean(Out$AveMDStd),
+      PHatType1ER =  PHatType1ER,
+      CliffdType1ER = CliffdType1ER,
+      StdMDType1ER = AveMDStdType1ER
+    )
+
+    Type1ErrorTable = dplyr::bind_rows(Type1ErrorTable, temp)
+  }
+
+  return(Type1ErrorTable)
+}
+
+#################################################################################################################################
+
+#' @title calculateMABias
+#' @description The function simulates multiple five group families of either two-group or four-group experiments and estimates the power, individual estimate error, and the small sample bias obtained after synthesizing the analysis results obtained from the experiments in each family. The power is estimated as the percentage of families for which the overall mean of the five experiments was significantly different from zero. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The simulations can be repeated for different mean differences between the control mean and treatment mean depending on the parameter diff. The output is a table of values identifying the observed values of three effect sizes: Cliff's d, PHat and StdMD, estimate error and their related small sample bias and power for each set of simulated families. The synthesis method for all the effect sizes is based on calculating the overall mean and variance for experiments in each family and then using those values to calculate the overall effect size and its variance. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size Software Engineering Experiments" and its Supplementary Material.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calculateMABias
+#' @param mean This is the mean value of the control and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 1).
+#' @param N This specifies the sample size per group that will be used in each set of simulations.
+#' @param reps The number of families simulated for each sample size.
+#' @param diff This specifies the difference between the control and treatment that will be used in each set of simulations. It must always have three values representing small, medium and large values (default c(0.2, 0.5, 0.8)).
+#' @param Experiments The number of experiments in each family (default 5).
+#' @param Expected.StdMD This defines the expected value of the overall average StdMD for each mean difference (default c(0.2,0.5,0.8)).
+#' @param Expected.PHat This defines the expected population value of the overall average Phat for each mean difference (default c(0.556,0.638,0.714)).
+#' @param type This specifies the distribution of the data samples that will be simulated. Options ae "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param FourG If FourG is FALSE (default) the individual experiments in each family will be two-group experiments, otherwise the individual experiments will be four-group families.
+#' @param seed A seed for the simulations (default 123).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples (default 0).
+#' @param Blockmean Used to set a fixed block effect for four-group experiments (default 0).
+#' @param StdExp Used to introduce heterogeneity among families of experiments (default 0).
+#' @param MAMethod Not used (default "PM").
+#' @param alpha The significance level for statistical tests (default 0.05).
+#' @return Design. Specifies the type of experiment 2G or 4G, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return BEIncluded. Specifies whether or not a block effect was introduced. Always set to "No" for two-group experiments.
+#' @return GrpSize. Specifies the size of each group in the individual experiments.
+#' @return Diff. The size of the difference between the control and treatment converted to an ordinal scale (Small, Medium, Large)
+#' @return NPBias The relative difference between the average of the observed values of either Cliff's d or centralised PHat and the population value
+#' @return StdMDBias. The relative difference between the average of the observed values of StdMDBias and the theoretical value
+#' @return NPMdMRE The median of the absolute relative difference between the observed values of either Cliff's d or centralised PHat and the theoretical value for each experiment.
+#' @return StdMDMdMRE The median of the absolute relative difference between the observed values of StdMD and the population value for each experiment.
+#' @return ObsPHat. The average of the average Phat value found for each family in the set of simulations.
+#' @return ObsCliffd. The average of the average Cliffd value found for each family in the set of simulations.
+#' @return ObsStdES. The average of StdMD calculated for each family in the set of simulations.
+#' @return PHatPower. The percentage of the simulations, for a specific mean difference, for which the overall Phat estimate was significantly different from zero at the nominated alpha level using one-sided tests.
+#' @return CliffdPower. The percentage of the simulations, for a specific mean difference, for which the overall Cliff's d estimate was significantly different from zero at the nominated alpha level using one-sided tests.
+#' @return StdMDPower. The percentage of the simulations, for a specific mean difference, for which the overall StdMD estimate was significantly different from zero at the nominated alpha level using one-sided tests.
+#' @examples
+#'# as.data.frame(calculateMABias(mean=0,sd=1,N=10,diff=c(0.2,0.5,0.8), Experiments=5,reps=10,
+#'# Expected.StdMD=c(0.2,0.5,0.8), Expected.PHat=c(0.556,0.638,0.714), type="n",FourG=FALSE,
+#'# seed= 123, StdAdj = 0, Blockmean=0, StdExp=0))
+#' #  Design Blockmean GrpSize   Diff     NPBias  StdMDBias   NPMdMRE StdMDMdMRE ObsPHat ObsCliffd..
+#' #1   2G_n        No      10  Small 0.09285714 0.02606704 0.8928571  1.0741432  0.5612    0.1224..
+#' #2   2G_n        No      10 Medium 0.03768116 0.01740262 0.2391304  0.4171896  0.6432    0.2864..
+#' #3   2G_n        No      10  Large 0.03738318 0.01523651 0.2009346  0.2490287  0.7220    0.4440..
+#' #  PHatPower CliffdPower StdESPower
+#' #1       0.2         0.2        0.3
+#' #2       0.7         0.7        0.7
+#' #3       1.0         1.0        1.0
+#'as.data.frame(calculateMABias(mean=0,sd=1,N=10,diff=c(0.2,0.5,0.8), Experiments=5,reps=4,
+#'  Expected.StdMD=c(0.2,0.5,0.8), Expected.PHat=c(0.556,0.638,0.714), type="n",FourG=TRUE,
+#'  seed= 123,StdAdj = 0.5,Blockmean=0.5,StdExp=0))
+#'  #Results for reps=10
+#' #    Design Blockmean GrpSize   Diff     NPBias  StdMDBias   NPMdMRE StdMDMdMRE ObsPHat ObsClif..
+#' #1 4G_n_het       Yes      10  Small -0.1321429 -0.1372277 0.6696429  0.4698935  0.5486  0.0972..
+#' #2 4G_n_het       Yes      10 Medium -0.1869565 -0.1882479 0.2318841  0.1472392  0.6122  0.2244..
+#' #3 4G_n_het       Yes      10  Large -0.1864486 -0.2010029 0.1612150  0.1531253  0.6741  0.3482..
+#' #  PHatPower CliffdPower StdESPower
+#' #1       0.4         0.4        0.4
+#' #2       0.9         0.9        0.8
+#' #3       1.0         1.0        1.0
+
+
+calculateMABias = function(mean = 0,
+                           sd = 1,
+                           N,
+                           reps,
+                           diff = c(0.2, 0.5, 0.8),
+                           Experiments = 5,
+                           Expected.StdMD = c(0.2, 0.5, 0.8),
+                           Expected.PHat = c(0.556, 0.638, 0.714),
+                           type = "n",
+                           FourG = FALSE,
+                           seed = 223,
+                           StdAdj = 0,
+                           Blockmean = 0,
+                           StdExp = 0,
+                           MAMethod = "PM",
+                           alpha = 0.05) {
+  MdMRETable = NULL
+
+  NumESizes = length(diff)
+
+
+  Design = "2G"
+
+  if (FourG) {
+    Design = "4G"
+  }
+
+  Design = paste(Design, type, sep = "_")
+
+  DiffGen = c("Small", "Medium", "Large")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  BlockMeanInfo = "No"
+  if (Blockmean > 0 & FourG)
+    BlockMeanInfo = "Yes"
+
+  for (i in 1:NumESizes) {
+    Out = reproducer::MetaAnalysisSimulations(
+      mean = mean,
+      sd = sd,
+      diff = diff[i],
+      GroupSize = N,
+      type = type,
+      Replications = reps,
+      Exp = Experiments,
+      FourGroup = FourG,
+      seed = seed,
+      alpha = alpha,
+      StdAdj = StdAdj,
+      BlockEffect = Blockmean,
+      BlockStdAdj = 0,
+      StdExp = StdExp,
+      MAMethod = MAMethod,
+      returnES = TRUE
+    )
+
+    CentralPhat = Out$Avephat - 0.5
+
+    ExpectedCentralPhat = Expected.PHat[i] - 0.5
+
+    Expected.Cliffd = (Expected.PHat[i] - 0.5) * 2
+
+    NPBias = (mean(CentralPhat) - ExpectedCentralPhat) / ExpectedCentralPhat
+
+    StdMDBias = (mean(Out$AveMDStd) - Expected.StdMD[i]) / Expected.StdMD[i]
+
+    NPMdMRE = median(abs((Out$AveCliffd - Expected.Cliffd) / Expected.Cliffd))
+
+    StdMDMdMRE = median(abs((Out$AveMDStd - Expected.StdMD[i]) / Expected.StdMD[i]))
+
+    temp = dplyr::bind_cols(
+      Design = Design,
+      Blockmean = BlockMeanInfo,
+      GrpSize = as.character(N),
+      Diff = DiffGen[i],
+      NPBias = NPBias,
+      StdMDBias =  StdMDBias,
+      NPMdMRE = NPMdMRE,
+      StdMDMdMRE = StdMDMdMRE,
+      ObsPHat = mean(Out$Avephat),
+      ObsCliffd = mean(Out$AveCliffd),
+      ObsStdES = mean(Out$AveMDStd),
+      PHatPower = mean(Out$Avephatsig),
+      CliffdPower = mean(Out$AveCliffdsig),
+      StdESPower = mean(Out$AveMDStdsig)
+    )
+
+    MdMRETable = tibble::tibble(dplyr::bind_rows(MdMRETable, temp))
+  }
+  return(MdMRETable)
+
+}
+
+######################################################################################################################################
+#' @title calculate2GType1Error
+#' @description The function simulates  multiple two-group experiments and estimates the Type1 Error rate obtained from the set of simulated experiments. The Type1 Error is estimated as the percentage of experiments for which the mean the experiment was significantly different from zero at the 0.05 significance level using two-sided tests. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The output is a set of values identifying three observed effect size estimates (Cliff's d, PHat and StdMD) and their related type 1 error rates. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size Software Engineering Experiments" and its Supplementary Material.
+
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export  calculate2GType1Error
+#' @param mean This is the mean value of the control and treatment group(s) used in the simulations of each experiment for simulations of a specified sample size (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 1).
+#' @param N This specifies the sample size per group that will be used in each set of simulations (default 5).
+#' @param reps The number of experiments to simulated.
+#' @param type This specifies the distribution of the data samples that will be simulated. Options ae "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param seed A seed for the simulations (default 123).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples(default 0).
+#' @return Design. Specifies the type of experiment 2G or 4G, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return GrpSize. Specifies the size of each group in the individual experiments.
+#' @return ObsPHat. The average Phat values found in the set of simulations.
+#' @return ObsCliffd. The average Cliffd values found  in the set of simulations.
+#' @return ObsStdES. The average of StdMD values found in the set of simulations.
+#' @return PHatType1ER. The proportion of the simulations for which the Phat estimate was significantly different from zero at the nominated alpha level.
+#' @return CliffdType1ER. The  proportion of the simulations for which the  Cliff's d estimate was significantly different from zero at the nominated alpha level.
+#' @return StdMDType1ER. The  proportion of the simulations for which the StdMD estimate was significantly different from zero at the nominated 0.05 significance level.
+
+#' @examples
+
+#'calculate2GType1Error(mean=1,sd=3,N=10,reps=100,type="g",seed=3256,StdAdj = 0)
+#'# A tibble: 1 x 8
+#'#   Design GrpSize ObsPHat ObsCliffd ObsStdES PHatType1ER CliffdType1ER StdESType1ER
+#'#   <chr>  <chr>     <dbl>     <dbl>    <dbl>       <dbl>         <dbl>        <dbl>
+#'# 1 2G_g   10        0.498   -0.0034 -0.00464        0.02          0.01         0.02
+
+
+calculate2GType1Error = function(mean = 0,
+                                 sd = 1,
+                                 N = 10,
+                                 reps,
+                                 type = "n",
+                                 seed = 123,
+                                 StdAdj = 0) {
+  Type1ErrorTable = NULL
+
+  Out1 = reproducer::RandomExperimentSimulations(
+    mean = mean,
+    sd = sd,
+    diff = 0,
+    N = N,
+    reps = reps,
+    type = type,
+    seed = seed,
+    StdAdj = StdAdj,
+    returnData = TRUE
+  )
+
+  Design = "2G"
+  Design = paste(Design, type, sep = "_")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  Type1ErrorTable = tibble::tibble(
+    dplyr::bind_cols(
+      Design = Design,
+      GrpSize = as.character(N),
+      ObsPHat = mean(Out1$PHat),
+      ObsCliffd = mean(Out1$Cliffd),
+      ObsStdES = mean(Out1$StdES),
+      PHatType1ER = mean(Out1$PHatSig),
+      CliffdType1ER = mean(Out1$CliffdSig),
+      StdESType1ER = mean(Out1$ESSig)
+    )
+  )
+
+
+  return(Type1ErrorTable)
+}
+
+###############################################################################################################################
+#' @title calculate2GBias
+#' @description The function simulates two-group experiments and estimates the power, individual estimate error, and the small sample bias obtained obtained from the set of simulated experiments. The set of simulations for a specific mean difference are repeated for three different values of the difference between the treatment and control groups specified by the parameter "diff". The power is estimated as the percentage of experiments for which the  mean of the experiment was significantly different from zero. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The output is a table of values identifying the observed values of three effect sizes: Cliff's d, PHat and StdMD, estimate error and their related small sample bias and power for each set of simulated experiments. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size Software Engineering Experiments" and its Supplementary Material.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calculate2GBias
+#' @param mean This is the mean value of the control and treatment group(s) used in the simulations of each experiment for simulations of a specified sample size and mean difference (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 1).
+#' @param N This specifies the sample size per group that will be used in each set of simulations.
+#' @param reps The number of experiments simulated for each mean difference.
+#' @param diff This specifies the mean difference between the control and treatment that will be used in each set of simulations. It must always have three values representing small, medium and large differences (default c(0.2, 0.5, 0.8)).
+#' @param Expected.StdMD This defines the theoretical value of the average StdMD obtained from the simulations for each mean difference. (default c(0.2, 0.5, 0.8))
+#' @param Expected.PHat This defines the expected population value of the average Phat obtained from the simulations for each mean difference (default c(0.556,0.638,0.714)).
+#' @param type This specifies the distribution of the data samples that will be simulated. Options ae "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param seed A seed for the simulations (default 123).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples (default 0).
+#' @return Design. Specifies the type of experiment, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return GrpSize. Specifies the size of each group in the simulated experiments.
+#' @return Diff. The size of the difference between the control and treatment converted to an ordinal scale (Small, Medium, Large)
+#' @return NPBias The relative difference between the average of the observed values of either Cliff's d or centralised PHat and the population value
+#' @return StdMDBias. The relative difference between the average of the observed values of StdMDBias and the theoretical value
+#' @return NPMdMRE The median of the absolute relative difference between the observed values of either Cliff's d or centralised PHat and the theoretical value for each experiment.
+#' @return StdMDMdMRE The median of the relative difference between the observed values of StdMD and the population value for each experiment.
+#' @return ObsPHat. The average of the  Phat values found  in the set of simulations.
+#' @return ObsCliffd. The average of the  Cliffd values found  in the set of simulations.
+#' @return ObsStdES. The average of StdMD values found in the set of simulations.
+#' @return PHatPower. The percentage of the simulations, for a specific mean difference, for which the Phat estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @return CliffdPower. The percentage of the simulations, for a specific mean difference, for which the  Cliff's d estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @return StdMDPower. The percentage of the simulations, for a specific mean difference, for which the StdMD estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @examples
+#'# as.data.frame(calculate2GBias(mean=0,sd=1,diff=c(0.2,0.5,0.8),Expected.StdMD=c(0.157,0.392,0.628),
+#'#  Expected.PHat=c(0.544,0.609,0.671), N=5,reps=50, type="n", seed=523, StdAdj =0.5 ))
+#'# Results for reps=100 (due to NOTE "Examples with CPU (user + system) or elapsed time > 5s"):
+#'#    Design GrpSize   Diff        NPBias  StdMDBias  NPMdMRE StdMDMdMRE ObsPHat ObsCliffd  ObsSt..
+#'# 1 2G_n_het       5  Small -6.308085e-16 0.07088601 3.272727  3.2700082  0.5440    0.0880 0.168..
+#'# 2 2G_n_het       5 Medium  3.486239e-02 0.09914637 1.385321  1.3502057  0.6128    0.2256 0.430..
+#'# 3 2G_n_het       5  Large  2.222222e-02 0.10446123 0.754386  0.8626523  0.6748    0.3496 0.693..
+#'as.data.frame(calculate2GBias(mean=0,sd=1,diff=c(0.283,0.707104,1.131374),
+#'  Expected.StdMD=c(0.157,0.392,0.628),Expected.PHat=c(0.556,0.636,0.705),N=10, reps=20,
+#'  type="lap",seed=1423,StdAdj=0.5 ))
+#'  #Parameter reps changed due to NOTE "Examples with CPU (user + system) or elapsed time > 5s"
+#'  #Results for reps=100:
+#'#      Design GrpSize   Diff      NPBias    StdMDBias   NPMdMRE StdMDMdMRE ObsPHat ObsCliffd  Ob..
+#'#1 2G_lap_het      10  Small -0.11071429 -0.080855612 1.8928571  2.1256888  0.5498    0.0996 0.1..
+#'#2 2G_lap_het      10 Medium -0.07426471  0.003940804 0.6323529  0.8170856  0.6259    0.2518 0.3..
+#'#3 2G_lap_het      10  Large -0.05756098  0.023696619 0.4146341  0.5447941  0.6932    0.3864 0.6..
+
+calculate2GBias = function(mean = 0,
+                           sd = 1,
+                           N,
+                           reps,
+                           diff = c(0.2, 0.5, 0.8),
+                           Expected.StdMD = c(0.2, 0.5, 0.8),
+                           Expected.PHat = c(0.556, 0.638, 0.714),
+                           type = "n",
+                           seed = 223,
+                           StdAdj = 0) {
+  MdMRETable = NULL
+
+  NumESizes = length(diff)
+
+
+  Design = "2G"
+  Design = paste(Design, type, sep = "_")
+
+  DiffGen = c("Small", "Medium", "Large")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  for (i in 1:NumESizes) {
+    Out1 = reproducer::RandomExperimentSimulations(mean,
+                                                   sd,
+                                                   diff[i],
+                                                   N,
+                                                   reps,
+                                                   type,
+                                                   seed,
+                                                   StdAdj,
+                                                   returnData = TRUE)
+
+    CentralPhat = Out1$PHat - 0.5
+
+    ExpectedCentralPhat = Expected.PHat[i] - 0.5
+
+    Expected.Cliffd = (Expected.PHat[i] - 0.5) * 2
+
+    NPBias = (mean(CentralPhat) - ExpectedCentralPhat) / ExpectedCentralPhat
+
+    StdMDBias = (mean(Out1$StdES) - Expected.StdMD[i]) / Expected.StdMD[i]
+
+    NPMdMRE = median(abs((Out1$Cliffd - Expected.Cliffd) / Expected.Cliffd))
+
+    StdMDMdMRE = median(abs((Out1$StdES - Expected.StdMD[i]) / Expected.StdMD[i]))
+
+
+    MdMRETable = tibble::tibble(dplyr::bind_rows(
+      MdMRETable,
+      dplyr::bind_cols(
+        Design = Design,
+        GrpSize = as.character(N),
+        Diff = DiffGen[i],
+        NPBias = NPBias,
+        StdMDBias =  StdMDBias,
+        NPMdMRE = NPMdMRE,
+        StdMDMdMRE = StdMDMdMRE,
+        ObsPHat = mean(Out1$PHat),
+        ObsCliffd = mean(Out1$Cliffd),
+        ObsStdES = mean(Out1$StdES),
+        PHatPower = mean(Out1$PHatSig),
+        CliffdPower = mean(Out1$CliffdSig),
+        StdESPower = mean(Out1$ESSig)
+      )
+    ))
+
+  }
+  return(MdMRETable)
+
+}
+
+###########################################################################################################################################
+#' @title calculate4GBias
+#' @description The function simulates four-group experiments and estimates of the power, individual estimate error and small sample bias obtained from a set of simulated experiments. The function produces three set of simulations obtained using three different values of the mean difference between the treatment and control groups as specified by the parameter "diff". The power is estimated as the percentage of simulated experiments for which the mean of the experiment was significantly different from zero using one-sided tests. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The output is a table of values identifying the observed values of three effect sizes: Cliff's d, PHat and StdMD, their relted estimate error, small sample bias and power for each set of simulated experiments. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size" and its Supplementary Material.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calculate4GBias
+#' @param mean This is the mean value of the control group(s) used in the simulations of each experiment for simulations of a specified mean difference (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations of each experiment of each family for simulations of a specified sample size (default 1).
+#' @param N This specifies the sample size per group that will be used in each set of simulations.
+#' @param reps The number of families simulated for each sample size.
+#' @param diff This specifies the difference between the control and treatment that will be used in each set of simulations. It must always have three values representing small, medium and large mean differences (default c(0.2, 0.5, 0.8)).
+#' @param Expected.StdMD This defines the expected value of the overall average StdMD for each mean difference (default c(0.2, 0.5, 0.8)).
+#' @param Expected.PHat This defines the expected population value of the overall average Phat for each mean difference (default c(0.556,0.638,0.714)).
+#' @param type This specifies the distribution of the data samples that will be simulated. Options ae "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param seed A seed for the simulations (default 123).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples (default 0).
+#' @param Blockmean Specifies he value of the block effect (default 0).
+#' @return Design. Specifies the type of experiment 2G, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return BEIncluded. Specifies whether or not a block effect was introduced.
+#' @return GrpSize. Specifies the size of each group in the individual experiments.
+#' @return Diff. The size of the difference between the control and treatment converted to an ordinal scale (Small, Medium, Large)
+#' @return NPBias The relative difference between the average of the observed values of either Cliff's d or centralised PHat and the population value
+#' @return StdMDBias. The relative difference between the average of the observed values of StdMDBias and the theoretical value
+#' @return NPMdMRE The median of the absolute relative difference between the observed values of either Cliff's d or centralised PHat and the theoretical value for each experiment.
+#' @return StdMDMdMRE The median of the relative difference between the observed values of StdMD and the population value for each experiment.
+#' @return ObsPHat. The average Phat value found for each simulation.
+#' @return ObsCliffd. The  average Cliffd value found for each simulation.
+#' @return ObsStdES. The average of StdMD calculated for each simulation.
+#' @return PHatPower. The proportion of the simulations, for a given mean difference, for which the  Phat estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @return CliffdPower. The proportion of the simulations, for a given mean difference, for which the Cliff's d estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @return StdMDPower. The proportion of the simulations, for a given mean difference, for which the StdMD estimate was significantly different from zero at the 0.05 alpha level based on one-sided tests.
+#' @examples
+#'#as.data.frame(calculate4GBias(mean=0,sd=1,diff=c(0.266,0.72375,1.43633),
+#'#  Expected.StdMD=c(0.2,0.5,0.8),Expected.PHat=c(0.575,0.696,0.845),N=10,reps=200,type="l",
+#'#  seed=17+1823,StdAdj=0,Blockmean=0))
+#'#  Design BEIncluded GrpSize   Diff      NPBias StdMDBias   NPMdMRE StdMDMdMRE  ObsPHat ObsCliffd.
+#'#  1 4G_l         No      10  Small -0.05933333 0.1247408 0.8666667  1.2047848 0.570550   0.1411..
+#'#  2 4G_l         No      10 Medium -0.01760204 0.1565643 0.3112245  0.4426859 0.692550   0.3851..
+#'#  3 4G_l         No      10  Large -0.00326087 0.2273638 0.1594203  0.2924361 0.843875   0.6877..
+#' as.data.frame(calculate4GBias(mean=1,sd=3,diff=c(0.1225,0.3415,0.6224),
+#'  Expected.StdMD=c(-0.208,-0.52,-0.833),Expected.PHat=c(0.444,0.360,0.277),N=20,reps=30,type="g",
+#'  seed=17+977,StdAdj=0 ,Blockmean=0.5))
+#'# Results for reps=200:
+#'#  Design BEIncluded GrpSize   Diff     NPBias  StdMDBias   NPMdMRE StdMDMdMRE   ObsPHat  ObsCli..
+#'#1   4G_g        Yes      20  Small 0.04274554 0.02242895 0.8370536  0.7960052 0.4416062 -0.1167..
+#'#2   4G_g        Yes      20 Medium 0.01959821 0.01585829 0.3348214  0.3210435 0.3572562 -0.2854..
+#'#3   4G_g        Yes      20  Large 0.01303251 0.01515967 0.1905830  0.1871956 0.2740938 -0.4518..
+
+
+calculate4GBias = function(mean = 0,
+                           sd = 1,
+                           N,
+                           reps,
+                           diff = c(0.2, 0.5, 0.8),
+                           Expected.StdMD = c(0.2, 0.5, 0.8),
+                           Expected.PHat = c(0.556, 0.638, 0.714),
+                           type = "n",
+                           seed = 223,
+                           StdAdj = 0,
+                           Blockmean = 0) {
+  MdMRETable = NULL
+
+  NumESizes = length(diff)
+
+
+  Design = "4G"
+  Design = paste(Design, type, sep = "_")
+
+  DiffGen = c("Small", "Medium", "Large")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  BEIncluded = "No"
+  if (Blockmean > 0)
+    BEIncluded = "Yes"
+
+  for (i in 1:NumESizes) {
+    Out1 = reproducer::RandomizedBlocksExperimentSimulations(
+      mean = mean,
+      sd = sd,
+      diff = diff[i],
+      N = N,
+      reps = reps,
+      type = type,
+      seed = seed,
+      StdAdj = StdAdj,
+      Blockmean = 0,
+      returnData = TRUE
+    )
+
+    CentralPhat = Out1$PHat - 0.5
+
+    ExpectedCentralPhat = Expected.PHat[i] - 0.5
+
+    Expected.Cliffd = (Expected.PHat[i] - 0.5) * 2
+
+    NPBias = (mean(CentralPhat) - ExpectedCentralPhat) / ExpectedCentralPhat
+
+    StdMDBias = (mean(Out1$StdES) - Expected.StdMD[i]) / Expected.StdMD[i]
+
+    NPMdMRE = median(abs((Out1$Cliffd - Expected.Cliffd) / Expected.Cliffd))
+
+    StdMDMdMRE = median(abs((Out1$StdES - Expected.StdMD[i]) / Expected.StdMD[i]))
+
+
+    MdMRETable = tibble::tibble(dplyr::bind_rows(
+      MdMRETable,
+      dplyr::bind_cols(
+        Design = Design,
+        BEIncluded = BEIncluded,
+        GrpSize = as.character(N),
+        Diff = DiffGen[i],
+        NPBias = NPBias,
+        StdMDBias =  StdMDBias,
+        NPMdMRE = NPMdMRE,
+        StdMDMdMRE = StdMDMdMRE,
+        ObsPHat = mean(Out1$PHat),
+        ObsCliffd = mean(Out1$Cliffd),
+        ObsStdES = mean(Out1$StdES),
+        PHatPower = mean(Out1$PHatSig),
+        CliffdPower = mean(Out1$CliffdSig),
+        StdESPower = mean(Out1$ESSig)
+      )
+    ))
+
+  }
+  return(MdMRETable)
+
+}
+
+#################################################################################################################################
+#' @title calculate4GType1Error
+#' @description The function simulates multiple four-group experiments and estimates the Type1 Error rate obtained from the set of simulated experiments. The Type1 Error is estimated as the percentage of experiments for which the mean the experiment was significantly different from zero at the 0.05 significance level using two-sided tests. The experiment data may be one of four different type: Normal, Log-normal, Gamma or Laplace. The output is a set of values identifying three observed effect size estimates (Cliff's d, PHat and StdMD) and their related type 1 error rates. This function supports the production of the values reported in data tables in the paper "Recommendations for Analyzing Small Sample Size Software Engineering Experiments" and its Supplementary Material.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export  calculate4GType1Error
+#' @param mean This is the mean value of the control and treatment group(s) used in the simulations (default 0).
+#' @param sd This is the standard deviation  value of the control group(s) and treatment group(s) used in the simulations (default 1).
+#' @param N This specifies the sample size per group that will be used in each simulation (default 5).
+#' @param reps The number of experiments to simulated.
+#' @param type This specifies the distribution of the data samples that will be simulated. Options are "n" for Normal, "l", for Log-normal,'g" for Gamma, "lap" for LaPlace (default "n").
+#' @param seed A seed for the simulations (default 123).
+#' @param StdAdj Used to introduce variance heterogeneity for Laplace and Normal samples (default 0).
+#' @param Blockmean Used to specify the block effect (default 0).
+#' @return Design. Specifies the type of experiment 2G or 4G, the sample distribution (n,l,g,lap), and whether variance heterogeneity was added (het)
+#' @return GrpSize. Specifies the size of each group in the simulations.
+#' @return BEIncluded. Specifies whether or not a block effect was introduced.
+#' @return ObsPHat. The average of the average Phat values found in the set of simulations.
+#' @return ObsCliffd. The average of the average Cliffd values found  in the set of simulations.
+#' @return ObsStdES. The average of StdMD values found in the set of simulations.
+#' @return PHatType1ER. The percentage of the simulations for which the Phat estimate was significantly different from zero at the 0.05 alpha level.
+#' @return CliffdType1ER. The percentage of the simulations for which the overall Cliff's d estimate was significantly different from zero at the 0.05 alpha level.
+#' @return StdMDType1ER. The percentage of the simulations for which the overall StdMD estimate was significantly different from zero at the 0.05 significance level.
+#' @examples
+#'as.data.frame(calculate4GType1Error(mean=0,sd=1,N=40,reps=100,type="n",seed=17+1056,StdAdj = 0.5,
+#'  Blockmean=0.5))
+#'  # Results for reps=300
+#' #    Design GrpSize BEIncluded   ObsPHat   ObsCliffd   ObsStdES PHatType1ER CliffdType1ER StdES..
+#' #1 4G_n_het      40        Yes 0.5034729 0.006945833 0.01316457        0.03    0.02333333 0.046..
+#'
+#'#as.data.frame(calculate4GType1Error(mean=0,sd=1,N=40,reps=300,type="lap",seed=17+2056,
+#'#  StdAdj = 0.5,Blockmean=0.5))
+#' #      Design GrpSize BEIncluded   ObsPHat    ObsCliffd  ObsStdES PHatType1ER CliffdType1ER Std..
+#' #1 4G_lap_het      40        Yes 0.4992708 -0.001458333 0.0014446  0.04333333          0.04  0.06
+calculate4GType1Error = function(mean = 0,
+                                 sd = 1,
+                                 N = 10,
+                                 reps = 10,
+                                 type = "n",
+                                 seed = 123,
+                                 StdAdj = 0,
+                                 Blockmean = 0) {
+  Type1ErrorTable = NULL
+
+  Out1 = reproducer::RandomizedBlocksExperimentSimulations(
+    mean = mean,
+    sd = sd,
+    diff = 0,
+    N = N,
+    reps = reps,
+    type = type,
+    seed = seed,
+    StdAdj = StdAdj,
+    Blockmean = Blockmean,
+    returnData = TRUE
+  )
+
+  Design = "4G"
+  Design = paste(Design, type, sep = "_")
+
+  if (StdAdj > 0) {
+    Design = paste(Design, "het", sep = "_")
+  }
+
+  BEIncluded = "No"
+  if (Blockmean > 0) {
+    BEIncluded = "Yes"
+  }
+
+
+  Type1ErrorTable = tibble::tibble(
+    dplyr::bind_cols(
+      Design = Design,
+      GrpSize = as.character(N),
+      BEIncluded = BEIncluded,
+      ObsPHat = mean(Out1$PHat),
+      ObsCliffd = mean(Out1$Cliffd),
+      ObsStdES = mean(Out1$StdES),
+      PHatType1ER = mean(Out1$PHatSig),
+      CliffdType1ER = mean(Out1$CliffdSig),
+      StdESType1ER = mean(Out1$ESSig)
+    )
+  )
+
+
+  return(Type1ErrorTable)
+}
+
+
+#
+# The functions for meta-analysis of Cliff's d and PHat
+#
+
+#' @title calcCliffdTestStatistics
+#' @description This function is a helper function for meta-analysis of experiments using Cliff's d as an effect size. It returns the 100*(1-alpha/2)% confidence intervals based on the normal distribution probability values, the value of the t-test, the probability asssociated with the null hypothesis and the significance of the test. The pvalue and the significance vary according to the value of the alternative parameter and whether or not degrees of freedom are specifed.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calcCliffdTestStatistics
+#' @param d.value The overall estimate of Cliff's d from a group of effect sizes to be meta-analysed
+#' @param d.variance The estimate of the variance of the overall estimate of Cliff's d
+#' @param d.df The total degrees of freedom for the set of effect sizes. If d.df>0, the pvalues and significance test use the t-distribution probability values. If d.df=0 (default) the pvalues and significance test use the normal distribution probability values. The confidence intervals are always based on the normal probability values.
+#' @param alpha The significance level used to control the significance tests and calculation of confidence limits (default 0.05).
+#' @param alternative Specifies the type of significance test and can take the values "two.sided", "less" or "greater" (default "two.sided").
+#' @return d.tvalue The value of the t-statistic
+#' @return d.pvalue The p-value of the t-test if the parameter d.df>0, or the normal probability value if d.df=0
+#' @return d.ci.lower The lower 100*(1-alpha/2)% confidence interval based on the normal probability value
+#' @return d.ci.upper The upper 100*(1-alpha/2)% confidence interval based on the normal probability value
+#' @return d.sig The significance of the statistical test of the d.tvalue return value at the alpha level for one sided tests and aplha/2 for two sided tests as specified by the input parameter alternative
+#' @examples
+#' aveCliffd=mean(c(0.84,0.2,-0.04,0.44,0.76))
+#' aveCliffdvar=sum(c(0.04,0.18,0.21,0.15,0.06))/25
+#' df=45
+#' calcCliffdTestStatistics(d.value=aveCliffd,d.variance=aveCliffdvar,d.df=df)
+#' # A tibble: 1 x 5
+#'#   d.tvalue d.pvalue d.ci.lower d.ci.upper d.sig
+#'#      <dbl>    <dbl>      <dbl>      <dbl> <lgl>
+#' # 1     2.75  0.00855     0.0923      0.692 TRUE
+calcCliffdTestStatistics = function(d.value,
+                                    d.variance,
+                                    d.df = 0,
+                                    alpha = 0.05,
+                                    alternative = "two.sided") {
+  d <- d.value
+  vard <- d.variance
+  d.tvalue <- d / sqrt(vard)
+
+  useTTest = d.df > 0
+
+
+  if (alternative == "two.sided") {
+    zv <- stats::qnorm(alpha / 2)
+  }
+  else {
+    zv <- stats::qnorm(alpha)
+  }
+
+
+  d.cu <-
+    (d - d ^ 3 - zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) /
+    (1 - d ^ 2 + zv ^ 2 * vard)
+  d.cl <-
+    (d - d ^ 3 + zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) /
+    (1 - d ^ 2 + zv ^ 2 * vard)
+  d.sig <- d.cu < 0 | d.cl > 0
+
+  if (useTTest) {
+    d.pvalue <- 2 * (1 - stats::pt(abs(d.tvalue), d.df))
+  }
+
+  else {
+    d.pvalue <- 2 * (1 - stats::pnorm(abs(d.tvalue)))
+  }
+
+
+  # If a one-sided test correct pvalue and significance
+  if (alternative == "greater") {
+    temp.cl <-
+      (d - d ^ 3 + zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) /
+      (1 - d ^ 2 + zv ^ 2 * vard)
+    d.sig <- temp.cl > 0
+
+    if (useTTest) {
+      d.pvalue <- 1 - stats::pt(d.tvalue, d.df)
+    }
+    else {
+      d.pvalue <- 1 - stats::pnorm(d.tvalue)
+    }
+  }
+
+  if (alternative == "less") {
+    temp.cu <-
+      (d - d ^ 3 - zv * sqrt(vard) * sqrt((1 - d ^ 2) ^ 2 + zv ^ 2 * vard)) / (1 - d ^ 2 + zv ^ 2 * vard)
+
+    d.sig <- temp.cu < 0
+
+    if (useTTest) {
+      d.pvalue <- stats::pt(d.tvalue, d.df)
+    }
+    else {
+      d.pvalue <- stats::pnorm(d.tvalue)
+    }
+  }
+
+
+
+  out = tibble::tibble(
+    d.tvalue = d.tvalue,
+    d.pvalue = d.pvalue,
+    d.ci.lower = d.cl,
+    d.ci.upper = d.cu,
+    d.sig = d.sig
+  )
+
+  return(out)
+
+}
+
+
+
+#' @title metaanalyse.Cliffd
+#' @description This function provides a simple meta-analysis of experiments using Cliff's d as an effect size. It returns the 100*(1-alpha/2)% confidence intervals based on the normal distribution probability values, the value of the t-test, the probability asssociated with the null hypothesis and the significance of the test. The pvalue and the significance vary according to the value of the parameter "alternative" and whether or not degrees of freedom are specifed. It also return the heterogeneity statistics Q and I-squared.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export metaanalyse.Cliffd
+#' @param Cliffd A vector of one or more numerical values, identifying the effect sizes to be meta-analysed
+#' @param  Cliffdvar A vector of the estimates variance of each of the effect sizes
+#' @param df The total degrees of freedom for the set of effect sizes. If df>0, the pvalues and significance test use the t-distribution probability values. If df=0 (default) the pvalues and significance test use the normal distribution probability values. The confidence intervals are always based on the normal probability values, as recommended by Cliff.
+#' @param alternative Specifies the type of significance test and can take the values "two.sided" (default), "less" or "greater".
+#' @param alpha The significance level used to control the significance tests and calculation of confidence limits (default 0.05).
+#' @return Estimate The overall estimate of Cliff's d obtained from the set of experiments
+#' @return UpperCI The upper 100*(1-alpha/2)% confidence interval based on the normal probability value
+#' @return LowerCI The lower 100*(1-alpha/2)% confidence interval based on the normal probability value
+#' @return The variance of the Estimate
+#' @return tvalue The value of the t-statistic
+#' @return df The supplied degrees of freedom or NA if the input parameter df was set to zero
+#' @return AltHyp Defines the alternative hypothesis used for significance testing and depends on the value of the input parameter alternative. It takes the values "Not=0", ">0", or "<0"
+#' @return NullHyp Defines the null hypothesis and depends on the value of the input parameter alternative. It takes the values "~0", "<0", or ">0"
+#' @return pvalue The p-value of the t-test if the parameter df>0, or the normal probability value if d=0
+#' @return RejectNullHyp "Yes" or "No" depending on whether or not the null hypothesis should be rejected at the alpha/2 level for two-sided tests and alpha level for one-sided tests
+#' @return The Q homogeneity statistic
+#' @return The I-squared estimate of the extent of heterogeneity
+#' @return ProbQHomogeneous. The probability that the set of Cliff's d values come from a set of homogeneous experiments.
+#' @examples
+
+#'Cliffd=c(0.84,0.2,-0.04,0.44,0.76)
+#'CliffdvarInvalid=c(0.04,0.18,0.21,0.15)
+#'Cliffdvar=c(0.04,0.18,0.21,0.15,0.06)
+#'CliffdvarInvalid=c(0.04,0.18,0.21,0.15)
+#'df=45
+
+#'as.data.frame(metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=Cliffdvar,df=df,alternative="greater",
+#'  alpha=0.05))
+#' #  Estimate   UpperCI   LowerCI Variance tvalue df AltHyp NullHyp      pvalue
+#' #1     0.44 0.6601381 0.1502568   0.0256   2.75 45     >0     <=0 0.004275955
+#' #  RejectNullHyp    Q I.square ProbQHomogeneous
+#' #1           Yes 21.5 81.39535     0.0002519835
+#'as.data.frame(metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=Cliffdvar,df=df,alternative="less",
+#'  alpha=0.05))
+#' #  Estimate   UpperCI   LowerCI Variance tvalue df AltHyp NullHyp   pvalue RejectNullHyp
+#' #1     0.44 0.6601381 0.1502568   0.0256   2.75 45     <0     >=0 0.995724            No
+#' #     Q I.square ProbQHomogeneous
+#' #1 21.5 81.39535     0.0002519835
+#'as.data.frame(metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=Cliffdvar,df=df,alternative="two.sided",
+#'  alpha=0.05))
+#' #  Estimate  UpperCI    LowerCI Variance tvalue df AltHyp NullHyp      pvalue
+#' #1     0.44 0.692073 0.09227496   0.0256   2.75 45  Not=0      ~0 0.008551911
+#' #  RejectNullHyp    Q I.square ProbQHomogeneous
+#' #1           Yes 21.5 81.39535     0.0002519835
+#'as.data.frame(metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=Cliffdvar,df=df,alpha=0.05))
+#' #  Estimate  UpperCI    LowerCI Variance tvalue df AltHyp NullHyp      pvalue
+#' #1     0.44 0.692073 0.09227496   0.0256   2.75 45  Not=0      ~0 0.008551911
+#' #  RejectNullHyp    Q I.square ProbQHomogeneous
+#' #1           Yes 21.5 81.39535     0.0002519835
+
+#' metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=Cliffdvar,df=0,alternative="two.sided",alpha=0.05)
+#' #Error in testfunctionParameterChecks(alternative = alternative, alpha = alpha,  :
+#' #  Invalid alternative parameter, choose one of two.sided, greater or less
+#'# metaanalyse.Cliffd(Cliffd=Cliffd,Cliffdvar=CliffdvarInvalid,df=df,alternative="greater",
+#'# alpha=0.05)
+#' #Error in metaanalyse.Cliffd(Cliffd = Cliffd, Cliffdvar = CliffdvarInvalid,  :
+#' #  Length of Cliffdvar parameter must equal the length of the Cliffd parameter
+
+metaanalyse.Cliffd <-
+  function(Cliffd,
+           Cliffdvar,
+           df = 0,
+           alternative = "two.sided",
+           alpha = 0.05) {
+    NumExp <- length(Cliffd)
+
+    if (NumExp != length(Cliffdvar)) {
+      stop("Length of Cliffdvar parameter must equal the length of the Cliffd parameter")
+    }
+
+
+    AveCliffd <- base::mean(Cliffd)
+    AveCliffdvar <- sum(Cliffdvar) / NumExp ^ 2
+
+    testfunctionParameterChecks(
+      alternative = alternative,
+      alpha = alpha,
+      stderr = sqrt(AveCliffdvar)
+    )
+
+
+    AveCliffCI <-
+      calcCliffdTestStatistics(
+        d.value = AveCliffd,
+        d.variance = AveCliffdvar,
+        d.df = df,
+        alpha = alpha,
+        alternative = alternative
+      )
+
+    Alternative = "Not=0"
+
+    NullHyp = "~0"
+
+
+    if (alternative == "greater") {
+      Alternative = ">0"
+      NullHyp = "<=0"
+    }
+
+    if (alternative == "less") {
+      Alternative = "<0"
+      NullHyp = ">=0"
+    }
+
+
+    #Heterogeneity analysis
+    Q <- sum((Cliffd - AveCliffd) ^ 2) / AveCliffdvar
+
+    q.df <- NumExp - 1
+
+    ProbQHomogeneous = 1 - pchisq(Q, q.df)
+
+    I.square <- 100 * (Q - (NumExp - 1)) / Q
+
+    if (I.square < 0) {
+      I.square = 0
+    }
+
+    if (df == 0) {
+      df = "NA"
+    }
+
+    if (AveCliffCI$d.sig) {
+      RejectNullHyp = "Yes"
+    } else {
+      RejectNullHyp = "No"
+    }
+
+    UpperCI = AveCliffCI$d.ci.upper
+    if (UpperCI > 1) {
+      UpperCI = 1
+    }
+
+    LowerCI = AveCliffCI$d.ci.lower
+    if (LowerCI < -1) {
+      LowerCI = -1
+    }
+
+    out <-
+      tibble::tibble(
+        Estimate = AveCliffd,
+        UpperCI = UpperCI,
+        LowerCI = LowerCI,
+        Variance = AveCliffdvar,
+        tvalue = AveCliffCI$d.tvalue,
+        df = df,
+        AltHyp = Alternative,
+        NullHyp = NullHyp,
+        pvalue = AveCliffCI$d.pvalue,
+        RejectNullHyp = RejectNullHyp,
+        Q = Q,
+        I.square = I.square,
+        ProbQHomogeneous = ProbQHomogeneous
+      )
+
+
+    return(out)
+
+  }
+
+#' @title PHatonesidedTestStatistics
+#' @description This function is a helper function for meta-analysis of experiments using PHat as an effect size. It returns the 100*(1-alpha)% confidence intervals, the value of the t-test, the probability asssociated with the null hypothesis and the significance for a one-sided test. The direction of the one-sided test is determined by the parameter "alternative" which takes the values "greater" or "less".
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @param effectsize The overall estimate of the centralized PHat (i.e. Phat-0.5) from a group of effect sizes to be meta-analysed
+#' @param effectsize.variance The estimate of the variance of the overall estimate ofPHat
+#' @param effectsize.df The total degrees of freedom for the set of effect sizes. If effectsize.df>0, the confidence intervals, pvalues and significance test use the t-distribution probability values. If effectsize.df=0 (default), the confidence intervals, the pvalues and significance test use the normal distribution probability values.
+#' @param alpha The significance level (default 0.05) used to control the significance tests and calculation of confidence limits.
+#' @param alternative Specifies the type of significance test and can take the values "less" or "greater" (default).
+#' @return ES.test The value of the t-statistic
+#' @return ES.pvalue The p-value of the two-sided t-test if the parameter d.df>0, or the normal probability value if d.df=0
+#' @return ES.sig The significance of the statistical test of the d.tvalue return value at the alpha level for one sided tests and aplha/2 for two sided tests as specified by the input parameter alternative.
+#' @return ES.ci.lower The lower 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @return ES.ci.upper The upper 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @examples
+#'PHatES=mean(c(0.92,0.6,0.48,0.72,0.88))-0.5
+#'PHatESvar=sum(c(0.01,0.04,0.05,0.04,0.01))/25
+#'PHatdf=sum(c(6.63,6.63,5.08,5.61,8))
+
+#'#PHatonesidedTestStatistics(effectsize=PHatES,effectsize.variance=PHatESvar,effectsize.df=PHatdf)
+#'# A tibble: 1 x 5
+#'#  ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
+#'#    <dbl>     <dbl> <lgl>        <dbl>       <dbl>
+#'#1    2.84   0.00389 TRUE        0.0888       0.351
+#'#PHatonesidedTestStatistics(effectsize=PHatES,effectsize.variance=PHatESvar,effectsize.df=0,
+#'# alternative="less")
+#'# A tibble: 1 x 5
+#'#  ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
+#'#    <dbl>     <dbl> <lgl>        <dbl>       <dbl>
+#'#1    2.84     0.998 FALSE       0.0926       0.347
+
+PHatonesidedTestStatistics = function(effectsize,
+                                      effectsize.variance,
+                                      effectsize.df = 0,
+                                      alpha = 0.05,
+                                      alternative = "greater")
+{
+  ES.se <- sqrt(effectsize.variance)
+  ES.test <- effectsize / ES.se
+  useTTest <- (effectsize.df > 0)
+
+
+  if (useTTest) {
+    vv <- stats::qt(alpha, effectsize.df)
+  }
+  else {
+    vv <- stats::qnorm(alpha)
+  }
+
+  ES.ci.lower <- effectsize + vv * ES.se
+  ES.ci.upper <- effectsize - vv * ES.se
+
+  if (alternative == "greater") {
+    ES.sig <- ES.ci.lower > 0
+    if (useTTest) {
+      ES.pvalue <- (1 - stats::pt(ES.test, effectsize.df))
+    }
+    else {
+      ES.pvalue <- (1 - stats::pnorm(ES.test))
+    }
+  }
+  else
+  {
+    ES.sig <- ES.ci.upper < 0
+
+    if (useTTest) {
+      ES.pvalue <- (stats::pt(ES.test, effectsize.df))
+    }
+    else {
+      ES.pvalue <- (stats::pnorm(ES.test))
+    }
+
+  }
+
+
+  out <- tibble::tibble(
+    ES.test = ES.test,
+    ES.pvalue = ES.pvalue,
+    ES.sig = ES.sig,
+    ES.ci.lower = ES.ci.lower,
+    ES.ci.upper = ES.ci.upper
+  )
+
+  return(out)
+
+}
+
+
+#' @title PHattwosidedTestStatistics
+#' @description This function is a helper function for meta-analysis of experiments using PHat as an effect size. It returns the 100*(1-alpha/2)% confidence intervals, the value of the t-test, the probability asssociated with the null hypothesis and the significance for a two-sided test.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @param effectsize The overall estimate of the centralized PHat (ie.Phat-0.5) from a group of effect sizes to be meta-analysed
+#' @param effectsize.variance The estimate of the variance of the overall estimate ofPHat
+#' @param effectsize.df The total degrees of freedom for the set of effect sizes. If effectsize.df>0, the confidence intervals, pvalues and significance test use the t-distribution probability values. If effectsize.df=0 (default), the confidence intervals, the pvalues and significance test use the normal distribution probability values.
+#' @param alpha The significance level (default 0.05) used to control the significance tests and calculation of confidence limits.
+#' @return ES.test The value of the t-statistic
+#' @return ES.pvalue The p-value of the two-sided t-test if the parameter d.df>0, or the normal probability value if d.df=0
+#' @return ES.sig The significance of the statistical test of the d.tvalue return value at the alpha level for one sided tests and aplha/2 for two sided tests as specified by the input parameter alternative.
+#' @return ES.ci.lower The lower 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @return ES.ci.upper The upper 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @examples
+#'PHatES=mean(c(0.92,0.6,0.48,0.72,0.88))-0.5
+#'PHatESvar=sum(c(0.01,0.04,0.05,0.04,0.01))/25
+#'PHatdf=sum(c(6.63,6.63,5.08,5.61,8))
+
+#'#PHattwosidedTestStatistics(effectsize=PHatES,effectsize.variance=PHatESvar)
+#' # A tibble: 1 x 5
+#' # ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
+#' #     <dbl>     <dbl> <lgl>        <dbl>       <dbl>
+#' # 1    2.84   0.00451 TRUE        0.0682       0.372
+#' # PHattwosidedTestStatistics(effectsize=PHatES,effectsize.variance=PHatESvar,effectsize.df=PHatdf)
+#' #  A tibble: 1 x 5
+#' #   ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
+#' #     <dbl>     <dbl> <lgl>        <dbl>       <dbl>
+#' # 1    2.84   0.00778 TRUE        0.0622       0.378
+
+PHattwosidedTestStatistics = function(effectsize,
+                                      effectsize.variance,
+                                      effectsize.df = 0,
+                                      alpha = 0.05) {
+  ES.se = sqrt(effectsize.variance)
+  ES.test = effectsize / ES.se
+  useTTest = (effectsize.df > 0)
+
+
+
+  if (useTTest) {
+    vv = stats::qt(alpha / 2, effectsize.df)
+    ES.pvalue = 2 * (1 - stats::pt(abs(ES.test), effectsize.df))
+  }
+  else {
+    vv = stats::qnorm(alpha / 2)
+    ES.pvalue = 2 * (1 - stats::pnorm(abs(ES.test)))
+  }
+  ES.ci.lower = effectsize + vv * ES.se
+  ES.ci.upper = effectsize - vv * ES.se
+  ES.sig = (ES.ci.upper < 0 | ES.ci.lower > 0)
+
+
+
+  out = tibble::tibble(
+    ES.test = ES.test,
+    ES.pvalue = ES.pvalue,
+    ES.sig = ES.sig,
+    ES.ci.lower = ES.ci.lower,
+    ES.ci.upper = ES.ci.upper
+  )
+
+  return(out)
+
+}
+
+
+
+#' @title calcPHatMATestStatistics
+#' @description This function is a helper function for meta-analysis of experiments using PHat as an effect size. It returns the 100*(1-alpha/2)% confidence intervals,the value of the t-test, the probability associated with the null hypothesis and the significance of the test. The confidence intervals, pvalue and the significance of the statistical test vary according to the value of the "alternative" parameter and whether or not degrees of freedom are specifed.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export calcPHatMATestStatistics
+#' @param effectsize The overall estimate of the centralized PHat (ie.Phat-0.5) from a group of effect sizes to be meta-analysed
+#' @param effectsize.variance The estimate of the variance of the overall estimate ofPHat
+#' @param effectsize.df The total degrees of freedom for the set of effect sizes. If effectsize.df>0, the confidence intervals, pvalues and significance test use the t-distribution probability values. If effectsize.df=0 (default), the confidence intervals, the pvalues and significance test use the normal distribution probability values.
+#' @param alpha The significance level used to control the significance tests and calculation of confidence limits (default 0.05).
+#' @param alternative Specifies the type of significance test and can take the values "two.sided" (default), "less" or "greater"
+#' @return ES.test The value of the t-statistic
+#' @return ES.pvalue The p-value of the t-test if the parameter d.df>0, or the normal probability value if d.df=0
+#' @return ES.sig The significance of the statistical test of the d.tvalue return value at the alpha level for one sided tests and aplha/2 for two sided tests as specified by the input parameter alternative.
+#' @return ES.ci.lower The lower 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @return ES.ci.upper The upper 100*(1-alpha/2)% confidence interval of the average centralized PHat based on the t-distribution probability values if effectsize.df>0 or normal probability values if effectsize.df=0
+#' @examples
+#'avePHat=mean(c(0.92,0.6,0.48,0.72,0.88))
+#'avePHatvar=sum(c(0.01,0.04,0.05,0.04,0.01))/25
+#'PHatdf=sum(c(6.63,6.63,5.08,5.61,8))
+#'calcPHatMATestStatistics(effectsize=avePHat-0.5,effectsize.variance=avePHatvar,effectsize.df=PHatdf)
+#'# A tibble: 1 x 5
+#'#   ES.test ES.pvalue ES.sig ES.ci.lower ES.ci.upper
+#'#     <dbl>     <dbl> <lgl>        <dbl>       <dbl>
+#'# 1    2.84   0.00778 TRUE        0.0622       0.378
+calcPHatMATestStatistics = function(effectsize,
+                                    effectsize.variance,
+                                    effectsize.df = 0,
+                                    alpha = 0.05,
+                                    alternative = "two.sided") {
+  ES.se <- sqrt(effectsize.variance)
+  ES.test <- effectsize / ES.se
+  useTTest <- (effectsize.df > 0)
+
+
+  testfunctionParameterChecks(alternative = alternative,
+                              alpha = alpha,
+                              stderr = ES.se)
+
+
+  CIValues <-
+    PHattwosidedTestStatistics(
+      effectsize = effectsize,
+      effectsize.variance = effectsize.variance,
+      effectsize.df = effectsize.df
+    )
+
+
+  if (alternative == "two.sided") {
+    #Always use two-sided confidence intervals
+    testStats <- CIValues
+  }
+  else {
+    # For one sided tests adjust the p-value and significance assessment
+    testStats <-
+      PHatonesidedTestStatistics(
+        effectsize = effectsize,
+        effectsize.variance = effectsize.variance,
+        effectsize.df = effectsize.df,
+        alternative = alternative
+      )
+  }
+
+  ES.ci.lower = CIValues$ES.ci.lower
+  ES.ci.upper = CIValues$ES.ci.upper
+
+  if (ES.ci.lower < -0.5) {
+    ES.ci.lower = -0.5
+  }
+  if (ES.ci.upper > 0.5) {
+    ES.ci.upper = 0.5
+  }
+
+
+  out = tibble::tibble(
+    ES.test = ES.test,
+    ES.pvalue = testStats$ES.pvalue,
+    ES.sig = testStats$ES.sig,
+    ES.ci.lower ,
+    ES.ci.upper
+  )
+
+  return(out)
+
+}
+
+
+#' @title metaanalyse.PHat
+#' @description This function performs a meta-analysis of experiments using PHat as an effect size. It returns the 100*(1-alpha/2)% confidence interval limits, the value of the t-test, the probability asssociated with the null hypothesis and the significance of the test. The confidence interval limits, the pvalue and the significance of the statistical test vary according to the value of the alternative parameter and whether or not degrees of freedom are specifed. It also reurns the Q and I.squared statistics to assess the heterogeneity among the experiments.
+#' @author Barbara Kitchenham and Lech Madeyski
+#' @export metaanalyse.PHat
+#' @param PHat The estimates of PHat obtained from a group of experiments to be meta-analysed
+#' @param PHatvar The estimate of the variance of each PHat estimate
+#' @param DFUnknown If DFUnknown=FALSE the degrees of freedom for each experiment is known, and the df parameter must be a vector specifying the effect size of each experiment, otherwise the df parameter is ignored.
+#' @param df If DFUnknown is TRUE, this parameter is a vector of numerical values specifying the degrees of freedom for each experiment, and the confidence intervals, pvalues and significance test use the t-distribution probability values. If the parameter DFUNknown is FALSE, the confidence intervals, pvalues and significance test use the normal distribution probability values.
+#' @param alternative Specifies the type of significance test and can take the values "two.sided" (default), "less" or "greater".
+#' @param alpha The significance level (default 0.05) used to control the significance tests and calculation of confidence limits.
+#' @return Estimate. The simple average of the PHat values recommended by Kromrey as the best estimator for meta-analysis.
+#' @return UpperCI The upper 100*(1-alpha/2)% confidence interval of the average PHat based on the t-distribution probability values if DFUnknown is FALSE, or normal probability values if DFUnknown is TRUE.
+#' @return LowerCI The lower 100*(1-alpha/2)% confidence interval of the average PHat based on the t-distribution probability values ifDFUnknown is FALSE, or normal probability values if DFUnknown is TRUE.
+#' @return Variance The variance of the Estimate output
+#' @return tvalue The value of the t-statistic
+#' @return df Either NA if the parameter DFUnknown is TRUE, or sum of the degrees of freedom for each experiment.
+#' @return AltHyp Defines the alternative hypothesis used for significance testing and depends on the value of the input parameter alternative. It takes the values "Not=0.5", ">0.5", or "<0.5".
+#' @return NullHyp Defines the null hypothesis and depends on the value of the input parameter alternative. It takes the values "~0.5", "<0.5", or ">0.5".
+#' @return pvalue The p-value of the t-test if the parameter DFUnknown is FALSE, otherwise the normal probability value.
+#' @return RejectNullHyp "Yes" or "No" depending on whether or not the null hypothesis should be rejected at the alpha/2 level for two-sided tests and alpha level for one-sided tests
+#' @return The I-squared estimate of the extent of heterogeneity
+#' @return The Q homogeneity statistic
+#' @return ProbQHomogeneous. The probability that the set of Phat values come from a set of homogeneous experiments.
+#' @examples
+#'PHat=c(0.92,0.6,0.48,0.72,0.88)
+#'PHatvar=c(0.01,0.04,0.05,0.04,0.01)
+#'PHatdf=c(6.63,6.63,5.08,5.61,8)
+#'PHatInvalid=c(0.92,0.6,0.48,0.72)
+
+#' as.data.frame(metaanalyse.PHat(PHat=PHat,PHatvar=PHatvar,DFUnknown=FALSE,df=PHatdf,
+#'  alternative="greater",alpha=0.05))
+#'#  Estimate   UpperCI   LowerCI Variance   tvalue    df AltHyp NullHyp      pvalue RejectNullHyp..
+#'#  1     0.72 0.8777899 0.5622101    0.006 2.840188 31.95   >0.5   <=0.5 0.003890609         Yes..
+#' as.data.frame(metaanalyse.PHat(PHat=PHat,PHatvar=PHatvar,DFUnknown=TRUE,df=PHatdf,
+#'   alternative="greater",alpha=0.05))
+#'#  Estimate   UpperCI   LowerCI Variance   tvalue df AltHyp NullHyp      pvalue RejectNullHyp..
+#'# 1     0.72 0.8718182 0.5681818    0.006 2.840188 NA   >0.5   <=0.5 0.002254349           Yes..
+#' as.data.frame(metaanalyse.PHat(PHat=PHat,PHatvar=PHatvar,DFUnknown=FALSE,df=PHatdf,
+#'  alternative="two.sided",alpha=0.05))
+#' #  Estimate   UpperCI   LowerCI Variance   tvalue    df  AltHyp NullHyp      pvalue RejectNullH..
+#' #1     0.72 0.8777899 0.5622101    0.006 2.840188 31.95 Not=0.5    ~0.5 0.007781218         Yes..
+#' as.data.frame(metaanalyse.PHat(PHat=PHat,PHatvar=PHatvar,DFUnknown=TRUE,df=PHatInvalid,
+#'  alpha=0.05))
+#' # Estimate   UpperCI   LowerCI Variance   tvalue df  AltHyp NullHyp      pvalue RejectNullHyp I..
+#' #1     0.72 0.8718182 0.5681818    0.006 2.840188 NA Not=0.5    ~0.5 0.004508698         Yes 82..
+
+metaanalyse.PHat <-
+  function(PHat,
+           PHatvar,
+           DFUnknown,
+           df,
+           alternative = "two.sided",
+           alpha = 0.05) {
+    NumExp <- length(PHat)
+
+    if (NumExp != length(PHatvar)) {
+      stop("The length of the PHatvar parameter must equal the length  of the PHat parameter")
+    }
+
+    if (DFUnknown == FALSE) {
+      if (NumExp != length(df)) {
+        stop("The length of the df parameter must equal the length  of the PHat parameter")
+      }
+      else {
+        effectsize.df <- sum(df)
+      }
+
+    }
+    else {
+      effectsize.df <- 0
+    }
+
+
+
+    CentralPHat <- PHat - 0.5
+
+    AvePHat <- base::mean(CentralPHat)
+    AvePHatvar <- sum(PHatvar) / NumExp ^ 2
+    AvePHatCI <-
+      calcPHatMATestStatistics(
+        effectsize <- AvePHat,
+        effectsize.variance <- AvePHatvar,
+        effectsize.df <- effectsize.df,
+        alpha <- alpha,
+        alternative <- alternative
+      )
+
+    Alternative = "Not=0.5"
+
+    NullHyp = "~0.5"
+
+    if (alternative == "greater") {
+      Alternative = ">0.5"
+      NullHyp = "<=0.5"
+    }
+
+    if (alternative == "less") {
+      Alternative = "<0.5"
+      NullHyp = ">=0.5"
+    }
+
+    if (DFUnknown) {
+      effectsize.df = "NA"
+    }
+
+    if (AvePHatCI$ES.sig) {
+      RejectNullHyp = "Yes"
+    } else {
+      RejectNullHyp = "No"
+    }
+
+
+    #Heterogeneity analysis
+    Q <- sum((CentralPHat - AvePHat) ^ 2) / AvePHatvar
+
+    q.df <- NumExp - 1
+
+    ProbQHomogeneous <- 1 - pchisq(Q, q.df)
+
+
+    I.square <- 100 * (Q - (NumExp - 1)) / Q
+
+    if (I.square < 0) {
+      I.square <- 0
+    }
+
+    out <-
+      tibble::tibble(
+        Estimate = AvePHat + 0.5,
+        UpperCI = 0.5 + AvePHatCI$ES.ci.upper,
+        LowerCI = 0.5 + AvePHatCI$ES.ci.lower,
+        Variance = AvePHatvar,
+        tvalue = AvePHatCI$ES.test,
+        df = effectsize.df,
+        AltHyp = Alternative,
+        NullHyp = NullHyp,
+        pvalue = AvePHatCI$ES.pvalue,
+        RejectNullHyp = RejectNullHyp,
+        I.square = I.square,
+        Q = Q,
+        ProbQHomogeneous = ProbQHomogeneous
+      )
+
+
+    return(out)
+
+  }

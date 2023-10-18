@@ -45,7 +45,7 @@ rSimulations(
 output If returndata=F, the output returns summary information about the average of r and the variance properties across the replicated data sets. If returndata=T, the function returns the r-values obtained for each of the simulated data sets to gather with the variance ratio, the variance accuracy measure and a dummy variable indicating whether a test of significance between the mean values was significant (which is indicated by the dummy variable being set to 1) or not (which is indicated by the dummy variable being set to 0)
 }
 \description{
-This function simulates many datasest from the same bivariate distribution to
+This function simulates many datasets from the same bivariate distribution to
 investigate the distribution of correlations for specific sample sizes.
 }
 \examples{

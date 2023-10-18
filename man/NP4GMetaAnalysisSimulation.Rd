@@ -33,9 +33,9 @@ NP4GMetaAnalysisSimulation(
 
 \item{Exp}{is the number of experiments being simulated. Exp should be an integer of 2 or more. It defaults to 5.}
 
-\item{type}{specifies the distribution being simulated. The permitted values are 'n' for the normal distribution,  'l' for the lognormal distribution, 'g' for the gamma distribution and 'lap' for the Laplace distribution. The parameter defaults to 'n'.}
+\item{type}{specifies the distribution being simulated. The permitted values are "n" for the normal distribution,  "l" for the lognormal distribution, "g" for the gamma distribution and "lap" for the Laplace dsitribution. The parameter defaults to "n".}
 
-\item{alpha}{The Type 1 error rate level use for statistical tests (default 0.05).}
+\item{alpha}{the Type 1 error rate level use for statistical tests.}
 
 \item{seed}{specifies the seed to be used to initiate the simulation, so the simulation is repeatable. It defaults to 123.}
 
@@ -45,37 +45,49 @@ NP4GMetaAnalysisSimulation(
 
 \item{BlockStdAdj}{is the variance associated with the Block. If BlockStdAdj is zero it means we are treating the block effect as a fixed effect. If BlockStdAdj>0, we treat the block effect as a random effect and increase the variance of Block 2 data.}
 
-\item{StdExp}{if non-zero it simulates a random effect between experiments
-in the same family (default 0).}
+\item{StdExp}{defines whether any additional heterogeneity is introduced between families. The value (set to 0 or 0.5 for our simulations) is used when we generate a deviation to be added to the control mean (control rate for gamma data) for each family. The deviation is generated from a Normal distribution with mean 0 and standard deviation=0.5. If StdExp=0 we do not add any deviations to the mean.}
 
 \item{MAMethod}{defines the method used for meta-analysis}
 
 \item{returnES}{This determines the format of the output. If returnES=FALSE it returns the summary meta-analysis statistics otherwise it returns the effect sizes and their variances for each experiment in the family}
 
-\item{AlwaysTwoSidedTests}{If this parameter is TRUE, the function always does two-sided tests. IF the parameter is FALSE (i.e., default), the function does two-sided statistical tests if the difference between treatment groups is 0, if the difference is not 0, it does one-sided tests}
+\item{AlwaysTwoSidedTests}{If this parameter is TRUE, the function always does two-sided tests. IF the parameter is FALSE, the function does two-sided statistical tests if the difference between treatment groups is 0, if the difference is not 0, it does one-sided tests}
 }
 \value{
 If returnES is FALSE, the function returns the summary meta-analysis summary statistics otherwise the function returns the effect sizes for each experiment
 }
 \description{
-This function simulates data from a family of experiments, where the number of experiments in a family is defined by the parameter Exp. It simulates data from one of four distributions and uses the data to construct four of groups of equal size (GroupSize). Two groups are assigned as control groups and their distribution is based on the parameter, mean, and the parameter, spread. However, the mean and spread for the control group in Block 2 can be adjusted using the parameters BlockEffect and BlockStdAdj respectively. The other two groups are treatment groups and their distribution is based on the mean+diff and the spread parameter, but the distributions can be adjusted using the StdAdj, BlockEffect and BlockStdAdj parameters. The data from each experiment is analysed separately to estimate the non-parametric statistics P-hat, Cliff's d and their variances. In addition, the estimates of the standardized mean difference and the small sample size adjusted standardized mean difference are calculated. The effect size statistics are then meta-analysed using the method specified by the MAMethod parameter. We output both the average non-parametric effect statistics across the Exp experimet analysed as if they arose from a single large experiment and also the results of meta-analysing each non-parametric effect size. We use the standard parametric effect sizes and their meta-analysis as baselines.Tests of significance are one-sided if the mean difference is non-zero. If the mean difference is zero, two-sided tests are used. In addition, the user can force the use of two-sided tests using the parameter AlwaysTwoSidedTests. This should only be used for comparison with results reported in other simulation studies. The alpha parameter determines the significance level used in the tests.
+This function simulates data from a family of experiments, where the number of experiments in a family is defined by the parameter Exp. It simulates data from one of four distributions and uses the data to construct four of groups of equal size (GroupSize). Two groups are assigned as control groups and their distribution is based on the parameter, mean, and the parameter, spread. However, the mean and spread for the control group in Block 2 can be adjusted using the parameters BlockEffect and BlockStdAdj respectively. The other two groups are treatment groups and their distribution is based on the mean+diff and the spread parameter, but the distributions can be adjusted using the StdAdj, BlockEffect and BlockStdAdj parameters. The data from each experiment is analysed separately to estimate the non-parametric statistics P-hat, Cliff's d and their variances. In addition, the estimates of the standardized mean difference and the small sample size adjusted standardized mean difference are calculated. The effect size statistics are then meta-analysed using the method specified by the MAMethod parameter. We output both the average non-parametric effect statistics across the Exp experimet analysed as if they arose from a single large experiment and also the results of meta-analysising each non-parametric effect size. We use the standard parametric effect sizes and their meta-analysis as baselines.Tests of significance are one-sided if the mean difference is non-zero. If the mean difference is zero, two-sided tests are used. In addition, the user can force the use of two-sided tests using the parameter AlwaysTwoSidedTests. This should only be used for comparison with results reported in other simulation studies. The alpha parameter determines the significance level used in the tests.
 }
 \examples{
-as.data.frame(
-  NP4GMetaAnalysisSimulation(
-    mean = 0, sd = 1, diff = 0.8, GroupSize = 5, Exp = 5, type = "n",
-    alpha = 0.05, seed = 457, StdAdj = 0, BlockEffect = 0.5,
-    BlockStdAdj = 0, StdExp = 0, MAMethod = "FE", returnES = TRUE))
-#     MeanExp    VarExp       StdMD       df       tval t.sig Cliffd  ...
-# 1  1.0761565 1.3874542  0.91362108 14.42773  2.0429188  TRUE   0.52 ...
-
-as.data.frame(
-  NP4GMetaAnalysisSimulation(
-    mean = 0, sd = 1, diff = 0.8, GroupSize = 5, Exp = 5, type = "n",
-    alpha = 0.05, seed = 457, StdAdj = 0, BlockEffect = 0.5,
-    BlockStdAdj = 0, StdExp = 0, MAMethod = "FE", returnES = FALSE))
-#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat Avephatvar...
-# 1     5         5     0.384   0.01369387         TRUE   0.692   0.003336...
+as.data.frame(NP4GMetaAnalysisSimulation(mean=0,sd=1,diff=0.8,GroupSize=5,Exp=5,type="n",
+alpha=0.05,seed=457,StdAdj=0,BlockEffect=0.5,BlockStdAdj=0,StdExp=0,MAMethod="FE",returnES=TRUE))
+#     MeanExp    VarExp       StdMD       df       tval t.sig Cliffd  Cliffdvar PHat PHatvar PH..
+#1  1.0761565 1.3874542  0.91362108 14.42773  2.0429188  TRUE   0.52 0.05530667 0.76  0.0132 13..
+#2  0.1012680 0.9779431  0.10240368 12.74930  0.2289816 FALSE   0.20 0.09048000 0.60  0.0224 10..
+#3  1.2100986 0.9909894  1.21558760 11.16850  2.7181365  TRUE   0.64 0.04720000 0.82  0.0110 13..
+#4 -0.1452027 2.3106703 -0.09552252 11.93764 -0.2135949 FALSE   0.04 0.09888000 0.52  0.0244 10..
+#5  1.1701075 0.9623530  1.19277505 12.72802  2.6671261  TRUE   0.52 0.05048000 0.76  0.0124 15..
+#     StdMDAdj StdMDAdjvar.exact StdMDAdjvar.approx StdMDvar.exact StdMDvar.approx
+#1  0.86514731         0.2357247          0.2025998      0.2664156       0.2259389
+#2  0.09623845         0.2098977          0.1769637      0.2377103       0.2003632
+#3  1.13176658         0.2732955          0.2230773      0.3262821       0.2573441
+#4 -0.08937076         0.2106627          0.1753619      0.2407210       0.2003345
+#5  1.12084087         0.2623764          0.2201822      0.3050637       0.2493511
+as.data.frame(NP4GMetaAnalysisSimulation(mean=0,sd=1,diff=0.8,GroupSize=5,Exp=5,type="n",
+alpha=0.05,seed=457,StdAdj=0,BlockEffect=0.5,BlockStdAdj=0,StdExp=0,MAMethod="FE",returnES=FALSE))
+#  NumExp GroupSize AveCliffd AveCliffdvar AveCliffdsig Avephat Avephatvar Avephatsig  AveMDStd..
+#1      5         5     0.384   0.01369387         TRUE   0.692   0.003336       TRUE 0.5927084..
+#  AveMDStdsig    MAphat  MAphatvar MAphatsig  MACliffd MACliffdvar MACliffdsig StdMDAdjUnweigh..
+#1        TRUE 0.7253858 0.00300356      TRUE 0.4471125  0.01246219        TRUE          0.6249..
+#  StdMDAdjUnweightedvar StdMDAdjUnweightedsig StdMDUnweighted StdMDUnweightedvar StdMDUnweight..
+#1            0.04220968                  TRUE        0.665773         0.04366035            TRUE
+#  HedgesMA.Weighted HedgesMA.Weightedvar HedgesMA.Weightedsig StdMDAdjMAexact StdMDAdjMAexactvar
+#1         0.6250243           0.04574766                 TRUE       0.5709401         0.04711703
+#  StdMDAdjMAexactsig StdMDAdjMAapprox StdMDAdjMAapproxvar StdMDAdjMAapproxsig StdMDMAapprox St..
+#1               TRUE        0.5715637          0.03950437                TRUE     0.6090632 0...
+#  StdMDMAapproxsig StdMDMAexact StdMDMAexactvar StdMDMAexactsig
+#1             TRUE    0.6013198      0.05417894            TRUE
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

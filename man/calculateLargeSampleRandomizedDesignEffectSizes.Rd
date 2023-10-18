@@ -10,39 +10,49 @@ calculateLargeSampleRandomizedDesignEffectSizes(
   diff = 0,
   N = 5e+06,
   type = "n",
-  StdAdj = 0
+  StdAdj = 0,
+  reporttrans = "No"
 )
 }
 \arguments{
-\item{meanC}{to act as the mean of the distribution (default 0) used to
-generate the control group data (note for the gamma distribution this is the
-rate parameter and must not be zero)}
+\item{meanC}{to act as the mean of the distribution used to generate the control group data (default 0) (note for the gamma distribution this is the rate parameter and must not be zero)}
 
-\item{sdC}{the variance/spread of the distribution (default 1) used to generate the control group data.}
+\item{sdC}{the variance/spread of the distribution used to generate the control group data (default 1).}
 
-\item{diff}{a value (default 0) added to meanC to generate the treatment group data.}
+\item{diff}{a value added to meanC to generate the treatment group data (default 0).}
 
 \item{N}{the size of each group (default 5000000)}
 
-\item{type}{the distribution of the data to be generated (default 'n')}
+\item{type}{the distribution of the data to be generated (default "n").}
 
-\item{StdAdj}{a value (default 0) that can be added to sdC to introduce heterogeneity into the tretament group}
+\item{StdAdj}{a value that can be added to sdC to introduce heterogeneity into the treatment group (default 0).}
+
+\item{reporttrans}{If set to "Yes" AND type="l" the algorithm returns the values obtained by analysing applying the logarithmic transformation to the simulated data (default "No").}
 }
 \value{
 A tibble identifying the sample statistics and the values of the probability of superiority, Cliff's d and StdMD (labelled StdES)
 }
 \description{
-The function uses a simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a two group randomized experiment for four different distributions: Normal (i.e. type='n'), log-normal (i.e. type='l'), gama (i.e. tyep='g') and Laplace (i.e., type='lap').
+The function simulates a large experiment  to estimate the asymptotic values of the probability of superiority, Cliff's d and the standardized mean difference data for a two group randomized experiment for four different distributions: Normal (i.e. type="n"), log-normal (i.e. type="l"), gama (i.e. tyep="g") and Laplace (i.e., type="lap").
 }
 \examples{
 set.seed=400
-calculateLargeSampleRandomizedDesignEffectSizes(
-  meanC=0, sdC=1, diff=.5, N=100000, type='n',StdAdj = 0)
+calculateLargeSampleRandomizedDesignEffectSizes(meanC=0, sdC=1, diff=.5,
+N=10000, type="n",StdAdj = 0) #N=100000, type="n",StdAdj = 0)
 # A tibble: 1 x 9
-#  MeanC   SdC MeanT   SdT  Phat Cliffd   UES   Var StdES
-#  <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+#     MeanC   SdC MeanT   SdT  Phat Cliffd   UES   Var StdES
+#     <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+#1  0.00642  1.00 0.519 0.995 0.642  0.284 0.513 0.996 0.514
 #1     0     1   0.5     1 0.637  0.275 0.499  1.01 0.497
-
+as.data.frame(calculateLargeSampleRandomizedDesignEffectSizes(meanC=0, sdC=1, diff=0.707104,
+N=100000, type="l",StdAdj = 0,reporttrans="Yes"))
+#N=1000000, type="l",StdAdj = 0,reporttrans="Yes"))
+#     MeanC     StdC    MeanT     StdT      Phat    Cliffd      UES      Var
+#1 1.647446 2.219114  3.33124 4.404537 0.6926779 0.3853558 1.683795 12.1622
+#       StdES   MeanCTrans MeanTTrans StdCTrans StdTTrans PhatTrans CliffdTrans
+#1  0.4828175 -0.004298487  0.7066049  1.001199 0.9963736 0.6926779   0.3853558
+#   UESTrans VarTrans StdESTrans
+#1 0.7109034  0.99758  0.7117651
 }
 \author{
 Barbara Kitchenham and Lech Madeyski

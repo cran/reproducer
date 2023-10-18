@@ -17,7 +17,7 @@ Calc4GroupNPStats(
 \arguments{
 \item{x1}{is the data associated with  treatment A in one block 1}
 
-\item{x2}{is the data associated with treatement B in block 1}
+\item{x2}{is the data associated with treatment B in block 1}
 
 \item{x3}{is the data associated with treatment A in block 2}
 
